@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Produkt – Bebtidz</title>
+  <meta name="description" content="Produktdetails, Reinheit und Varianten.">
+  <meta property="og:title" content="Produkt – Bebtidz">
+  <meta property="og:description" content="Produktdetails, Reinheit und Varianten.">
+  <meta property="og:image" content="assets/img/hero.jpg">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="notice-bar">Nur für Forschungszwecke · Nicht für den menschlichen Gebrauch</div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="bebtidz Startseite">bebtidz<span class="dot">.</span></a>
+      <nav class="nav-links" aria-label="Hauptnavigation">
+        <a href="index.html">Start</a>
+        <a href="shop.html" aria-current="page">Shop</a>
+        <a href="index.html#qualitaet">Qualität</a>
+        <a href="kontakt.html">Kontakt</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" type="button" data-open-cart aria-label="Warenkorb öffnen">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count" id="cart-count" aria-live="polite">0</span>
+        </button>
+        <button class="icon-btn menu-btn" type="button" id="menu-btn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="container" style="padding-top:clamp(24px,4vw,48px)">
+      <nav aria-label="Brotkrumen" class="muted enter" style="font-size:14px;margin-bottom:24px"><a href="index.html">Start</a> / <a href="shop.html">Shop</a> / <span id="crumb">Produkt</span></nav>
+      <div class="pdp enter" id="pdp" style="--d:60ms"></div>
+    </section>
+    <section class="section section-soft">
+      <div class="container">
+        <div class="section-head">
+          <div class="stack reveal"><span class="eyebrow">Ebenfalls beliebt</span><h2 class="h-section">Das könnte dich auch interessieren</h2></div>
+          <a class="link-arrow reveal" href="shop.html">Alle Produkte <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="product-grid cols-3" id="related-grid"></div>
+      </div>
+    </section>
+  </main>
+<footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand" href="index.html">bebtidz<span class="dot">.</span></a>
+        <p class="muted" style="margin-top:10px;max-width:40ch">Hochreine Peptide für die Laborforschung. Nicht für den menschlichen oder tierischen Gebrauch.</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="mailto:info@bebtidz.ch">info@bebtidz.ch</a></li>
+          <li><a href="kontakt.html">Kontaktformular</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <ul>
+          <li><a href="agb.html">AGB</a></li>
+          <li><a href="datenschutz.html">Datenschutz</a></li>
+          <li><a href="impressum.html">Impressum</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© <span data-year>2026</span> bebtidz.</span>
+      <span>Nur für Forschungszwecke · Preise in CHF</span>
+    </div>
+  </footer>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="scrim" data-close-menu></div>
+    <nav class="sheet" aria-label="Mobile Navigation">
+      <div class="sheet-head">
+        <span class="brand">bebtidz<span class="dot">.</span></span>
+        <button class="icon-btn" type="button" data-close-menu aria-label="Menü schliessen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <a href="index.html" data-close-menu>Start</a>
+      <a href="shop.html" data-close-menu>Shop</a>
+      <a href="index.html#qualitaet" data-close-menu>Qualität</a>
+      <a href="kontakt.html" data-close-menu>Kontakt</a>
+    </nav>
+  </div>
+
+  <!-- Cart drawer -->
+  <div class="drawer-root" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="scrim" data-close-cart></div>
+    <aside class="drawer">
+      <div class="drawer-head">
+        <h2 id="drawer-title">Warenkorb</h2>
+        <button class="icon-btn" type="button" id="drawer-close" data-close-cart aria-label="Warenkorb schliessen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="drawer-body" id="drawer-body"></div>
+      <div class="drawer-foot" id="drawer-foot" hidden>
+        <form class="coupon" id="coupon-form">
+          <input id="coupon-input" type="text" placeholder="Rabattcode" aria-label="Rabattcode" autocomplete="off">
+          <button class="btn btn-secondary btn-sm" type="submit">Einlösen</button>
+        </form>
+        <div class="sum"><span>Zwischensumme</span><b id="sum-sub">CHF 0.00</b></div>
+        <div class="sum" id="sum-disc-row" hidden><span>Willkommensbonus (10 %)</span><b id="sum-disc">− CHF 0.00</b></div>
+        <div class="sum total"><span>Total</span><b id="sum-total">CHF 0.00</b></div>
+        <button class="btn btn-primary btn-block" type="button" id="checkout-btn">Zur Kasse</button>
+        <p class="muted" style="font-size:12.5px;text-align:center">Versandkosten werden an der Kasse berechnet.</p>
+      </div>
+    </aside>
+  </div>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
