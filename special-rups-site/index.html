@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Special Rups – Einzigartig mit Geschmack</title>
+<meta name="description" content="Special Rups. Einzigartig mit Geschmack. Wir produzieren hochwertige Sirups.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Special Rups">
+<meta property="og:title" content="Special Rups – Einzigartig mit Geschmack">
+<meta property="og:description" content="Wir produzieren hochwertige Sirups. Einzigartig in ihrem Geschmack.">
+<meta property="og:image" content="assets/hero-1200.webp">
+<meta name="theme-color" content="#fbf7f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preload" as="image" href="assets/hero-1200.webp"
+      imagesrcset="assets/hero-1200.webp 1200w, assets/hero-2400.webp 2400w" imagesizes="(min-width: 1180px) 1136px, 100vw">
+
+<style>
+/* ---------- Tokens ---------- */
+:root {
+  color-scheme: light dark;
+
+  --bg: #fbf7f0;              /* the cream of the Special Rups wordmark */
+  --surface: #ffffff;
+  --surface-2: #f3ece2;
+  --ink: #1d1d1f;
+  --ink-2: #6e6a63;
+  --ink-3: #8d887f;
+  --hairline: rgba(29, 29, 31, 0.12);
+  --accent: #8a5a2b;          /* syrup gold, darkened for text contrast */
+  --accent-soft: rgba(206, 174, 120, 0.22);
+  --error: #b3261e;
+  --ok: #2d6a3e;
+
+  --btn-bg: #1d1d1f;
+  --btn-ink: #fbf7f0;
+
+  --material: rgba(251, 247, 240, 0.72);
+  --material-edge: rgba(255, 255, 255, 0.5);
+  --shadow: 0 1px 2px rgba(60, 40, 20, 0.04), 0 12px 32px rgba(60, 40, 20, 0.08);
+
+  --radius-l: 28px;
+  --radius-m: 18px;
+  --radius-s: 12px;
+
+  --page: 1136px;
+  --gutter: 22px;
+  --nav-h: 3.25rem;
+
+  /* One easing for everything that settles: fast start, long calm tail (critically damped feel) */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui,
+          "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --surface: #1c1c1e;
+    --surface-2: #161617;
+    --ink: #f5f5f7;
+    --ink-2: #a8a39b;
+    --ink-3: #86817a;
+    --hairline: rgba(245, 245, 247, 0.16);
+    --accent: #dcb779;
+    --accent-soft: rgba(206, 174, 120, 0.2);
+    --error: #ff8a80;
+    --ok: #8fd6a2;
+    --btn-bg: #f5f5f7;
+    --btn-ink: #1d1d1f;
+    --material: rgba(22, 22, 23, 0.72);
+    --material-edge: rgba(255, 255, 255, 0.08);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1.0625rem/1.47 var(--font);
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, p, figure { margin: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--page));
+  margin-inline: auto;
+}
+
+.skip {
+  position: absolute; left: 1rem; top: -4rem; z-index: 100;
+  padding: 0.6rem 1rem; border-radius: 999px;
+  background: var(--btn-bg); color: var(--btn-ink); text-decoration: none;
+}
+.skip:focus { top: 0.6rem; }
+
+/* ---------- Navigation: a translucent layer, content scrolls underneath ---------- */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  height: var(--nav-h);
+  background: var(--material);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 1px 0 transparent;
+  transition: box-shadow 300ms ease;
+}
+/* Hairline only once content is actually underneath the bar */
+.nav[data-scrolled] { box-shadow: 0 1px 0 var(--hairline); }
+
+.nav__inner {
+  height: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+
+.brand {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  min-height: 2.75rem;
+  text-decoration: none; font-weight: 600; font-size: 1.0625rem; letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.brand img { width: 1.6rem; height: auto; }
+
+.nav__links { display: flex; align-items: center; gap: 0.15rem; list-style: none; margin: 0; padding: 0; }
+.nav__links a {
+  display: inline-flex; align-items: center;
+  min-height: 2.75rem; padding: 0 0.7rem;
+  font-size: 0.8125rem; letter-spacing: -0.003em;
+  color: var(--ink); opacity: 0.82; text-decoration: none; white-space: nowrap;
+  border-radius: 999px;
+  transition: opacity 150ms ease, background-color 150ms ease;
+}
+.nav__links a[aria-current="page"] { opacity: 1; font-weight: 600; }
+.nav__links a:active { background: var(--accent-soft); opacity: 1; }
+@media (hover: hover) {
+  .nav__links a:hover { opacity: 1; }
+}
+@media (max-width: 30rem) {
+  .brand span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .nav__links a { padding: 0 0.55rem; }
+}
+
+/* ---------- Buttons: feedback lives on the press ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 2.75rem; padding: 0.7rem 1.4rem;
+  border: 0; border-radius: 999px;
+  background: var(--btn-bg); color: var(--btn-ink);
+  font: 500 1.0625rem/1.2 var(--font); letter-spacing: -0.015em;
+  text-decoration: none; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 100ms ease-out, opacity 150ms ease;
+}
+.btn:active { transform: scale(0.97); opacity: 0.88; }
+.btn[disabled] { opacity: 0.45; cursor: default; transform: none; }
+
+.link {
+  display: inline-flex; align-items: center; gap: 0.25em;
+  min-height: 2.75rem; padding: 0 0.4rem;
+  color: var(--accent); font-size: 1.0625rem; font-weight: 500; text-decoration: none;
+  border-radius: 999px;
+  transition: opacity 150ms ease;
+}
+.link::after { content: "›"; font-size: 1.2em; line-height: 1; transform: translateY(-0.04em); transition: transform 200ms var(--ease-out); }
+.link:active { opacity: 0.6; }
+@media (hover: hover) {
+  .link:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+  .link:hover::after { transform: translate(0.15em, -0.04em); }
+}
+
+/* ---------- Hero ---------- */
+.hero { padding-top: clamp(3rem, 8vw, 6rem); text-align: center; }
+
+.hero__mark { width: clamp(4.5rem, 9vw, 6.5rem); margin: 0 auto clamp(1rem, 2.5vw, 1.75rem); }
+
+.hero h1 {
+  font-size: clamp(3.25rem, 10.5vw, 7rem);
+  font-weight: 600;
+  line-height: 1.03;
+  letter-spacing: -0.035em;      /* display sizes want tight tracking */
+  text-wrap: balance;
+}
+
+.hero__tag {
+  margin-top: 0.6rem;
+  font-size: clamp(1.375rem, 3.2vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+}
+
+.hero__actions {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1.25rem;
+}
+
+.hero__media {
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
+}
+.hero__media img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 40rem) {
+  .hero__media { aspect-ratio: 4 / 5; }
+}
+
+/* The photo settles as it scrolls into place: driven 1:1 by scroll position, so it is always interruptible */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .hero__media img {
+      animation: settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 55%;
+    }
+    @keyframes settle { from { transform: scale(1.1); } to { transform: scale(1); } }
+  }
+}
+
+/* ---------- Sections ---------- */
+.section { padding-block: clamp(4.5rem, 11vw, 9rem); }
+
+.section__title {
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+}
+
+/* ---------- Statement ---------- */
+.about {
+  display: grid; align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+}
+.about__mark { border-radius: var(--radius-l); overflow: hidden; }
+.about__mark img { width: 100%; }
+
+.about__text {
+  font-size: clamp(1.75rem, 3.9vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.025em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.about__text strong { font-weight: inherit; color: var(--ink); }
+
+@media (max-width: 48rem) {
+  .about { grid-template-columns: 1fr; }
+  .about__mark { max-width: 20rem; margin-inline: auto; }
+}
+
+/* ---------- Gallery: native scroll = 1:1 tracking, momentum and rubber-banding for free ---------- */
+.gallery__head {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.gallery__controls { display: flex; align-items: center; gap: 0.6rem; }
+.gallery__count {
+  min-width: 3.2em; text-align: center;
+  font-size: 0.9375rem; color: var(--ink-2); font-variant-numeric: tabular-nums;
+}
+
+.round {
+  display: grid; place-items: center;
+  width: 2.75rem; height: 2.75rem; padding: 0;
+  border: 0; border-radius: 50%;
+  background: var(--surface-2); color: var(--ink);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform 100ms ease-out, opacity 200ms ease, background-color 150ms ease;
+}
+.round svg { width: 1.1rem; height: 1.1rem; }
+.round:active { transform: scale(0.92); background: var(--accent-soft); }
+.round[disabled] { opacity: 0.35; cursor: default; transform: none; }
+
+.track {
+  --card-h: clamp(17rem, 46vw, 31rem);
+  --edge: max(var(--gutter), calc((100vw - var(--page)) / 2));
+  display: flex; gap: clamp(0.75rem, 2vw, 1.25rem);
+  margin: 0; padding: 0.25rem var(--edge) 1rem; list-style: none;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.track::-webkit-scrollbar { display: none; }
+.track:focus-visible { outline-offset: -4px; }
+
+.shot { flex: none; scroll-snap-align: start; }
+.shot figure { width: min(calc(var(--card-h) * var(--ratio)), 100vw - 2 * var(--gutter)); }
+.shot img {
+  width: 100%; height: var(--card-h); object-fit: cover;
+  border-radius: var(--radius-l);
+  background: var(--surface-2);
+}
+.shot figcaption {
+  margin-top: 0.9rem; padding-inline: 0.25rem;
+  font-size: 0.9375rem; line-height: 1.4; letter-spacing: -0.006em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* ---------- Contact ---------- */
+.contact {
+  display: grid; align-items: start;
+  gap: clamp(2rem, 6vw, 5rem);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+.contact__lead { margin-top: 1rem; font-size: 1.3125rem; line-height: 1.38; letter-spacing: -0.016em; color: var(--ink-2); max-width: 24ch; }
+
+@media (max-width: 48rem) {
+  .contact { grid-template-columns: 1fr; }
+  .contact__lead { max-width: none; }
+}
+
+.form {
+  display: grid; gap: 1.1rem;
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.field { display: grid; gap: 0.4rem; }
+.field label { font-size: 0.875rem; font-weight: 500; letter-spacing: -0.004em; }
+.field .req { color: var(--ink-3); font-weight: 400; }
+
+.field input, .field textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-s);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit; letter-spacing: inherit;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.field textarea { min-height: 8.5rem; resize: vertical; }
+.field input:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+.field [aria-invalid="true"] { border-color: var(--error); }
+
+.hint { min-height: 1.2em; font-size: 0.8125rem; line-height: 1.2; color: var(--error); }
+.hint:empty { display: none; }
+
+.consent { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.75rem; align-items: start; }
+.consent input { width: 1.25rem; height: 1.25rem; margin: 0.15rem 0 0; accent-color: var(--accent); }
+.consent label { font-size: 0.8125rem; line-height: 1.45; color: var(--ink-2); letter-spacing: 0; }
+.consent a { color: var(--accent); text-underline-offset: 0.15em; }
+.consent .hint { grid-column: 2; }
+
+.form__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
+.status { font-size: 0.9375rem; line-height: 1.35; }
+.status[data-kind="ok"] { color: var(--ok); }
+.status[data-kind="error"] { color: var(--error); }
+
+/* ---------- Footer ---------- */
+.footer { border-top: 1px solid var(--hairline); padding-block: 1.75rem 2.5rem; font-size: 0.8125rem; color: var(--ink-2); letter-spacing: 0; }
+.footer__inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.75rem 2rem; }
+.footer ul { display: flex; flex-wrap: wrap; gap: 0 1.1rem; list-style: none; margin: 0 -0.2rem; padding: 0; }
+.footer a {
+  display: inline-flex; align-items: center; min-height: 2.25rem; padding: 0 0.2rem;
+  text-decoration: none; transition: color 150ms ease;
+}
+.footer a:active { color: var(--ink); }
+@media (hover: hover) { .footer a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 0.2em; } }
+
+/* ---------- Reveal on scroll (only when JS is running, so content never hides without it) ---------- */
+.js .reveal { opacity: 0; transform: translateY(18px); }
+.js .reveal.is-in {
+  opacity: 1; transform: none;
+  transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out);
+  transition-delay: var(--delay, 0ms);
+}
+
+/* ---------- Accessibility preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { transform: none; }
+  .js .reveal.is-in { transition: opacity 250ms ease; transition-delay: 0ms; }
+  .btn:active, .round:active { transform: none; }
+  .link::after { transition: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --hairline: currentColor; --ink-2: var(--ink); --ink-3: var(--ink); }
+  .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: 0 1px 0 var(--ink); }
+  .nav__links a { opacity: 1; }
+  .form { box-shadow: none; border: 1px solid var(--ink); }
+}
+</style>
+</head>
+
+<body>
+<script>document.documentElement.classList.add('js');</script>
+
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+
+<header class="nav" id="nav">
+  <nav class="wrap nav__inner" aria-label="Hauptnavigation">
+    <a class="brand" href="#top" aria-label="Special Rups – Startseite">
+      <img src="assets/logo-160.webp" width="154" height="160" alt="">
+      <span>Special Rups</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="#top" aria-current="page">Home</a></li>
+      <li><a href="https://special-rups.jimdosite.com/shop/">Shop</a></li>
+      <li><a href="https://special-rups.jimdosite.com/ueber-uns/">Über uns</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="inhalt">
+  <span id="top"></span>
+
+  <!-- Hero -->
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <img class="hero__mark reveal" src="assets/logo-480.webp" width="462" height="480" alt="">
+    <h1 id="hero-title" class="reveal" style="--delay: 60ms">Special Rups</h1>
+    <p class="hero__tag reveal" style="--delay: 120ms">Einzigartig mit Geschmack</p>
+    <div class="hero__actions reveal" style="--delay: 180ms">
+      <a class="btn" href="#kontakt">Kontakt aufnehmen</a>
+      <a class="link" href="https://special-rups.jimdosite.com/shop/">Zum Shop</a>
+    </div>
+    <div class="hero__media reveal" style="--delay: 240ms">
+      <img src="assets/hero-1200.webp"
+           srcset="assets/hero-1200.webp 1200w, assets/hero-2400.webp 2400w"
+           sizes="(min-width: 1180px) 1136px, 100vw"
+           width="2400" height="1656" fetchpriority="high"
+           alt="Stiller Bergsee zwischen hohen Tannen, im Hintergrund wolkenverhangene Berge">
+    </div>
+  </section>
+
+  <!-- Statement -->
+  <section class="section wrap about" aria-label="Über Special Rups">
+    <div class="about__mark reveal">
+      <img src="assets/wordmark-640.webp"
+           srcset="assets/wordmark-640.webp 640w, assets/wordmark-1254.webp 1254w"
+           sizes="(min-width: 48rem) 40vw, 20rem"
+           width="1254" height="1254" loading="lazy"
+           alt="Logo: Special Rups – Premium Syrups">
+    </div>
+    <p class="about__text reveal" style="--delay: 80ms">
+      <strong>Wir produzieren hochwertige Sirups.</strong>
+      Sie sind einzigartig in ihrem Geschmack und verleihen Deinem Alltag einen besonderen Genussmoment.
+    </p>
+  </section>
+
+  <!-- Fotos -->
+  <section class="section" style="padding-top: 0" aria-labelledby="fotos-title">
+    <div class="wrap gallery__head">
+      <h2 id="fotos-title" class="section__title reveal">Fotos</h2>
+      <div class="gallery__controls reveal" style="--delay: 80ms">
+        <span class="gallery__count" id="count" aria-live="polite">1 / 4</span>
+        <button class="round" id="prev" type="button" aria-label="Vorheriges Foto" aria-controls="track" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="round" id="next" type="button" aria-label="Nächstes Foto" aria-controls="track">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <ul class="track reveal" id="track" tabindex="0" aria-label="Fotos von der Herstellung">
+      <li class="shot" style="--ratio: 1.3333">
+        <figure>
+          <img src="assets/foto-1-schulkueche-800.webp"
+               srcset="assets/foto-1-schulkueche-800.webp 800w, assets/foto-1-schulkueche-1600.webp 1600w"
+               sizes="(min-width: 60rem) 662px, 90vw" width="1600" height="1200" loading="lazy"
+               alt="Schulküche mit Edelstahlflächen, in der mehrere Personen arbeiten">
+          <figcaption>Hier waren wir zum ersten Mal in der Schule von Wauwil und konnten die ersten Flaschen herstellen.</figcaption>
+        </figure>
+      </li>
+      <li class="shot" style="--ratio: 1.3333">
+        <figure>
+          <img src="assets/foto-2-minze-800.webp"
+               srcset="assets/foto-2-minze-800.webp 800w, assets/foto-2-minze-1600.webp 1600w"
+               sizes="(min-width: 60rem) 662px, 90vw" width="1600" height="1200" loading="lazy"
+               alt="Frische Minzblätter, in Flüssigkeit eingelegt">
+          <figcaption>Hier haben wir die Minze eingelegt für unseren Mojito-Sirup.</figcaption>
+        </figure>
+      </li>
+      <li class="shot" style="--ratio: 0.75">
+        <figure>
+          <img src="assets/foto-3-deckel-800.webp"
+               srcset="assets/foto-3-deckel-800.webp 600w, assets/foto-3-deckel-1600.webp 1200w"
+               sizes="(min-width: 60rem) 372px, 60vw" width="1200" height="1600" loading="lazy"
+               alt="Ein Deckel wird von Hand auf eine gefüllte Sirupflasche geschraubt">
+          <figcaption>Die Deckel wurden fest verschraubt, um einen luftdichten Verschluss zu kreieren.</figcaption>
+        </figure>
+      </li>
+      <li class="shot" style="--ratio: 0.75">
+        <figure>
+          <img src="assets/foto-4-flaschen-800.webp"
+               srcset="assets/foto-4-flaschen-800.webp 600w, assets/foto-4-flaschen-1600.webp 1200w"
+               sizes="(min-width: 60rem) 372px, 60vw" width="1200" height="1600" loading="lazy"
+               alt="Viele abgefüllte und verschlossene Sirupflaschen in Reihen">
+          <figcaption>Das waren die ersten Flaschen von Special Rups.</figcaption>
+        </figure>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Kontakt -->
+  <section class="section wrap contact" id="kontakt" style="padding-top: 0" aria-labelledby="kontakt-title">
+    <div class="reveal">
+      <h2 id="kontakt-title" class="section__title">Nimm Kontakt auf</h2>
+      <p class="contact__lead">Schreib uns. Wir melden uns bei Dir.</p>
+    </div>
+
+    <!-- data-endpoint: URL eines Formular-Dienstes (z. B. Formspree). Leer = Formular ist noch nicht verbunden. -->
+    <form class="form reveal" id="form" style="--delay: 80ms" novalidate data-endpoint="">
+      <div class="field">
+        <label for="f-name">Name</label>
+        <input id="f-name" name="name" type="text" autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label for="f-email">E-Mail-Adresse <span class="req">(erforderlich)</span></label>
+        <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="f-email-hint">
+        <p class="hint" id="f-email-hint" aria-live="polite"></p>
+      </div>
+
+      <div class="field">
+        <label for="f-phone">Telefonnummer</label>
+        <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+      </div>
+
+      <div class="field">
+        <label for="f-message">Nachricht <span class="req">(erforderlich)</span></label>
+        <textarea id="f-message" name="message" required aria-describedby="f-message-hint"></textarea>
+        <p class="hint" id="f-message-hint" aria-live="polite"></p>
+      </div>
+
+      <div class="consent">
+        <input id="f-consent" name="consent" type="checkbox" required aria-describedby="f-consent-hint">
+        <label for="f-consent">
+          Durch Klicken des „Abschicken“-Buttons stimme ich zu, dass die im Formular eingegebenen
+          personenbezogenen Daten zur Bearbeitung der Anfrage und der personalisierten Beratung verarbeitet
+          werden. Meine Einwilligungen kann ich jederzeit mit Wirkung für die Zukunft postalisch oder per
+          E-Mail widerrufen. Es gilt unsere
+          <a href="https://special-rups.jimdosite.com/datenschutz/">Datenschutzerklärung</a>.
+        </label>
+        <p class="hint" id="f-consent-hint" aria-live="polite"></p>
+      </div>
+
+      <div class="form__foot">
+        <button class="btn" type="submit">Abschicken</button>
+        <p class="status" id="status" role="status"></p>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <p>© <span id="year">2026</span> Special Rups</p>
+    <ul>
+      <li><a href="https://special-rups.jimdosite.com/impressum/">Impressum</a></li>
+      <li><a href="https://special-rups.jimdosite.com/datenschutz/">Datenschutz</a></li>
+      <li><a href="https://special-rups.jimdosite.com/lieferbedingungen/">Lieferbedingungen</a></li>
+      <li><a href="https://special-rups.jimdosite.com/widerrufsrecht/">Widerrufsbelehrung</a></li>
+      <li><a href="https://special-rups.jimdosite.com/agb/">AGB</a></li>
+      <li><a href="https://special-rups.jimdosite.com/gesetzliche-gewaehrleistung/">Gesetzliche Gewährleistung</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* Nav hairline appears only once content sits underneath the bar */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.toggleAttribute('data-scrolled', scrollY > 4);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* Reveal on scroll */
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    reveals.forEach((el) => io.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add('is-in'));
+  }
+
+  /* Gallery: the browser's scroller does the physics; we only read position and offer buttons */
+  const track = document.getElementById('track');
+  const shots = [...track.querySelectorAll('.shot')];
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const count = document.getElementById('count');
+  let index = 0;
+
+  const edge = () => parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
+  const targetFor = (i) => shots[i].offsetLeft - track.offsetLeft - edge();
+
+  function readIndex() {
+    const max = track.scrollWidth - track.clientWidth;
+    let best = 0;
+    if (max > 0 && track.scrollLeft >= max - 2) {
+      best = shots.length - 1;                      // at the very end the last photo counts as current
+    } else {
+      let dist = Infinity;
+      shots.forEach((s, i) => {
+        const d = Math.abs(targetFor(i) - track.scrollLeft);
+        if (d < dist) { dist = d; best = i; }
+      });
+    }
+    index = best;
+    count.textContent = `${index + 1} / ${shots.length}`;
+    prev.disabled = track.scrollLeft <= 2;
+    next.disabled = max <= 0 || track.scrollLeft >= max - 2;
+  }
+
+  let ticking = false;
+  track.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { readIndex(); ticking = false; });
+  }, { passive: true });
+  addEventListener('resize', readIndex);
+  readIndex();
+
+  function go(step) {
+    /* Step from where the scroller actually is, so it also works at the end, where several photos are in view */
+    const here = track.scrollLeft;
+    const targets = shots.map((_, i) => targetFor(i));
+    const left = step > 0
+      ? targets.find((t) => t > here + 2) ?? here
+      : targets.filter((t) => t < here - 2).pop() ?? 0;
+    track.scrollTo({ left, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+  }
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go(1));
+
+  /* Contact form: validate inline, not only on submit */
+  const form = document.getElementById('form');
+  const status = document.getElementById('status');
+  const submit = form.querySelector('button[type="submit"]');
+  const checks = {
+    'f-email': (el) => !el.value.trim() ? 'Bitte gib Deine E-Mail-Adresse an.'
+                     : !el.validity.valid ? 'Diese E-Mail-Adresse sieht nicht richtig aus.' : '',
+    'f-message': (el) => el.value.trim() ? '' : 'Bitte schreib uns eine Nachricht.',
+    'f-consent': (el) => el.checked ? '' : 'Bitte stimme der Verarbeitung Deiner Daten zu.',
+  };
+
+  function validate(id) {
+    const el = document.getElementById(id);
+    const msg = checks[id](el);
+    document.getElementById(id + '-hint').textContent = msg;
+    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    return !msg;
+  }
+  for (const id of Object.keys(checks)) {
+    const el = document.getElementById(id);
+    el.addEventListener('blur', () => validate(id));
+    el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', () => {
+      if (el.getAttribute('aria-invalid') === 'true') validate(id);   // clear the error as soon as it's fixed
+    });
+  }
+
+  function say(kind, text) { status.dataset.kind = kind; status.textContent = text; }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    say('', '');
+    const bad = Object.keys(checks).filter((id) => !validate(id));
+    if (bad.length) { document.getElementById(bad[0]).focus(); return; }
+
+    const endpoint = form.dataset.endpoint;
+    if (!endpoint) {
+      say('error', 'Das Formular ist noch nicht mit einem Postfach verbunden. Die Nachricht wurde nicht gesendet.');
+      return;
+    }
+
+    submit.disabled = true;
+    say('', 'Wird gesendet …');
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      say('ok', 'Danke! Deine Nachricht ist bei uns angekommen.');
+    } catch {
+      say('error', 'Das hat leider nicht geklappt. Bitte versuch es später noch einmal.');
+    } finally {
+      submit.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
