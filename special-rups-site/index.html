@@ -3,445 +3,475 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Special Rups – Einzigartig mit Geschmack</title>
+<title>Special Rups</title>
 <meta name="description" content="Special Rups. Einzigartig mit Geschmack. Wir produzieren hochwertige Sirups.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Special Rups">
 <meta property="og:title" content="Special Rups – Einzigartig mit Geschmack">
 <meta property="og:description" content="Wir produzieren hochwertige Sirups. Einzigartig in ihrem Geschmack.">
-<meta property="og:image" content="assets/hero-1200.webp">
-<meta name="theme-color" content="#fbf7f0" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta property="og:image" content="assets/wordmark-1254.webp">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="preload" as="image" href="assets/hero-1200.webp"
-      imagesrcset="assets/hero-1200.webp 1200w, assets/hero-2400.webp 2400w" imagesizes="(min-width: 1180px) 1136px, 100vw">
 
 <style>
-/* ---------- Tokens ---------- */
+/* Layout: one long page in full-width bands (black hero, white statement, grey shop, white story,
+   grey contact). Text sits in a 980px column, media may use up to 1120px. One deliberate look:
+   light, with a black opening band for the gold mark. */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
-  --bg: #fbf7f0;              /* the cream of the Special Rups wordmark */
-  --surface: #ffffff;
-  --surface-2: #f3ece2;
+  /* Colour */
+  --white: #ffffff;
+  --grey: #f5f5f7;
   --ink: #1d1d1f;
-  --ink-2: #6e6a63;
-  --ink-3: #8d887f;
-  --hairline: rgba(29, 29, 31, 0.12);
-  --accent: #8a5a2b;          /* syrup gold, darkened for text contrast */
-  --accent-soft: rgba(206, 174, 120, 0.22);
+  --ink-2: #6e6e73;
+  --line: #d2d2d7;
+  --black: #000000;
+  --snow: #f5f5f7;                       /* text on black */
+  --snow-2: #a1a1a6;
+  --gold: #d9b77d;                       /* the syrup drop, for use on black */
+  --gold-deep: #8a5a2b;                  /* the same hue, dark enough for text on white */
+  --gold-wash: rgba(206, 174, 120, 0.22);
+  --cream: #fbf6ee;                      /* background of the wordmark artwork */
   --error: #b3261e;
-  --ok: #2d6a3e;
+  --ok: #1f7a3a;
+  --scrim: rgba(0, 0, 0, 0.42);
+  --nav: rgba(255, 255, 255, 0.8);
 
-  --btn-bg: #1d1d1f;
-  --btn-ink: #fbf7f0;
-
-  --material: rgba(251, 247, 240, 0.72);
-  --material-edge: rgba(255, 255, 255, 0.5);
-  --shadow: 0 1px 2px rgba(60, 40, 20, 0.04), 0 12px 32px rgba(60, 40, 20, 0.08);
-
-  --radius-l: 28px;
-  --radius-m: 18px;
-  --radius-s: 12px;
-
-  --page: 1136px;
-  --gutter: 22px;
-  --nav-h: 3.25rem;
-
-  /* One easing for everything that settles: fast start, long calm tail (critically damped feel) */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-
+  /* Type */
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui,
           "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Shape and space */
+  --r-xl: 28px;
+  --r-l: 18px;
+  --r-m: 12px;
+  --text: 980px;
+  --media: 1120px;
+  --nav-h: 3rem;
+  --band: clamp(5rem, 11vw, 9rem);
+
+  /* Motion: one settle curve (fast start, calm tail, no overshoot) and the iOS sheet curve */
+  --settle: cubic-bezier(0.22, 1, 0.36, 1);
+  --sheet: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #000000;
-    --surface: #1c1c1e;
-    --surface-2: #161617;
-    --ink: #f5f5f7;
-    --ink-2: #a8a39b;
-    --ink-3: #86817a;
-    --hairline: rgba(245, 245, 247, 0.16);
-    --accent: #dcb779;
-    --accent-soft: rgba(206, 174, 120, 0.2);
-    --error: #ff8a80;
-    --ok: #8fd6a2;
-    --btn-bg: #f5f5f7;
-    --btn-ink: #1d1d1f;
-    --material: rgba(22, 22, 23, 0.72);
-    --material-edge: rgba(255, 255, 255, 0.08);
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.5);
-  }
-}
-
-/* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-h) + 1rem);
+  scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
 }
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--white);
   color: var(--ink);
   font: 400 1.0625rem/1.47 var(--font);
-  letter-spacing: -0.011em;
+  letter-spacing: -0.022em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+}
+/* Paints the strip above the sticky bar on phones with a status-bar inset */
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; z-index: 60;
+  height: env(safe-area-inset-top, 0px); background: var(--white);
 }
 
+[hidden] { display: none !important; }
 img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, p, figure, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
 a { color: inherit; }
-h1, h2, p, figure { margin: 0; }
+button { font: inherit; letter-spacing: inherit; color: inherit; }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
+:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 3px; border-radius: 8px; }
+.on-black :focus-visible { outline-color: var(--gold); }
 
 .wrap {
-  width: min(100% - 2 * var(--gutter), var(--page));
+  max-width: calc(var(--media) + 2 * 16px);
   margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-
-.skip {
-  position: absolute; left: 1rem; top: -4rem; z-index: 100;
-  padding: 0.6rem 1rem; border-radius: 999px;
-  background: var(--btn-bg); color: var(--btn-ink); text-decoration: none;
-}
-.skip:focus { top: 0.6rem; }
-
-/* ---------- Navigation: a translucent layer, content scrolls underneath ---------- */
-.nav {
-  position: sticky; top: 0; z-index: 50;
-  height: var(--nav-h);
-  background: var(--material);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
-  box-shadow: 0 1px 0 transparent;
-  transition: box-shadow 300ms ease;
-}
-/* Hairline only once content is actually underneath the bar */
-.nav[data-scrolled] { box-shadow: 0 1px 0 var(--hairline); }
-
-.nav__inner {
-  height: 100%;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-}
-
-.brand {
-  display: inline-flex; align-items: center; gap: 0.55rem;
-  min-height: 2.75rem;
-  text-decoration: none; font-weight: 600; font-size: 1.0625rem; letter-spacing: -0.02em;
-  white-space: nowrap;
-}
-.brand img { width: 1.6rem; height: auto; }
-
-.nav__links { display: flex; align-items: center; gap: 0.15rem; list-style: none; margin: 0; padding: 0; }
-.nav__links a {
-  display: inline-flex; align-items: center;
-  min-height: 2.75rem; padding: 0 0.7rem;
-  font-size: 0.8125rem; letter-spacing: -0.003em;
-  color: var(--ink); opacity: 0.82; text-decoration: none; white-space: nowrap;
-  border-radius: 999px;
-  transition: opacity 150ms ease, background-color 150ms ease;
-}
-.nav__links a[aria-current="page"] { opacity: 1; font-weight: 600; }
-.nav__links a:active { background: var(--accent-soft); opacity: 1; }
-@media (hover: hover) {
-  .nav__links a:hover { opacity: 1; }
-}
-@media (max-width: 30rem) {
-  .brand span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .nav__links a { padding: 0 0.55rem; }
-}
-
-/* ---------- Buttons: feedback lives on the press ---------- */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-height: 2.75rem; padding: 0.7rem 1.4rem;
-  border: 0; border-radius: 999px;
-  background: var(--btn-bg); color: var(--btn-ink);
-  font: 500 1.0625rem/1.2 var(--font); letter-spacing: -0.015em;
-  text-decoration: none; cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 100ms ease-out, opacity 150ms ease;
-}
-.btn:active { transform: scale(0.97); opacity: 0.88; }
-.btn[disabled] { opacity: 0.45; cursor: default; transform: none; }
-
-.link {
-  display: inline-flex; align-items: center; gap: 0.25em;
-  min-height: 2.75rem; padding: 0 0.4rem;
-  color: var(--accent); font-size: 1.0625rem; font-weight: 500; text-decoration: none;
-  border-radius: 999px;
-  transition: opacity 150ms ease;
-}
-.link::after { content: "›"; font-size: 1.2em; line-height: 1; transform: translateY(-0.04em); transition: transform 200ms var(--ease-out); }
-.link:active { opacity: 0.6; }
-@media (hover: hover) {
-  .link:hover { text-decoration: underline; text-underline-offset: 0.2em; }
-  .link:hover::after { transform: translate(0.15em, -0.04em); }
-}
-
-/* ---------- Hero ---------- */
-.hero { padding-top: clamp(3rem, 8vw, 6rem); text-align: center; }
-
-.hero__mark { width: clamp(4.5rem, 9vw, 6.5rem); margin: 0 auto clamp(1rem, 2.5vw, 1.75rem); }
-
-.hero h1 {
-  font-size: clamp(3.25rem, 10.5vw, 7rem);
-  font-weight: 600;
-  line-height: 1.03;
-  letter-spacing: -0.035em;      /* display sizes want tight tracking */
-  text-wrap: balance;
-}
-
-.hero__tag {
-  margin-top: 0.6rem;
-  font-size: clamp(1.375rem, 3.2vw, 2rem);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--ink-2);
-}
-
-.hero__actions {
-  margin-top: clamp(1.5rem, 3vw, 2.25rem);
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1.25rem;
-}
-
-.hero__media {
-  margin-top: clamp(2.5rem, 6vw, 4.5rem);
-  border-radius: var(--radius-l);
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  background: var(--surface-2);
-  box-shadow: var(--shadow);
-}
-.hero__media img { width: 100%; height: 100%; object-fit: cover; }
-
-@media (max-width: 40rem) {
-  .hero__media { aspect-ratio: 4 / 5; }
-}
-
-/* The photo settles as it scrolls into place: driven 1:1 by scroll position, so it is always interruptible */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .hero__media img {
-      animation: settle linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 55%;
-    }
-    @keyframes settle { from { transform: scale(1.1); } to { transform: scale(1); } }
+@media (min-width: 40rem) {
+  .wrap {
+    max-width: calc(var(--media) + 2 * 32px);
+    padding-left: max(32px, env(safe-area-inset-left, 0px));
+    padding-right: max(32px, env(safe-area-inset-right, 0px));
   }
 }
+.narrow { max-width: var(--text); margin-inline: auto; }
 
-/* ---------- Sections ---------- */
-.section { padding-block: clamp(4.5rem, 11vw, 9rem); }
+.band { padding-block: var(--band); }
+.band--grey { background: var(--grey); }
 
-.section__title {
-  font-size: clamp(2.25rem, 6vw, 3.75rem);
-  font-weight: 600;
-  line-height: 1.07;
-  letter-spacing: -0.028em;
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.skip {
+  position: absolute; left: 1rem; top: -5rem; z-index: 100;
+  padding: 0.6rem 1rem; border-radius: 999px;
+  background: var(--ink); color: var(--white); text-decoration: none;
+}
+.skip:focus { top: calc(0.5rem + env(safe-area-inset-top, 0px)); }
+
+/* ---------- Bar: a translucent layer, the page scrolls underneath it ---------- */
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  height: var(--nav-h);
+  background: var(--nav);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+.bar__in { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+
+.brand {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem;
+  font-weight: 600; font-size: 1.0625rem; letter-spacing: -0.02em; text-decoration: none; white-space: nowrap;
+}
+.brand img { width: 1.5rem; }
+
+.bar__links { display: flex; align-items: center; }
+.bar__links a, .bag-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 2.75rem; padding: 0 0.7rem;
+  font-size: 0.8125rem; letter-spacing: -0.01em; text-decoration: none; white-space: nowrap;
+  color: var(--ink); opacity: 0.8; border-radius: 999px;
+  transition: opacity 150ms ease, background-color 150ms ease;
+}
+.bar__links a:active, .bag-btn:active { opacity: 1; background: var(--gold-wash); }
+@media (hover: hover) { .bar__links a:hover, .bag-btn:hover { opacity: 1; } }
+
+.bag-btn { position: relative; min-width: 2.75rem; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.bag-btn svg { width: 1.15rem; height: 1.15rem; }
+.bag-btn__n {
+  position: absolute; top: 0.35rem; right: 0.15rem;
+  min-width: 1.05rem; height: 1.05rem; padding: 0 0.25rem; border-radius: 999px;
+  background: var(--ink); color: var(--white);
+  font-size: 0.6875rem; font-weight: 600; line-height: 1.05rem; text-align: center; letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.bag-btn__n.bump { animation: bump 380ms var(--settle); }
+@keyframes bump { 0% { transform: scale(0.6); } 55% { transform: scale(1.18); } 100% { transform: scale(1); } }
+
+@media (max-width: 26rem) {
+  .brand span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .bar__links a { padding: 0 0.55rem; }
+}
+
+/* ---------- Buttons: the press itself answers ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+  min-height: 2.75rem; padding: 0.65rem 1.35rem;
+  border: 0; border-radius: 999px;
+  background: var(--ink); color: var(--white);
+  font-size: 1.0625rem; font-weight: 400; line-height: 1.2; text-decoration: none;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform 100ms ease-out, opacity 150ms ease;
+}
+.btn:active { transform: scale(0.97); opacity: 0.85; }
+.btn[disabled] { opacity: 0.4; cursor: default; transform: none; }
+.btn--snow { background: var(--snow); color: var(--ink); }
+.btn--wide { width: 100%; }
+.btn svg { width: 1rem; height: 1rem; }
+
+.more {
+  display: inline-flex; align-items: center; gap: 0.25em; min-height: 2.75rem;
+  color: var(--gold-deep); font-size: 1.0625rem; text-decoration: none;
+  border: 0; background: none; padding: 0; cursor: pointer;
+}
+.more::after { content: "›"; font-size: 1.25em; line-height: 1; transform: translateY(-0.05em); transition: transform 220ms var(--settle); }
+.more:active { opacity: 0.6; }
+.on-black .more { color: var(--gold); }
+@media (hover: hover) {
+  .more:hover { text-decoration: underline; text-underline-offset: 0.22em; }
+  .more:hover::after { transform: translate(0.16em, -0.05em); }
+}
+
+/* ---------- Hero: the gold mark on black ---------- */
+.hero {
+  position: relative; overflow: hidden;
+  background: var(--black); color: var(--snow);
+  padding-block: clamp(3.5rem, 9vw, 6.5rem) clamp(4rem, 9vw, 7rem);
+  text-align: center;
+}
+.hero::before {                           /* light behind the drop, so the dark leaf separates from the black */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(34rem 26rem at 50% 30%, rgba(217, 183, 125, 0.30), transparent 70%),
+    radial-gradient(60rem 30rem at 50% 115%, rgba(217, 183, 125, 0.10), transparent 70%);
+}
+.hero > * { position: relative; }
+
+.hero__mark { width: auto; height: clamp(11rem, 30vw, 18rem); margin-inline: auto; }
+.hero__eyebrow {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.32em; text-indent: 0.32em; text-transform: uppercase;
+  color: var(--gold);
+}
+.hero h1 {
+  margin-top: 0.5rem;
+  font-size: clamp(3.5rem, 12vw, 7rem); font-weight: 600; line-height: 1.02; letter-spacing: -0.03em;
+}
+.hero__tag {
+  margin-top: 0.5rem;
+  font-size: clamp(1.375rem, 3.4vw, 1.875rem); line-height: 1.2; letter-spacing: -0.015em; color: var(--snow-2);
+}
+.hero__go { margin-top: clamp(1.5rem, 3vw, 2rem); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1.5rem; }
+
+/* The mark arrives like a material (blur and scale together); the words follow */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__mark { animation: arrive 1000ms var(--settle) both; }
+  .hero__rise { animation: rise 800ms var(--settle) both; animation-delay: var(--d, 0ms); }
+  @keyframes arrive { from { opacity: 0; transform: scale(0.9); filter: blur(16px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+}
+
+/* ---------- Statement: words light up as you scroll past ---------- */
+.say {
+  font-size: clamp(1.875rem, 5.4vw, 3.5rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+.say span { transition: opacity 240ms linear; }
+
+/* ---------- Section titles ---------- */
+.title {
+  font-size: clamp(2.25rem, 6.2vw, 3.5rem); font-weight: 600; line-height: 1.07; letter-spacing: -0.025em;
   text-wrap: balance;
 }
+.title em { font-style: normal; color: var(--ink-2); }
+.lead { margin-top: 0.75rem; font-size: clamp(1.1875rem, 2.4vw, 1.3125rem); line-height: 1.38; letter-spacing: -0.012em; color: var(--ink-2); }
 
-/* ---------- Statement ---------- */
-.about {
-  display: grid; align-items: center;
-  gap: clamp(2rem, 6vw, 5rem);
-  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+/* ---------- Shop ---------- */
+.product {
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  display: grid; align-items: start; gap: clamp(1.75rem, 5vw, 4.5rem);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
 }
-.about__mark { border-radius: var(--radius-l); overflow: hidden; }
-.about__mark img { width: 100%; }
+@media (max-width: 52rem) { .product { grid-template-columns: minmax(0, 1fr); } }
 
-.about__text {
-  font-size: clamp(1.75rem, 3.9vw, 2.75rem);
-  font-weight: 600;
-  line-height: 1.14;
-  letter-spacing: -0.025em;
-  color: var(--ink-2);
-  text-wrap: pretty;
-}
-.about__text strong { font-weight: inherit; color: var(--ink); }
+.stage { position: relative; aspect-ratio: 1 / 1; max-width: 100%; border-radius: var(--r-xl); overflow: hidden; background: var(--line); }
+.stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 320ms ease; }
+.stage img.is-on { opacity: 1; }
+@media (max-width: 52rem) { .stage { aspect-ratio: 4 / 3; } }
 
-@media (max-width: 48rem) {
-  .about { grid-template-columns: 1fr; }
-  .about__mark { max-width: 20rem; margin-inline: auto; }
+.thumbs { margin-top: 0.75rem; display: flex; gap: 0.6rem; }
+.thumb {
+  width: 4rem; height: 4rem; padding: 0; border: 0; border-radius: var(--r-m); overflow: hidden;
+  background: var(--line); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 0 0 2px transparent; opacity: 0.6;
+  transition: opacity 150ms ease, box-shadow 150ms ease, transform 100ms ease-out;
 }
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb:active { transform: scale(0.95); }
+.thumb[aria-pressed="true"] { opacity: 1; box-shadow: 0 0 0 2px var(--grey), 0 0 0 4px var(--ink); }
 
-/* ---------- Gallery: native scroll = 1:1 tracking, momentum and rubber-banding for free ---------- */
-.gallery__head {
-  display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem;
-  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
-}
+.buy { display: grid; gap: 1.25rem; min-width: 0; }
+.buy__kind { font-size: 0.875rem; font-weight: 600; letter-spacing: -0.005em; color: var(--gold-deep); }
+.buy h3 { margin-top: 0.15rem; font-size: clamp(2.25rem, 5vw, 3rem); font-weight: 600; line-height: 1.07; letter-spacing: -0.025em; }
+.buy__text { margin-top: 0.5rem; font-size: 1.3125rem; line-height: 1.33; letter-spacing: -0.014em; color: var(--ink-2); }
+.buy__price { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; }
 
-.gallery__controls { display: flex; align-items: center; gap: 0.6rem; }
-.gallery__count {
-  min-width: 3.2em; text-align: center;
-  font-size: 0.9375rem; color: var(--ink-2); font-variant-numeric: tabular-nums;
-}
+.buy__row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+.buy__row .btn { flex: 1 1 12rem; }
 
-.round {
-  display: grid; place-items: center;
-  width: 2.75rem; height: 2.75rem; padding: 0;
-  border: 0; border-radius: 50%;
-  background: var(--surface-2); color: var(--ink);
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: transform 100ms ease-out, opacity 200ms ease, background-color 150ms ease;
+.step { display: inline-flex; align-items: center; border-radius: 999px; background: var(--white); box-shadow: inset 0 0 0 1px var(--line); }
+.step button {
+  display: grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0;
+  border: 0; border-radius: 50%; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform 100ms ease-out, background-color 150ms ease;
 }
-.round svg { width: 1.1rem; height: 1.1rem; }
-.round:active { transform: scale(0.92); background: var(--accent-soft); }
-.round[disabled] { opacity: 0.35; cursor: default; transform: none; }
+.step button:active { transform: scale(0.9); background: var(--gold-wash); }
+.step button[disabled] { opacity: 0.3; cursor: default; transform: none; background: none; }
+.step svg { width: 0.9rem; height: 0.9rem; }
+.step output { min-width: 1.75rem; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-.track {
-  --card-h: clamp(17rem, 46vw, 31rem);
-  --edge: max(var(--gutter), calc((100vw - var(--page)) / 2));
-  display: flex; gap: clamp(0.75rem, 2vw, 1.25rem);
-  margin: 0; padding: 0.25rem var(--edge) 1rem; list-style: none;
-  overflow-x: auto; overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge);
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.track::-webkit-scrollbar { display: none; }
-.track:focus-visible { outline-offset: -4px; }
+.facts { border-top: 1px solid var(--line); }
+.facts li { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); font-size: 0.9375rem; letter-spacing: -0.012em; }
+.facts svg { flex: none; width: 1.15rem; height: 1.15rem; color: var(--gold-deep); }
 
-.shot { flex: none; scroll-snap-align: start; }
-.shot figure { width: min(calc(var(--card-h) * var(--ratio)), 100vw - 2 * var(--gutter)); }
-.shot img {
-  width: 100%; height: var(--card-h); object-fit: cover;
-  border-radius: var(--radius-l);
-  background: var(--surface-2);
+.buy__legal { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+.buy__legal .more { font-size: 0.9375rem; }
+
+/* ---------- Story tiles ---------- */
+.tiles {
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  display: grid; gap: clamp(0.75rem, 1.6vw, 1.25rem);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
-.shot figcaption {
-  margin-top: 0.9rem; padding-inline: 0.25rem;
-  font-size: 0.9375rem; line-height: 1.4; letter-spacing: -0.006em;
-  color: var(--ink-2);
-  text-wrap: pretty;
+.tile { display: flex; flex-direction: column; min-width: 0; border-radius: var(--r-xl); overflow: hidden; background: var(--grey); }
+.tile__img { overflow: hidden; }
+.tile__img img { width: 100%; aspect-ratio: var(--ar); object-fit: cover; transition: transform 900ms var(--settle); }
+.tile figcaption { padding: 1.15rem 1.4rem 1.4rem; font-size: 1.0625rem; font-weight: 500; line-height: 1.35; letter-spacing: -0.018em; text-wrap: pretty; }
+@media (hover: hover) and (pointer: fine) { .tile:hover .tile__img img { transform: scale(1.035); } }
+
+.tile--wide { grid-column: span 4; --ar: 16 / 10; }
+.tile--tall { grid-column: span 2; --ar: 4 / 5; }
+.tile--brand { grid-column: span 2; background: var(--cream); justify-content: center; }
+.tile--brand img { width: 100%; }
+
+@media (max-width: 56rem) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile--wide { grid-column: span 2; }
+  .tile--tall, .tile--brand { grid-column: span 1; }
+  .tile--brand { order: 9; }
+}
+@media (max-width: 34rem) {
+  .tiles { grid-template-columns: minmax(0, 1fr); }
+  .tile--wide, .tile--tall, .tile--brand { grid-column: auto; }
+  .tile--wide { --ar: 4 / 3; }
+  .tile--tall { --ar: 1 / 1; }
 }
 
 /* ---------- Contact ---------- */
-.contact {
-  display: grid; align-items: start;
-  gap: clamp(2rem, 6vw, 5rem);
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-}
-.contact__lead { margin-top: 1rem; font-size: 1.3125rem; line-height: 1.38; letter-spacing: -0.016em; color: var(--ink-2); max-width: 24ch; }
+.contact { display: grid; align-items: start; gap: clamp(2rem, 6vw, 5rem); grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+@media (max-width: 52rem) { .contact { grid-template-columns: minmax(0, 1fr); } }
 
-@media (max-width: 48rem) {
-  .contact { grid-template-columns: 1fr; }
-  .contact__lead { max-width: none; }
-}
-
-.form {
-  display: grid; gap: 1.1rem;
-  padding: clamp(1.25rem, 4vw, 2.25rem);
-  border-radius: var(--radius-l);
-  background: var(--surface);
-  box-shadow: var(--shadow);
-}
-
+.form { display: grid; gap: 1.1rem; min-width: 0; padding: clamp(1.25rem, 4vw, 2.25rem); border-radius: var(--r-xl); background: var(--white); }
 .field { display: grid; gap: 0.4rem; }
-.field label { font-size: 0.875rem; font-weight: 500; letter-spacing: -0.004em; }
-.field .req { color: var(--ink-3); font-weight: 400; }
-
+.field label { font-size: 0.875rem; font-weight: 500; letter-spacing: -0.008em; }
+.field .req { color: var(--ink-2); font-weight: 400; }
 .field input, .field textarea {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-s);
-  background: var(--bg);
-  color: var(--ink);
+  width: 100%; padding: 0.85rem 1rem;
+  border: 1px solid var(--line); border-radius: var(--r-m);
+  background: var(--white); color: var(--ink);
   font: inherit; letter-spacing: inherit;
   transition: border-color 150ms ease, box-shadow 150ms ease;
 }
-.field textarea { min-height: 8.5rem; resize: vertical; }
-.field input:focus, .field textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-soft);
-}
+.field textarea { min-height: 9rem; resize: vertical; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--gold-deep); box-shadow: 0 0 0 4px var(--gold-wash); }
 .field [aria-invalid="true"] { border-color: var(--error); }
 
-.hint { min-height: 1.2em; font-size: 0.8125rem; line-height: 1.2; color: var(--error); }
+.hint { font-size: 0.8125rem; line-height: 1.3; letter-spacing: -0.005em; color: var(--error); }
 .hint:empty { display: none; }
+.note { padding: 0.75rem 1rem; border-radius: var(--r-m); background: var(--grey); font-size: 0.875rem; line-height: 1.4; letter-spacing: -0.008em; }
 
-.consent { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.75rem; align-items: start; }
-.consent input { width: 1.25rem; height: 1.25rem; margin: 0.15rem 0 0; accent-color: var(--accent); }
-.consent label { font-size: 0.8125rem; line-height: 1.45; color: var(--ink-2); letter-spacing: 0; }
-.consent a { color: var(--accent); text-underline-offset: 0.15em; }
+.consent { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.2rem 0.75rem; align-items: start; }
+.consent input { width: 1.25rem; height: 1.25rem; margin: 0.15rem 0 0; accent-color: var(--ink); }
+.consent label { font-size: 0.8125rem; line-height: 1.45; letter-spacing: -0.003em; color: var(--ink-2); }
+.consent a { color: var(--gold-deep); text-underline-offset: 0.15em; }
 .consent .hint { grid-column: 2; }
 
 .form__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
-.status { font-size: 0.9375rem; line-height: 1.35; }
+.status { min-width: 0; font-size: 0.9375rem; line-height: 1.35; letter-spacing: -0.012em; }
 .status[data-kind="ok"] { color: var(--ok); }
 .status[data-kind="error"] { color: var(--error); }
 
 /* ---------- Footer ---------- */
-.footer { border-top: 1px solid var(--hairline); padding-block: 1.75rem 2.5rem; font-size: 0.8125rem; color: var(--ink-2); letter-spacing: 0; }
-.footer__inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.75rem 2rem; }
-.footer ul { display: flex; flex-wrap: wrap; gap: 0 1.1rem; list-style: none; margin: 0 -0.2rem; padding: 0; }
-.footer a {
-  display: inline-flex; align-items: center; min-height: 2.25rem; padding: 0 0.2rem;
-  text-decoration: none; transition: color 150ms ease;
-}
-.footer a:active { color: var(--ink); }
-@media (hover: hover) { .footer a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 0.2em; } }
+.foot { background: var(--grey); font-size: 0.75rem; line-height: 1.4; letter-spacing: -0.003em; color: var(--ink-2); }
+.foot__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 2rem; padding-block: 1.1rem 2rem; border-top: 1px solid var(--line); }
+.foot ul { display: flex; flex-wrap: wrap; gap: 0 1.1rem; }
+.foot a { display: inline-flex; align-items: center; min-height: 2.25rem; text-decoration: none; }
+.foot a:active { color: var(--ink); }
+@media (hover: hover) { .foot a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 0.2em; } }
 
-/* ---------- Reveal on scroll (only when JS is running, so content never hides without it) ---------- */
-.js .reveal { opacity: 0; transform: translateY(18px); }
-.js .reveal.is-in {
-  opacity: 1; transform: none;
-  transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out);
-  transition-delay: var(--delay, 0ms);
+/* ---------- Bag: a sheet from the side (from below on phones), with the page dimmed behind it ---------- */
+.bag {
+  position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0; background: transparent; color: var(--ink); overflow: hidden;
+}
+.bag::backdrop { background: transparent; }
+.bag__scrim { position: absolute; inset: 0; background: var(--scrim); opacity: 0; transition: opacity 320ms ease; }
+.bag__panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(26.5rem, 100%);
+  display: flex; flex-direction: column;
+  background: var(--white);
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: -24px 0 64px rgba(0, 0, 0, 0.18);
+  transform: translateX(105%);
+  transition: transform 480ms var(--sheet);
+  will-change: transform;
+}
+.bag.is-open .bag__scrim { opacity: 1; }
+.bag.is-open .bag__panel { transform: none; }
+
+.bag__grab { flex: none; padding: 0.75rem 1.25rem 0.5rem; }
+.bag__handle { display: none; width: 2.25rem; height: 0.3rem; margin: 0 auto 0.5rem; border-radius: 999px; background: var(--line); }
+.bag__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.bag__head h2 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.022em; line-height: 1.15; }
+.x { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; margin-right: -0.5rem; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 100ms ease-out, background-color 150ms ease; }
+.x span { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--grey); }
+.x svg { width: 0.8rem; height: 0.8rem; }
+.x:active { transform: scale(0.9); }
+
+.bag__body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0.25rem 1.25rem 1rem; }
+.bag__empty { padding: 2.5rem 0; display: grid; justify-items: start; gap: 1rem; color: var(--ink-2); font-size: 1.1875rem; letter-spacing: -0.014em; }
+
+.item { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.25rem 1rem; align-items: start; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.item img { grid-row: span 2; width: 4.5rem; height: 4.5rem; border-radius: var(--r-m); object-fit: cover; background: var(--grey); }
+.item__name { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+.item__price { font-size: 0.875rem; color: var(--ink-2); letter-spacing: -0.008em; }
+.item__row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.item .step { background: var(--white); }
+.item .step button { width: 2.5rem; height: 2.5rem; }
+.item__del { min-height: 2.75rem; padding: 0 0.25rem; border: 0; background: none; color: var(--gold-deep); font-size: 0.875rem; cursor: pointer; }
+.item__del:active { opacity: 0.6; }
+
+.bag__foot { flex: none; display: grid; gap: 0.75rem; padding: 1rem 1.25rem 1.25rem; border-top: 1px solid var(--line); }
+.bag__sum { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; font-size: 1.0625rem; }
+.bag__sum strong { font-weight: 600; font-variant-numeric: tabular-nums; }
+.bag__small { font-size: 0.8125rem; line-height: 1.4; letter-spacing: -0.005em; color: var(--ink-2); }
+
+@media (max-width: 40rem) {
+  .bag__panel {
+    top: auto; left: 0; width: 100%; max-height: 88%;
+    border-radius: 24px 24px 0 0;
+    padding-top: 0; padding-left: env(safe-area-inset-left, 0px);
+    box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.18);
+    transform: translateY(105%);
+  }
+  .bag__handle { display: block; }
+  .bag__grab { touch-action: none; cursor: grab; }
 }
 
-/* ---------- Accessibility preferences ---------- */
+/* ---------- Reveal on scroll: armed only after the first scroll, so the page is complete at rest ---------- */
+.pre { opacity: 0; transform: translateY(22px); }
+.pre.in { opacity: 1; transform: none; transition: opacity 700ms var(--settle), transform 900ms var(--settle); transition-delay: var(--d, 0ms); }
+
+/* ---------- Preferences ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .js .reveal { transform: none; }
-  .js .reveal.is-in { transition: opacity 250ms ease; transition-delay: 0ms; }
-  .btn:active, .round:active { transform: none; }
-  .link::after { transition: none; }
+  .pre { transform: none; }
+  .pre.in { transition: opacity 250ms ease; transition-delay: 0ms; }
+  .btn:active, .thumb:active, .step button:active, .x:active { transform: none; }
+  .bag__panel { transition: none; }
+  .bag__scrim { transition-duration: 150ms; }
+  .bag-btn__n.bump { animation: none; }
+  .tile__img img, .more::after, .say span { transition: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .bar { background: var(--white); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 @media (prefers-contrast: more) {
-  :root { --hairline: currentColor; --ink-2: var(--ink); --ink-3: var(--ink); }
-  .nav { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: 0 1px 0 var(--ink); }
-  .nav__links a { opacity: 1; }
-  .form { box-shadow: none; border: 1px solid var(--ink); }
+  :root { --ink-2: #1d1d1f; --line: #1d1d1f; --snow-2: #f5f5f7; }
+  .bar { background: var(--white); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: 0 1px 0 var(--ink); }
+  .bar__links a, .bag-btn { opacity: 1; }
 }
 </style>
 </head>
 
 <body>
-<script>document.documentElement.classList.add('js');</script>
-
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
-<header class="nav" id="nav">
-  <nav class="wrap nav__inner" aria-label="Hauptnavigation">
-    <a class="brand" href="#top" aria-label="Special Rups – Startseite">
+<header class="bar">
+  <nav class="wrap bar__in" aria-label="Hauptnavigation">
+    <a class="brand" href="#top" aria-label="Special Rups, zum Seitenanfang">
       <img src="assets/logo-160.webp" width="154" height="160" alt="">
       <span>Special Rups</span>
     </a>
-    <ul class="nav__links">
-      <li><a href="#top" aria-current="page">Home</a></li>
-      <li><a href="https://special-rups.jimdosite.com/shop/">Shop</a></li>
-      <li><a href="https://special-rups.jimdosite.com/ueber-uns/">Über uns</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
-    </ul>
+    <div class="bar__links">
+      <a href="#shop">Shop</a>
+      <a href="#ueber-uns">Über uns</a>
+      <a href="#kontakt">Kontakt</a>
+      <button class="bag-btn" id="bag-open" type="button" aria-haspopup="dialog" aria-label="Warenkorb öffnen, leer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8.5h13l-.9 11a1.5 1.5 0 0 1-1.5 1.4H7.9a1.5 1.5 0 0 1-1.5-1.4l-.9-11Z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></svg>
+        <span class="bag-btn__n" id="bag-n" hidden>0</span>
+      </button>
+    </div>
   </nav>
 </header>
 
@@ -449,237 +479,492 @@ h1, h2, p, figure { margin: 0; }
   <span id="top"></span>
 
   <!-- Hero -->
-  <section class="hero wrap" aria-labelledby="hero-title">
-    <img class="hero__mark reveal" src="assets/logo-480.webp" width="462" height="480" alt="">
-    <h1 id="hero-title" class="reveal" style="--delay: 60ms">Special Rups</h1>
-    <p class="hero__tag reveal" style="--delay: 120ms">Einzigartig mit Geschmack</p>
-    <div class="hero__actions reveal" style="--delay: 180ms">
-      <a class="btn" href="#kontakt">Kontakt aufnehmen</a>
-      <a class="link" href="https://special-rups.jimdosite.com/shop/">Zum Shop</a>
-    </div>
-    <div class="hero__media reveal" style="--delay: 240ms">
-      <img src="assets/hero-1200.webp"
-           srcset="assets/hero-1200.webp 1200w, assets/hero-2400.webp 2400w"
-           sizes="(min-width: 1180px) 1136px, 100vw"
-           width="2400" height="1656" fetchpriority="high"
-           alt="Stiller Bergsee zwischen hohen Tannen, im Hintergrund wolkenverhangene Berge">
+  <section class="hero on-black" aria-labelledby="hero-title">
+    <div class="wrap">
+      <img class="hero__mark" src="assets/logo-480.webp" width="462" height="480" alt="" fetchpriority="high">
+      <p class="hero__eyebrow hero__rise" style="--d: 250ms">Premium Syrups</p>
+      <h1 id="hero-title" class="hero__rise" style="--d: 320ms">Special Rups</h1>
+      <p class="hero__tag hero__rise" style="--d: 390ms">Einzigartig mit Geschmack.</p>
+      <div class="hero__go hero__rise" style="--d: 460ms">
+        <a class="btn btn--snow" href="#shop">Zum Shop</a>
+        <a class="more" href="#kontakt">Kontakt aufnehmen</a>
+      </div>
     </div>
   </section>
 
   <!-- Statement -->
-  <section class="section wrap about" aria-label="Über Special Rups">
-    <div class="about__mark reveal">
-      <img src="assets/wordmark-640.webp"
-           srcset="assets/wordmark-640.webp 640w, assets/wordmark-1254.webp 1254w"
-           sizes="(min-width: 48rem) 40vw, 20rem"
-           width="1254" height="1254" loading="lazy"
-           alt="Logo: Special Rups – Premium Syrups">
+  <section class="band" aria-label="Was wir machen">
+    <div class="wrap">
+      <p class="say narrow" id="say">Wir produzieren hochwertige Sirups. Sie sind einzigartig in ihrem Geschmack und verleihen Deinem Alltag einen besonderen Genussmoment.</p>
     </div>
-    <p class="about__text reveal" style="--delay: 80ms">
-      <strong>Wir produzieren hochwertige Sirups.</strong>
-      Sie sind einzigartig in ihrem Geschmack und verleihen Deinem Alltag einen besonderen Genussmoment.
-    </p>
   </section>
 
-  <!-- Fotos -->
-  <section class="section" style="padding-top: 0" aria-labelledby="fotos-title">
-    <div class="wrap gallery__head">
-      <h2 id="fotos-title" class="section__title reveal">Fotos</h2>
-      <div class="gallery__controls reveal" style="--delay: 80ms">
-        <span class="gallery__count" id="count" aria-live="polite">1 / 4</span>
-        <button class="round" id="prev" type="button" aria-label="Vorheriges Foto" aria-controls="track" disabled>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-        </button>
-        <button class="round" id="next" type="button" aria-label="Nächstes Foto" aria-controls="track">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
+  <!-- Shop -->
+  <section class="band band--grey" id="shop" aria-labelledby="shop-title">
+    <div class="wrap">
+      <h2 class="title reveal" id="shop-title">Shop. <em>Hochwertige Sirups, von Hand abgefüllt.</em></h2>
 
-    <ul class="track reveal" id="track" tabindex="0" aria-label="Fotos von der Herstellung">
-      <li class="shot" style="--ratio: 1.3333">
-        <figure>
-          <img src="assets/foto-1-schulkueche-800.webp"
-               srcset="assets/foto-1-schulkueche-800.webp 800w, assets/foto-1-schulkueche-1600.webp 1600w"
-               sizes="(min-width: 60rem) 662px, 90vw" width="1600" height="1200" loading="lazy"
-               alt="Schulküche mit Edelstahlflächen, in der mehrere Personen arbeiten">
+      <!-- Ein Produkt = ein <article class="product">. data-price in CHF (z. B. "9.50"); leer = „Preis auf Anfrage“. -->
+      <article class="product" data-id="mojito-sirup" data-name="Mojito-Sirup" data-price="" data-thumb="assets/foto-2-minze-800.webp">
+        <div class="reveal">
+          <div class="stage">
+            <img class="is-on" src="assets/foto-2-minze-800.webp"
+                 srcset="assets/foto-2-minze-800.webp 800w, assets/foto-2-minze-1600.webp 1600w"
+                 sizes="(min-width: 52rem) 56vw, 100vw" width="1600" height="1200"
+                 alt="Frische Minzblätter, eingelegt für den Mojito-Sirup">
+            <img src="assets/foto-4-flaschen-800.webp"
+                 srcset="assets/foto-4-flaschen-800.webp 600w, assets/foto-4-flaschen-1600.webp 1200w"
+                 sizes="(min-width: 52rem) 56vw, 100vw" width="1200" height="1600" loading="lazy"
+                 alt="Abgefüllte und verschlossene Sirupflaschen in Reihen">
+          </div>
+          <div class="thumbs" role="group" aria-label="Produktbilder">
+            <button class="thumb" type="button" aria-pressed="true" aria-label="Bild 1: Minze">
+              <img src="assets/foto-2-minze-800.webp" width="800" height="600" alt="">
+            </button>
+            <button class="thumb" type="button" aria-pressed="false" aria-label="Bild 2: Flaschen">
+              <img src="assets/foto-4-flaschen-800.webp" width="600" height="800" alt="" loading="lazy">
+            </button>
+          </div>
+        </div>
+
+        <div class="buy reveal" style="--d: 80ms">
+          <div>
+            <p class="buy__kind">Sirup</p>
+            <h3>Mojito-Sirup</h3>
+            <p class="buy__text">Mit Minze, die wir selbst einlegen.</p>
+          </div>
+
+          <p class="buy__price" data-price-out>Preis auf Anfrage</p>
+
+          <div class="buy__row">
+            <div class="step" role="group" aria-label="Menge">
+              <button type="button" data-step="-1" aria-label="Menge verringern" disabled>
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10"/></svg>
+              </button>
+              <output aria-live="polite">1</output>
+              <button type="button" data-step="1" aria-label="Menge erhöhen">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg>
+              </button>
+            </div>
+            <button class="btn" type="button" data-add>In den Warenkorb</button>
+          </div>
+
+          <ul class="facts">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14Z"/><path d="M5 19c3-5 6-8 10-10"/></svg>
+              Mit eingelegter Minze
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6v3l1.5 3v10a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V9L9 6V3Z"/><path d="M7.5 13h9"/></svg>
+              Luftdicht verschraubt
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 0 1 13 0C18.500 15.4 12 21 12 21Z"/><circle cx="12" cy="10.500" r="2.300"/></svg>
+              Hergestellt in Wauwil
+            </li>
+          </ul>
+
+          <div class="buy__legal">
+            <a class="more" href="https://special-rups.jimdosite.com/lieferbedingungen/">Lieferbedingungen</a>
+            <a class="more" href="https://special-rups.jimdosite.com/widerrufsrecht/">Widerrufsbelehrung</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Über uns -->
+  <section class="band" id="ueber-uns" aria-labelledby="story-title">
+    <div class="wrap">
+      <h2 class="title reveal" id="story-title">Die ersten Flaschen. <em>Fotos aus der Schulküche in Wauwil.</em></h2>
+
+      <div class="tiles">
+        <figure class="tile tile--wide reveal">
+          <div class="tile__img">
+            <img src="assets/foto-1-schulkueche-800.webp"
+                 srcset="assets/foto-1-schulkueche-800.webp 800w, assets/foto-1-schulkueche-1600.webp 1600w"
+                 sizes="(min-width: 56rem) 62vw, 100vw" width="1600" height="1200" loading="lazy"
+                 alt="Schulküche mit Edelstahlflächen, in der mehrere Personen arbeiten">
+          </div>
           <figcaption>Hier waren wir zum ersten Mal in der Schule von Wauwil und konnten die ersten Flaschen herstellen.</figcaption>
         </figure>
-      </li>
-      <li class="shot" style="--ratio: 1.3333">
-        <figure>
-          <img src="assets/foto-2-minze-800.webp"
-               srcset="assets/foto-2-minze-800.webp 800w, assets/foto-2-minze-1600.webp 1600w"
-               sizes="(min-width: 60rem) 662px, 90vw" width="1600" height="1200" loading="lazy"
-               alt="Frische Minzblätter, in Flüssigkeit eingelegt">
+
+        <div class="tile tile--brand reveal" style="--d: 80ms">
+          <img src="assets/wordmark-640.webp"
+               srcset="assets/wordmark-640.webp 640w, assets/wordmark-1254.webp 1254w"
+               sizes="(min-width: 56rem) 32vw, 50vw" width="1254" height="1254" loading="lazy"
+               alt="Logo: Special Rups, Premium Syrups">
+        </div>
+
+        <figure class="tile tile--tall reveal">
+          <div class="tile__img">
+            <img src="assets/foto-2-minze-800.webp"
+                 srcset="assets/foto-2-minze-800.webp 800w, assets/foto-2-minze-1600.webp 1600w"
+                 sizes="(min-width: 56rem) 32vw, (min-width: 34rem) 50vw, 100vw" width="1600" height="1200" loading="lazy"
+                 alt="Frische Minzblätter, in Flüssigkeit eingelegt">
+          </div>
           <figcaption>Hier haben wir die Minze eingelegt für unseren Mojito-Sirup.</figcaption>
         </figure>
-      </li>
-      <li class="shot" style="--ratio: 0.75">
-        <figure>
-          <img src="assets/foto-3-deckel-800.webp"
-               srcset="assets/foto-3-deckel-800.webp 600w, assets/foto-3-deckel-1600.webp 1200w"
-               sizes="(min-width: 60rem) 372px, 60vw" width="1200" height="1600" loading="lazy"
-               alt="Ein Deckel wird von Hand auf eine gefüllte Sirupflasche geschraubt">
+
+        <figure class="tile tile--tall reveal" style="--d: 80ms">
+          <div class="tile__img">
+            <img src="assets/foto-3-deckel-800.webp"
+                 srcset="assets/foto-3-deckel-800.webp 600w, assets/foto-3-deckel-1600.webp 1200w"
+                 sizes="(min-width: 56rem) 32vw, (min-width: 34rem) 50vw, 100vw" width="1200" height="1600" loading="lazy"
+                 alt="Ein Deckel wird von Hand auf eine gefüllte Sirupflasche geschraubt">
+          </div>
           <figcaption>Die Deckel wurden fest verschraubt, um einen luftdichten Verschluss zu kreieren.</figcaption>
         </figure>
-      </li>
-      <li class="shot" style="--ratio: 0.75">
-        <figure>
-          <img src="assets/foto-4-flaschen-800.webp"
-               srcset="assets/foto-4-flaschen-800.webp 600w, assets/foto-4-flaschen-1600.webp 1200w"
-               sizes="(min-width: 60rem) 372px, 60vw" width="1200" height="1600" loading="lazy"
-               alt="Viele abgefüllte und verschlossene Sirupflaschen in Reihen">
+
+        <figure class="tile tile--tall reveal" style="--d: 160ms">
+          <div class="tile__img">
+            <img src="assets/foto-4-flaschen-800.webp"
+                 srcset="assets/foto-4-flaschen-800.webp 600w, assets/foto-4-flaschen-1600.webp 1200w"
+                 sizes="(min-width: 56rem) 32vw, (min-width: 34rem) 50vw, 100vw" width="1200" height="1600" loading="lazy"
+                 alt="Viele abgefüllte und verschlossene Sirupflaschen in Reihen">
+          </div>
           <figcaption>Das waren die ersten Flaschen von Special Rups.</figcaption>
         </figure>
-      </li>
-    </ul>
+      </div>
+    </div>
   </section>
 
   <!-- Kontakt -->
-  <section class="section wrap contact" id="kontakt" style="padding-top: 0" aria-labelledby="kontakt-title">
-    <div class="reveal">
-      <h2 id="kontakt-title" class="section__title">Nimm Kontakt auf</h2>
-      <p class="contact__lead">Schreib uns. Wir melden uns bei Dir.</p>
+  <section class="band band--grey" id="kontakt" aria-labelledby="kontakt-title">
+    <div class="wrap contact">
+      <div class="reveal">
+        <h2 class="title" id="kontakt-title">Nimm Kontakt auf.</h2>
+        <p class="lead">Fragen, Wünsche oder eine Bestellung: Schreib uns.</p>
+      </div>
+
+      <!-- data-endpoint: Adresse eines Formular-Dienstes (z. B. Formspree). Leer = Formular ist noch nicht verbunden. -->
+      <form class="form reveal" id="form" style="--d: 80ms" novalidate data-endpoint="">
+        <p class="note" id="order-note" hidden>Deine Bestellung steht schon in der Nachricht. Ergänze sie, wenn Du möchtest.</p>
+
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label for="f-email">E-Mail-Adresse <span class="req">(erforderlich)</span></label>
+          <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="f-email-hint">
+          <p class="hint" id="f-email-hint" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="f-phone">Telefonnummer</label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+        </div>
+
+        <div class="field">
+          <label for="f-message">Nachricht <span class="req">(erforderlich)</span></label>
+          <textarea id="f-message" name="message" required aria-describedby="f-message-hint"></textarea>
+          <p class="hint" id="f-message-hint" aria-live="polite"></p>
+        </div>
+
+        <div class="consent">
+          <input id="f-consent" name="consent" type="checkbox" required aria-describedby="f-consent-hint">
+          <label for="f-consent">
+            Durch Klicken des „Abschicken“-Buttons stimme ich zu, dass die im Formular eingegebenen
+            personenbezogenen Daten zur Bearbeitung der Anfrage und der personalisierten Beratung verarbeitet
+            werden. Meine Einwilligungen kann ich jederzeit mit Wirkung für die Zukunft postalisch oder per
+            E-Mail widerrufen. Es gilt unsere
+            <a href="https://special-rups.jimdosite.com/datenschutz/">Datenschutzerklärung</a>.
+          </label>
+          <p class="hint" id="f-consent-hint" aria-live="polite"></p>
+        </div>
+
+        <div class="form__foot">
+          <button class="btn" type="submit">Abschicken</button>
+          <p class="status" id="status" role="status"></p>
+        </div>
+      </form>
     </div>
-
-    <!-- data-endpoint: URL eines Formular-Dienstes (z. B. Formspree). Leer = Formular ist noch nicht verbunden. -->
-    <form class="form reveal" id="form" style="--delay: 80ms" novalidate data-endpoint="">
-      <div class="field">
-        <label for="f-name">Name</label>
-        <input id="f-name" name="name" type="text" autocomplete="name">
-      </div>
-
-      <div class="field">
-        <label for="f-email">E-Mail-Adresse <span class="req">(erforderlich)</span></label>
-        <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="f-email-hint">
-        <p class="hint" id="f-email-hint" aria-live="polite"></p>
-      </div>
-
-      <div class="field">
-        <label for="f-phone">Telefonnummer</label>
-        <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
-      </div>
-
-      <div class="field">
-        <label for="f-message">Nachricht <span class="req">(erforderlich)</span></label>
-        <textarea id="f-message" name="message" required aria-describedby="f-message-hint"></textarea>
-        <p class="hint" id="f-message-hint" aria-live="polite"></p>
-      </div>
-
-      <div class="consent">
-        <input id="f-consent" name="consent" type="checkbox" required aria-describedby="f-consent-hint">
-        <label for="f-consent">
-          Durch Klicken des „Abschicken“-Buttons stimme ich zu, dass die im Formular eingegebenen
-          personenbezogenen Daten zur Bearbeitung der Anfrage und der personalisierten Beratung verarbeitet
-          werden. Meine Einwilligungen kann ich jederzeit mit Wirkung für die Zukunft postalisch oder per
-          E-Mail widerrufen. Es gilt unsere
-          <a href="https://special-rups.jimdosite.com/datenschutz/">Datenschutzerklärung</a>.
-        </label>
-        <p class="hint" id="f-consent-hint" aria-live="polite"></p>
-      </div>
-
-      <div class="form__foot">
-        <button class="btn" type="submit">Abschicken</button>
-        <p class="status" id="status" role="status"></p>
-      </div>
-    </form>
   </section>
 </main>
 
-<footer class="footer">
-  <div class="wrap footer__inner">
-    <p>© <span id="year">2026</span> Special Rups</p>
-    <ul>
-      <li><a href="https://special-rups.jimdosite.com/impressum/">Impressum</a></li>
-      <li><a href="https://special-rups.jimdosite.com/datenschutz/">Datenschutz</a></li>
-      <li><a href="https://special-rups.jimdosite.com/lieferbedingungen/">Lieferbedingungen</a></li>
-      <li><a href="https://special-rups.jimdosite.com/widerrufsrecht/">Widerrufsbelehrung</a></li>
-      <li><a href="https://special-rups.jimdosite.com/agb/">AGB</a></li>
-      <li><a href="https://special-rups.jimdosite.com/gesetzliche-gewaehrleistung/">Gesetzliche Gewährleistung</a></li>
-    </ul>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__in">
+      <p>© <span id="year">2026</span> Special Rups</p>
+      <ul>
+        <li><a href="https://special-rups.jimdosite.com/impressum/">Impressum</a></li>
+        <li><a href="https://special-rups.jimdosite.com/datenschutz/">Datenschutz</a></li>
+        <li><a href="https://special-rups.jimdosite.com/lieferbedingungen/">Lieferbedingungen</a></li>
+        <li><a href="https://special-rups.jimdosite.com/widerrufsrecht/">Widerrufsbelehrung</a></li>
+        <li><a href="https://special-rups.jimdosite.com/agb/">AGB</a></li>
+        <li><a href="https://special-rups.jimdosite.com/gesetzliche-gewaehrleistung/">Gesetzliche Gewährleistung</a></li>
+      </ul>
+    </div>
   </div>
 </footer>
 
+<!-- Warenkorb -->
+<dialog class="bag" id="bag" aria-labelledby="bag-title">
+  <div class="bag__scrim" id="bag-scrim"></div>
+  <div class="bag__panel" id="bag-panel">
+    <div class="bag__grab" id="bag-grab">
+      <div class="bag__handle" aria-hidden="true"></div>
+      <div class="bag__head">
+        <h2 id="bag-title">Warenkorb</h2>
+        <button class="x" id="bag-close" type="button" aria-label="Warenkorb schließen">
+          <span><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.500 1.500l9 9M10.500 1.500l-9 9"/></svg></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="bag__body">
+      <div class="bag__empty" id="bag-empty">
+        <p>Dein Warenkorb ist leer.</p>
+        <button class="btn" type="button" id="bag-shop">Zum Shop</button>
+      </div>
+      <ul id="bag-list" aria-label="Artikel im Warenkorb"></ul>
+    </div>
+
+    <div class="bag__foot" id="bag-foot" hidden>
+      <p class="bag__sum"><span>Zwischensumme</span> <strong id="bag-sum">Preis auf Anfrage</strong></p>
+      <button class="btn btn--wide" type="button" id="bag-order">Bestellung anfragen</button>
+      <p class="bag__small">Du schickst uns eine Anfrage über das Kontaktformular. Bezahlt wird hier noch nichts.</p>
+    </div>
+  </div>
+</dialog>
+
 <script>
 (() => {
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  document.getElementById('year').textContent = new Date().getFullYear();
+  const $ = (id) => document.getElementById(id);
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const phone = matchMedia('(max-width: 40rem)');
+  const money = new Intl.NumberFormat('de-CH', { style: 'currency', currency: 'CHF' });
+  const ASK = 'Preis auf Anfrage';
 
-  /* Nav hairline appears only once content sits underneath the bar */
-  const nav = document.getElementById('nav');
-  const onScroll = () => nav.toggleAttribute('data-scrolled', scrollY > 4);
-  addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  $('year').textContent = new Date().getFullYear();
 
-  /* Reveal on scroll */
-  const reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        e.target.classList.add('is-in');
-        io.unobserve(e.target);
-      }
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    reveals.forEach((el) => io.observe(el));
-  } else {
-    reveals.forEach((el) => el.classList.add('is-in'));
+  /* ================= Scroll: reveals and the statement =================
+     Nothing is hidden until the visitor scrolls for the first time, so the page is complete at rest. */
+  const say = $('say');
+  let words = [];
+  let sayLive = false;
+
+  function paintSay() {
+    const r = say.getBoundingClientRect();
+    const vh = innerHeight;
+    const p = Math.max(0, Math.min(1, (vh * 0.86 - r.top) / (r.height + vh * 0.42)));
+    const head = p * (words.length + 3);                    // a soft front, about three words wide
+    words.forEach((w, i) => { w.style.opacity = String(Math.max(0.16, Math.min(1, head - i))); });
   }
 
-  /* Gallery: the browser's scroller does the physics; we only read position and offer buttons */
-  const track = document.getElementById('track');
-  const shots = [...track.querySelectorAll('.shot')];
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
-  const count = document.getElementById('count');
-  let index = 0;
-
-  const edge = () => parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
-  const targetFor = (i) => shots[i].offsetLeft - track.offsetLeft - edge();
-
-  function readIndex() {
-    const max = track.scrollWidth - track.clientWidth;
-    let best = 0;
-    if (max > 0 && track.scrollLeft >= max - 2) {
-      best = shots.length - 1;                      // at the very end the last photo counts as current
-    } else {
-      let dist = Infinity;
-      shots.forEach((s, i) => {
-        const d = Math.abs(targetFor(i) - track.scrollLeft);
-        if (d < dist) { dist = d; best = i; }
+  function arm() {
+    const vh = innerHeight;
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+      document.querySelectorAll('.reveal').forEach((el) => {
+        if (el.getBoundingClientRect().top > vh) { el.classList.add('pre'); io.observe(el); }
       });
     }
-    index = best;
-    count.textContent = `${index + 1} / ${shots.length}`;
-    prev.disabled = track.scrollLeft <= 2;
-    next.disabled = max <= 0 || track.scrollLeft >= max - 2;
+    if (!calm.matches && say.getBoundingClientRect().bottom > 0) {          // the 240ms word fade keeps this gentle if it is in view
+      say.innerHTML = say.textContent.trim().split(/\s+/).map((w) => `<span>${w}</span>`).join(' ');
+      words = [...say.children];
+      sayLive = true;
+      paintSay();
+    }
   }
 
-  let ticking = false;
-  track.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => { readIndex(); ticking = false; });
+  let armed = false, queued = false;
+  addEventListener('scroll', () => {
+    if (!armed) { armed = true; arm(); }
+    if (!sayLive || queued) return;
+    queued = true;
+    requestAnimationFrame(() => { paintSay(); queued = false; });
   }, { passive: true });
-  addEventListener('resize', readIndex);
-  readIndex();
+  addEventListener('resize', () => { if (sayLive) paintSay(); });
 
-  function go(step) {
-    /* Step from where the scroller actually is, so it also works at the end, where several photos are in view */
-    const here = track.scrollLeft;
-    const targets = shots.map((_, i) => targetFor(i));
-    const left = step > 0
-      ? targets.find((t) => t > here + 2) ?? here
-      : targets.filter((t) => t < here - 2).pop() ?? 0;
-    track.scrollTo({ left, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+  /* ================= Bag state ================= */
+  const KEY = 'special-rups-bag';
+  const catalog = new Map();
+  document.querySelectorAll('.product').forEach((el) => {
+    const price = parseFloat(el.dataset.price);
+    catalog.set(el.dataset.id, { id: el.dataset.id, name: el.dataset.name, price: Number.isFinite(price) ? price : null, thumb: el.dataset.thumb });
+  });
+
+  let bag = {};                                             // { productId: quantity }
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+    for (const [id, n] of Object.entries(saved)) if (catalog.has(id) && n > 0) bag[id] = Math.min(99, Math.floor(n));
+  } catch { /* storage unavailable: the bag simply starts empty */ }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(bag)); } catch { /* ignore */ } };
+
+  const priceText = (p, n = 1) => p.price === null ? ASK : money.format(p.price * n);
+  const lines = () => Object.entries(bag).map(([id, n]) => ({ ...catalog.get(id), n }));
+  const total = () => lines().reduce((s, l) => s + l.n, 0);
+
+  const stepIcon = (d) => `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="${d}"/></svg>`;
+
+  function renderBag(bump) {
+    const ls = lines(), n = total();
+    $('bag-n').textContent = n;
+    $('bag-n').hidden = n === 0;
+    $('bag-open').setAttribute('aria-label', n === 0 ? 'Warenkorb öffnen, leer' : `Warenkorb öffnen, ${n} Artikel`);
+    if (bump && n > 0) { $('bag-n').classList.remove('bump'); void $('bag-n').offsetWidth; $('bag-n').classList.add('bump'); }
+
+    $('bag-empty').hidden = n > 0;
+    $('bag-foot').hidden = n === 0;
+    $('bag-list').innerHTML = ls.map((l) => `
+      <li class="item" data-id="${l.id}">
+        <img src="${l.thumb}" alt="" width="72" height="72">
+        <div>
+          <p class="item__name">${l.name}</p>
+          <p class="item__price">${priceText(l, l.n)}</p>
+        </div>
+        <div class="item__row">
+          <div class="step" role="group" aria-label="Menge ${l.name}">
+            <button type="button" data-q="-1" aria-label="Menge verringern"${l.n <= 1 ? ' disabled' : ''}>${stepIcon('M3 8h10')}</button>
+            <output>${l.n}</output>
+            <button type="button" data-q="1" aria-label="Menge erhöhen"${l.n >= 99 ? ' disabled' : ''}>${stepIcon('M3 8h10M8 3v10')}</button>
+          </div>
+          <button class="item__del" type="button" data-del>Entfernen</button>
+        </div>
+      </li>`).join('');
+    $('bag-sum').textContent = ls.length && ls.every((l) => l.price !== null)
+      ? money.format(ls.reduce((s, l) => s + l.price * l.n, 0)) : ASK;
   }
-  prev.addEventListener('click', () => go(-1));
-  next.addEventListener('click', () => go(1));
 
-  /* Contact form: validate inline, not only on submit */
-  const form = document.getElementById('form');
-  const status = document.getElementById('status');
+  $('bag-list').addEventListener('click', (e) => {
+    const li = e.target.closest('.item'); if (!li) return;
+    const id = li.dataset.id;
+    const q = e.target.closest('[data-q]');
+    if (q) bag[id] = Math.max(1, Math.min(99, bag[id] + Number(q.dataset.q)));
+    else if (e.target.closest('[data-del]')) delete bag[id];
+    else return;
+    save(); renderBag(false);
+    if (!total()) $('bag-close').focus();
+  });
+
+  /* ================= Bag sheet =================
+     Opens from the edge it leaves through. A CSS transition always starts from the value on screen,
+     so opening, closing and reopening can interrupt each other at any moment. */
+  const dlg = $('bag'), panel = $('bag-panel'), scrim = $('bag-scrim');
+  let closeTimer = 0;
+
+  function openBag() {
+    clearTimeout(closeTimer);
+    if (!dlg.open) dlg.showModal();
+    void panel.offsetWidth;                                 // commit the closed position before animating
+    dlg.classList.add('is-open');
+  }
+  function closeBag(ms) {
+    if (!dlg.open) return;
+    dlg.classList.remove('is-open');
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => { panel.style.transitionDuration = ''; dlg.close(); }, calm.matches ? 160 : (ms ?? 480));
+  }
+
+  $('bag-open').addEventListener('click', openBag);
+  $('bag-close').addEventListener('click', () => closeBag());
+  scrim.addEventListener('click', () => closeBag());
+  dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeBag(); });   // Esc closes with the same motion
+  $('bag-shop').addEventListener('click', () => { closeBag(); location.hash = 'shop'; });
+
+  /* Phone: drag the sheet down by its header. It tracks the finger 1:1, resists when pulled up,
+     and on release the throw decides (projected resting point), not just the distance. */
+  const grab = $('bag-grab');
+  let drag = null;
+  const project = (v, rate = 0.998) => (v / 1000) * rate / (1 - rate);
+  const band = (over, dim, c = 0.55) => (over * dim * c) / (dim + c * Math.abs(over));
+
+  grab.addEventListener('pointerdown', (e) => {
+    if (!phone.matches || e.target.closest('button') || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    grab.setPointerCapture(e.pointerId);
+    drag = { id: e.pointerId, y0: e.clientY, h: panel.offsetHeight, y: 0, hist: [{ t: e.timeStamp, y: 0 }] };
+    panel.style.transition = 'none';
+    scrim.style.transition = 'none';
+  });
+  grab.addEventListener('pointermove', (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const raw = e.clientY - drag.y0;
+    drag.y = raw >= 0 ? raw : band(raw, drag.h);
+    drag.hist.push({ t: e.timeStamp, y: drag.y });
+    if (drag.hist.length > 6) drag.hist.shift();
+    panel.style.transform = `translateY(${drag.y}px)`;
+    scrim.style.opacity = String(Math.max(0, 1 - drag.y / drag.h));
+  });
+  const release = (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const a = drag.hist[0], b = drag.hist[drag.hist.length - 1];
+    const v = b.t > a.t && e.timeStamp - b.t < 80 ? ((b.y - a.y) / (b.t - a.t)) * 1000 : 0;   // px/s, down is positive
+    const { y, h } = drag;
+    drag = null;
+    const leave = e.type !== 'pointercancel' && y + project(v) > h * 0.5;
+    const rest = leave ? h - y : Math.abs(y);
+    const ms = Math.round(Math.max(200, Math.min(480, Math.abs(v) > 50 ? (rest / Math.abs(v)) * 1000 * 2.2 : 480)));
+    panel.style.transition = '';
+    panel.style.transitionDuration = ms + 'ms';             // a fast throw lands sooner
+    scrim.style.transition = '';
+    panel.style.transform = '';
+    scrim.style.opacity = '';
+    if (leave) closeBag(ms);
+    else setTimeout(() => { if (!drag) panel.style.transitionDuration = ''; }, ms);
+  };
+  grab.addEventListener('pointerup', release);
+  grab.addEventListener('pointercancel', release);
+
+  /* ================= Product ================= */
+  document.querySelectorAll('.product').forEach((el) => {
+    const p = catalog.get(el.dataset.id);
+    const out = el.querySelector('.step output');
+    const [minus, plus] = el.querySelectorAll('[data-step]');
+    const add = el.querySelector('[data-add]');
+    let qty = 1, addTimer = 0;
+
+    el.querySelector('[data-price-out]').textContent = priceText(p);
+
+    el.querySelector('.step').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-step]'); if (!b) return;
+      qty = Math.max(1, Math.min(99, qty + Number(b.dataset.step)));
+      out.textContent = qty;
+      minus.disabled = qty <= 1; plus.disabled = qty >= 99;
+    });
+
+    add.addEventListener('click', () => {
+      bag[p.id] = Math.min(99, (bag[p.id] || 0) + qty);
+      save(); renderBag(true);
+      add.textContent = 'Hinzugefügt';
+      clearTimeout(addTimer);
+      addTimer = setTimeout(() => { add.textContent = 'In den Warenkorb'; }, 1800);
+      qty = 1; out.textContent = 1; minus.disabled = true; plus.disabled = false;
+      openBag();
+    });
+
+    const shots = [...el.querySelectorAll('.stage img')];
+    const thumbs = [...el.querySelectorAll('.thumb')];
+    thumbs.forEach((t, i) => t.addEventListener('click', () => {
+      shots.forEach((s, j) => s.classList.toggle('is-on', i === j));
+      thumbs.forEach((x, j) => x.setAttribute('aria-pressed', String(i === j)));
+    }));
+  });
+
+  /* ================= Order request: the bag becomes the message ================= */
+  const msg = $('f-message');
+  let filled = '';
+  $('bag-order').addEventListener('click', () => {
+    const text = 'Bestellanfrage\n' + lines().map((l) => `${l.n} × ${l.name}`).join('\n') + '\n\n';
+    if (!msg.value.trim() || msg.value === filled) { msg.value = text; }
+    else if (!msg.value.includes('Bestellanfrage')) { msg.value = text + msg.value; }
+    filled = msg.value;
+    $('order-note').hidden = false;
+    closeBag();
+    $('kontakt').scrollIntoView({ behavior: calm.matches ? 'auto' : 'smooth', block: 'start' });
+    setTimeout(() => $('f-name').focus({ preventScroll: true }), calm.matches ? 0 : 600);
+  });
+
+  /* ================= Contact form: validate while filling in, not only on submit ================= */
+  const form = $('form'), status = $('status');
   const submit = form.querySelector('button[type="submit"]');
   const checks = {
     'f-email': (el) => !el.value.trim() ? 'Bitte gib Deine E-Mail-Adresse an.'
@@ -687,53 +972,50 @@ h1, h2, p, figure { margin: 0; }
     'f-message': (el) => el.value.trim() ? '' : 'Bitte schreib uns eine Nachricht.',
     'f-consent': (el) => el.checked ? '' : 'Bitte stimme der Verarbeitung Deiner Daten zu.',
   };
-
   function validate(id) {
-    const el = document.getElementById(id);
-    const msg = checks[id](el);
-    document.getElementById(id + '-hint').textContent = msg;
-    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
-    return !msg;
+    const el = $(id), text = checks[id](el);
+    $(id + '-hint').textContent = text;
+    el.setAttribute('aria-invalid', text ? 'true' : 'false');
+    return !text;
   }
   for (const id of Object.keys(checks)) {
-    const el = document.getElementById(id);
+    const el = $(id);
     el.addEventListener('blur', () => validate(id));
     el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', () => {
-      if (el.getAttribute('aria-invalid') === 'true') validate(id);   // clear the error as soon as it's fixed
+      if (el.getAttribute('aria-invalid') === 'true') validate(id);       // the error leaves as soon as it is fixed
     });
   }
-
-  function say(kind, text) { status.dataset.kind = kind; status.textContent = text; }
+  const tell = (kind, text) => { status.dataset.kind = kind; status.textContent = text; };
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    say('', '');
+    tell('', '');
     const bad = Object.keys(checks).filter((id) => !validate(id));
-    if (bad.length) { document.getElementById(bad[0]).focus(); return; }
+    if (bad.length) { $(bad[0]).focus(); return; }
 
     const endpoint = form.dataset.endpoint;
     if (!endpoint) {
-      say('error', 'Das Formular ist noch nicht mit einem Postfach verbunden. Die Nachricht wurde nicht gesendet.');
+      tell('error', 'Das Formular ist noch nicht mit einem Postfach verbunden. Die Nachricht wurde nicht gesendet.');
       return;
     }
-
     submit.disabled = true;
-    say('', 'Wird gesendet …');
+    tell('', 'Wird gesendet …');
     try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form),
-      });
+      const res = await fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
       if (!res.ok) throw new Error(String(res.status));
+      const wasOrder = !$('order-note').hidden;
       form.reset();
-      say('ok', 'Danke! Deine Nachricht ist bei uns angekommen.');
+      $('order-note').hidden = true;
+      if (wasOrder) { bag = {}; save(); renderBag(false); }      // the order is on its way, so the bag empties
+      tell('ok', 'Danke! Deine Nachricht ist bei uns angekommen.');
     } catch {
-      say('error', 'Das hat leider nicht geklappt. Bitte versuch es später noch einmal.');
+      tell('error', 'Das hat leider nicht geklappt. Bitte versuch es später noch einmal.');
     } finally {
       submit.disabled = false;
     }
   });
+
+  renderBag(false);
 })();
 </script>
 </body>
