@@ -185,33 +185,57 @@
     </div>
   </section>
 
-  <!-- Referenzen -->
-  <section class="section refs on-dark">
-    <div class="shell">
-      <div class="section-head section-head--stack" data-reveal>
-        <p class="eyebrow">Referenzen</p>
-        <h2 class="display">Dein Auftritt. Auf <em>jedem</em> Gerät.</h2>
-        <p class="lead">Eine Website muss nicht nur gut aussehen. Sie muss überall überzeugen.</p>
+  <!-- Referenzen: Scroll-Szene -->
+  <section class="showcase on-dark" id="referenzen" data-showcase aria-labelledby="showcase-titel">
+    <div class="showcase__sticky">
+      <div class="shell showcase__layout">
+        <div class="showcase__copy">
+          <p class="eyebrow">Referenzen</p>
+          <h2 class="display" id="showcase-titel">Dein Auftritt. Auf<br><em>jedem</em> Gerät.</h2>
+          <p class="lead">Eine Website muss nicht nur gut aussehen. Sie muss überall überzeugen. Scrolle durch drei echte KWS-Referenzen.</p>
+
+          <ol class="showcase__list">
+          <li><button class="showcase__item" type="button" data-ref="swisscarpoint" data-domain="swisscarpoint.ch" data-caption="Fahrzeugservice · Premium, dunkel, präzise" aria-current="true"><small>01 · Fahrzeugservice</small><strong>Swiss Carpoint</strong><span>Premium, dunkel, präzise</span><i class="showcase__bar" aria-hidden="true"><b></b></i></button></li>
+          <li><button class="showcase__item" type="button" data-ref="logistikexperte" data-domain="logistikexperte.ch" data-caption="Bildung &amp; Beratung · Klar, kompetent, praxisnah"><small>02 · Bildung &amp; Beratung</small><strong>Logistikexperte</strong><span>Klar, kompetent, praxisnah</span><i class="showcase__bar" aria-hidden="true"><b></b></i></button></li>
+          <li><button class="showcase__item" type="button" data-ref="selimi" data-domain="selimi.ch" data-caption="Personal Branding · Editorial, persönlich, klar"><small>03 · Personal Branding</small><strong>Sadri Selimi</strong><span>Editorial, persönlich, klar</span><i class="showcase__bar" aria-hidden="true"><b></b></i></button></li>
+          </ol>
+          <p class="showcase__caption" data-showcase-caption>Fahrzeugservice · Premium, dunkel, präzise</p>
+
+          <a class="text-link showcase__link" data-showcase-link href="https://swisscarpoint.ch" target="_blank" rel="noopener"><span data-showcase-domain>swisscarpoint.ch</span> ansehen <svg class="icon"><use href="#i-go"/></svg></a>
+        </div>
+
+        <div class="showcase__stage" data-showcase-stage>
+        <figure class="device is-active" data-ref="swisscarpoint">
+          <div class="browser">
+            <div class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span>swisscarpoint.ch</span></div>
+            <div class="view"><img src="assets/refs/swisscarpoint-desktop-lang.webp" width="1200" height="3639" loading="lazy" decoding="async" alt="Die Website von Swiss Carpoint auf dem Desktop, von oben nach unten."></div>
+          </div>
+          <div class="phone">
+            <div class="view"><img src="assets/refs/swisscarpoint-mobile-lang.webp" width="480" height="4677" loading="lazy" decoding="async" alt="Die Website von Swiss Carpoint auf dem Smartphone, von oben nach unten."></div>
+          </div>
+        </figure>
+        <figure class="device" data-ref="logistikexperte">
+          <div class="browser">
+            <div class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span>logistikexperte.ch</span></div>
+            <div class="view"><img src="assets/refs/logistikexperte-desktop-lang.webp" width="1200" height="2888" loading="lazy" decoding="async" alt="Die Website von Logistikexperte auf dem Desktop, von oben nach unten."></div>
+          </div>
+          <div class="phone">
+            <div class="view"><img src="assets/refs/logistikexperte-mobile-lang.webp" width="480" height="4677" loading="lazy" decoding="async" alt="Die Website von Logistikexperte auf dem Smartphone, von oben nach unten."></div>
+          </div>
+        </figure>
+        <figure class="device" data-ref="selimi">
+          <div class="browser">
+            <div class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span>selimi.ch</span></div>
+            <div class="view"><img src="assets/refs/selimi-desktop-lang.webp" width="1200" height="4500" loading="lazy" decoding="async" alt="Die Website von Sadri Selimi auf dem Desktop, von oben nach unten."></div>
+          </div>
+          <div class="phone">
+            <div class="view"><img src="assets/refs/selimi-mobile-lang.webp" width="480" height="4677" loading="lazy" decoding="async" alt="Die Website von Sadri Selimi auf dem Smartphone, von oben nach unten."></div>
+          </div>
+        </figure>
+        </div>
       </div>
 
-      <div class="ref-cards">
-        <a class="ref-card" href="referenzen.html" data-reveal style="--i:0">
-          <img src="assets/refs/swisscarpoint-desktop.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Startseite von Swiss Carpoint auf dem Desktop: dunkler Auftritt mit goldener Überschrift «Exzellenter Service für Ihr Auto».">
-          <span class="ref-card__body"><small>Fahrzeugservice</small><strong>Swiss Carpoint</strong><span>Premium, dunkel, präzise</span></span>
-        </a>
-        <a class="ref-card" href="referenzen.html" data-reveal style="--i:1">
-          <img src="assets/refs/logistikexperte-desktop.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Startseite von Logistikexperte auf dem Desktop: heller Auftritt mit der Überschrift «Praxisnahe Bildung und Beratung für die Logistik in der Schweiz».">
-          <span class="ref-card__body"><small>Bildung &amp; Beratung</small><strong>Logistikexperte</strong><span>Klar, kompetent, praxisnah</span></span>
-        </a>
-        <a class="ref-card" href="referenzen.html" data-reveal style="--i:2">
-          <img src="assets/refs/selimi-desktop.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Startseite von Sadri Selimi auf dem Desktop: redaktioneller Auftritt mit der Überschrift «Praxis verstehen. Bildung gestalten. Zukunft entwickeln.».">
-          <span class="ref-card__body"><small>Personal Branding</small><strong>Sadri Selimi</strong><span>Editorial, persönlich, klar</span></span>
-        </a>
-      </div>
-
-      <div class="section-foot" data-reveal>
-        <a class="text-link" href="referenzen.html">Alle Referenzen ansehen <svg class="icon"><use href="#i-right"/></svg></a>
-      </div>
+      <div class="showcase__cue" aria-hidden="true"><span>Weiter scrollen</span><i></i></div>
     </div>
   </section>
 

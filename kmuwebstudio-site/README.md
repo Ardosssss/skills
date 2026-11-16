@@ -6,7 +6,7 @@ Statische, überarbeitete Fassung von [kmuwebstudio.ch](https://kmuwebstudio.ch/
 
 | Datei | Inhalt |
 | --- | --- |
-| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, drei Referenzen, Manifest, Abschluss |
+| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen als Scroll-Szene, Manifest, Abschluss |
 | `angebot.html` | Website-Paket mit Fixpreis und Leistungen, Konfigurator |
 | `ablauf.html` | Vier Schritte, häufige Fragen |
 | `referenzen.html` | Drei Referenzen auf Desktop und Smartphone zum Umschalten |
@@ -23,6 +23,15 @@ python3 -m http.server 8000
 ```
 
 Kopfzeile, Fusszeile und Symbole stehen in jeder HTML-Datei. Wer dort etwas ändert, ändert es in allen sieben Dateien.
+
+## Referenzen als Scroll-Szene
+
+Auf der Startseite bleibt die Bühne mit Browser- und Handyrahmen stehen, während man scrollt. Jede der drei Referenzen hat einen eigenen Scroll-Abschnitt; in ihm läuft die Website einmal von oben nach unten durch beide Rahmen. Die Liste links zeigt mit einem Balken, wie weit man ist; ein Klick auf einen Eintrag springt zu dieser Referenz.
+
+- Die Bilder sind lange Bildschirmfotos: `assets/refs/<name>-desktop-lang.webp` (1200 px breit) und `<name>-mobile-lang.webp` (480 px breit). Ersetzt man ein Bild, im `<img>` in `index.html` die Höhe anpassen.
+- Eine weitere Referenz braucht einen Eintrag in der Liste (`.showcase__item`) und ein Gerät (`.device`) in `index.html` sowie in `assets/site.css` die Zahl in `height: calc(100svh + 3 * 120svh)`.
+- Bei «Bewegung reduzieren», ohne JavaScript und auf sehr niedrigen Bildschirmen (unter 600 px Höhe) stehen die drei Geräte stattdessen ruhig untereinander.
+- Die Seite `referenzen.html` zeigt dieselben Referenzen zum direkten Umschalten per Klick.
 
 ## Anfrageformular
 
@@ -78,7 +87,7 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 | Preis im Hero als kleiner, drehender Kreis | Klare Preiskarte, die zum Angebot führt | Der Fixpreis ist das stärkste Argument |
 | Karten mit Pfeil, der wie ein Link aussieht, aber nichts tut | Karten mit Symbol | Keine falschen Klickziele |
 | Schwebende Module überlagern die Preiskarte | Module als geordnetes Raster | Der Preis ist ungestört lesbar |
-| Referenzen: 270 % Bildschirmhöhe mit Scroll-Zwang, nachgebaute Attrappen | Echte Bildschirmfotos im Browser- und Handyrahmen | Schneller, ehrlicher, weniger Scrollen |
+| Referenzen: nachgebaute Attrappen einer einzigen Seite | Scroll-Szene mit den echten Websites aller drei Referenzen, von oben bis unten | Zeigt die tatsächliche Arbeit |
 | Deko-Leiste, Fortschrittsbalken, magnetische Buttons, «Project Lab» | Entfernt | Weniger Ablenkung |
 
 ## Bedienung und Zugänglichkeit
@@ -95,4 +104,4 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 - **Versand:** Ohne eingetragenen Formular-Dienst geht keine Anfrage direkt per E-Mail ein (siehe oben).
 - **Datenschutz:** Abschnitt 4 nennt den Formular-Dienst noch nicht beim Namen; sobald er feststeht, dort eintragen. Abschnitt 3 nennt ChatGPT Sites als Hosting und muss bei einem Wechsel des Hosts angepasst werden.
 - **Live-Seite:** Dieser Ordner ist ein eigenständiger Nachbau. Er ersetzt die Live-Seite erst, wenn er veröffentlicht wird.
-- **Referenzbilder:** Momentaufnahmen. Ändert sich eine Referenzseite, die Bilder in `assets/refs/` ersetzen (Desktop 1440 × 900, Smartphone 390 × 844).
+- **Referenzbilder:** Momentaufnahmen vom 16. November 2026. Ändert sich eine Referenzseite, die Bilder in `assets/refs/` ersetzen.

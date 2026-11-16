@@ -164,6 +164,142 @@
     });
   }
 
+  /* ---------- Referenzen als Scroll-Szene (Startseite) ----------
+     Die Bühne bleibt stehen, während man scrollt. Jede Referenz hat
+     einen eigenen Scroll-Abschnitt; in ihm läuft die Seite einmal von
+     oben nach unten durch Browser- und Handyrahmen. */
+
+  var showcase = $("[data-showcase]");
+  if (showcase) {
+    var scItems = $$(".showcase__item", showcase);
+    var scDevices = $$(".device", showcase);
+    var scStage = $("[data-showcase-stage]", showcase);
+    var scCue = $(".showcase__cue", showcase);
+    var scLink = $("[data-showcase-link]", showcase);
+    var scDomain = $("[data-showcase-domain]", showcase);
+    var scCaption = $("[data-showcase-caption]", showcase);
+    var scBars = scItems.map(function (item) { return $(".showcase__bar b", item); });
+    var scShots = scDevices.map(function (device) {
+      return $$(".view", device).map(function (view) {
+        return { view: view, img: $("img", view), max: 0, current: 0, target: 0 };
+      });
+    });
+    var scCount = scDevices.length;
+    var scMode = window.matchMedia("(prefers-reduced-motion: no-preference) and (min-height: 600px)");
+    var scOn = false;
+    var scActive = 0;
+    var scFrame = 0;
+    var clamp01 = function (value) { return Math.max(0, Math.min(1, value)); };
+
+    var scSetActive = function (index) {
+      if (index === scActive) return;
+      scActive = index;
+      scDevices.forEach(function (device, i) { device.classList.toggle("is-active", i === index); });
+      scItems.forEach(function (item, i) {
+        if (i === index) item.setAttribute("aria-current", "true"); else item.removeAttribute("aria-current");
+      });
+      var item = scItems[index];
+      scLink.href = "https://" + item.getAttribute("data-domain");
+      scDomain.textContent = item.getAttribute("data-domain");
+      scCaption.textContent = item.getAttribute("data-caption");
+    };
+
+    var scMeasure = function () {
+      scShots.forEach(function (shots) {
+        shots.forEach(function (shot) {
+          shot.max = Math.max(0, shot.img.offsetHeight - shot.view.clientHeight);
+        });
+      });
+    };
+
+    var scPaint = function () {
+      var moving = false;
+      scShots.forEach(function (shots, i) {
+        shots.forEach(function (shot) {
+          /* Nur die sichtbare Referenz gleitet nach; die anderen springen. */
+          var delta = shot.target - shot.current;
+          if (i !== scActive || Math.abs(delta) < 0.5) shot.current = shot.target;
+          else { shot.current += delta * 0.2; moving = true; }
+          shot.img.style.transform = "translate3d(0," + (-shot.current).toFixed(1) + "px,0)";
+        });
+      });
+      scFrame = moving ? window.requestAnimationFrame(scPaint) : 0;
+    };
+
+    var scUpdate = function () {
+      if (!scOn) return;
+      var rect = showcase.getBoundingClientRect();
+      var viewport = window.innerHeight;
+      var scrollable = Math.max(1, rect.height - viewport);
+      var progress = clamp01(-rect.top / scrollable);
+
+      /* Anflug: Die Bühne richtet sich auf, während der Abschnitt ins Bild kommt. */
+      var approach = 1 - clamp01((viewport - rect.top) / viewport);
+      var tilt = approach * approach;
+      scStage.style.transform = tilt > 0.001
+        ? "perspective(1600px) rotateX(" + (9 * tilt).toFixed(2) + "deg) rotateY(" + (-14 * tilt).toFixed(2) + "deg) scale(" + (1 - 0.1 * tilt).toFixed(3) + ")"
+        : "";
+
+      var position = progress * scCount;
+      var index = Math.min(scCount - 1, Math.floor(position));
+      var local = clamp01(position - index);
+      scSetActive(index);
+      if (scCue) scCue.classList.toggle("is-hidden", progress > 0.03);
+
+      scBars.forEach(function (bar, i) {
+        var fill = i < index ? 1 : i === index ? local : 0;
+        bar.style.transform = "scaleX(" + fill.toFixed(3) + ")";
+      });
+
+      /* Kurz stehen bleiben am Anfang und am Ende jeder Referenz. */
+      var travel = clamp01((local - 0.07) / 0.83);
+      scShots.forEach(function (shots, i) {
+        var amount = i < index ? 1 : i === index ? travel : 0;
+        shots.forEach(function (shot) { shot.target = shot.max * amount; });
+      });
+      if (!scFrame) scFrame = window.requestAnimationFrame(scPaint);
+    };
+
+    var scEnable = function (on) {
+      scOn = on;
+      showcase.classList.toggle("is-scrolly", on);
+      if (on) {
+        scMeasure();
+        scUpdate();
+      } else {
+        window.cancelAnimationFrame(scFrame);
+        scFrame = 0;
+        scStage.style.transform = "";
+        scShots.forEach(function (shots) {
+          shots.forEach(function (shot) { shot.current = shot.target = 0; shot.img.style.transform = ""; });
+        });
+        scBars.forEach(function (bar) { bar.style.transform = ""; });
+      }
+    };
+
+    scItems.forEach(function (item, i) {
+      item.addEventListener("click", function () {
+        if (!scOn) {
+          scDevices[i].scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "center" });
+          return;
+        }
+        var rect = showcase.getBoundingClientRect();
+        var scrollable = rect.height - window.innerHeight;
+        window.scrollTo({ top: window.scrollY + rect.top + scrollable * ((i + 0.03) / scCount), behavior: "smooth" });
+      });
+    });
+
+    window.addEventListener("scroll", scUpdate, { passive: true });
+    window.addEventListener("resize", function () { if (scOn) { scMeasure(); scUpdate(); } });
+    scShots.forEach(function (shots) {
+      shots.forEach(function (shot) {
+        shot.img.addEventListener("load", function () { if (scOn) { scMeasure(); scUpdate(); } });
+      });
+    });
+    scMode.addEventListener("change", function () { scEnable(scMode.matches); });
+    scEnable(scMode.matches);
+  }
+
   /* ---------- Konfigurator ---------- */
 
   var configSummary = "";
