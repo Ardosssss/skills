@@ -2,6 +2,24 @@
 (function () {
   "use strict";
 
+  /* ==========================================================
+     Versand des Anfrageformulars – hier einrichten
+     ----------------------------------------------------------
+     endpoint:  Adresse, an die das Formular gesendet wird,
+                z. B. "https://api.web3forms.com/submit".
+     accessKey: Schlüssel des Formular-Dienstes (bei Web3Forms
+                der «Access Key»). Leer lassen, wenn der Dienst
+                keinen braucht.
+     Solange endpoint leer ist, öffnet das Formular stattdessen
+     das Mailprogramm der Besucherin oder des Besuchers.
+     ========================================================== */
+  var ANFRAGE = {
+    endpoint: "",
+    accessKey: "",
+    email: "hallo@kmuwebstudio.ch",
+    subject: "Neue Anfrage über kmuwebstudio.ch"
+  };
+
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -43,23 +61,6 @@
       if (toggle.getAttribute("aria-expanded") === "true" && !header.contains(event.target)) setMenu(false);
     });
     window.matchMedia("(min-width: 1041px)").addEventListener("change", function () { setMenu(false); });
-  }
-
-  /* Aktiver Abschnitt in der Navigation */
-
-  var navLinks = $$(".nav a[href^='#']");
-  if (navLinks.length && "IntersectionObserver" in window) {
-    var byId = {};
-    navLinks.forEach(function (link) { byId[link.getAttribute("href").slice(1)] = link; });
-    var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        navLinks.forEach(function (link) { link.removeAttribute("aria-current"); });
-        var active = byId[entry.target.id];
-        if (active) active.setAttribute("aria-current", "true");
-      });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-    $$("main section[id]").forEach(function (section) { spy.observe(section); });
   }
 
   /* ---------- Hintergrundvideo ---------- */
@@ -165,6 +166,7 @@
 
   /* ---------- Konfigurator ---------- */
 
+  var configSummary = "";
   var config = $("[data-config]");
   if (config) {
     var MAX_PAGES = 4;
@@ -173,7 +175,6 @@
     var steps = $$(".config__step", config);
     var progress = $("[data-config-progress]", config);
     var nextButton = $("[data-config-next]", config);
-    var sendLink = $("[data-config-send]", config);
     var mock = function (name) { return $("[data-mock='" + name + "']"); };
     var out = function (name) { return $("[data-out='" + name + "']", config); };
 
@@ -219,12 +220,11 @@
         });
       }
 
-      var body = "Hallo KWS\n\nIch interessiere mich für eine Website.\n\n" +
+      /* Auswahl für das Anfragefenster */
+      configSummary = "Meine Website-Idee\n" +
         "Branche: " + (state.industry || "noch offen") + "\n" +
         "Ziel: " + (state.goal || "noch offen") + "\n" +
-        "Seiten: " + (pages.join(", ") || "noch offen") + "\n\n" +
-        "Bitte nehmt mit mir Kontakt auf.";
-      sendLink.href = "mailto:hallo@kmuwebstudio.ch?subject=" + encodeURIComponent("Meine Website-Idee") + "&body=" + encodeURIComponent(body);
+        "Seiten: " + (pages.join(", ") || "noch offen") + "\n\n";
     };
 
     var goTo = function (step) {
@@ -242,7 +242,7 @@
     };
 
     config.addEventListener("click", function (event) {
-      var target = event.target.closest("button, a");
+      var target = event.target.closest("button");
       if (!target || !config.contains(target)) return;
 
       if (target.hasAttribute("data-industry")) {
@@ -278,26 +278,283 @@
 
   /* ---------- E-Mail kopieren ---------- */
 
-  $$("[data-copy]").forEach(function (button) {
-    var label = $("[data-copy-label]", button);
-    var original = label.textContent;
-    var timer = 0;
-    button.addEventListener("click", function () {
-      var text = button.getAttribute("data-copy");
-      var done = function () {
-        button.classList.add("is-done");
-        label.textContent = "Kopiert";
-        window.clearTimeout(timer);
-        timer = window.setTimeout(function () {
-          button.classList.remove("is-done");
-          label.textContent = original;
-        }, 2200);
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(done, function () { window.location.href = "mailto:" + text; });
-      } else {
-        window.location.href = "mailto:" + text;
-      }
+  function bindCopy(root) {
+    $$("[data-copy]", root).forEach(function (button) {
+      if (button.hasAttribute("data-copy-bound")) return;
+      button.setAttribute("data-copy-bound", "");
+      var label = $("[data-copy-label]", button);
+      var original = label.textContent;
+      var timer = 0;
+      button.addEventListener("click", function () {
+        var text = button.getAttribute("data-copy");
+        var done = function () {
+          button.classList.add("is-done");
+          label.textContent = "Kopiert";
+          window.clearTimeout(timer);
+          timer = window.setTimeout(function () {
+            button.classList.remove("is-done");
+            label.textContent = original;
+          }, 2200);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () { window.location.href = "mailto:" + text; });
+        } else {
+          window.location.href = "mailto:" + text;
+        }
+      });
     });
+  }
+  bindCopy(document);
+
+  /* ==========================================================
+     Anfrageformular und Anfragefenster
+     ========================================================== */
+
+  var direct = Boolean(ANFRAGE.endpoint);
+  var formCount = 0;
+
+  function icon(name, extra) {
+    return '<svg class="icon' + (extra ? " " + extra : "") + '"><use href="#i-' + name + '"/></svg>';
+  }
+
+  function formMarkup(id) {
+    return '' +
+      '<form class="form" novalidate>' +
+        '<div class="form__row">' +
+          '<div class="field">' +
+            '<label for="' + id + '-name">Name</label>' +
+            '<input id="' + id + '-name" name="name" type="text" autocomplete="name" required aria-describedby="' + id + '-name-error">' +
+            '<p class="field__error" id="' + id + '-name-error" hidden>Bitte gib Deinen Namen an.</p>' +
+          '</div>' +
+          '<div class="field">' +
+            '<label for="' + id + '-email">E-Mail</label>' +
+            '<input id="' + id + '-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" required aria-describedby="' + id + '-email-error">' +
+            '<p class="field__error" id="' + id + '-email-error" hidden>Bitte gib eine gültige E-Mail-Adresse an.</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label for="' + id + '-phone">Telefon <span>optional</span></label>' +
+          '<input id="' + id + '-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">' +
+        '</div>' +
+        '<div class="field">' +
+          '<label for="' + id + '-message">Deine Nachricht</label>' +
+          '<textarea id="' + id + '-message" name="message" rows="5" required enterkeyhint="enter" aria-describedby="' + id + '-message-error"></textarea>' +
+          '<p class="field__error" id="' + id + '-message-error" hidden>Bitte schreib uns kurz, worum es geht.</p>' +
+        '</div>' +
+        '<div class="form__trap" aria-hidden="true">' +
+          '<label>Bitte leer lassen<input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>' +
+        '</div>' +
+        '<p class="form__status" role="status" aria-live="polite"></p>' +
+        '<button class="button button--primary button--wide" type="submit">' +
+          '<span data-submit-label>' + (direct ? "Anfrage senden" : "Anfrage per E-Mail senden") + '</span>' + icon("go", "icon--go") +
+        '</button>' +
+        '<p class="form__note">Mit dem Absenden bearbeiten wir Deine Angaben gemäss unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>' +
+      '</form>' +
+      '<div class="form__done" tabindex="-1" hidden>' +
+        '<span class="form__done-icon">' + icon("check") + '</span>' +
+        '<h3>Danke für Deine Anfrage.</h3>' +
+        '<p>Deine Nachricht ist bei uns angekommen. Wir melden uns persönlich bei Dir.</p>' +
+        '<button class="button button--outline" type="button" data-form-again>Weitere Anfrage schreiben</button>' +
+      '</div>';
+  }
+
+  function setupForm(host) {
+    formCount += 1;
+    host.innerHTML = formMarkup("anfrage-" + formCount);
+
+    var form = $("form", host);
+    var done = $(".form__done", host);
+    var status = $(".form__status", form);
+    var submit = $("button[type='submit']", form);
+    var submitLabel = $("[data-submit-label]", form);
+    var idleLabel = submitLabel.textContent;
+    var required = $$("[required]", form);
+    var tried = false;
+    var sending = false;
+
+    var check = function (field) {
+      var value = field.value.trim();
+      var valid = value !== "" && (field.type !== "email" || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value));
+      var error = document.getElementById(field.id + "-error");
+      field.setAttribute("aria-invalid", String(!valid));
+      if (error) error.hidden = valid;
+      return valid;
+    };
+
+    required.forEach(function (field) {
+      field.addEventListener("input", function () { if (tried) check(field); });
+    });
+
+    var say = function (html) { status.innerHTML = html; };
+
+    var mailLink = function () {
+      return '<a href="mailto:' + ANFRAGE.email + '">' + ANFRAGE.email + '</a>';
+    };
+
+    var setBusy = function (busy) {
+      sending = busy;
+      submit.setAttribute("aria-busy", String(busy));
+      submitLabel.textContent = busy ? "Wird gesendet …" : idleLabel;
+    };
+
+    var showDone = function () {
+      form.hidden = true;
+      done.hidden = false;
+      done.focus({ preventScroll: true });
+    };
+
+    $("[data-form-again]", done).addEventListener("click", function () {
+      form.reset();
+      tried = false;
+      required.forEach(function (field) {
+        field.removeAttribute("aria-invalid");
+        var error = document.getElementById(field.id + "-error");
+        if (error) error.hidden = true;
+      });
+      say("");
+      done.hidden = true;
+      form.hidden = false;
+      required[0].focus();
+    });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (sending) return;
+      tried = true;
+
+      var invalid = required.filter(function (field) { return !check(field); });
+      if (invalid.length) {
+        say("");
+        invalid[0].focus();
+        return;
+      }
+
+      var data = new FormData(form);
+      /* Spam-Falle: ausgefüllt wird sie nur von Programmen. */
+      if (data.get("botcheck")) { showDone(); return; }
+      data.delete("botcheck");
+
+      if (!direct) {
+        var body = "Name: " + data.get("name") + "\n" +
+          "E-Mail: " + data.get("email") + "\n" +
+          (data.get("phone") ? "Telefon: " + data.get("phone") + "\n" : "") +
+          "\n" + data.get("message");
+        window.location.href = "mailto:" + ANFRAGE.email +
+          "?subject=" + encodeURIComponent("Projektanfrage KMU Web Studio") +
+          "&body=" + encodeURIComponent(body);
+        say("Dein Mailprogramm sollte sich jetzt mit Deiner Nachricht öffnen. Bitte sende sie dort ab. Falls nichts passiert, schreib uns an " + mailLink() + ".");
+        return;
+      }
+
+      if (ANFRAGE.accessKey) data.append("access_key", ANFRAGE.accessKey);
+      data.append("subject", ANFRAGE.subject);
+      data.append("from_name", "Website KMU Web Studio");
+      data.append("seite", document.title);
+
+      var controller = "AbortController" in window ? new AbortController() : null;
+      var timeout = window.setTimeout(function () { if (controller) controller.abort(); }, 20000);
+
+      setBusy(true);
+      say("");
+
+      fetch(ANFRAGE.endpoint, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+        signal: controller ? controller.signal : undefined
+      })
+        .then(function (response) {
+          return response.json().catch(function () { return {}; }).then(function (json) {
+            if (!response.ok || json.success === false) throw new Error("Versand abgelehnt");
+          });
+        })
+        .then(function () {
+          setBusy(false);
+          showDone();
+        })
+        .catch(function () {
+          setBusy(false);
+          say("Das Senden hat nicht geklappt. Deine Eingaben sind noch da – bitte versuch es nochmals oder schreib uns direkt an " + mailLink() + ".");
+        })
+        .then(function () { window.clearTimeout(timeout); });
+    });
+
+    return {
+      prefill: function (text) {
+        var message = $("textarea", form);
+        if (text && !message.value.trim()) message.value = text;
+      },
+      focus: function () {
+        if (!form.hidden) required[0].focus({ preventScroll: true });
+      },
+      form: form
+    };
+  }
+
+  /* Formular direkt auf der Seite (Kontakt) */
+  var inlineHost = $("[data-anfrage-form]");
+  var inlineForm = inlineHost ? setupForm(inlineHost) : null;
+
+  /* Anfragefenster: wird beim ersten Öffnen aufgebaut */
+  var dialog = null;
+  var dialogForm = null;
+  var lastTrigger = null;
+
+  function buildDialog() {
+    dialog = document.createElement("dialog");
+    dialog.className = "anfrage";
+    dialog.setAttribute("aria-labelledby", "anfrage-titel");
+    dialog.innerHTML = '' +
+      '<div class="anfrage__head">' +
+        '<div>' +
+          '<p class="eyebrow">Unverbindlich anfragen</p>' +
+          '<h2 id="anfrage-titel" tabindex="-1">Deine Anfrage</h2>' +
+        '</div>' +
+        '<button class="anfrage__close" type="button" aria-label="Fenster schliessen">' + icon("close") + '</button>' +
+      '</div>' +
+      '<div class="anfrage__body">' +
+        '<p>Erzähl uns kurz von Deinem Projekt. Wir melden uns persönlich bei Dir.</p>' +
+        '<div data-anfrage-host></div>' +
+      '</div>';
+    document.body.appendChild(dialog);
+    dialogForm = setupForm($("[data-anfrage-host]", dialog));
+
+    $(".anfrage__close", dialog).addEventListener("click", function () { dialog.close(); });
+    /* Klick auf den abgedunkelten Hintergrund schliesst das Fenster */
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("close", function () {
+      if (lastTrigger && document.contains(lastTrigger)) lastTrigger.focus({ preventScroll: true });
+    });
+  }
+
+  function openAnfrage(trigger, text) {
+    /* Auf der Kontaktseite steht das Formular schon da. */
+    if (inlineForm) {
+      inlineForm.prefill(text);
+      inlineHost.closest(".form-card").scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "center" });
+      inlineForm.focus();
+      return true;
+    }
+    if (typeof HTMLDialogElement === "undefined") return false;
+    if (!dialog) buildDialog();
+    lastTrigger = trigger || null;
+    dialogForm.prefill(text);
+    setMenu(false);
+    dialog.showModal();
+    dialog.scrollTop = 0;
+    dialogForm.focus();
+    return true;
+  }
+
+  document.addEventListener("click", function (event) {
+    var trigger = event.target.closest("[data-anfrage]");
+    if (!trigger) return;
+    var text = trigger.hasAttribute("data-config-send") ? configSummary : "";
+    if (openAnfrage(trigger, text)) event.preventDefault();
   });
+
+  /* Direkter Aufruf über …#anfrage */
+  if (window.location.hash === "#anfrage" && inlineForm) inlineForm.focus();
 })();
