@@ -39,7 +39,7 @@ Alle Handyrahmen sind im iPhone-Stil gebaut (Titanrahmen, schmaler schwarzer Ran
 
 ## Weitere Projekte folgen
 
-Nach dem letzten Projekt steht der Abschnitt `#mehr`: Titel mit drei hüpfenden Punkten und ein Fenster, in dem sich vier Szenen ruhig abwechseln, je 7 Sekunden mit weichem Übergang: eine Webseite baut sich auf, Systeme werden verknüpft (Linien zeichnen sich, Punkte laufen darüber), ein Social-Media-Post entsteht samt Like und Statistik, und in einer App wird eine Antwort gewählt. Dauer und Tempo stehen als `--T` und `--D` bei `.soon`. Die Animation läuft nur, solange der Abschnitt zu sehen ist. Kommt ein neues Projekt dazu, wird es davor als `<article class="project">` eingefügt.
+Nach dem letzten Projekt steht der Abschnitt `#mehr`: Titel mit drei hüpfenden Punkten und daneben drei Szenen, die sich frei auf der Fläche abwechseln, je 7 Sekunden mit weichem Übergang: eine Webseite im Browserfenster baut sich auf, zwei Handys zeigen einen Social-Media-Post (mit Like) und eine App (eine Antwort wird gewählt), und Systeme werden verknüpft (Linien zeichnen sich, Punkte laufen darüber). Darunter wechselt eine kleine Beschriftung mit. Dauer und Tempo stehen als `--T` und `--D` bei `.soon`. Die Animation läuft nur, solange der Abschnitt zu sehen ist. Kommt ein neues Projekt dazu, wird es davor als `<article class="project">` eingefügt.
 
 ## Schwebender Hut
 
