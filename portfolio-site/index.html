@@ -282,7 +282,7 @@ ul{padding:0;list-style:none}
 
     <!-- Projekt kopieren: data-p (Farbbühne), Texte, Link und die drei Bilder anpassen.
          --travel / --travel-m = Länge der Scroll-Strecke am Desktop / am Handy. -->
-    <article class="project" data-p="kmu" style="--travel:320;--travel-m:250">
+    <article class="project" data-p="kmu" style="--travel:160;--travel-m:150">
       <div class="project__in">
         <div class="info">
           <div class="count"><span>01 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
@@ -307,7 +307,7 @@ ul{padding:0;list-style:none}
       </div>
     </article>
 
-    <article class="project" data-p="hkba" style="--travel:200;--travel-m:250">
+    <article class="project" data-p="hkba" style="--travel:100;--travel-m:125">
       <div class="project__in">
         <div class="info">
           <div class="count"><span>02 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
@@ -332,7 +332,7 @@ ul{padding:0;list-style:none}
       </div>
     </article>
 
-    <article class="project" data-p="hkbd" style="--travel:190;--travel-m:250">
+    <article class="project" data-p="hkbd" style="--travel:95;--travel-m:125">
       <div class="project__in">
         <div class="info">
           <div class="count"><span>03 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
@@ -357,7 +357,7 @@ ul{padding:0;list-style:none}
       </div>
     </article>
 
-    <article class="project" data-p="qv" style="--travel:210;--travel-m:250">
+    <article class="project" data-p="qv" style="--travel:105;--travel-m:125">
       <div class="project__in">
         <div class="info">
           <div class="count"><span>04 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
@@ -424,18 +424,6 @@ ul{padding:0;list-style:none}
   let on = false;      // Scroll-Kopplung aktiv
   let queued = false;
 
-  // Grössen nur bei Layout-Änderungen lesen, nicht in jedem Frame
-  function measure() {
-    for (const p of projects) {
-      p.len = Math.max(1, p.track.offsetHeight - p.visual.offsetHeight);
-      for (const s of p.shots) {
-        const h = s.view.clientHeight;
-        s.max = Math.max(0, s.img.offsetHeight - h);
-        s.thumbMax = Math.max(0, h - s.thumb.offsetHeight - 8);
-      }
-    }
-  }
-
   function paint() {
     queued = false;
     if (!on) return;
@@ -444,7 +432,18 @@ ul{padding:0;list-style:none}
     // lesen
     const heroP = clamp(scrollY / hero.offsetHeight);
     const sr = statement.getBoundingClientRect();
-    const tops = projects.map((p) => p.track.getBoundingClientRect().top);
+    // Grössen frisch lesen (nur für Projekte in Sichtweite): Bilder laden verzögert, ein früh gemerkter Wert wäre falsch
+    for (const p of projects) {
+      p.top = p.track.getBoundingClientRect().top;
+      p.near = p.top < vh * 1.5 && p.top > -p.track.offsetHeight - vh * 0.5;
+      if (!p.near) continue;
+      p.len = Math.max(1, p.track.offsetHeight - p.visual.offsetHeight);
+      for (const s of p.shots) {
+        const h = s.view.clientHeight;
+        s.max = Math.max(0, s.img.offsetHeight - h);
+        s.thumbMax = Math.max(0, h - s.thumb.offsetHeight - 8);
+      }
+    }
 
     // schreiben
     if (heroP < 1 || heroLive) {
@@ -458,9 +457,9 @@ ul{padding:0;list-style:none}
       for (let i = 0; i < n; i++) words[i].style.opacity = 0.16 + 0.84 * clamp(q * (n + 4) - i);
     }
 
-    projects.forEach((p, i) => {
-      const top = tops[i];
-      if (top > vh * 1.5 || top < -p.len - vh * 1.5) return;
+    for (const p of projects) {
+      if (!p.near) continue;
+      const top = p.top;
       const t = clamp(-top / p.len);          // Fortschritt, solange die Fenster stehen
       const e = clamp(1 - top / vh);          // Einfahrt, während das Projekt hereinscrollt
       p.stage.style.transform = `translate3d(0,${(1 - e) * 64}px,0) scale(${0.93 + 0.07 * e})`;
@@ -470,7 +469,7 @@ ul{padding:0;list-style:none}
         s.img.style.transform = `translate3d(0,${-t * s.max}px,0)`;
         s.thumb.style.transform = `translate3d(0,${t * s.thumbMax}px,0)`;
       }
-    });
+    }
   }
 
   function request() {
@@ -485,7 +484,6 @@ ul{padding:0;list-style:none}
     statement.innerHTML = sentence.split(/\s+/).map((w) => `<span>${w}</span>`).join(' ');
     words = [...statement.children];
     for (const p of projects) for (const s of p.shots) s.view.removeAttribute('tabindex');
-    measure();
     paint();
   }
 
@@ -517,8 +515,9 @@ ul{padding:0;list-style:none}
   new IntersectionObserver(([en]) => hero.classList.toggle('paused', !en.isIntersecting)).observe(hero);
 
   addEventListener('scroll', request, { passive: true });
-  addEventListener('resize', () => { if (on) { measure(); request(); } });
-  addEventListener('load', () => { if (on) { measure(); request(); } });
+  addEventListener('resize', request);
+  addEventListener('load', request);
+  for (const p of projects) for (const s of p.shots) s.img.addEventListener('load', request);
   calm.addEventListener('change', () => (calm.matches ? stop() : start()));
   calm.matches ? stop() : start();
 })();
