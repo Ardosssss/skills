@@ -1,0 +1,33 @@
+# Portfolio – Personal-Brand-Seite
+
+Eine einzelne Seite, die kurz zeigt, was ich mache, und meine Webseiten vorstellt. Jede Projektseite läuft beim Scrollen als ganze Aufnahme durch ein Browser- und ein Handyfenster.
+
+## Struktur
+
+| Datei | Inhalt |
+| --- | --- |
+| `index.html` | Die ganze Seite in einer Datei (CSS und JavaScript inline): Hero, «Was ich mache», Projekte, Kontakt |
+| `assets/` | Pro Projekt vier WebP-Bilder: Desktop-Aufnahme in 800 und 1280 px Breite, Handy-Aufnahme (480 px) und ein Ausschnitt für den Fächer im Hero |
+
+Keine Build-Tools nötig. Lokal ansehen: im Repo-Ordner `python3 -m http.server` starten und `/portfolio-site/` öffnen.
+
+## Projekt hinzufügen
+
+1. Ganzseitige Aufnahmen der Seite machen: Desktop mit 1280 px Breite, Handy mit 390 px Breite. Als WebP in `assets/` ablegen (`name-desktop-800.webp`, `name-desktop-1280.webp`, `name-mobile-480.webp`, `name-hero-720.webp`).
+2. In `index.html` einen `<article class="project">` kopieren und Titel, Tags, Text, Link und Bilder anpassen. `width` und `height` der Bilder müssen zur Datei passen.
+3. Für die Farbbühne eine Zeile `.project[data-p="name"]{…}` mit den `--p-*`-Farben ergänzen.
+4. `--travel` (Desktop) und `--travel-m` (Handy) legen fest, wie lange man durch das Projekt scrollt. Lange Seiten brauchen einen grösseren Wert.
+5. Die Zähler `01 / 03` anpassen.
+
+## Motion-Entscheidungen
+
+- Die Aufnahmen sind 1:1 an die Scroll-Position gekoppelt, ohne Easing. Pro Frame wird nur `transform` geschrieben, Grössen werden nur bei Layout-Änderungen gemessen.
+- Beim Hereinscrollen fährt die Bühne von 93 % auf 100 % Grösse. Der Fächer im Hero öffnet sich mit der Scroll-Position, der Satz unter «Was ich mache» wird Wort für Wort dunkel.
+- Einblendungen laufen einmalig mit `cubic-bezier(.23,1,.32,1)` und 70 ms Versatz. Buttons skalieren beim Drücken auf 0.97, Hover-Effekte gelten nur für Mausgeräte.
+- Mit `prefers-reduced-motion` und ohne JavaScript entfällt die Kopplung. Die Aufnahmen lassen sich dann direkt im Fenster scrollen.
+
+## Offene Punkte
+
+- Name («Ardit») und Texte sind ein erster Vorschlag.
+- Die Kontaktadresse ist ein Platzhalter (`hallo@deine-domain.ch`).
+- Die Links «Seite ansehen» zeigen auf die Ordner in diesem Repo. Sobald die Seiten online sind, die echten Adressen eintragen.

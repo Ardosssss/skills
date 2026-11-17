@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ardit – Webdesign &amp; Entwicklung</title>
+<meta name="description" content="Ich gestalte und baue Webseiten und Online-Shops. Hier siehst du eine Auswahl meiner Projekte.">
+<meta name="theme-color" content="#F4F3EF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230D0E10'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23FF4F1A'/%3E%3C/svg%3E">
+<style>
+/* Aufbau: heller Grund, jedes Projekt bekommt eine eigene Farbbühne (--p-*).
+   Die Projektseiten laufen als ganzseitige Aufnahmen durch ein Browser- und ein Handyfenster,
+   gekoppelt an die Scroll-Position der Seite. */
+:root{
+  color-scheme:light;
+  --bg:#F4F3EF;
+  --ink:#0D0E10;
+  --ink-2:#44474E;
+  --muted:#7A7D85;
+  --line:rgba(13,14,16,.10);
+  --accent:#FF4F1A;
+  --font:Arial,'Helvetica Neue',Helvetica,'Liberation Sans',sans-serif;
+  --gutter:clamp(20px,4.4vw,64px);
+  --wrap:1360px;
+  --r:36px;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--font);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-x:clip}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,p,ul,dl,dd{margin:0}
+ul{padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:16px;top:-80px;z-index:100;background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px}
+.skip:focus{top:16px}
+
+/* ---- Bausteine ---- */
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);line-height:1.4}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:700;font-size:15px;line-height:1;white-space:nowrap;touch-action:manipulation;transition:transform 140ms var(--ease-out),background-color 200ms ease,color 200ms ease,border-color 200ms ease}
+.btn:active{transform:scale(.97)}
+.btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:transform 200ms var(--ease-out)}
+.btn--solid{background:var(--ink);color:#fff}
+.btn--ghost{border:1px solid var(--line);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){
+  .btn--solid:hover{background:#2A2C31}
+  .btn--ghost:hover{border-color:rgba(13,14,16,.28)}
+  .btn:hover svg.go{transform:translate(2px,-2px)}
+  .btn:hover svg.down{transform:translateY(2px)}
+}
+
+/* ---- Leiste ---- */
+.nav{position:fixed;z-index:50;top:max(14px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:clamp(12px,3vw,28px);height:52px;padding:0 8px 0 20px;border-radius:999px;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:0 0 0 1px rgba(13,14,16,.06),0 10px 30px -12px rgba(13,14,16,.25);white-space:nowrap}
+.brand{font-weight:700;font-size:18px;letter-spacing:-.03em}
+.brand span{color:var(--accent)}
+.nav nav{display:flex;align-items:center;gap:4px}
+.nav nav a{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:700;color:var(--ink-2);transition:background-color 200ms ease,color 200ms ease,transform 140ms var(--ease-out)}
+.nav nav a:active{transform:scale(.97)}
+.nav nav a.nav-cta{background:var(--ink);color:#fff}
+@media (hover:hover) and (pointer:fine){
+  .nav nav a:not(.nav-cta):hover{background:rgba(13,14,16,.06);color:var(--ink)}
+}
+@media (max-width:560px){.nav nav a.opt{display:none}}
+@media (prefers-reduced-transparency:reduce){.nav{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none}}
+
+/* ---- Hero ---- */
+.hero{padding-top:clamp(128px,17vh,190px);overflow-x:clip;text-align:center}
+.hero h1{font-size:clamp(44px,8.2vw,124px);font-weight:700;letter-spacing:-.055em;line-height:.94;text-wrap:balance;max-width:11em;margin:18px auto 0}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:34em;margin:26px auto 0;text-wrap:pretty}
+.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:32px}
+.fan{position:relative;width:min(64vw,760px);margin:clamp(56px,8vw,104px) auto 0;padding-bottom:clamp(64px,9vw,128px)}
+.fan-card{width:100%}
+.fan-card + .fan-card{position:absolute;inset:0 0 auto 0}
+.fan-card:nth-child(1){position:relative;z-index:3}
+.fan-inner{border-radius:clamp(10px,1.4vw,16px);overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(13,14,16,.08),0 40px 80px -30px rgba(13,14,16,.45);will-change:transform}
+.fan-card[data-pos="l"] .fan-inner{transform:translate(-56%,7%) rotate(-7deg) scale(.9)}
+.fan-card[data-pos="r"] .fan-inner{transform:translate(56%,7%) rotate(7deg) scale(.9)}
+.chrome{display:flex;align-items:center;gap:6px;height:clamp(22px,2.6vw,34px);padding:0 clamp(8px,1.1vw,14px);background:#fff;border-bottom:1px solid rgba(13,14,16,.07)}
+.chrome i{width:clamp(6px,.75vw,10px);height:clamp(6px,.75vw,10px);border-radius:50%;background:#D9D9DE}
+.chrome--dark{background:#12141A;border-color:rgba(255,255,255,.08)}
+.chrome--dark i{background:#353945}
+.fan-inner img{width:100%;height:auto}
+@media (max-width:700px){.fan{width:78vw}}
+
+/* ---- Was ich mache ---- */
+.about{padding-block:clamp(72px,10vw,150px)}
+.statement{font-size:clamp(28px,4.6vw,66px);font-weight:700;letter-spacing:-.04em;line-height:1.06;max-width:19em;text-wrap:pretty;margin-top:22px}
+.statement span{will-change:opacity}
+.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px);margin-top:clamp(48px,7vw,104px)}
+.skills li{border-top:1px solid var(--ink);padding-top:18px}
+.skills b{display:block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.skills h3{font-size:clamp(22px,2.2vw,30px);letter-spacing:-.03em;line-height:1.1;margin-top:14px}
+.skills p{color:var(--ink-2);margin-top:10px;max-width:26em}
+@media (max-width:760px){.skills{grid-template-columns:1fr}}
+
+/* ---- Projekte ---- */
+.projects-head{padding-bottom:clamp(72px,9vw,120px)}
+.projects-head h2{font-size:clamp(34px,5.6vw,84px);font-weight:700;letter-spacing:-.05em;line-height:1;max-width:14em;text-wrap:balance;margin-top:18px}
+.projects-head h2 span{color:var(--muted)}
+
+.project{position:relative;margin-top:calc(var(--r) * -1);border-radius:var(--r) var(--r) 0 0;background:var(--p-bg);color:var(--p-fg)}
+.project__in{max-width:var(--wrap);margin-inline:auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+.info{padding-block:clamp(72px,12vw,110px) 8px}
+.count{display:flex;align-items:center;gap:14px;font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--p-muted)}
+.meter{flex:0 0 96px;height:2px;border-radius:2px;background:var(--p-line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--p-accent);transform:scaleX(0);transform-origin:0 50%;will-change:transform}
+.info h3{font-size:clamp(40px,5.4vw,84px);font-weight:700;letter-spacing:-.05em;line-height:.96;margin-top:22px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tags li{font-size:13px;font-weight:700;line-height:1;padding:8px 12px;border-radius:999px;border:1px solid var(--p-line);color:var(--p-fg)}
+.info p{font-size:clamp(16px,1.25vw,18px);color:var(--p-soft);max-width:30em;margin-top:22px;text-wrap:pretty}
+.info .btn{margin-top:28px;background:var(--p-fg);color:var(--p-bg)}
+@media (hover:hover) and (pointer:fine){.info .btn:hover{background:var(--p-accent);color:var(--p-on-accent)}}
+
+.visual{padding-block:32px 72px;display:grid;place-items:center}
+.stage{position:relative;width:100%;will-change:transform}
+.browser{display:none;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 0 0 1px var(--p-edge),0 50px 100px -40px var(--p-shadow)}
+.browser .chrome{height:38px;padding:0 14px;gap:7px}
+.browser .chrome i{width:10px;height:10px}
+.url{flex:1;max-width:360px;margin-inline:auto;height:22px;border-radius:999px;background:rgba(13,14,16,.06);color:#6B6E76;font-size:11px;line-height:22px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 12px}
+.chrome--dark .url{background:rgba(255,255,255,.08);color:#9AA1AF}
+.chrome::after{content:"";width:44px;flex:none}
+.fan .chrome::after{content:none}
+.view{position:relative;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;background:#fff}
+.browser .view{aspect-ratio:16/10}
+.view img{width:100%;height:auto}
+.thumb{display:none;position:absolute;top:4px;right:4px;width:4px;height:16%;border-radius:4px;background:rgba(128,130,138,.75);will-change:transform}
+.phone{position:relative;width:min(64vw,300px);margin-inline:auto;aspect-ratio:9/18.6;border-radius:13% / 6.3%;padding:2.6%;background:#0B0C0E;box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 0 0 1px var(--p-edge),0 40px 80px -30px var(--p-shadow)}
+.phone .view{height:100%;border-radius:10.5% / 5%}
+.phone::before{content:"";position:absolute;z-index:2;top:3.4%;left:50%;width:26%;height:2.6%;margin-left:-13%;border-radius:999px;background:#0B0C0E}
+
+/* Farbbühnen */
+.project[data-p="bebtidz"]{--p-bg:#E7ECFB;--p-fg:#0C1020;--p-soft:#3A4160;--p-muted:#6C7493;--p-line:rgba(12,16,32,.14);--p-accent:#2756F0;--p-on-accent:#fff;--p-edge:rgba(12,16,32,.08);--p-shadow:rgba(29,56,150,.55)}
+.project[data-p="rups"]{--p-bg:#F2E9D8;--p-fg:#1B1407;--p-soft:#54452B;--p-muted:#87755A;--p-line:rgba(27,20,7,.16);--p-accent:#9A6A16;--p-on-accent:#fff;--p-edge:rgba(27,20,7,.10);--p-shadow:rgba(90,62,10,.55)}
+.project[data-p="timelezz"]{--p-bg:#07090D;--p-fg:#F3F5F9;--p-soft:#C0C7D3;--p-muted:#8D95A5;--p-line:rgba(255,255,255,.16);--p-accent:#A6ECFF;--p-on-accent:#07090D;--p-edge:rgba(255,255,255,.14);--p-shadow:rgba(120,210,255,.35)}
+
+/* Bewegung an: hohe Scroll-Strecke, Fenster bleiben stehen, Aufnahme läuft durch */
+.motion .track{height:calc(100svh + var(--travel-m,260) * 1svh)}
+.motion .visual{position:sticky;top:0;height:100svh;padding-block:76px 20px}
+.motion .view{overflow:hidden}
+.motion .view img{will-change:transform}
+.motion .thumb{display:block}
+.motion .stage{height:100%;display:grid;place-items:center}
+.motion .phone{width:auto;height:min(100%,620px)}
+
+@media (min-width:900px){
+  .project__in{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.5fr);column-gap:clamp(32px,5vw,88px)}
+  .project:nth-of-type(even) .info{order:2}
+  .project:nth-of-type(even) .project__in{grid-template-columns:minmax(0,1.5fr) minmax(0,.82fr)}
+  .info{padding-block:120px 80px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+  .visual{padding-block:120px 110px}
+  .stage{width:min(100%,calc((100vh - 250px) * 1.6))}
+  .browser{display:block}
+  .phone{position:absolute;left:-5%;bottom:-9%;width:21%;margin:0}
+  .project:nth-of-type(even) .phone{left:auto;right:-5%}
+  .motion .info{position:sticky;top:0;height:100vh;align-self:start;padding-block:96px 40px}
+  .motion .track{height:calc(100vh + var(--travel,220) * 1vh)}
+  .motion .visual{height:100vh;padding-block:76px 56px}
+  .motion .stage{height:auto;display:block}
+  .motion .phone{width:21%;height:auto}
+}
+
+/* ---- Kontakt ---- */
+.contact{position:relative;margin-top:calc(var(--r) * -1);border-radius:var(--r) var(--r) 0 0;background:var(--ink);color:#fff;padding-block:clamp(96px,14vw,200px) clamp(40px,5vw,64px)}
+.contact .eyebrow{color:#8B8E96}
+.contact h2{font-size:clamp(40px,8vw,128px);font-weight:700;letter-spacing:-.055em;line-height:.94;max-width:10em;text-wrap:balance;margin-top:18px}
+.contact h2 em{font-style:normal;color:var(--accent)}
+.contact p.lead{color:#B9BCC4;max-width:30em;margin:26px 0 0}
+.contact .btn{margin-top:32px;background:#fff;color:var(--ink);min-height:56px;padding:0 28px;font-size:17px}
+@media (hover:hover) and (pointer:fine){.contact .btn:hover{background:var(--accent);color:#fff}}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;margin-top:clamp(80px,12vw,180px);padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-size:13px;color:#8B8E96}
+.foot a{text-decoration:underline;text-underline-offset:3px}
+
+/* ---- Einblendungen ---- */
+.motion .reveal{opacity:0;transform:translateY(16px);transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out);transition-delay:calc(var(--d,0) * 70ms)}
+.motion .reveal.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(48px) scale(.96)}}
+.motion .fan-card{animation:rise 900ms var(--ease-out) backwards;animation-delay:calc(260ms + var(--d,0) * 90ms)}
+</style>
+</head>
+<body>
+<a class="skip" href="#projekte">Zu den Projekten</a>
+
+<header class="nav">
+  <a class="brand" href="#top" aria-label="Ardit, zum Seitenanfang">Ardit<span>.</span></a>
+  <nav aria-label="Hauptnavigation">
+    <a class="opt" href="#machen">Was ich mache</a>
+    <a href="#projekte">Projekte</a>
+    <a class="nav-cta" href="#kontakt">Kontakt</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <p class="eyebrow reveal">Webdesign · Entwicklung · Motion</p>
+      <h1 class="reveal" style="--d:1">Webseiten, die man gerne <em>durchscrollt.</em></h1>
+      <p class="lead reveal" style="--d:2">Ich bin Ardit. Ich gestalte und baue Webseiten und Online-Shops: klar aufgebaut, schnell geladen und mit Bewegung an den Stellen, an denen sie etwas zeigt.</p>
+      <div class="actions reveal" style="--d:3">
+        <a class="btn btn--solid" href="#projekte">Projekte ansehen <svg class="down" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+        <a class="btn btn--ghost" href="#kontakt">Kontakt</a>
+      </div>
+    </div>
+    <div class="fan" id="fan" aria-hidden="true">
+      <div class="fan-card" data-pos="c" style="--d:2">
+        <div class="fan-inner"><div class="chrome"><i></i><i></i><i></i></div><img src="assets/special-rups-hero-720.webp" width="720" height="450" alt=""></div>
+      </div>
+      <div class="fan-card" data-pos="l" style="--d:0">
+        <div class="fan-inner"><div class="chrome"><i></i><i></i><i></i></div><img src="assets/bebtidz-hero-720.webp" width="720" height="450" alt=""></div>
+      </div>
+      <div class="fan-card" data-pos="r" style="--d:1">
+        <div class="fan-inner"><div class="chrome chrome--dark"><i></i><i></i><i></i></div><img src="assets/timelezz-hero-720.webp" width="720" height="450" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about wrap" id="machen">
+    <p class="eyebrow">Was ich mache</p>
+    <p class="statement" id="statement">Aus einer Idee wird bei mir eine fertige Webseite. Ich überlege mir den Aufbau, gestalte das Design und setze alles selbst um, vom ersten Entwurf bis zur letzten Animation.</p>
+    <ul class="skills">
+      <li class="reveal">
+        <b>01</b>
+        <h3>Design</h3>
+        <p>Klare Seiten mit viel Raum, guter Schrift und einem Aufbau, den man sofort versteht.</p>
+      </li>
+      <li class="reveal" style="--d:1">
+        <b>02</b>
+        <h3>Umsetzung</h3>
+        <p>Schlanker, schneller Code ohne Ballast. Jede Seite funktioniert am Handy genauso gut wie am Laptop.</p>
+      </li>
+      <li class="reveal" style="--d:2">
+        <b>03</b>
+        <h3>Motion</h3>
+        <p>Animationen und Scroll-Effekte, die eine Seite lebendig machen, ohne im Weg zu stehen.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section id="projekte" aria-labelledby="projekte-titel">
+    <div class="projects-head wrap">
+      <p class="eyebrow">Projekte</p>
+      <h2 id="projekte-titel">Meine Webseiten. <span>Scroll weiter, jede Seite läuft vor dir durch.</span></h2>
+    </div>
+
+    <!-- Projekt kopieren: data-p (Farbbühne), Texte, Link und die drei Bilder anpassen.
+         --travel / --travel-m = Länge der Scroll-Strecke am Desktop / am Handy. -->
+    <article class="project" data-p="bebtidz" style="--travel:230;--travel-m:250">
+      <div class="project__in">
+        <div class="info">
+          <div class="count"><span>01 / 03</span><span class="meter" aria-hidden="true"><i></i></span></div>
+          <h3>bebtidz.</h3>
+          <ul class="tags"><li>Online-Shop</li><li>Neuaufbau</li><li>7 Seiten</li></ul>
+          <p>Ein Online-Shop für Forschungspeptide, komplett neu aufgebaut. Der Auftritt ist hell und ruhig, mit Produktkatalog, Warenkorb und eigenen Produktseiten. Die Animationen sind bewusst kurz gehalten, damit der Einkauf schnell bleibt.</p>
+          <a class="btn" href="../bebtidz-site/index.html" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        </div>
+        <div class="track">
+          <div class="visual">
+            <div class="stage">
+              <div class="browser">
+                <div class="chrome"><i></i><i></i><i></i><span class="url">bebtidz.com</span></div>
+                <div class="view"><img src="assets/bebtidz-desktop-800.webp" srcset="assets/bebtidz-desktop-800.webp 800w, assets/bebtidz-desktop-1280.webp 1280w" sizes="(min-width:900px) 56vw, 1px" width="1280" height="5294" loading="lazy" decoding="async" alt="Die ganze Startseite von bebtidz am Desktop, von oben nach unten"><span class="thumb"></span></div>
+              </div>
+              <div class="phone">
+                <div class="view"><img src="assets/bebtidz-mobile-480.webp" width="480" height="6400" loading="lazy" decoding="async" alt="Die Startseite von bebtidz am Handy"><span class="thumb"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" data-p="rups" style="--travel:230;--travel-m:250">
+      <div class="project__in">
+        <div class="info">
+          <div class="count"><span>02 / 03</span><span class="meter" aria-hidden="true"><i></i></span></div>
+          <h3>Special Rups</h3>
+          <ul class="tags"><li>Marke</li><li>One-Pager</li><li>Shop</li></ul>
+          <p>Die Seite für eine junge Sirup-Marke aus Wauwil. Sie beginnt schwarz mit goldenem Logo, danach folgt viel Weiss für Shop, Geschichte und Kontakt. Der Warenkorb lässt sich am Handy wie in einer App mit dem Finger wegziehen.</p>
+          <a class="btn" href="../special-rups-site/index.html" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        </div>
+        <div class="track">
+          <div class="visual">
+            <div class="stage">
+              <div class="browser">
+                <div class="chrome"><i></i><i></i><i></i><span class="url">special-rups</span></div>
+                <div class="view"><img src="assets/special-rups-desktop-800.webp" srcset="assets/special-rups-desktop-800.webp 800w, assets/special-rups-desktop-1280.webp 1280w" sizes="(min-width:900px) 56vw, 1px" width="1280" height="5255" loading="lazy" decoding="async" alt="Die ganze Seite von Special Rups am Desktop, von oben nach unten"><span class="thumb"></span></div>
+              </div>
+              <div class="phone">
+                <div class="view"><img src="assets/special-rups-mobile-480.webp" width="480" height="6400" loading="lazy" decoding="async" alt="Die Seite von Special Rups am Handy"><span class="thumb"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" data-p="timelezz" style="--travel:330;--travel-m:250">
+      <div class="project__in">
+        <div class="info">
+          <div class="count"><span>03 / 03</span><span class="meter" aria-hidden="true"><i></i></span></div>
+          <h3>TIMELEZZ</h3>
+          <ul class="tags"><li>Shop-Design</li><li>Konzept</li><li>Dunkler Look</li></ul>
+          <p>Ein Shop-Entwurf für Taschen aus alten LKW-Planen. Auf der dunklen Bühne leuchtet jedes Unikat in seiner eigenen Planenfarbe. Dazu kommen Filter, Suche und eine Geschichte, die zeigt, wie aus einer Plane eine Tasche wird.</p>
+          <a class="btn" href="../timelezz-site/index.html" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        </div>
+        <div class="track">
+          <div class="visual">
+            <div class="stage">
+              <div class="browser">
+                <div class="chrome chrome--dark"><i></i><i></i><i></i><span class="url">timelezz</span></div>
+                <div class="view"><img src="assets/timelezz-desktop-800.webp" srcset="assets/timelezz-desktop-800.webp 800w, assets/timelezz-desktop-1280.webp 1280w" sizes="(min-width:900px) 56vw, 1px" width="1280" height="8269" loading="lazy" decoding="async" alt="Der ganze TIMELEZZ-Shop am Desktop, von oben nach unten"><span class="thumb"></span></div>
+              </div>
+              <div class="phone">
+                <div class="view"><img src="assets/timelezz-mobile-480.webp" width="480" height="6400" loading="lazy" decoding="async" alt="Der TIMELEZZ-Shop am Handy"><span class="thumb"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="contact" id="kontakt">
+    <div class="wrap">
+      <p class="eyebrow reveal">Kontakt</p>
+      <h2 class="reveal" style="--d:1">Du brauchst eine Webseite? <em>Schreib mir.</em></h2>
+      <p class="lead reveal" style="--d:2">Erzähl mir kurz, worum es geht. Ich melde mich mit einer ersten Idee, wie deine Seite aussehen könnte.</p>
+      <!-- TODO: echte Adresse eintragen -->
+      <a class="btn reveal" style="--d:3" href="mailto:hallo@deine-domain.ch">hallo@deine-domain.ch <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <div class="foot">
+        <span>© 2026 Ardit</span>
+        <a href="#top">Nach oben</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const clamp = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
+  const hero = document.getElementById('hero');
+  const fan = [...document.querySelectorAll('.fan-card')].map((c) => ({ el: c.firstElementChild, pos: c.dataset.pos }));
+  const statement = document.getElementById('statement');
+  const sentence = statement.textContent.trim();
+  let words = [];
+
+  const projects = [...document.querySelectorAll('.project')].map((el) => ({
+    track: el.querySelector('.track'),
+    visual: el.querySelector('.visual'),
+    stage: el.querySelector('.stage'),
+    bar: el.querySelector('.meter i'),
+    shots: [...el.querySelectorAll('.view')].map((view) => ({ view, img: view.querySelector('img'), thumb: view.querySelector('.thumb'), max: 0, thumbMax: 0 })),
+    len: 1,
+  }));
+
+  let on = false;      // Scroll-Kopplung aktiv
+  let queued = false;
+
+  // Grössen nur bei Layout-Änderungen lesen, nicht in jedem Frame
+  function measure() {
+    for (const p of projects) {
+      p.len = Math.max(1, p.track.offsetHeight - p.visual.offsetHeight);
+      for (const s of p.shots) {
+        const h = s.view.clientHeight;
+        s.max = Math.max(0, s.img.offsetHeight - h);
+        s.thumbMax = Math.max(0, h - s.thumb.offsetHeight - 8);
+      }
+    }
+  }
+
+  function paint() {
+    queued = false;
+    if (!on) return;
+    const vh = innerHeight;
+
+    // lesen
+    const heroP = clamp(scrollY / (hero.offsetHeight * 0.9));
+    const sr = statement.getBoundingClientRect();
+    const tops = projects.map((p) => p.track.getBoundingClientRect().top);
+
+    // schreiben
+    if (heroP < 1 || fan.live) {
+      fan.live = heroP < 1;
+      for (const f of fan) {
+        f.el.style.transform = f.pos === 'c'
+          ? `translate3d(0,${-9 * heroP}%,0) scale(${1 + 0.05 * heroP})`
+          : `translate3d(${(f.pos === 'l' ? -1 : 1) * (56 + 20 * heroP)}%,${7 - 10 * heroP}%,0) rotate(${(f.pos === 'l' ? -1 : 1) * (7 + 5 * heroP)}deg) scale(.9)`;
+      }
+    }
+
+    if (sr.bottom > -vh && sr.top < vh * 2) {
+      const q = clamp((vh * 0.9 - sr.top) / (sr.height + vh * 0.45));
+      const n = words.length;
+      for (let i = 0; i < n; i++) words[i].style.opacity = 0.16 + 0.84 * clamp(q * (n + 4) - i);
+    }
+
+    projects.forEach((p, i) => {
+      const top = tops[i];
+      if (top > vh * 1.5 || top < -p.len - vh * 1.5) return;
+      const t = clamp(-top / p.len);          // Fortschritt, solange die Fenster stehen
+      const e = clamp(1 - top / vh);          // Einfahrt, während das Projekt hereinscrollt
+      p.stage.style.transform = `translate3d(0,${(1 - e) * 64}px,0) scale(${0.93 + 0.07 * e})`;
+      p.bar.style.transform = `scaleX(${t})`;
+      for (const s of p.shots) {
+        if (!s.max) continue;
+        s.img.style.transform = `translate3d(0,${-t * s.max}px,0)`;
+        s.thumb.style.transform = `translate3d(0,${t * s.thumbMax}px,0)`;
+      }
+    });
+  }
+
+  function request() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(paint);
+  }
+
+  function start() {
+    on = true;
+    root.classList.add('motion');
+    statement.innerHTML = sentence.split(/\s+/).map((w) => `<span>${w}</span>`).join(' ');
+    words = [...statement.children];
+    for (const p of projects) for (const s of p.shots) s.view.removeAttribute('tabindex');
+    measure();
+    paint();
+  }
+
+  // Reduzierte Bewegung: keine Kopplung, die Aufnahmen lassen sich im Fenster selbst scrollen
+  function stop() {
+    on = false;
+    root.classList.remove('motion');
+    statement.textContent = sentence;
+    words = [];
+    for (const f of fan) f.el.style.transform = '';
+    for (const p of projects) {
+      p.stage.style.transform = '';
+      p.bar.style.transform = 'scaleX(1)';
+      for (const s of p.shots) {
+        s.img.style.transform = '';
+        s.view.tabIndex = 0;
+        s.view.setAttribute('role', 'group');
+        s.view.setAttribute('aria-label', s.img.alt + ' (scrollbar)');
+      }
+    }
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  }, { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  addEventListener('scroll', request, { passive: true });
+  addEventListener('resize', () => { if (on) { measure(); request(); } });
+  addEventListener('load', () => { if (on) { measure(); request(); } });
+  calm.addEventListener('change', () => (calm.matches ? stop() : start()));
+  calm.matches ? stop() : start();
+})();
+</script>
+</body>
+</html>
