@@ -237,26 +237,89 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .sk .chrome i{width:10px;height:10px}
 .sk .chrome::after{content:"";width:44px;flex:none}
 .sk__view{position:relative;aspect-ratio:16/10;overflow:hidden}
-.sk__view b{position:absolute;display:block;border-radius:8px;background:rgba(15,46,70,.1)}
-.sk__view .k1{left:5%;top:6%;width:13%;height:4.5%}
-.sk__view .k2{left:60%;top:6.6%;width:35%;height:3.2%}
-.sk__view .k3{left:5%;top:22%;width:46%;height:9.5%;background:rgba(15,46,70,.2)}
-.sk__view .k4{left:5%;top:34.5%;width:33%;height:9.5%;background:rgba(15,46,70,.2)}
-.sk__view .k5{left:5%;top:49%;width:40%;height:3.4%}
-.sk__view .k6{left:5%;top:55%;width:29%;height:3.4%}
-.sk__view .k7{left:5%;top:64%;width:19%;height:8.5%;border-radius:999px;background:var(--accent)}
-.sk__view .k8{left:58%;top:20%;width:37%;height:53%;border-radius:16px;background:var(--accent-soft);opacity:.55}
-.sk__view .k9{left:5%;top:82%;width:27%;height:30%}
-.sk__view .k10{left:36.5%;top:82%;width:27%;height:30%}
-.sk__view .k11{left:68%;top:82%;width:27%;height:30%}
-.sk__view::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.75) 50%,transparent 62%);transform:translateX(-110%)}
-@keyframes sk{0%{opacity:0;transform:translateY(14px) scale(.96)}6%,88%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
-@keyframes sk-soft{0%{opacity:0;transform:translateY(14px) scale(.96)}6%,88%{opacity:.55;transform:none}96%,100%{opacity:0;transform:none}}
+.sk .url{position:relative}
+.sk .url span{position:absolute;inset:0;opacity:0}
+.sk .url span:first-child{opacity:1}
+/* Vier Szenen wechseln sich im Fenster ab: Webseite, verknüpfte Systeme, Social-Media-Post, App.
+   --T = ganzer Durchlauf, --D = Dauer einer Szene, --s = Nummer der Szene, --i = Reihenfolge der Teile */
+.soon{--T:28s;--D:7s}
+.sc{position:absolute;inset:0;opacity:0}
+.sc:first-child{opacity:1}
+.sc b,.sc u,.sc s{position:absolute;display:block;text-decoration:none;border-radius:8px;background:rgba(15,46,70,.1)}
+.sc .dk{background:rgba(15,46,70,.2)}
+.sc .ac{background:var(--accent)}
+.sc .sf{background:rgba(143,203,242,.55)}
+.sc .wh{background:#fff;box-shadow:0 0 0 1px rgba(15,46,70,.1),0 14px 30px -18px rgba(15,46,70,.4)}
+.sc .rd{border-radius:999px}
+/* 1 Webseite */
+.w1{left:5%;top:6%;width:13%;height:4.5%}
+.w2{left:60%;top:6.6%;width:35%;height:3.2%}
+.w3{left:5%;top:22%;width:46%;height:9.5%}
+.w4{left:5%;top:34.5%;width:33%;height:9.5%}
+.w5{left:5%;top:49%;width:40%;height:3.4%}
+.w6{left:5%;top:55%;width:29%;height:3.4%}
+.w7{left:5%;top:64%;width:19%;height:8.5%}
+.w8{left:58%;top:20%;width:37%;height:53%;border-radius:16px!important}
+.w9{left:5%;top:82%;width:27%;height:30%}
+.w10{left:36.5%;top:82%;width:27%;height:30%}
+.w11{left:68%;top:82%;width:27%;height:30%}
+/* 2 Systeme */
+.sys{position:absolute;inset:0;width:100%;height:100%}
+.sys .nd rect{fill:#fff;stroke:rgba(15,46,70,.18);stroke-width:.6}
+.sys .nd .bar{fill:rgba(15,46,70,.2);stroke:none}
+.sys .ln{fill:none;stroke:var(--accent);stroke-width:1.1;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.sys .flow{display:none}
+/* 3 Social Media */
+.p0{left:34%;top:8%;width:32%;height:110%;border-radius:14px!important}
+.p1{left:7%;top:3.5%;width:14%;aspect-ratio:1}
+.p2{left:27%;top:4.6%;width:36%;height:2.6%}
+.p3{left:27%;top:8.4%;width:22%;height:2%}
+.p4{left:0;top:15%;width:100%;height:46%;border-radius:0!important;background:linear-gradient(135deg,#8FCBF2,#2C82C0)!important}
+.p5{left:7%;top:64.5%;width:11%;aspect-ratio:1;background:none!important}
+.p5 svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:rgba(15,46,70,.45);stroke-width:2;stroke-linejoin:round}
+.p5 svg + svg{fill:#E5567F;stroke:#E5567F}
+.p6{left:23%;top:66%;width:9%;height:4%}
+.p7{left:7%;top:74%;width:34%;height:2.4%}
+.p8{left:7%;top:78.5%;width:78%;height:2.2%}
+.p9{left:6%;top:20%;width:22%;height:58%;border-radius:12px!important}
+.p9 u{left:10%;width:9%;aspect-ratio:1}
+.p9 s{left:26%;width:60%;height:5%}
+.p10{left:72%;top:20%;width:22%;height:58%;border-radius:12px!important}
+.p10 u{bottom:12%;width:13%;border-radius:4px 4px 0 0;transform-origin:50% 100%}
+.p10 s{left:10%;top:9%;width:46%;height:5%}
+/* 4 App */
+.a0{left:0;top:0;width:20%;height:100%;border-radius:0!important;background:rgba(15,46,70,.05)!important}
+.a0 u{left:16%;width:68%;height:3.6%}
+.a1{left:26%;top:9%;width:30%;height:6.5%}
+.a2{left:26%;top:21%;width:68%;height:2.8%}
+.a2 u{inset:0;width:60%;transform-origin:0 50%}
+.a3{left:26%;top:30%;width:68%;height:80%;border-radius:14px!important}
+.a3 > s{left:5%;height:4.6%}
+.a3 > u{left:5%;width:90%;height:13%;border-radius:10px;background:none;box-shadow:0 0 0 1.5px rgba(15,46,70,.14) inset}
+.a3 > u i{position:absolute;left:4%;top:50%;width:46%;height:22%;margin-top:-1.6%;border-radius:8px;background:rgba(15,46,70,.14)}
+.a3 .pick{position:absolute;inset:0;border-radius:10px;background:rgba(143,203,242,.35);box-shadow:0 0 0 1.5px var(--accent) inset}
+.a3 .ok{position:absolute;right:3.5%;top:50%;width:7.5%;aspect-ratio:1;margin-top:-3.75%;border-radius:50%;background:var(--accent)}
+.a3 .ok svg{position:absolute;inset:22%;width:56%;height:56%;fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.sk__view::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.6) 50%,transparent 62%);transform:translateX(-110%)}
+
+@keyframes scene{0%{opacity:0}2.4%{opacity:1}25%{opacity:1}27.4%,100%{opacity:0}}
+@keyframes el{0%{opacity:0;transform:translateY(12px) scale(.97)}2.6%{opacity:1;transform:none}27%{opacity:1;transform:none}27.4%,100%{opacity:0;transform:none}}
+@keyframes el-fade{0%{opacity:0}2.6%{opacity:1}27%{opacity:1}27.4%,100%{opacity:0}}
+@keyframes draw{0%{stroke-dashoffset:1}4%,100%{stroke-dashoffset:0}}
+@keyframes grow-x{0%,3%{transform:scaleX(.06)}13%,100%{transform:scaleX(1)}}
+@keyframes grow-y{0%{transform:scaleY(.08)}5%,100%{transform:scaleY(1)}}
+@keyframes pop{0%{opacity:0;transform:scale(.6)}1.6%{opacity:1;transform:scale(1.22)}2.8%,27%{opacity:1;transform:scale(1)}27.4%,100%{opacity:0;transform:scale(1)}}
 @keyframes shine{to{transform:translateX(110%)}}
 @keyframes dot{0%,55%,100%{transform:none;opacity:.35}28%{transform:translateY(-.34em);opacity:1}}
-.motion .soon.live .sk__view b{animation:sk 6.4s var(--ease-out) calc(var(--i) * 150ms) infinite backwards}
-.motion .soon.live .sk__view .k8{animation-name:sk-soft}
-.motion .soon.live .sk__view::after{animation:shine 2.6s linear 1.8s infinite}
+.motion .soon.live .sc,.motion .soon.live .url span{animation:scene var(--T) linear calc(var(--s) * var(--D)) infinite backwards}
+.motion .soon.live .e{animation:el var(--T) var(--ease-out) calc(var(--s) * var(--D) + .45s + var(--i) * .17s) infinite backwards}
+.motion .soon.live .sys .e{animation-name:el-fade}
+.motion .soon.live .sys .ln{animation:draw var(--T) var(--ease-out) calc(var(--s) * var(--D) + .45s + var(--i) * .17s) infinite backwards}
+.motion .soon.live .sys .flow{display:block}
+.motion .soon.live .gx{animation:grow-x var(--T) var(--ease-out) calc(var(--s) * var(--D) + .45s + var(--i) * .17s) infinite backwards}
+.motion .soon.live .gy{animation:grow-y var(--T) var(--ease-out) calc(var(--s) * var(--D) + .45s + var(--i) * .17s) infinite backwards}
+.motion .soon.live .pp{animation:pop var(--T) var(--ease-out) calc(var(--s) * var(--D) + .45s + var(--i) * .17s) infinite backwards}
+.motion .soon.live .sk__view::after{animation:shine 3.4s linear 2.4s infinite}
 .motion .soon.live .dots i{animation:dot 1.5s cubic-bezier(.37,0,.63,1) infinite}
 .motion .soon.live .dots i:nth-child(2){animation-delay:.17s}
 .motion .soon.live .dots i:nth-child(3){animation-delay:.34s}
@@ -500,11 +563,11 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
         <div>
           <span class="soon__tag reveal"><i></i>In Arbeit</span>
           <h2 class="reveal" style="--d:1">Weitere Projekte folgen<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></h2>
-          <p class="reveal" style="--d:2">Hier erscheint, was als Nächstes fertig wird.</p>
+          <p class="reveal" style="--d:2">Webseiten, verknüpfte Systeme, Social Media oder Apps: Hier erscheint, was als Nächstes fertig wird.</p>
         </div>
         <div class="sk reveal" style="--d:2" aria-hidden="true">
-          <div class="chrome"><i></i><i></i><i></i><span class="url">bald hier</span></div>
-          <div class="sk__view"><b class="k1" style="--i:0"></b><b class="k2" style="--i:1"></b><b class="k3" style="--i:2"></b><b class="k4" style="--i:3"></b><b class="k5" style="--i:4"></b><b class="k6" style="--i:5"></b><b class="k7" style="--i:6"></b><b class="k8" style="--i:7"></b><b class="k9" style="--i:8"></b><b class="k10" style="--i:9"></b><b class="k11" style="--i:10"></b></div>
+          <div class="chrome"><i></i><i></i><i></i><span class="url"><span style="--s:0">Webseite</span><span style="--s:1">System</span><span style="--s:2">Social Media</span><span style="--s:3">App</span></span></div>
+          <div class="sk__view"><div class="sc" style="--s:0"><b class="w1 e" style="--i:0"></b><b class="w2 e" style="--i:1"></b><b class="w3 dk e" style="--i:2"></b><b class="w4 dk e" style="--i:3"></b><b class="w5 e" style="--i:4"></b><b class="w6 e" style="--i:5"></b><b class="w7 ac rd e" style="--i:6"></b><b class="w8 sf e" style="--i:7"></b><b class="w9 e" style="--i:8"></b><b class="w10 e" style="--i:9"></b><b class="w11 e" style="--i:10"></b></div><div class="sc" style="--s:1"><svg class="sys" viewBox="0 0 160 100" aria-hidden="true"><path class="ln" style="--i:3" pathLength="1" d="M46 27C60 27 58 50 68 50"/><path class="ln" style="--i:4" pathLength="1" d="M46 73C60 73 58 50 68 50"/><path class="ln" style="--i:6" pathLength="1" d="M92 50C104 50 102 19 114 19"/><path class="ln" style="--i:7" pathLength="1" d="M92 50L114 50"/><path class="ln" style="--i:8" pathLength="1" d="M92 50C104 50 102 81 114 81"/><g class="nd e" style="--i:0"><rect x="12" y="18" width="34" height="18" rx="4"/><circle cx="20" cy="27" r="3" fill="#8FCBF2"/><rect class="bar" x="26" y="25" width="15" height="4" rx="2"/></g><g class="nd e" style="--i:1"><rect x="12" y="64" width="34" height="18" rx="4"/><circle cx="20" cy="73" r="3" fill="#8FCBF2"/><rect class="bar" x="26" y="71" width="15" height="4" rx="2"/></g><g class="e" style="--i:2"><circle cx="80" cy="50" r="12" fill="#0F2E46"/><path d="M75 50h10M80 45v10" stroke="#fff" stroke-width="1.8" stroke-linecap="round" fill="none"/></g><g class="nd e" style="--i:5"><rect x="114" y="10" width="34" height="18" rx="4"/><circle cx="122" cy="19" r="3" fill="#2C82C0"/><rect class="bar" x="128" y="17" width="15" height="4" rx="2"/></g><g class="nd e" style="--i:6"><rect x="114" y="41" width="34" height="18" rx="4"/><circle cx="122" cy="50" r="3" fill="#2C82C0"/><rect class="bar" x="128" y="48" width="15" height="4" rx="2"/></g><g class="nd e" style="--i:7"><rect x="114" y="72" width="34" height="18" rx="4"/><circle cx="122" cy="81" r="3" fill="#2C82C0"/><rect class="bar" x="128" y="79" width="15" height="4" rx="2"/></g><g class="flow e" style="--i:10"><circle r="1.7" fill="#0F2E46"><animateMotion dur="2.8s" begin="0s" repeatCount="indefinite" path="M46 27C60 27 58 50 68 50"/></circle><circle r="1.7" fill="#0F2E46"><animateMotion dur="3.2s" begin=".9s" repeatCount="indefinite" path="M46 73C60 73 58 50 68 50"/></circle><circle r="1.7" fill="#0F2E46"><animateMotion dur="2.6s" begin=".4s" repeatCount="indefinite" path="M92 50C104 50 102 19 114 19"/></circle><circle r="1.7" fill="#0F2E46"><animateMotion dur="2.4s" begin="1.3s" repeatCount="indefinite" path="M92 50L114 50"/></circle><circle r="1.7" fill="#0F2E46"><animateMotion dur="3s" begin=".7s" repeatCount="indefinite" path="M92 50C104 50 102 81 114 81"/></circle></g></svg></div><div class="sc" style="--s:2"><b class="p9 wh e" style="--i:3"><u class="sf rd e" style="--i:5;top:12%"></u><s class="e" style="--i:5;top:13%"></s><u class="sf rd e" style="--i:6;top:34%"></u><s class="e" style="--i:6;top:35%"></s><u class="sf rd e" style="--i:7;top:56%"></u><s class="e" style="--i:7;top:57%"></s><u class="sf rd e" style="--i:8;top:78%"></u><s class="e" style="--i:8;top:79%"></s></b><b class="p0 wh e" style="--i:0"><b class="p1 sf rd e" style="--i:1"></b><b class="p2 dk e" style="--i:1"></b><b class="p3 e" style="--i:2"></b><b class="p4 e" style="--i:2"></b><b class="p5 e" style="--i:4"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.6A4 4 0 0 1 12 8a4 4 0 0 1 7 2.4C19 15.6 12 20 12 20z"/></svg><svg class="pp" style="--i:14" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.6A4 4 0 0 1 12 8a4 4 0 0 1 7 2.4C19 15.6 12 20 12 20z"/></svg></b><b class="p6 e" style="--i:4"></b><b class="p7 dk e" style="--i:5"></b><b class="p8 e" style="--i:6"></b></b><b class="p10 wh e" style="--i:4"><s class="dk e" style="--i:6"></s><u class="sf gy" style="--i:8;left:12%;height:24%"></u><u class="sf gy" style="--i:9;left:32%;height:40%"></u><u class="sf gy" style="--i:10;left:52%;height:33%"></u><u class="ac gy" style="--i:11;left:72%;height:58%"></u></b></div><div class="sc" style="--s:3"><b class="a0 e" style="--i:0"><u class=" e" style="--i:1;top:10%"></u><u class="dk e" style="--i:2;top:19%"></u><u class=" e" style="--i:3;top:28%"></u><u class=" e" style="--i:4;top:37%"></u><u class=" e" style="--i:5;top:46%"></u></b><b class="a1 dk e" style="--i:2"></b><b class="a2 rd e" style="--i:3"><u class="ac rd gx" style="--i:6"></u></b><b class="a3 wh e" style="--i:4"><s class="dk e" style="--i:5;top:6%;width:64%"></s><s class="e" style="--i:5;top:13.5%;width:42%"></s><u class="e" style="--i:6;top:26%"><i></i></u><u class="e" style="--i:7;top:42%"><span class="pick pp" style="--i:15"></span><span class="ok pp" style="--i:17"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><i></i></u><u class="e" style="--i:8;top:58%"><i></i></u></b></div></div>
         </div>
       </div>
     </div>
