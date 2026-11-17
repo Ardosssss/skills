@@ -21,9 +21,13 @@ Die Aufnahme von HKBd Coach setzt Startseite und Seite «Leistungsziele» untere
 
 Bild im Hochformat 3:4 (am besten 1080 × 1440 px) als `assets/portrait.webp` ablegen. Das aktuelle Porträt ist ein Ausschnitt von 540 × 720 px, mit Real-ESRGAN auf das Doppelte hochgerechnet.
 
+## 3D-Neigung im Hero
+
+Der Block neigt sich zur Maus: Die Ecke gegenüber dem Mauszeiger kommt nach vorn, in der Bildmitte liegt er flach. Die Karten liegen dafür in verschiedenen Tiefen (`translate` mit Z-Wert pro Klasse `f-a` bis `f-f` und beim Porträt). Die Neigung folgt der Maus weich nach, klingt beim Wegscrollen aus und ist ohne Maus sowie bei reduzierter Bewegung aus. Eine Leiste oben gibt es nicht mehr.
+
 ## Schwebender Hut
 
-`assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt steht als `HAT` im Skript und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.
+`assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.
 
 ## Mail-Knopf
 
