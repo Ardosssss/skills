@@ -184,8 +184,24 @@ ul{padding:0;list-style:none}
 .contact h2{font-size:clamp(40px,8vw,128px);font-weight:700;letter-spacing:-.055em;line-height:.94;max-width:10em;text-wrap:balance;margin-top:18px}
 .contact h2 em{font-style:normal;color:var(--accent-soft)}
 .contact p.lead{color:#C3D3DF;max-width:30em;margin:26px 0 0}
-.contact .btn{margin-top:32px;background:#fff;color:var(--ink);min-height:56px;padding:0 28px;font-size:17px}
-@media (hover:hover) and (pointer:fine){.contact .btn:hover{background:var(--accent-soft);color:var(--ink)}}
+/* Mail-Knopf nach Uiverse.io (barisdogansutcu): beim Hover fährt der Kopf gross nach rechts, «E-Mail senden» weicht «Jetzt!» */
+.mailwrap{margin-top:32px}
+.mailbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:60px;padding:0 24px 0 12px;color:#fff;text-shadow:2px 2px rgb(116,116,116);text-transform:uppercase;letter-spacing:1px;font-weight:600;font-size:17px;line-height:1;white-space:nowrap;border:2px solid #000;background-color:hsl(49deg 98% 60%);border-radius:50px;position:relative;overflow:hidden;cursor:pointer;touch-action:manipulation;transition:transform .5s ease}
+.mailbtn:active{transform:scale(.9);transition:transform 100ms ease}
+.mailbtn img{width:46px;height:auto;max-width:none;flex:none;position:relative;z-index:2;transform-origin:50% 76%;transition:transform .5s ease}
+.mailbtn .play{transition:transform .5s ease .3s}
+.mailbtn .now{position:absolute;left:0;z-index:2;transform:translateX(-110%);transition:transform .5s ease}
+@media (hover:hover) and (pointer:fine){
+  .mailbtn:hover img{transform:translateX(315%) scale(3)}
+  .mailbtn:hover .now{transform:translateX(16px);transition-delay:.3s}
+  .mailbtn:hover .play{transform:translateX(200%)}
+}
+.mailbtn:focus-visible img{transform:translateX(315%) scale(3)}
+.mailbtn:focus-visible .now{transform:translateX(16px);transition-delay:.3s}
+.mailbtn:focus-visible .play{transform:translateX(200%)}
+.mailbtn:focus-visible{outline-color:#fff;border-radius:50px}
+.mailaddr{margin-top:16px;font-size:15px;color:#8FA6B8;-webkit-user-select:all;user-select:all}
+@media (prefers-reduced-motion:reduce){.mailbtn,.mailbtn img,.mailbtn .play,.mailbtn .now{transition:none}}
 .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;margin-top:clamp(80px,12vw,180px);padding-top:22px;border-top:1px solid rgba(255,255,255,.16);font-size:13px;color:#8FA6B8}
 .foot a{text-decoration:underline;text-underline-offset:3px}
 
@@ -389,7 +405,14 @@ ul{padding:0;list-style:none}
       <p class="eyebrow reveal">Kontakt</p>
       <h2 class="reveal" style="--d:1">Du brauchst eine Webseite? <em>Schreib mir.</em></h2>
       <p class="lead reveal" style="--d:2">Erzähl mir kurz, worum es geht. Ich melde mich mit einer ersten Idee, wie deine Seite aussehen könnte.</p>
-      <a class="btn reveal" style="--d:3" href="mailto:selimi@ardit.ch?subject=Anfrage%20Webseite">selimi@ardit.ch <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <div class="mailwrap reveal" style="--d:3">
+        <a class="mailbtn" href="mailto:selimi@ardit.ch?subject=Anfrage%20Webseite" aria-label="E-Mail an selimi@ardit.ch senden">
+          <img src="assets/head.webp" width="300" height="294" alt="" loading="lazy" decoding="async">
+          <span class="now" aria-hidden="true">Jetzt!</span>
+          <span class="play">E-Mail senden</span>
+        </a>
+        <p class="mailaddr">selimi@ardit.ch</p>
+      </div>
       <div class="foot">
         <span>© 2026 Ardit Selimi</span>
         <a href="#top">Nach oben</a>

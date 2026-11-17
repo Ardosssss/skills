@@ -21,6 +21,10 @@ Die Aufnahme von HKBd Coach setzt Startseite und Seite «Leistungsziele» untere
 
 Bild im Hochformat 3:4 (am besten 1080 × 1440 px) als `assets/portrait.webp` ablegen. Das aktuelle Porträt ist ein Ausschnitt von 540 × 720 px, mit Real-ESRGAN auf das Doppelte hochgerechnet.
 
+## Mail-Knopf
+
+Der Knopf im Kontakt folgt einem Entwurf von Uiverse.io (barisdogansutcu): in Ruhe der Kopf neben «E-Mail senden», beim Hover fährt der Kopf gross nach rechts und «Jetzt!» erscheint. `assets/head.webp` ist der freigestellte Kopf aus dem Porträt. Die Adresse steht zusätzlich als Text darunter.
+
 ## Schwebende Karten im Hero
 
 Jede Karte ist ein `<div class="float">` in der `.scene`. Position und Grösse stehen in den Klassen `f-a` bis `f-f` (eine Anordnung fürs Handy, eine ab 760 px Breite), die Bewegung im `style` in `--ax`/`--ay` (Weg), `--tx`/`--ty` (Dauer) und `--ar` (Drehung). `data-depth` bestimmt, wie stark die Karte beim Scrollen mitzieht.
