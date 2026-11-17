@@ -7,7 +7,7 @@ Eine einzelne Seite, die kurz zeigt, was ich mache, und meine Webseiten vorstell
 | Datei | Inhalt |
 | --- | --- |
 | `index.html` | Die ganze Seite in einer Datei (CSS und JavaScript inline): Hero, «Was ich mache», Projekte, Kontakt |
-| `assets/` | Pro Projekt WebP-Bilder: Desktop-Aufnahme in 800 und 1280 px Breite, Handy-Aufnahme (480 px) und kleine Ausschnitte für die schwebenden Karten im Hero. Dazu `portrait.webp` |
+| `assets/` | Pro Projekt WebP-Bilder: Desktop-Aufnahme in 1280 und 1920 px Breite (in doppelter Pixeldichte aufgenommen), Handy-Aufnahme (780 px) und Ausschnitte für die schwebenden Karten im Hero (1080 px, Handys 420 px). Dazu `portrait.webp` |
 
 Keine Build-Tools nötig. Lokal ansehen: im Repo-Ordner `python3 -m http.server` starten und `/portfolio-site/` öffnen.
 
@@ -19,7 +19,7 @@ Die Aufnahme von HKBd Coach setzt Startseite und Seite «Leistungsziele» untere
 
 ## Porträt tauschen
 
-Bild im Hochformat 3:4 (mindestens 720 × 960 px) als `assets/portrait.webp` ablegen.
+Bild im Hochformat 3:4 (am besten 1080 × 1440 px) als `assets/portrait.webp` ablegen. Das aktuelle Porträt ist ein Ausschnitt von 540 × 720 px, mit Real-ESRGAN auf das Doppelte hochgerechnet.
 
 ## Schwebende Karten im Hero
 
@@ -27,7 +27,7 @@ Jede Karte ist ein `<div class="float">` in der `.scene`. Position und Grösse s
 
 ## Projekt hinzufügen
 
-1. Ganzseitige Aufnahmen der Seite machen: Desktop mit 1280 px Breite, Handy mit 390 px Breite. Als WebP in `assets/` ablegen (`name-desktop-800.webp`, `name-desktop-1280.webp`, `name-mobile-480.webp`, `name-hero-720.webp`).
+1. Ganzseitige Aufnahmen der Seite machen: Desktop mit 1280 px Breite in doppelter Pixeldichte, Handy mit 390 px Breite in doppelter Pixeldichte. Als WebP in `assets/` ablegen (`name-desktop-1280.webp`, `name-desktop-1920.webp`, `name-mobile-780.webp`, `name-hero-1080.webp`, `name-phone-420.webp`).
 2. In `index.html` einen `<article class="project">` kopieren und Titel, Tags, Text, Link und Bilder anpassen. `width` und `height` der Bilder müssen zur Datei passen.
 3. Für die Farbbühne eine Zeile `.project[data-p="name"]{…}` mit den `--p-*`-Farben ergänzen.
 4. `--travel` (Desktop) und `--travel-m` (Handy) legen fest, wie lange man durch das Projekt scrollt. Lange Seiten brauchen einen grösseren Wert.
