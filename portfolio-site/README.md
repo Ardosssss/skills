@@ -9,6 +9,8 @@ Eine einzelne Seite, die kurz zeigt, was ich mache, und meine Webseiten vorstell
 | `index.html` | Die ganze Seite in einer Datei (CSS und JavaScript inline): Hero, «Was ich mache», Projekte, Kontakt |
 | `assets/` | Pro Projekt WebP-Bilder: Desktop-Aufnahme in 1280 und 1920 px Breite (in doppelter Pixeldichte aufgenommen), Handy-Aufnahme (780 px) und Ausschnitte für die schwebenden Karten im Hero (1080 px, Handys 420 px). Dazu `portrait.webp` |
 
+Online liegt die Seite unter ardit.ch (Infomaniak Starter-Hosting). Dort liegen die Bilder im selben Ordner wie `index.html`: Für den Upload werden in `index.html` alle Pfade `assets/…` durch den blossen Dateinamen ersetzt.
+
 Keine Build-Tools nötig. Lokal ansehen: im Repo-Ordner `python3 -m http.server` starten und `/portfolio-site/` öffnen.
 
 ## Projekte
