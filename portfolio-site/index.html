@@ -223,6 +223,45 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   .motion .phone{width:21%;height:auto}
 }
 
+/* ---- Weitere Projekte folgen: im Browserfenster baut sich eine Seite Block für Block auf ---- */
+.soon{position:relative;margin-top:calc(var(--r) * -1);border-radius:var(--r) var(--r) 0 0;background:var(--bg);padding-block:clamp(88px,11vw,150px) calc(clamp(88px,11vw,150px) + var(--r))}
+.soon__in{display:grid;gap:clamp(40px,7vw,72px);align-items:center;position:relative;z-index:2}
+.soon h2{font-size:clamp(40px,5.4vw,84px);font-weight:700;letter-spacing:-.05em;line-height:.96;text-wrap:balance}
+.soon p{font-size:clamp(16px,1.25vw,18px);color:var(--ink-2);max-width:30em;margin-top:22px;text-wrap:pretty}
+.soon__tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;line-height:1;padding:8px 12px;border-radius:999px;border:1px solid var(--line);margin-bottom:22px}
+.soon__tag i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.dots{display:inline-flex;gap:.1em;margin-left:.06em}
+.dots i{display:block;width:.17em;height:.17em;border-radius:50%;background:var(--accent)}
+.sk{border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(15,46,70,.08),0 50px 100px -40px rgba(15,46,70,.45)}
+.sk .chrome{height:38px;padding:0 14px;gap:7px}
+.sk .chrome i{width:10px;height:10px}
+.sk .chrome::after{content:"";width:44px;flex:none}
+.sk__view{position:relative;aspect-ratio:16/10;overflow:hidden}
+.sk__view b{position:absolute;display:block;border-radius:8px;background:rgba(15,46,70,.1)}
+.sk__view .k1{left:5%;top:6%;width:13%;height:4.5%}
+.sk__view .k2{left:60%;top:6.6%;width:35%;height:3.2%}
+.sk__view .k3{left:5%;top:22%;width:46%;height:9.5%;background:rgba(15,46,70,.2)}
+.sk__view .k4{left:5%;top:34.5%;width:33%;height:9.5%;background:rgba(15,46,70,.2)}
+.sk__view .k5{left:5%;top:49%;width:40%;height:3.4%}
+.sk__view .k6{left:5%;top:55%;width:29%;height:3.4%}
+.sk__view .k7{left:5%;top:64%;width:19%;height:8.5%;border-radius:999px;background:var(--accent)}
+.sk__view .k8{left:58%;top:20%;width:37%;height:53%;border-radius:16px;background:var(--accent-soft);opacity:.55}
+.sk__view .k9{left:5%;top:82%;width:27%;height:30%}
+.sk__view .k10{left:36.5%;top:82%;width:27%;height:30%}
+.sk__view .k11{left:68%;top:82%;width:27%;height:30%}
+.sk__view::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.75) 50%,transparent 62%);transform:translateX(-110%)}
+@keyframes sk{0%{opacity:0;transform:translateY(14px) scale(.96)}6%,88%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+@keyframes sk-soft{0%{opacity:0;transform:translateY(14px) scale(.96)}6%,88%{opacity:.55;transform:none}96%,100%{opacity:0;transform:none}}
+@keyframes shine{to{transform:translateX(110%)}}
+@keyframes dot{0%,55%,100%{transform:none;opacity:.35}28%{transform:translateY(-.34em);opacity:1}}
+.motion .soon.live .sk__view b{animation:sk 6.4s var(--ease-out) calc(var(--i) * 150ms) infinite backwards}
+.motion .soon.live .sk__view .k8{animation-name:sk-soft}
+.motion .soon.live .sk__view::after{animation:shine 2.6s linear 1.8s infinite}
+.motion .soon.live .dots i{animation:dot 1.5s cubic-bezier(.37,0,.63,1) infinite}
+.motion .soon.live .dots i:nth-child(2){animation-delay:.17s}
+.motion .soon.live .dots i:nth-child(3){animation-delay:.34s}
+@media (min-width:900px){.soon__in{grid-template-columns:minmax(0,.82fr) minmax(0,1.5fr);column-gap:clamp(32px,5vw,88px)}.sk{width:min(100%,calc((100vh - 250px) * 1.6));justify-self:center}}
+
 /* ---- Kontakt ---- */
 .contact{position:relative;margin-top:calc(var(--r) * -1);border-radius:var(--r) var(--r) 0 0;background:var(--ink);color:#fff;padding-block:clamp(96px,14vw,200px) clamp(40px,5vw,64px)}
 .contact .eyebrow{color:#8FA6B8}
@@ -456,6 +495,20 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
       </div>
     </article>
 
+    <div class="soon" id="mehr">
+      <div class="soon__in wrap">
+        <div>
+          <span class="soon__tag reveal"><i></i>In Arbeit</span>
+          <h2 class="reveal" style="--d:1">Weitere Projekte folgen<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></h2>
+          <p class="reveal" style="--d:2">Hier erscheint, was als Nächstes fertig wird.</p>
+        </div>
+        <div class="sk reveal" style="--d:2" aria-hidden="true">
+          <div class="chrome"><i></i><i></i><i></i><span class="url">bald hier</span></div>
+          <div class="sk__view"><b class="k1" style="--i:0"></b><b class="k2" style="--i:1"></b><b class="k3" style="--i:2"></b><b class="k4" style="--i:3"></b><b class="k5" style="--i:4"></b><b class="k6" style="--i:5"></b><b class="k7" style="--i:6"></b><b class="k8" style="--i:7"></b><b class="k9" style="--i:8"></b><b class="k10" style="--i:9"></b><b class="k11" style="--i:10"></b></div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <section class="contact" id="kontakt">
@@ -500,6 +553,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   // Farbton und Stärke des Schimmers je Abschnitt
   const TINTS = { base: ['#E6DCCB', 0.85], kmu: ['#5B86E8', 0.25], hkba: ['#E79BE0', 0.6], hkbd: ['#8FC4F2', 0.6], qv: ['#F0C24F', 0.65], contact: ['#7FB6E6', 0.2] };
   const zones = [...document.querySelectorAll('.project')].map((el) => ({ el, key: el.dataset.p, top: 0 }));
+  zones.push({ el: document.getElementById('mehr'), key: 'base', top: 0 });
   zones.push({ el: document.getElementById('kontakt'), key: 'contact', top: 0 });
   const statement = document.getElementById('statement');
   const sentence = statement.textContent.trim();
@@ -663,6 +717,8 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
   // Bewegtbilder unter «Was ich mache» laufen nur, solange sie zu sehen sind
+  const soon = document.getElementById('mehr');
+  new IntersectionObserver(([en]) => soon.classList.toggle('live', en.isIntersecting)).observe(soon);
   const skills = document.querySelector('.skills');
   new IntersectionObserver(([en]) => skills.classList.toggle('live', en.isIntersecting)).observe(skills);
   const cue = document.getElementById('cue');

@@ -37,6 +37,10 @@ Der Block neigt sich zur Maus: Die Ecke gegenüber dem Mauszeiger kommt nach vor
 
 Alle Handyrahmen sind im iPhone-Stil gebaut (Titanrahmen, schmaler schwarzer Rand, Dynamic Island, Seitentasten), rein mit CSS und in Anteilen der Gerätebreite, damit sie in jeder Grösse stimmen.
 
+## Weitere Projekte folgen
+
+Nach dem letzten Projekt steht der Abschnitt `#mehr`: Titel mit drei hüpfenden Punkten und ein Browserfenster, in dem sich Platzhalter-Blöcke nacheinander aufbauen, ein Lichtstreifen darüberläuft und alles wieder von vorn beginnt. Die Animation läuft nur, solange der Abschnitt zu sehen ist. Kommt ein neues Projekt dazu, wird es davor als `<article class="project">` eingefügt.
+
 ## Schwebender Hut
 
 `assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Sein Farbschimmer passt sich dem Abschnitt an, über dem er schwebt (Farben in `TINTS` im Skript). Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.
