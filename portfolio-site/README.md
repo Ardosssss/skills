@@ -1,6 +1,6 @@
 # Portfolio – Personal-Brand-Seite
 
-Eine einzelne Seite, die kurz zeigt, was ich mache, und meine Webseiten vorstellt. Im Hero steht das Porträt, dahinter schweben die Projekte. Jede Projektseite läuft beim Scrollen als ganze Aufnahme durch ein Browser- und ein Handyfenster.
+Eine einzelne Seite, die kurz zeigt, was ich mache, und meine Webseiten vorstellt. Der Hero ist ein einziger Block: das Porträt in der Mitte, darum schweben die Projekte, darunter steht der Name. Farben: tiefes Seeblau und ein helleres Blau auf warmem Hellgrau. Jede Projektseite läuft beim Scrollen als ganze Aufnahme durch ein Browser- und ein Handyfenster.
 
 ## Struktur
 
@@ -23,7 +23,7 @@ Bild im Hochformat 3:4 (mindestens 720 × 960 px) als `assets/portrait.webp` abl
 
 ## Schwebende Karten im Hero
 
-Jede Karte ist ein `<div class="float">` in der `.scene`. Position und Grösse stehen als `left`, `top` und `width` im `style`, die Bewegung in `--ax`/`--ay` (Weg), `--tx`/`--ty` (Dauer) und `--ar` (Drehung). `data-depth` bestimmt, wie stark die Karte beim Scrollen mitzieht.
+Jede Karte ist ein `<div class="float">` in der `.scene`. Position und Grösse stehen in den Klassen `f-a` bis `f-f` (eine Anordnung fürs Handy, eine ab 760 px Breite), die Bewegung im `style` in `--ax`/`--ay` (Weg), `--tx`/`--ty` (Dauer) und `--ar` (Drehung). `data-depth` bestimmt, wie stark die Karte beim Scrollen mitzieht.
 
 ## Projekt hinzufügen
 
