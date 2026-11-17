@@ -185,15 +185,15 @@ ul{padding:0;list-style:none}
 .contact p.lead{color:#C3D3DF;max-width:30em;margin:26px 0 0}
 /* Mail-Knopf nach Uiverse.io (barisdogansutcu): beim Hover fährt der Kopf gross nach rechts, «E-Mail senden» weicht «Jetzt!» */
 .mailwrap{margin-top:32px}
-.mailbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:60px;padding:0 24px 0 12px;color:#fff;text-shadow:2px 2px rgba(15,46,70,.55);text-transform:uppercase;letter-spacing:1px;font-weight:600;font-size:17px;line-height:1;white-space:nowrap;border:2px solid var(--accent-soft);background-color:var(--accent);border-radius:50px;position:relative;overflow:hidden;cursor:pointer;touch-action:manipulation;transition:transform .5s ease}
-.mailbtn:active{transform:scale(.9);transition:transform 100ms ease}
-.mailbtn .face{display:block;flex:none;width:46px;position:relative;z-index:2;transform-origin:50% 76%;transition:transform .5s ease}
+.mailbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:60px;padding:0 24px 0 12px;color:#fff;text-shadow:2px 2px rgba(15,46,70,.55);text-transform:uppercase;letter-spacing:1px;font-weight:600;font-size:17px;line-height:1;white-space:nowrap;border:2px solid var(--accent-soft);background-color:var(--accent);border-radius:50px;position:relative;overflow:hidden;cursor:pointer;touch-action:manipulation;transition:transform 300ms var(--ease-out)}
+.mailbtn:active{transform:scale(.95);transition:transform 120ms var(--ease-out)}
+.mailbtn .face{display:block;flex:none;width:46px;position:relative;z-index:2;transform-origin:50% 76%;will-change:transform;transition:transform 600ms var(--ease-out)}
 .mailbtn .face img{display:block;width:100%;height:auto}
-.mailbtn .play{transition:transform .5s ease .3s}
-.mailbtn .now{position:absolute;left:0;top:50%;z-index:2;transform:translate(-110%,-50%);transition:transform .5s ease}
+.mailbtn .play{transition:transform 600ms var(--ease-out),opacity 260ms ease}
+.mailbtn .now{position:absolute;left:0;top:50%;z-index:2;transform:translate(-110%,-50%);transition:transform 600ms var(--ease-out)}
 .mailbtn:hover .face,.mailbtn:focus-visible .face,.mailbtn.is-on .face{transform:translateX(315%) scale(3)}
-.mailbtn:hover .now,.mailbtn:focus-visible .now,.mailbtn.is-on .now{transform:translate(16px,-50%);transition-delay:.3s}
-.mailbtn:hover .play,.mailbtn:focus-visible .play,.mailbtn.is-on .play{transform:translateX(200%)}
+.mailbtn:hover .now,.mailbtn:focus-visible .now,.mailbtn.is-on .now{transform:translate(16px,-50%);transition-delay:70ms}
+.mailbtn:hover .play,.mailbtn:focus-visible .play,.mailbtn.is-on .play{transform:translateX(120%);opacity:0}
 .mailbtn:focus-visible{outline-color:#fff;border-radius:50px}
 .mailaddr{margin-top:16px;font-size:15px;color:#8FA6B8}
 .mailaddr__text{-webkit-user-select:all;user-select:all}
