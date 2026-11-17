@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Platzhalter für das Porträt">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E6E3DC"/>
+      <stop offset="1" stop-color="#CDC9C0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <circle cx="400" cy="390" r="150" fill="#B4AFA4"/>
+  <path d="M90 1000c0-205 139-330 310-330s310 125 310 330z" fill="#B4AFA4"/>
+  <text x="400" y="118" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" letter-spacing="5" fill="#8C877C">DEIN BILD</text>
+</svg>
