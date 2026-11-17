@@ -33,9 +33,13 @@ Der Block neigt sich zur Maus: Die Ecke gegenüber dem Mauszeiger kommt nach vor
 - Zähler, Titel, Stichworte, Text und Knopf eines Projekts kommen gestaffelt herein.
 - Bei «Seite ansehen» wächst die Farbfüllung aus dem Pfeil heraus.
 
+## Handys
+
+Alle Handyrahmen sind im iPhone-Stil gebaut (Titanrahmen, schmaler schwarzer Rand, Dynamic Island, Seitentasten), rein mit CSS und in Anteilen der Gerätebreite, damit sie in jeder Grösse stimmen.
+
 ## Schwebender Hut
 
-`assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.
+`assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Sein Farbschimmer passt sich dem Abschnitt an, über dem er schwebt (Farben in `TINTS` im Skript). Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.
 
 ## Mail-Knopf
 

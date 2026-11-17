@@ -67,8 +67,8 @@ a.float:active .card{scale:1.02}
 a.float:focus-visible{outline:none}
 a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .card img{width:100%;height:auto}
-.card--phone{border-radius:16% / 7.6%;border:clamp(3px,.45vw,7px) solid #0B0C0E;background:#0B0C0E}
-.card--phone img{border-radius:12% / 5.8%}
+.card--phone{overflow:visible}
+.card--phone img{position:absolute;z-index:1;left:3.9%;top:1.88%;width:92.2%;height:96.24%;object-fit:cover;object-position:50% 0;border-radius:14.2% / 6.55%}
 .chrome{display:flex;align-items:center;gap:5px;height:clamp(14px,1.9vw,26px);padding:0 clamp(6px,.9vw,12px);background:#fff;border-bottom:1px solid rgba(13,14,16,.07)}
 .chrome i{width:clamp(4px,.55vw,8px);height:clamp(4px,.55vw,8px);border-radius:50%;background:#D9D9DE}
 .chrome--dark{background:#12141A;border-color:rgba(255,255,255,.08)}
@@ -178,9 +178,18 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .browser .view{aspect-ratio:16/10}
 .view img{width:100%;height:auto}
 .thumb{display:none;position:absolute;top:4px;right:4px;width:4px;height:16%;border-radius:4px;background:rgba(128,130,138,.75);will-change:transform}
-.phone{position:relative;width:min(64vw,300px);margin-inline:auto;aspect-ratio:9/18.6;border-radius:13% / 6.3%;padding:2.6%;background:#0B0C0E;box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 0 0 1px var(--p-edge),0 40px 80px -30px var(--p-shadow)}
-.phone .view{height:100%;border-radius:10.5% / 5%}
-.phone::before{content:"";position:absolute;z-index:2;top:3.4%;left:50%;width:26%;height:2.6%;margin-left:-13%;border-radius:999px;background:#0B0C0E}
+/* Handy im iPhone-Stil: flacher Titanrahmen, schmaler schwarzer Rand, Dynamic Island, Tasten an den Seiten.
+   Alle Masse sind Anteile der Gerätebreite bzw. -höhe, damit der Rahmen in jeder Grösse stimmt. */
+.phone,.card--phone{position:relative;isolation:isolate;aspect-ratio:9/18.7;border-radius:17% / 8.2%;border:0;background:linear-gradient(140deg,#A9ADB3 0%,#565A60 22%,#C9CDD2 46%,#4A4E54 70%,#9CA0A6 100%)}
+.phone{width:min(64vw,300px);margin-inline:auto;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 40px 80px -30px var(--p-shadow)}
+.card--phone{box-shadow:0 0 0 1px rgba(0,0,0,.4),0 30px 60px -28px rgba(15,46,70,.55)}
+.phone::before,.card--phone::before{content:"";position:absolute;z-index:0;left:1.1%;right:1.1%;top:.53%;bottom:.53%;border-radius:16.3% / 7.75%;background:#050506}
+.phone::after,.card--phone::after{content:"";position:absolute;z-index:3;top:3.15%;left:50%;width:28%;height:3.85%;margin-left:-14%;border-radius:999px;background:#050506}
+.phone .view{position:absolute;z-index:1;left:3.9%;right:3.9%;top:1.88%;bottom:1.88%;border-radius:14.2% / 6.55%}
+.keys{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.keys::before,.keys::after{content:"";position:absolute;width:1.9%;border-radius:2px}
+.keys::before{left:-1.3%;top:15.5%;height:23%;background:linear-gradient(#7C8086 0 15%,transparent 15% 30%,#7C8086 30% 62%,transparent 62% 68%,#7C8086 68% 100%)}
+.keys::after{right:-1.3%;top:25%;height:13.5%;background:#7C8086}
 
 /* Farbbühnen */
 .project[data-p="kmu"]{--p-bg:#080D1C;--p-fg:#F4F6FB;--p-soft:#BCC5D8;--p-muted:#8590A8;--p-line:rgba(255,255,255,.16);--p-accent:#38BDF8;--p-on-accent:#06101F;--p-edge:rgba(255,255,255,.14);--p-shadow:rgba(37,99,235,.5)}
@@ -242,6 +251,10 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 /* ---- Hut: sitzt oben auf dem Kopf im Porträt, löst sich beim Scrollen und schwebt hinter den Inhalten durch die Seite ---- */
 .hat{display:none;position:fixed;left:0;top:0;z-index:1;width:200px;pointer-events:none;will-change:transform;--k:0}
 .hat img{width:100%;height:auto;filter:drop-shadow(0 calc(16px * var(--k)) calc(12px * var(--k)) rgba(8,24,40,calc(.34 * var(--k))))}
+/* Farbschimmer auf dem Hut: Nur die bläulich beschienenen Stellen (Maske hat-mask.webp) nehmen den Ton des Abschnitts an,
+   Krone und Band behalten die Farben aus dem Foto */
+.hat-dy{position:relative;isolation:isolate}
+.hat-tint{position:absolute;inset:0;background-color:var(--tint,#E6DCCB);opacity:var(--tint-o,.85);mix-blend-mode:color;-webkit-mask:url(assets/hat-mask.webp) center/100% 100% no-repeat;mask:url(assets/hat-mask.webp) center/100% 100% no-repeat;transition:background-color 700ms ease,opacity 700ms ease}
 @keyframes hat-in{from{opacity:0}}
 .motion .hat{display:block;animation:hat-in 300ms ease 1250ms backwards}
 .motion .hat-dx{--ax:calc(18px * var(--k));animation:sway-x 6.3s cubic-bezier(.37,0,.63,1) infinite alternate}
@@ -270,7 +283,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 <body>
 <a class="skip" href="#projekte">Zu den Projekten</a>
 
-<div class="hat" id="hat" aria-hidden="true"><div class="hat-dx"><div class="hat-dy"><img src="assets/hat.webp" width="375" height="237" alt=""></div></div></div>
+<div class="hat" id="hat" aria-hidden="true"><div class="hat-dx"><div class="hat-dy"><img src="assets/hat.webp" width="375" height="237" alt=""><span class="hat-tint"></span></div></div></div>
 
 <button class="hat-hit" id="hatHit" type="button" aria-label="Nach oben"></button>
 
@@ -295,7 +308,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
           <div class="dx"><div class="dy"><div class="card" style="--rot:-4deg"><div class="chrome chrome--dark"><i></i><i></i><i></i></div><img src="assets/kmuwebstudio-blue-1080.webp" width="1080" height="675" alt=""></div></div></div>
         </a>
         <a class="float f-e" href="#p-hkbd" aria-label="Zum Projekt HKBd Coach" data-depth="1.1" style="--d:5;--ax:9px;--ay:13px;--ar:2deg;--tx:5.8s;--ty:7.9s;--dl:-3s">
-          <div class="dx"><div class="dy"><div class="card card--phone" style="--rot:-7deg"><img src="assets/hkbd-phone-420.webp" width="420" height="868" alt=""></div></div></div>
+          <div class="dx"><div class="dy"><div class="card card--phone" style="--rot:-7deg"><span class="keys"></span><img src="assets/hkbd-phone-420.webp" width="420" height="868" alt=""></div></div></div>
         </a>
 
         <!-- Porträt: Hochformat 3:4 -->
@@ -305,7 +318,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
         </figure>
 
         <a class="float f-f" href="#p-kmu" aria-label="Zum Projekt KMU Web Studio" data-depth="1.5" style="--d:6;--ax:11px;--ay:15px;--ar:2.2deg;--tx:6.9s;--ty:5.6s;--dl:-6s">
-          <div class="dx"><div class="dy"><div class="card card--phone" style="--rot:7deg"><img src="assets/kmuwebstudio-phone-420.webp" width="420" height="868" alt=""></div></div></div>
+          <div class="dx"><div class="dy"><div class="card card--phone" style="--rot:7deg"><span class="keys"></span><img src="assets/kmuwebstudio-phone-420.webp" width="420" height="868" alt=""></div></div></div>
         </a>
       </div></div>
 
@@ -359,7 +372,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
                 <div class="chrome chrome--dark"><i></i><i></i><i></i><span class="url">kmuwebstudio.ch</span></div>
                 <div class="view"><img src="assets/kmuwebstudio-desktop-1280.webp" srcset="assets/kmuwebstudio-desktop-1280.webp 1280w, assets/kmuwebstudio-desktop-1920.webp 1920w" sizes="(min-width:900px) 56vw, 1px" width="1280" height="7719" loading="lazy" decoding="async" alt="KMU Web Studio am Desktop, von oben nach unten"><span class="thumb"></span></div>
               </div>
-              <div class="phone">
+              <div class="phone"><span class="keys"></span>
                 <div class="view"><img src="assets/kmuwebstudio-mobile-780.webp" width="780" height="10400" loading="lazy" decoding="async" alt="KMU Web Studio am Handy"><span class="thumb"></span></div>
               </div>
             </div>
@@ -384,7 +397,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
                 <div class="chrome"><i></i><i></i><i></i><span class="url">hkba.live</span></div>
                 <div class="view"><img src="assets/hkba-desktop-1280.webp" srcset="assets/hkba-desktop-1280.webp 1280w, assets/hkba-desktop-1920.webp 1920w" sizes="(min-width:900px) 56vw, 1px" width="1280" height="3349" loading="lazy" decoding="async" alt="HKBa Coach am Desktop, von oben nach unten"><span class="thumb"></span></div>
               </div>
-              <div class="phone">
+              <div class="phone"><span class="keys"></span>
                 <div class="view"><img src="assets/hkba-mobile-780.webp" width="780" height="9552" loading="lazy" decoding="async" alt="HKBa Coach am Handy"><span class="thumb"></span></div>
               </div>
             </div>
@@ -409,7 +422,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
                 <div class="chrome"><i></i><i></i><i></i><span class="url">hkbd.live</span></div>
                 <div class="view"><img src="assets/hkbd-desktop-1280.webp" srcset="assets/hkbd-desktop-1280.webp 1280w, assets/hkbd-desktop-1920.webp 1920w" sizes="(min-width:900px) 56vw, 1px" width="1280" height="3074" loading="lazy" decoding="async" alt="HKBd Coach am Desktop, von oben nach unten"><span class="thumb"></span></div>
               </div>
-              <div class="phone">
+              <div class="phone"><span class="keys"></span>
                 <div class="view"><img src="assets/hkbd-mobile-780.webp" width="780" height="9063" loading="lazy" decoding="async" alt="HKBd Coach am Handy"><span class="thumb"></span></div>
               </div>
             </div>
@@ -434,7 +447,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
                 <div class="chrome"><i></i><i></i><i></i><span class="url">qv-assistent.ch</span></div>
                 <div class="view"><img src="assets/qv-desktop-1280.webp" srcset="assets/qv-desktop-1280.webp 1280w, assets/qv-desktop-1920.webp 1920w" sizes="(min-width:900px) 56vw, 1px" width="1280" height="3686" loading="lazy" decoding="async" alt="QV-Assistent am Desktop, von oben nach unten"><span class="thumb"></span></div>
               </div>
-              <div class="phone">
+              <div class="phone"><span class="keys"></span>
                 <div class="view"><img src="assets/qv-mobile-780.webp" width="780" height="10400" loading="lazy" decoding="async" alt="QV-Assistent am Handy"><span class="thumb"></span></div>
               </div>
             </div>
@@ -483,7 +496,11 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   const scene = document.getElementById('scene');
   // Lage des Huts im Porträt (Anteile von Breite und Höhe) und Grundmass des Hut-Elements
   const HAT = { base: 200, ratio: 0.6320 };   // Grundmass des Hut-Elements; die Lage im Porträt gibt .hat-anchor vor
-  let portraitOff = 0, hatK = -1;
+  let portraitOff = 0, hatK = -1, hatZone = '';
+  // Farbton und Stärke des Schimmers je Abschnitt
+  const TINTS = { base: ['#E6DCCB', 0.85], kmu: ['#5B86E8', 0.25], hkba: ['#E79BE0', 0.6], hkbd: ['#8FC4F2', 0.6], qv: ['#F0C24F', 0.65], contact: ['#7FB6E6', 0.2] };
+  const zones = [...document.querySelectorAll('.project')].map((el) => ({ el, key: el.dataset.p, top: 0 }));
+  zones.push({ el: document.getElementById('kontakt'), key: 'contact', top: 0 });
   const statement = document.getElementById('statement');
   const sentence = statement.textContent.trim();
   let words = [];
@@ -510,6 +527,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     const sr = statement.getBoundingClientRect();
     const pr = hatAnchor.getBoundingClientRect();   // berücksichtigt auch die 3D-Neigung
     const vw = root.clientWidth;
+    for (const z of zones) z.top = z.el.getBoundingClientRect().top;
     // Grössen frisch lesen (nur für Projekte in Sichtweite): Bilder laden verzögert, ein früh gemerkter Wert wäre falsch
     for (const p of projects) {
       p.top = p.track.getBoundingClientRect().top;
@@ -547,6 +565,9 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
       const w = aw + (fw - aw) * k;
       const rot = k * 15 * Math.sin(sy / 520) - 16 * Math.sin(Math.PI * k);
       hat.style.transform = hatHit.style.transform = `translate3d(${x - HAT.base / 2}px,${y - HAT.base * HAT.ratio / 2}px,0) rotate(${rot}deg) scale(${w / HAT.base})`;
+      let zone = 'base';
+      for (const z of zones) if (z.top <= y) zone = z.key;
+      if (zone !== hatZone) { hatZone = zone; hat.style.setProperty('--tint', TINTS[zone][0]); hat.style.setProperty('--tint-o', TINTS[zone][1]); }
       const kr = Math.round(k * 200) / 200;
       if (kr !== hatK) { hatK = kr; hat.style.setProperty('--k', kr); hat.style.opacity = Math.min(1, kr * 25); }   // auf dem Kopf trägt das Foto den Hut selbst
       // die Neigung klingt beim Wegscrollen aus, damit der Hut sauber abhebt
