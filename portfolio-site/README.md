@@ -6,22 +6,28 @@ Eine einzelne Seite, die kurz zeigt, was ich mache, und meine Webseiten vorstell
 
 | Datei | Inhalt |
 | --- | --- |
-| `index.html` | Die ganze Seite in einer Datei (CSS und JavaScript inline): Hero, «Was ich mache», Projekte, Mitgewirkt, Kontakt |
-| `assets/` | Pro Projekt WebP-Bilder: Desktop-Aufnahme in 800 und 1280 px Breite, Handy-Aufnahme (480 px) und kleine Ausschnitte für die schwebenden Karten im Hero. Dazu `portrait-placeholder.svg` |
+| `index.html` | Die ganze Seite in einer Datei (CSS und JavaScript inline): Hero, «Was ich mache», Projekte, Weitere Arbeiten, Kontakt |
+| `assets/` | Pro Projekt WebP-Bilder: Desktop-Aufnahme in 800 und 1280 px Breite, Handy-Aufnahme (480 px) und kleine Ausschnitte für die schwebenden Karten im Hero. Dazu `portrait.webp` |
 
 Keine Build-Tools nötig. Lokal ansehen: im Repo-Ordner `python3 -m http.server` starten und `/portfolio-site/` öffnen.
 
-## Porträt einsetzen
+## Projekte
 
-Bild im Hochformat 4:5 (mindestens 800 × 1000 px) in `assets/` ablegen und in `index.html` beim `<figure class="float portrait">` den Pfad `assets/portrait-placeholder.svg` ersetzen. Ein ruhiger, einfarbiger Hintergrund passt am besten zu den Karten dahinter.
+Gross mit Scroll-Bühne: KMU Web Studio, HKBa Coach, HKBd Coach und QV-Assistent, aufgenommen von den Live-Seiten. Als kleine Karten unter «Weitere Arbeiten»: bebtidz, Special Rups und TIMELEZZ aus diesem Repo.
+
+Die Aufnahme von HKBd Coach setzt Startseite und Seite «Leistungsziele» untereinander, weil die Startseite allein zu kurz zum Durchscrollen ist. KMU Web Studio ist mit reduzierter Bewegung aufgenommen, damit alle Abschnitte sichtbar sind.
+
+## Porträt tauschen
+
+Bild im Hochformat 3:4 (mindestens 720 × 960 px) als `assets/portrait.webp` ablegen.
 
 ## Schwebende Karten im Hero
 
 Jede Karte ist ein `<div class="float">` in der `.scene`. Position und Grösse stehen als `left`, `top` und `width` im `style`, die Bewegung in `--ax`/`--ay` (Weg), `--tx`/`--ty` (Dauer) und `--ar` (Drehung). `data-depth` bestimmt, wie stark die Karte beim Scrollen mitzieht.
 
-## Mitgewirkt
+## Weitere Arbeiten
 
-Die drei Karten im Abschnitt `#mitgewirkt` sind Platzhalter. Zum Eintragen `slot--empty` entfernen, ein Bild in `.slot__img` setzen und Status, Titel, Text und Link anpassen.
+Die Karten im Abschnitt `#weitere` sind die kompakte Form eines Projekts: Bild (720 × 450), eine Zeile mit Art oder Status, Titel, Text und Link. Hier passen auch Projekte hin, an denen ich nur mitgewirkt habe.
 
 ## Projekt hinzufügen
 
@@ -29,7 +35,7 @@ Die drei Karten im Abschnitt `#mitgewirkt` sind Platzhalter. Zum Eintragen `slot
 2. In `index.html` einen `<article class="project">` kopieren und Titel, Tags, Text, Link und Bilder anpassen. `width` und `height` der Bilder müssen zur Datei passen.
 3. Für die Farbbühne eine Zeile `.project[data-p="name"]{…}` mit den `--p-*`-Farben ergänzen.
 4. `--travel` (Desktop) und `--travel-m` (Handy) legen fest, wie lange man durch das Projekt scrollt. Lange Seiten brauchen einen grösseren Wert.
-5. Die Zähler `01 / 03` anpassen.
+5. Die Zähler `01 / 04` anpassen.
 
 ## Motion-Entscheidungen
 
@@ -40,7 +46,5 @@ Die drei Karten im Abschnitt `#mitgewirkt` sind Platzhalter. Zum Eintragen `slot
 
 ## Offene Punkte
 
-- Name («Ardit») und Texte sind ein erster Vorschlag.
-- Das Porträt und die Projekte unter «Mitgewirkt» sind Platzhalter.
-- Die Kontaktadresse ist ein Platzhalter (`hallo@deine-domain.ch`).
-- Die Links «Seite ansehen» zeigen auf die Ordner in diesem Repo. Sobald die Seiten online sind, die echten Adressen eintragen.
+- Die Links unter «Weitere Arbeiten» zeigen auf die Ordner in diesem Repo. Sobald die Seiten online sind, die echten Adressen eintragen.
+- Ansichten hinter einem Login (z. B. der Assistent im QV-Assistent) sind nicht aufgenommen.
