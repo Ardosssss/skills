@@ -154,7 +154,7 @@ ul{padding:0;list-style:none}
 
 /* Bewegung an: hohe Scroll-Strecke, Fenster bleiben stehen, Aufnahme läuft durch */
 .motion .track{height:calc(100svh + var(--travel-m,260) * 1svh)}
-.motion .visual{position:sticky;top:0;height:100svh;padding-block:76px 20px}
+.motion .visual{position:sticky;top:0;height:100svh;padding-block:76px 44px}
 .motion .view{overflow:hidden}
 .motion .view img{will-change:transform}
 .motion .thumb{display:block}
@@ -186,24 +186,36 @@ ul{padding:0;list-style:none}
 .contact p.lead{color:#C3D3DF;max-width:30em;margin:26px 0 0}
 /* Mail-Knopf nach Uiverse.io (barisdogansutcu): beim Hover fährt der Kopf gross nach rechts, «E-Mail senden» weicht «Jetzt!» */
 .mailwrap{margin-top:32px}
-.mailbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:60px;padding:0 24px 0 12px;color:#fff;text-shadow:2px 2px rgb(116,116,116);text-transform:uppercase;letter-spacing:1px;font-weight:600;font-size:17px;line-height:1;white-space:nowrap;border:2px solid #000;background-color:hsl(49deg 98% 60%);border-radius:50px;position:relative;overflow:hidden;cursor:pointer;touch-action:manipulation;transition:transform .5s ease}
+.mailbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:60px;padding:0 24px 0 12px;color:#fff;text-shadow:2px 2px rgba(15,46,70,.55);text-transform:uppercase;letter-spacing:1px;font-weight:600;font-size:17px;line-height:1;white-space:nowrap;border:2px solid var(--accent-soft);background-color:var(--accent);border-radius:50px;position:relative;overflow:hidden;cursor:pointer;touch-action:manipulation;transition:transform .5s ease}
 .mailbtn:active{transform:scale(.9);transition:transform 100ms ease}
 .mailbtn img{width:46px;height:auto;max-width:none;flex:none;position:relative;z-index:2;transform-origin:50% 76%;transition:transform .5s ease}
 .mailbtn .play{transition:transform .5s ease .3s}
-.mailbtn .now{position:absolute;left:0;z-index:2;transform:translateX(-110%);transition:transform .5s ease}
+.mailbtn .now{position:absolute;left:0;top:50%;z-index:2;transform:translate(-110%,-50%);transition:transform .5s ease}
 @media (hover:hover) and (pointer:fine){
   .mailbtn:hover img{transform:translateX(315%) scale(3)}
-  .mailbtn:hover .now{transform:translateX(16px);transition-delay:.3s}
+  .mailbtn:hover .now{transform:translate(16px,-50%);transition-delay:.3s}
   .mailbtn:hover .play{transform:translateX(200%)}
 }
-.mailbtn:focus-visible img{transform:translateX(315%) scale(3)}
-.mailbtn:focus-visible .now{transform:translateX(16px);transition-delay:.3s}
-.mailbtn:focus-visible .play{transform:translateX(200%)}
+.mailbtn:focus-visible img,.mailbtn.is-on img{transform:translateX(315%) scale(3)}
+.mailbtn:focus-visible .now,.mailbtn.is-on .now{transform:translate(16px,-50%);transition-delay:.3s}
+.mailbtn:focus-visible .play,.mailbtn.is-on .play{transform:translateX(200%)}
 .mailbtn:focus-visible{outline-color:#fff;border-radius:50px}
-.mailaddr{margin-top:16px;font-size:15px;color:#8FA6B8;-webkit-user-select:all;user-select:all}
+.mailaddr{margin-top:16px;font-size:15px;color:#8FA6B8}
+.mailaddr__text{-webkit-user-select:all;user-select:all}
+#mailnote{color:var(--accent-soft)}
 @media (prefers-reduced-motion:reduce){.mailbtn,.mailbtn img,.mailbtn .play,.mailbtn .now{transition:none}}
 .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;margin-top:clamp(80px,12vw,180px);padding-top:22px;border-top:1px solid rgba(255,255,255,.16);font-size:13px;color:#8FA6B8}
 .foot a{text-decoration:underline;text-underline-offset:3px}
+
+/* ---- Hut: sitzt oben auf dem Kopf im Porträt, löst sich beim Scrollen und schwebt hinter den Inhalten durch die Seite ---- */
+.hat{display:none;position:fixed;left:0;top:0;z-index:1;width:200px;pointer-events:none;will-change:transform;--k:0}
+.hat img{width:100%;height:auto;filter:drop-shadow(0 calc(16px * var(--k)) calc(12px * var(--k)) rgba(8,24,40,calc(.34 * var(--k))))}
+@keyframes hat-in{from{opacity:0}}
+.motion .hat{display:block;animation:hat-in 300ms ease 1250ms backwards}
+.motion .hat-dx{--ax:calc(18px * var(--k));animation:sway-x 6.3s cubic-bezier(.37,0,.63,1) infinite alternate}
+.motion .hat-dy{--ay:calc(14px * var(--k));--ar:calc(5deg * var(--k));animation:sway-y 4.7s cubic-bezier(.37,0,.63,1) infinite alternate}
+/* Inhalte liegen über dem Hut, die Flächen der Abschnitte darunter */
+.about,.projects-head,.project__in,.contact>.wrap{position:relative;z-index:2}
 
 /* ---- Einblendungen ---- */
 .motion .reveal{opacity:0;transform:translateY(16px);transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out);transition-delay:calc(var(--d,0) * 70ms)}
@@ -229,6 +241,8 @@ ul{padding:0;list-style:none}
     <a class="nav-cta" href="#kontakt">Kontakt</a>
   </nav>
 </header>
+
+<div class="hat" id="hat" aria-hidden="true"><div class="hat-dx"><div class="hat-dy"><img src="assets/hat.webp" width="375" height="237" alt=""></div></div></div>
 
 <main id="top">
 
@@ -411,7 +425,7 @@ ul{padding:0;list-style:none}
           <span class="now" aria-hidden="true">Jetzt!</span>
           <span class="play">E-Mail senden</span>
         </a>
-        <p class="mailaddr">selimi@ardit.ch</p>
+        <p class="mailaddr"><span class="mailaddr__text">selimi@ardit.ch</span><span id="mailnote" role="status"></span></p>
       </div>
       <div class="foot">
         <span>© 2026 Ardit Selimi</span>
@@ -431,6 +445,12 @@ ul{padding:0;list-style:none}
   const hero = document.getElementById('hero');
   const floats = [...document.querySelectorAll('.float')].map((el) => ({ el, depth: +el.dataset.depth }));
   let heroLive = true;
+  const hat = document.getElementById('hat');
+  const portrait = document.querySelector('.portrait');
+  const portraitImg = portrait.querySelector('img');
+  // Lage des Huts im Porträt (Anteile von Breite und Höhe) und Grundmass des Hut-Elements
+  const HAT = { x: 0.3343, y: 0.0715, w: 0.3472, h: 0.1646, base: 200, ratio: 0.6320 };
+  let portraitOff = 0, hatK = -1;
   const statement = document.getElementById('statement');
   const sentence = statement.textContent.trim();
   let words = [];
@@ -455,6 +475,8 @@ ul{padding:0;list-style:none}
     // lesen
     const heroP = clamp(scrollY / hero.offsetHeight);
     const sr = statement.getBoundingClientRect();
+    const pr = portraitImg.getBoundingClientRect();
+    const vw = root.clientWidth;
     // Grössen frisch lesen (nur für Projekte in Sichtweite): Bilder laden verzögert, ein früh gemerkter Wert wäre falsch
     for (const p of projects) {
       p.top = p.track.getBoundingClientRect().top;
@@ -472,6 +494,28 @@ ul{padding:0;list-style:none}
     if (heroP < 1 || heroLive) {
       heroLive = heroP < 1;
       for (const f of floats) f.el.style.transform = `translate3d(0,${-heroP * f.depth * 150}px,0)`;
+    }
+
+    // Hut: bei k = 0 deckungsgleich auf dem Kopf, bei k = 1 frei schwebend auf einer Bahn, die der Scroll-Position folgt
+    {
+      const sy = scrollY;
+      const lin = clamp(sy / (vh * 0.6));
+      const k = lin * lin * (3 - 2 * lin);
+      const nextOff = heroLive ? -heroP * 0.3 * 150 : portraitOff;   // das Porträt wird in diesem Frame erst verschoben
+      const ax = pr.left + pr.width * (HAT.x + HAT.w / 2);
+      const ay = pr.top + pr.height * (HAT.y + HAT.h / 2) + (nextOff - portraitOff);
+      portraitOff = nextOff;
+      const aw = pr.width * HAT.w;
+      const fw = Math.max(86, Math.min(180, vw * 0.115));
+      const fx = vw * (0.5 + 0.37 * Math.sin(sy / 640));
+      const fy = vh * (0.52 + 0.27 * Math.sin(sy / 910 + 1.2));
+      const x = ax + (fx - ax) * k;
+      const y = ay + (fy - ay) * k - 60 * Math.sin(Math.PI * k);
+      const w = aw + (fw - aw) * k;
+      const rot = k * 15 * Math.sin(sy / 520) - 16 * Math.sin(Math.PI * k);
+      hat.style.transform = `translate3d(${x - HAT.base / 2}px,${y - HAT.base * HAT.ratio / 2}px,0) rotate(${rot}deg) scale(${w / HAT.base})`;
+      const kr = Math.round(k * 200) / 200;
+      if (kr !== hatK) { hatK = kr; hat.style.setProperty('--k', kr); }
     }
 
     if (sr.bottom > -vh && sr.top < vh * 2) {
@@ -517,6 +561,7 @@ ul{padding:0;list-style:none}
     statement.textContent = sentence;
     words = [];
     for (const f of floats) f.el.style.transform = '';
+    portraitOff = 0;
     for (const p of projects) {
       p.stage.style.transform = '';
       p.bar.style.transform = 'scaleX(1)';
@@ -539,8 +584,22 @@ ul{padding:0;list-style:none}
 
   addEventListener('scroll', request, { passive: true });
   addEventListener('resize', request);
+  portrait.addEventListener('animationend', request);
   addEventListener('load', request);
   for (const p of projects) for (const s of p.shots) s.img.addEventListener('load', request);
+  // Mail-Knopf: der Klick zeigt die Bewegung auch ohne Maus und kopiert die Adresse, falls kein Mailprogramm aufgeht
+  const mailbtn = document.querySelector('.mailbtn');
+  const mailnote = document.getElementById('mailnote');
+  let mailTimer;
+  mailbtn.addEventListener('click', () => {
+    mailbtn.classList.add('is-on');
+    clearTimeout(mailTimer);
+    mailTimer = setTimeout(() => { mailbtn.classList.remove('is-on'); mailnote.textContent = ''; }, 3500);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText('selimi@ardit.ch').then(() => { mailnote.textContent = ' · Adresse kopiert'; }, () => {});
+    }
+  });
+
   calm.addEventListener('change', () => (calm.matches ? stop() : start()));
   calm.matches ? stop() : start();
 })();
