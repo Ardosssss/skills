@@ -25,6 +25,14 @@ Bild im Hochformat 3:4 (am besten 1080 × 1440 px) als `assets/portrait.webp` ab
 
 Der Block neigt sich zur Maus: Die Ecke gegenüber dem Mauszeiger kommt nach vorn, in der Bildmitte liegt er flach. Die Karten liegen dafür in verschiedenen Tiefen (`translate` mit Z-Wert pro Klasse `f-a` bis `f-f` und beim Porträt). Die Neigung folgt der Maus weich nach, klingt beim Wegscrollen aus und ist ohne Maus sowie bei reduzierter Bewegung aus. Eine Leiste oben gibt es nicht mehr.
 
+## Weitere Bewegung
+
+- Die Karten im Hero sind Links: Ein Klick führt zum jeweiligen Projekt, beim Hover heben sie sich leicht an.
+- Unter dem Namen zeigt eine kleine Kapsel mit laufendem Punkt, dass es nach unten weitergeht. Sie blendet beim Scrollen aus.
+- Über Design, Umsetzung und Motion läuft je ein kleines Bewegtbild (Flächen ordnen sich um, Zeilen werden geschrieben, ein Punkt fährt eine Kurve ab), nur solange der Abschnitt zu sehen ist.
+- Zähler, Titel, Stichworte, Text und Knopf eines Projekts kommen gestaffelt herein.
+- Bei «Seite ansehen» wächst die Farbfüllung aus dem Pfeil heraus.
+
 ## Schwebender Hut
 
 `assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.

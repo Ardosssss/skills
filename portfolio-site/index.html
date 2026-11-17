@@ -57,10 +57,15 @@ ul{padding:0;list-style:none}
 .hero h1{font-size:clamp(46px,8.4vw,120px);font-weight:700;letter-spacing:-.055em;line-height:.92;color:var(--ink);margin-top:clamp(24px,3vw,40px)}
 .lead{font-size:clamp(17px,1.5vw,21px);color:var(--ink-2);max-width:30em;margin:26px 0 0;text-wrap:pretty}
 .scene-persp{perspective:1500px}
-.scene{position:relative;width:100%;max-width:560px;margin-inline:auto;aspect-ratio:1/1.1;transform-style:preserve-3d;will-change:transform}
-.float{position:absolute;will-change:transform}
+.scene{position:relative;width:100%;max-width:560px;margin-inline:auto;aspect-ratio:1/1.1;transform-style:preserve-3d;will-change:transform;pointer-events:none}   /* die Ebene selbst fängt keine Klicks ab, sonst wären Karten mit negativer Tiefe nicht anklickbar */
+.float{position:absolute;will-change:transform;pointer-events:auto}
 .dx,.dy{display:block}
-.card{border-radius:clamp(8px,1.1vw,16px);overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(15,46,70,.08),0 30px 60px -28px rgba(15,46,70,.5);transform:rotate(var(--rot,0deg))}
+.card{border-radius:clamp(8px,1.1vw,16px);overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(15,46,70,.08),0 30px 60px -28px rgba(15,46,70,.5);transform:rotate(var(--rot,0deg));transition:scale 240ms var(--ease-out)}
+a.float{display:block;color:inherit;cursor:pointer}
+a.float:hover .card{scale:1.06}
+a.float:active .card{scale:1.02}
+a.float:focus-visible{outline:none}
+a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .card img{width:100%;height:auto}
 .card--phone{border-radius:16% / 7.6%;border:clamp(3px,.45vw,7px) solid #0B0C0E;background:#0B0C0E}
 .card--phone img{border-radius:12% / 5.8%}
@@ -87,7 +92,7 @@ ul{padding:0;list-style:none}
 .f-e{left:7%;top:34%;width:16%}
 .f-f{left:77%;top:30%;width:17%;z-index:6}
 @media (min-width:760px){
-  .scene{max-width:none;width:min(100%,1240px,calc((100svh - 250px) * 1.8));min-width:min(100%,720px);aspect-ratio:1.8/1}
+  .scene{max-width:none;width:min(100%,1240px,calc((100svh - 310px) * 1.8));min-width:min(100%,720px);aspect-ratio:1.8/1}
   .portrait{width:36%}
   .f-a{left:1%;top:5%;width:32%}
   .f-b{left:66.5%;top:0;width:33%}
@@ -97,6 +102,14 @@ ul{padding:0;list-style:none}
   .f-f{left:65.2%;top:26%;width:9.6%}
 }
 
+/* Scroll-Hinweis: Punkt läuft in der Kapsel nach unten */
+.cue{display:block;width:26px;height:42px;margin:clamp(16px,2.4vw,26px) auto 0;border:2px solid var(--ink);border-radius:999px;position:relative;opacity:.55;transition:opacity 200ms ease}
+.cue:hover{opacity:1}
+.cue span{position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:4px;background:var(--ink)}
+@keyframes cue{0%{transform:translateY(0);opacity:0}25%{opacity:1}70%{transform:translateY(14px);opacity:1}100%{transform:translateY(16px);opacity:0}}
+.motion .cue span{animation:cue 1.8s cubic-bezier(.37,0,.63,1) infinite}
+.hero.paused .cue span{animation-play-state:paused}
+
 /* ---- Was ich mache ---- */
 .about{padding-block:clamp(72px,10vw,150px)}
 .statement{font-size:clamp(28px,4.6vw,66px);font-weight:700;letter-spacing:-.04em;line-height:1.06;max-width:19em;text-wrap:pretty;margin-top:22px}
@@ -105,6 +118,30 @@ ul{padding:0;list-style:none}
 .skills li{border-top:1px solid var(--ink);padding-top:18px}
 .skills h3{font-size:clamp(22px,2.2vw,30px);letter-spacing:-.03em;line-height:1.1}
 .skills p{color:var(--ink-2);margin-top:10px;max-width:26em}
+/* Bewegtbilder: Design ordnet Flächen um, Umsetzung schreibt Zeilen, Motion fährt eine Kurve ab */
+.ico{display:block;position:relative;width:64px;height:48px;margin-bottom:18px}
+.ico i{position:absolute;display:block;border-radius:5px;background:var(--ink)}
+.ico--design i:nth-child(1){left:0;top:0;width:34px;height:48px}
+.ico--design i:nth-child(2){left:40px;top:0;width:24px;height:21px;background:var(--accent)}
+.ico--design i:nth-child(3){left:40px;top:27px;width:24px;height:21px;opacity:.35}
+.ico--code i{left:0;height:8px;border-radius:4px;transform-origin:0 50%}
+.ico--code i:nth-child(1){top:4px;width:44px}
+.ico--code i:nth-child(2){top:20px;width:64px;background:var(--accent)}
+.ico--code i:nth-child(3){top:36px;width:30px;opacity:.35}
+.ico--motion svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;opacity:.3}
+.ico--motion i{left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--accent);offset-path:path('M6 42C26 42 24 6 58 6');offset-rotate:0deg;offset-distance:0%}
+@keyframes ico-a{0%,30%{transform:none}50%,80%{transform:translateX(30px)}100%{transform:none}}
+@keyframes ico-b{0%,30%{transform:none}50%,80%{transform:translateX(-40px)}100%{transform:none}}
+@keyframes ico-type{0%{transform:scaleX(.04)}22%,100%{transform:scaleX(1)}}
+@keyframes ico-path{0%,12%{offset-distance:0%}50%,62%{offset-distance:100%}100%{offset-distance:0%}}
+.motion .ico--design i:nth-child(1){animation:ico-a 4.2s cubic-bezier(.77,0,.175,1) infinite}
+.motion .ico--design i:nth-child(n+2){animation:ico-b 4.2s cubic-bezier(.77,0,.175,1) infinite}
+.motion .ico--design i:nth-child(3){animation-delay:90ms}
+.motion .ico--code i{animation:ico-type 3.6s var(--ease-out) infinite}
+.motion .ico--code i:nth-child(2){animation-delay:.45s}
+.motion .ico--code i:nth-child(3){animation-delay:.9s}
+.motion .ico--motion i{animation:ico-path 3.4s cubic-bezier(.77,0,.175,1) infinite}
+.skills:not(.live) .ico *{animation-play-state:paused}
 @media (max-width:760px){.skills{grid-template-columns:1fr}}
 
 /* ---- Projekte ---- */
@@ -122,8 +159,12 @@ ul{padding:0;list-style:none}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
 .tags li{font-size:13px;font-weight:700;line-height:1;padding:8px 12px;border-radius:999px;border:1px solid var(--p-line);color:var(--p-fg)}
 .info p{font-size:clamp(16px,1.25vw,18px);color:var(--p-soft);max-width:30em;margin-top:22px;text-wrap:pretty}
-.info .btn{margin-top:28px;background:var(--p-fg);color:var(--p-bg)}
-@media (hover:hover) and (pointer:fine){.info .btn:hover{background:var(--p-accent);color:var(--p-on-accent)}}
+.go-wrap{margin-top:28px}
+.info .btn{position:relative;isolation:isolate;overflow:hidden;background:var(--p-fg);color:var(--p-bg);transition:transform 140ms var(--ease-out),color 300ms ease}
+.info .btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--p-accent);clip-path:circle(0% at calc(100% - 30px) 50%);transition:clip-path 520ms var(--ease-out)}
+.info .btn:hover,.info .btn:focus-visible{color:var(--p-on-accent)}
+.info .btn:hover::before,.info .btn:focus-visible::before{clip-path:circle(150% at calc(100% - 30px) 50%)}
+.info .btn:hover svg.go,.info .btn:focus-visible svg.go{transform:translate(2px,-2px)}
 
 .visual{padding-block:32px 72px;display:grid;place-items:center}
 .stage{position:relative;width:100%;will-change:transform}
@@ -238,24 +279,24 @@ ul{padding:0;list-style:none}
   <section class="hero" id="hero">
     <div class="wrap">
       <!-- Schwebende Karte: Position und Grösse stehen in den Klassen f-a … f-f,
-           Bewegung über --ax/--ay (Weg), --tx/--ty (Dauer), --ar (Drehung).
+           Bewegung über --ax/--ay (Weg), --tx/--ty (Dauer), --ar (Drehung). Jede Karte führt zu ihrem Projekt.
            data-depth = wie stark die Karte beim Scrollen mitzieht. -->
       <div class="scene-persp"><div class="scene" id="scene">
-        <div class="float f-a" aria-hidden="true" data-depth=".55" style="--d:1;--ax:12px;--ay:16px;--ar:1.2deg;--tx:7.3s;--ty:9.7s;--dl:-2s">
+        <a class="float f-a" href="#p-hkba" aria-label="Zum Projekt HKBa Coach" data-depth=".55" style="--d:1;--ax:12px;--ay:16px;--ar:1.2deg;--tx:7.3s;--ty:9.7s;--dl:-2s">
           <div class="dx"><div class="dy"><div class="card" style="--rot:-6deg"><div class="chrome"><i></i><i></i><i></i></div><img src="assets/hkba-hero-1080.webp" width="1080" height="675" alt=""></div></div></div>
-        </div>
-        <div class="float f-b" aria-hidden="true" data-depth=".95" style="--d:2;--ax:16px;--ay:12px;--ar:1.6deg;--tx:8.9s;--ty:6.8s;--dl:-5s">
+        </a>
+        <a class="float f-b" href="#p-kmu" aria-label="Zum Projekt KMU Web Studio" data-depth=".95" style="--d:2;--ax:16px;--ay:12px;--ar:1.6deg;--tx:8.9s;--ty:6.8s;--dl:-5s">
           <div class="dx"><div class="dy"><div class="card" style="--rot:5deg"><div class="chrome chrome--dark"><i></i><i></i><i></i></div><img src="assets/kmuwebstudio-hero-1080.webp" width="1080" height="675" alt=""></div></div></div>
-        </div>
-        <div class="float f-c" aria-hidden="true" data-depth="1.25" style="--d:3;--ax:14px;--ay:14px;--ar:1.4deg;--tx:6.4s;--ty:8.3s;--dl:-1s">
+        </a>
+        <a class="float f-c" href="#p-qv" aria-label="Zum Projekt QV-Assistent" data-depth="1.25" style="--d:3;--ax:14px;--ay:14px;--ar:1.4deg;--tx:6.4s;--ty:8.3s;--dl:-1s">
           <div class="dx"><div class="dy"><div class="card" style="--rot:4deg"><div class="chrome"><i></i><i></i><i></i></div><img src="assets/qv-hero-1080.webp" width="1080" height="675" alt=""></div></div></div>
-        </div>
-        <div class="float f-d" aria-hidden="true" data-depth=".75" style="--d:4;--ax:10px;--ay:18px;--ar:1deg;--tx:9.6s;--ty:7.4s;--dl:-4s">
+        </a>
+        <a class="float f-d" href="#p-kmu" aria-label="Zum Projekt KMU Web Studio" data-depth=".75" style="--d:4;--ax:10px;--ay:18px;--ar:1deg;--tx:9.6s;--ty:7.4s;--dl:-4s">
           <div class="dx"><div class="dy"><div class="card" style="--rot:-4deg"><div class="chrome chrome--dark"><i></i><i></i><i></i></div><img src="assets/kmuwebstudio-blue-1080.webp" width="1080" height="675" alt=""></div></div></div>
-        </div>
-        <div class="float f-e" aria-hidden="true" data-depth="1.1" style="--d:5;--ax:9px;--ay:13px;--ar:2deg;--tx:5.8s;--ty:7.9s;--dl:-3s">
+        </a>
+        <a class="float f-e" href="#p-hkbd" aria-label="Zum Projekt HKBd Coach" data-depth="1.1" style="--d:5;--ax:9px;--ay:13px;--ar:2deg;--tx:5.8s;--ty:7.9s;--dl:-3s">
           <div class="dx"><div class="dy"><div class="card card--phone" style="--rot:-7deg"><img src="assets/hkbd-phone-420.webp" width="420" height="868" alt=""></div></div></div>
-        </div>
+        </a>
 
         <!-- Porträt: Hochformat 3:4 -->
         <figure class="float portrait" data-depth=".3" style="--d:0">
@@ -263,12 +304,13 @@ ul{padding:0;list-style:none}
           <span class="hat-anchor" id="hatAnchor"></span>
         </figure>
 
-        <div class="float f-f" aria-hidden="true" data-depth="1.5" style="--d:6;--ax:11px;--ay:15px;--ar:2.2deg;--tx:6.9s;--ty:5.6s;--dl:-6s">
+        <a class="float f-f" href="#p-kmu" aria-label="Zum Projekt KMU Web Studio" data-depth="1.5" style="--d:6;--ax:11px;--ay:15px;--ar:2.2deg;--tx:6.9s;--ty:5.6s;--dl:-6s">
           <div class="dx"><div class="dy"><div class="card card--phone" style="--rot:7deg"><img src="assets/kmuwebstudio-phone-420.webp" width="420" height="868" alt=""></div></div></div>
-        </div>
+        </a>
       </div></div>
 
       <h1 class="reveal" style="--d:2">Ardit Selimi</h1>
+      <a class="cue" id="cue" href="#machen" aria-label="Nach unten scrollen"><span></span></a>
     </div>
   </section>
 
@@ -277,14 +319,17 @@ ul{padding:0;list-style:none}
     <p class="statement" id="statement">Aus einer Idee wird bei mir ein fertiges Produkt. Ich überlege mir den Aufbau, gestalte das Design und setze alles selbst um, vom ersten Entwurf bis zur letzten Animation.</p>
     <ul class="skills">
       <li class="reveal">
+        <span class="ico ico--design" aria-hidden="true"><i></i><i></i><i></i></span>
         <h3>Design</h3>
         <p>Klare Seiten mit viel Raum, guter Schrift und einem Aufbau, den man sofort versteht.</p>
       </li>
       <li class="reveal" style="--d:1">
+        <span class="ico ico--code" aria-hidden="true"><i></i><i></i><i></i></span>
         <h3>Umsetzung</h3>
         <p>Schlanker, schneller Code ohne Ballast. Jede Seite funktioniert am Handy genauso gut wie am Laptop.</p>
       </li>
       <li class="reveal" style="--d:2">
+        <span class="ico ico--motion" aria-hidden="true"><svg viewBox="0 0 64 48"><path d="M6 42C26 42 24 6 58 6"/></svg><i></i></span>
         <h3>Motion</h3>
         <p>Animationen und Scroll-Effekte, die eine Seite lebendig machen, ohne im Weg zu stehen.</p>
       </li>
@@ -298,14 +343,14 @@ ul{padding:0;list-style:none}
 
     <!-- Projekt kopieren: data-p (Farbbühne), Texte, Link und die drei Bilder anpassen.
          --travel / --travel-m = Länge der Scroll-Strecke am Desktop / am Handy. -->
-    <article class="project" data-p="kmu" style="--travel:160;--travel-m:150">
+    <article class="project" id="p-kmu" data-p="kmu" style="--travel:160;--travel-m:150">
       <div class="project__in">
         <div class="info">
-          <div class="count"><span>01 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
-          <h3>KMU Web Studio</h3>
-          <ul class="tags"><li>Nebenbeschäftigung</li><li>Laufend</li><li>Webstudio</li></ul>
-          <p>Meine aktuelle Nebenbeschäftigung: Webseiten für kleine Unternehmen, individuell gestaltet und zum Fixpreis. Die Seite führt durch Angebot und Ablauf und zeigt echte Referenzen auf Laptop und Handy. Wer mag, stellt sich seinen Webauftritt gleich selbst zusammen.</p>
-          <a class="btn" href="https://kmuwebstudio.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="count reveal"><span>01 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
+          <h3 class="reveal" style="--d:1">KMU Web Studio</h3>
+          <ul class="tags reveal" style="--d:2"><li>Nebenbeschäftigung</li><li>Laufend</li><li>Webstudio</li></ul>
+          <p class="reveal" style="--d:3">Meine aktuelle Nebenbeschäftigung: Webseiten für kleine Unternehmen, individuell gestaltet und zum Fixpreis. Die Seite führt durch Angebot und Ablauf und zeigt echte Referenzen auf Laptop und Handy. Wer mag, stellt sich seinen Webauftritt gleich selbst zusammen.</p>
+          <div class="go-wrap reveal" style="--d:4"><a class="btn" href="https://kmuwebstudio.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -323,14 +368,14 @@ ul{padding:0;list-style:none}
       </div>
     </article>
 
-    <article class="project" data-p="hkba" style="--travel:100;--travel-m:125">
+    <article class="project" id="p-hkba" data-p="hkba" style="--travel:100;--travel-m:125">
       <div class="project__in">
         <div class="info">
-          <div class="count"><span>02 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
-          <h3>HKBa Coach</h3>
-          <ul class="tags"><li>Lern-App</li><li>KI-Coach</li><li>KV-Ausbildung</li></ul>
-          <p>Ein KI-Lerncoach für die kaufmännische Ausbildung. Lernende wählen Lehrjahr und Leistungsziele, üben mit Multiple Choice, offenen Fragen und Fallbeispielen und bekommen sofort eine Bewertung mit Musterlösung. Für den Ernstfall gibt es eine ganze Prüfungssimulation.</p>
-          <a class="btn" href="https://hkba.live/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="count reveal"><span>02 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
+          <h3 class="reveal" style="--d:1">HKBa Coach</h3>
+          <ul class="tags reveal" style="--d:2"><li>Lern-App</li><li>KI-Coach</li><li>KV-Ausbildung</li></ul>
+          <p class="reveal" style="--d:3">Ein KI-Lerncoach für die kaufmännische Ausbildung. Lernende wählen Lehrjahr und Leistungsziele, üben mit Multiple Choice, offenen Fragen und Fallbeispielen und bekommen sofort eine Bewertung mit Musterlösung. Für den Ernstfall gibt es eine ganze Prüfungssimulation.</p>
+          <div class="go-wrap reveal" style="--d:4"><a class="btn" href="https://hkba.live/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -348,14 +393,14 @@ ul{padding:0;list-style:none}
       </div>
     </article>
 
-    <article class="project" data-p="hkbd" style="--travel:95;--travel-m:125">
+    <article class="project" id="p-hkbd" data-p="hkbd" style="--travel:95;--travel-m:125">
       <div class="project__in">
         <div class="info">
-          <div class="count"><span>03 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
-          <h3>HKBd Coach</h3>
-          <ul class="tags"><li>Lern-App</li><li>HKB D</li><li>Reduziert</li></ul>
-          <p>Das Gegenstück für den Bereich Kunden- und Lieferantenbeziehungen. Die App ist bewusst schlicht gehalten: Leistungsziele auswählen, üben, Fortschritt sehen. So bleibt der Kopf beim Lernen und nicht bei der Bedienung.</p>
-          <a class="btn" href="https://hkbd.live/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="count reveal"><span>03 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
+          <h3 class="reveal" style="--d:1">HKBd Coach</h3>
+          <ul class="tags reveal" style="--d:2"><li>Lern-App</li><li>HKB D</li><li>Reduziert</li></ul>
+          <p class="reveal" style="--d:3">Das Gegenstück für den Bereich Kunden- und Lieferantenbeziehungen. Die App ist bewusst schlicht gehalten: Leistungsziele auswählen, üben, Fortschritt sehen. So bleibt der Kopf beim Lernen und nicht bei der Bedienung.</p>
+          <div class="go-wrap reveal" style="--d:4"><a class="btn" href="https://hkbd.live/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -373,14 +418,14 @@ ul{padding:0;list-style:none}
       </div>
     </article>
 
-    <article class="project" data-p="qv" style="--travel:105;--travel-m:125">
+    <article class="project" id="p-qv" data-p="qv" style="--travel:105;--travel-m:125">
       <div class="project__in">
         <div class="info">
-          <div class="count"><span>04 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
-          <h3>QV-Assistent</h3>
-          <ul class="tags"><li>Lern-App</li><li>KV EFZ</li><li>Prüfungssimulation</li></ul>
-          <p>Ein digitaler Lerncoach für das Qualifikationsverfahren der Kaufleute EFZ. Er bietet Übungen aus dem KV-Alltag, Prüfungssimulationen mit Zeitlimit und einen KI-Assistenten, der Lösungen Schritt für Schritt erklärt. Fortschritt und Badges zeigen, wie nah die Prüfungsreife ist.</p>
-          <a class="btn" href="https://qv-assistent.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <div class="count reveal"><span>04 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
+          <h3 class="reveal" style="--d:1">QV-Assistent</h3>
+          <ul class="tags reveal" style="--d:2"><li>Lern-App</li><li>KV EFZ</li><li>Prüfungssimulation</li></ul>
+          <p class="reveal" style="--d:3">Ein digitaler Lerncoach für das Qualifikationsverfahren der Kaufleute EFZ. Er bietet Übungen aus dem KV-Alltag, Prüfungssimulationen mit Zeitlimit und einen KI-Assistenten, der Lösungen Schritt für Schritt erklärt. Fortschritt und Badges zeigen, wie nah die Prüfungsreife ist.</p>
+          <div class="go-wrap reveal" style="--d:4"><a class="btn" href="https://qv-assistent.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -505,6 +550,7 @@ ul{padding:0;list-style:none}
       const kr = Math.round(k * 200) / 200;
       if (kr !== hatK) { hatK = kr; hat.style.setProperty('--k', kr); hat.style.opacity = Math.min(1, kr * 25); }   // auf dem Kopf trägt das Foto den Hut selbst
       // die Neigung klingt beim Wegscrollen aus, damit der Hut sauber abhebt
+      cue.style.opacity = sy > 4 ? Math.max(0, 0.55 * (1 - sy / 160)) : '';
       const gain = 1 - clamp(sy / (vh * 0.25));
       if (gain !== tiltGain) { tiltGain = gain; tiltKick(); }
     }
@@ -594,6 +640,11 @@ ul{padding:0;list-style:none}
     for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
   }, { rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Bewegtbilder unter «Was ich mache» laufen nur, solange sie zu sehen sind
+  const skills = document.querySelector('.skills');
+  new IntersectionObserver(([en]) => skills.classList.toggle('live', en.isIntersecting)).observe(skills);
+  const cue = document.getElementById('cue');
 
   // Schweben anhalten, sobald der Hero nicht mehr zu sehen ist
   new IntersectionObserver(([en]) => hero.classList.toggle('paused', !en.isIntersecting)).observe(hero);
