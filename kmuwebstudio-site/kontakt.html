@@ -19,7 +19,7 @@
   <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
   <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path pathLength="1" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".6"/></symbol>
@@ -58,11 +58,11 @@
   </div>
   <div class="mobile-menu" id="mobile-menu">
     <nav class="shell" aria-label="Mobile Navigation">
-      <a href="index.html">Startseite <svg class="icon"><use href="#i-right"/></svg></a>
-      <a href="angebot.html">Angebot <svg class="icon"><use href="#i-right"/></svg></a>
-      <a href="ablauf.html">Ablauf <svg class="icon"><use href="#i-right"/></svg></a>
-      <a href="referenzen.html">Referenzen <svg class="icon"><use href="#i-right"/></svg></a>
-      <a href="kontakt.html" aria-current="page">Kontakt <svg class="icon"><use href="#i-right"/></svg></a>
+      <a href="index.html">Startseite <svg class="icon icon--right"><use href="#i-right"/></svg></a>
+      <a href="angebot.html">Angebot <svg class="icon icon--right"><use href="#i-right"/></svg></a>
+      <a href="ablauf.html">Ablauf <svg class="icon icon--right"><use href="#i-right"/></svg></a>
+      <a href="referenzen.html">Referenzen <svg class="icon icon--right"><use href="#i-right"/></svg></a>
+      <a href="kontakt.html" aria-current="page">Kontakt <svg class="icon icon--right"><use href="#i-right"/></svg></a>
       <a class="button button--primary button--wide" href="kontakt.html#anfrage" data-anfrage>Projekt starten <svg class="icon icon--go"><use href="#i-go"/></svg></a>
     </nav>
   </div>
@@ -85,7 +85,7 @@
         <div class="contact-page__mail" data-intro style="--i:4">
           <a href="mailto:hallo@kmuwebstudio.ch?subject=Projektanfrage%20KMU%20Web%20Studio">hallo@kmuwebstudio.ch</a>
           <button class="copy" type="button" data-copy="hallo@kmuwebstudio.ch">
-            <svg class="icon icon--copy"><use href="#i-copy"/></svg><svg class="icon icon--check"><use href="#i-check"/></svg>
+            <span class="copy__icons"><svg class="icon icon--copy"><use href="#i-copy"/></svg><svg class="icon icon--check"><use href="#i-check"/></svg></span>
             <span data-copy-label>Kopieren</span>
           </button>
         </div>
