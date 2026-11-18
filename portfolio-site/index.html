@@ -366,9 +366,19 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 /* Inhalte liegen über dem Hut, die Flächen der Abschnitte darunter */
 .about,.projects-head,.project__in,.contact>.wrap{position:relative;z-index:2}
 
+/* ---- Reduzierte Bewegung: Was direkt am Scrollen hängt, bleibt. Alles, was sich von selbst bewegt, steht still. ---- */
+.soft .hat,.soft .hat-hit{display:none}
+.soft .foot a{display:inline}
+.soft .float{animation:none}
+.soft .dx,.soft .dy,.soft .cue span,.soft .ico *,.soft .soon .sc,.soft .soon .sc-cap span,.soft .soon .e,.soft .soon .ln,.soft .soon .gx,.soft .soon .pp,.soft .soon .dots i,.soft .bw__view::after{animation:none!important}
+.soft .sys .flow{display:none!important}
+.soft a.float:hover .card{scale:1}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
 /* ---- Einblendungen ---- */
 .motion .reveal{opacity:0;transform:translateY(16px);transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out);transition-delay:calc(var(--d,0) * 70ms)}
 .motion .reveal.in{opacity:1;transform:none}
+.soft .reveal{transform:none}
 /* Schweben: zwei Pendel mit verschiedenen Laufzeiten ergeben eine ruhige, nie gleiche Bahn */
 @keyframes sway-x{from{transform:translate3d(calc(var(--ax) * -1),0,0)}to{transform:translate3d(var(--ax),0,0)}}
 @keyframes sway-y{from{transform:translate3d(0,calc(var(--ay) * -1),0) rotate(calc(var(--ar) * -1))}to{transform:translate3d(0,var(--ay),0) rotate(var(--ar))}}
@@ -629,6 +639,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   }));
 
   let on = false;      // Scroll-Kopplung aktiv
+  let soft = false;    // reduzierte Bewegung: nur was direkt am Scrollen hängt, nichts bewegt sich von selbst
   let queued = false;
 
   function paint() {
@@ -656,13 +667,13 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     }
 
     // schreiben
-    if (heroP < 1 || heroLive) {
+    if (!soft && (heroP < 1 || heroLive)) {
       heroLive = heroP < 1;
       for (const f of floats) f.el.style.transform = `translate3d(0,${-heroP * f.depth * 150}px,0)`;
     }
 
     // Hut: bei k = 0 deckungsgleich auf dem Kopf, bei k = 1 frei schwebend auf einer Bahn, die der Scroll-Position folgt
-    {
+    if (!soft) {
       const sy = scrollY;
       const lin = clamp(sy / (vh * 0.6));
       const k = lin * lin * (3 - 2 * lin);
@@ -701,7 +712,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
       const top = p.top;
       const t = clamp(-top / p.len);          // Fortschritt, solange die Fenster stehen
       const e = clamp(1 - top / vh);          // Einfahrt, während das Projekt hereinscrollt
-      p.stage.style.transform = `translate3d(0,${(1 - e) * 64}px,0) scale(${0.93 + 0.07 * e})`;
+      p.stage.style.transform = soft ? '' : `translate3d(0,${(1 - e) * 64}px,0) scale(${0.93 + 0.07 * e})`;
       p.bar.style.transform = `scaleX(${t})`;
       for (const s of p.shots) {
         if (!s.max) continue;
@@ -728,7 +739,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   }
   function tiltKick() { if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltFrame); }
   addEventListener('pointermove', (e) => {
-    if (!on || e.pointerType === 'touch') return;
+    if (!on || soft || e.pointerType === 'touch') return;
     aimX = Math.max(-1, Math.min(1, (e.clientX / innerWidth) * 2 - 1));
     aimY = Math.max(-1, Math.min(1, (e.clientY / innerHeight) * 2 - 1));
     tiltKick();
@@ -741,34 +752,24 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     requestAnimationFrame(paint);
   }
 
-  function start() {
+  // Bei reduzierter Bewegung (soft) bleiben das Durchscrollen der Projekte, der Satz und die Einblendungen;
+  // Schweben, 3D-Neigung, Hut und alle Schleifen stehen still.
+  function start(isSoft) {
     on = true;
+    soft = isSoft;
     root.classList.add('motion');
-    statement.innerHTML = sentence.split(/\s+/).map((w) => `<span>${w}</span>`).join(' ');
-    words = [...statement.children];
-    for (const p of projects) for (const s of p.shots) s.view.removeAttribute('tabindex');
-    paint();
-  }
-
-  // Reduzierte Bewegung: keine Kopplung, die Aufnahmen lassen sich im Fenster selbst scrollen
-  function stop() {
-    on = false;
-    root.classList.remove('motion');
-    statement.textContent = sentence;
-    words = [];
-    for (const f of floats) f.el.style.transform = '';
-    portraitOff = 0;
-    aimX = aimY = 0; tiltKick();
-    for (const p of projects) {
-      p.stage.style.transform = '';
-      p.bar.style.transform = 'scaleX(1)';
-      for (const s of p.shots) {
-        s.img.style.transform = '';
-        s.view.tabIndex = 0;
-        s.view.setAttribute('role', 'group');
-        s.view.setAttribute('aria-label', s.img.alt + ' (scrollbar)');
-      }
+    root.classList.toggle('soft', soft);
+    if (!words.length) {
+      statement.innerHTML = sentence.split(/\s+/).map((w) => `<span>${w}</span>`).join(' ');
+      words = [...statement.children];
     }
+    if (soft) {
+      for (const f of floats) f.el.style.transform = '';
+      portraitOff = 0;
+      aimX = aimY = 0; tiltKick();
+    }
+    heroLive = true;
+    paint();
   }
 
   const io = new IntersectionObserver((entries) => {
@@ -816,8 +817,8 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     }
   });
 
-  calm.addEventListener('change', () => (calm.matches ? stop() : start()));
-  calm.matches ? stop() : start();
+  calm.addEventListener('change', () => start(calm.matches));
+  start(calm.matches);
 })();
 </script>
 </body>

@@ -68,7 +68,8 @@ Jede Karte ist ein `<div class="float">` in der `.scene`. Position und Grösse s
 - Die Aufnahmen sind 1:1 an die Scroll-Position gekoppelt, ohne Easing. Pro Frame wird nur `transform` geschrieben, Grössen werden nur bei Layout-Änderungen gemessen.
 - Beim Hereinscrollen fährt die Bühne von 93 % auf 100 % Grösse. Die Karten im Hero schweben über zwei Pendel mit verschiedenen Laufzeiten (reines CSS, pausiert ausserhalb des Sichtfelds) und ziehen beim Scrollen je nach Tiefe unterschiedlich stark mit. Der Satz unter «Was ich mache» wird Wort für Wort dunkel.
 - Einblendungen laufen einmalig mit `cubic-bezier(.23,1,.32,1)` und 70 ms Versatz. Buttons skalieren beim Drücken auf 0.97, Hover-Effekte gelten nur für Mausgeräte.
-- Mit `prefers-reduced-motion` und ohne JavaScript entfällt die Kopplung. Die Aufnahmen lassen sich dann direkt im Fenster scrollen.
+- Mit `prefers-reduced-motion` (z. B. «Bewegung reduzieren» am Handy) bleibt, was direkt am Scrollen hängt: das Durchscrollen der Projekte, der Satz, der Wort für Wort dunkel wird, und Einblendungen ohne Verschiebung. Schweben, 3D-Neigung, Hut und alle Schleifen stehen still (Klasse `soft`).
+- Ohne JavaScript entfällt die Kopplung. Die Aufnahmen lassen sich dann direkt im Fenster scrollen.
 
 ## Offene Punkte
 
