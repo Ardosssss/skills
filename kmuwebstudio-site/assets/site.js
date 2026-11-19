@@ -412,6 +412,20 @@
     });
   });
 
+  /* ---------- Lichtpunkt unter dem Mauszeiger ---------- */
+
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion.matches) {
+    $$(".price-card, .contact__box").forEach(function (card) {
+      card.addEventListener("pointermove", function (event) {
+        var rect = card.getBoundingClientRect();
+        card.style.setProperty("--mx", (event.clientX - rect.left).toFixed(0) + "px");
+        card.style.setProperty("--my", (event.clientY - rect.top).toFixed(0) + "px");
+        card.classList.add("is-lit");
+      });
+      card.addEventListener("pointerleave", function () { card.classList.remove("is-lit"); });
+    });
+  }
+
   /* ---------- E-Mail kopieren ---------- */
 
   function bindCopy(root) {
@@ -483,6 +497,7 @@
         '<p class="form__status" role="status" aria-live="polite"></p>' +
         '<button class="button button--primary button--wide" type="submit">' +
           '<span data-submit-label>' + (direct ? "Anfrage senden" : "Anfrage per E-Mail senden") + '</span>' + icon("go", "icon--go") +
+          '<span class="spinner" aria-hidden="true"></span>' +
         '</button>' +
         '<p class="form__note">Mit dem Absenden bearbeiten wir Deine Angaben gemäss unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>' +
       '</form>' +

@@ -33,6 +33,22 @@ Auf der Startseite bleibt die Bühne mit Browser- und Handyrahmen stehen, währe
 - Bei «Bewegung reduzieren», ohne JavaScript und auf sehr niedrigen Bildschirmen (unter 600 px Höhe) stehen die drei Geräte stattdessen ruhig untereinander.
 - Die Seite `referenzen.html` zeigt dieselben Referenzen zum direkten Umschalten per Klick.
 
+## Feinbewegungen
+
+Angeregt von den Elementen auf [uiverse.io](https://uiverse.io/elements), aber eigener Code und bewusst wenige. Jede Bewegung gibt eine Rückmeldung an einer Stelle, an der etwas passiert; nichts bewegt sich dauerhaft.
+
+| Stelle | Bewegung | Zweck |
+| --- | --- | --- |
+| Blaue Buttons (Maus darüber) | Ein Lichtschein zieht einmal durch, der Pfeil fliegt hinaus und neu herein | Zeigt: Hier geht es weiter |
+| Häkchen in Listen (Angebot, Hero, Abschluss) | Zeichnen sich nacheinander, wenn die Liste erscheint | Lenkt den Blick kurz auf die Leistungen |
+| Seitenwahl im Konfigurator | Häkchen zeichnet sich beim Auswählen | Bestätigt die Auswahl |
+| Schritte im Ablauf | Jede Nummer sendet einen Ring aus, sobald die Linie sie erreicht | Macht die Reihenfolge sichtbar |
+| Preiskarte und Kontaktkarte (Maus darüber) | Ein weicher Lichtpunkt folgt dem Mauszeiger | Hebt die beiden wichtigsten Karten hervor |
+| «Kopieren» | Symbol blendet weich zum Häkchen über | Bestätigt das Kopieren |
+| Formular | Drehender Ring beim Senden, Fehlerhinweise gleiten ein, Häkchen zeichnet sich beim Erfolg | Zeigt den Zustand |
+
+Bewusst **nicht** übernommen: leuchtende Neon-Buttons und Farbverläufe (verändern die Farben), schwebende Feldbeschriftungen (schlechter lesbar), hochzählende Preiszahl (lenkt beim Lesen ab), kippende 3D-Karten und ein Lade-Bildschirm. Bei «Bewegung reduzieren» entfallen diese Bewegungen oder werden zu einer einfachen Überblendung; Hover-Effekte gibt es nur auf Geräten mit Maus.
+
 ## Anfrageformular
 
 Jeder Button «Projekt starten», «Anfrage senden» oder «Unverbindlich anfragen» öffnet das Anfragefenster (am Handy als Blatt von unten). Auf der Kontaktseite steht dasselbe Formular direkt auf der Seite. Der Konfigurator übergibt die Auswahl als Text in die Nachricht.

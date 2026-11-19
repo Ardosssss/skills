@@ -27,7 +27,7 @@
   <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
   <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path pathLength="1" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".6"/></symbol>
@@ -66,11 +66,11 @@
   </div>
   <div class="mobile-menu" id="mobile-menu">
     <nav class="shell" aria-label="Mobile Navigation">
-      <a href="index.html" aria-current="page">Startseite <svg class="icon"><use href="#i-right"/></svg></a>
-      <a href="angebot.html">Angebot <svg class="icon"><use href="#i-right"/></svg></a>
-      <a href="ablauf.html">Ablauf <svg class="icon"><use href="#i-right"/></svg></a>
-      <a href="referenzen.html">Referenzen <svg class="icon"><use href="#i-right"/></svg></a>
-      <a href="kontakt.html">Kontakt <svg class="icon"><use href="#i-right"/></svg></a>
+      <a href="index.html" aria-current="page">Startseite <svg class="icon icon--right"><use href="#i-right"/></svg></a>
+      <a href="angebot.html">Angebot <svg class="icon icon--right"><use href="#i-right"/></svg></a>
+      <a href="ablauf.html">Ablauf <svg class="icon icon--right"><use href="#i-right"/></svg></a>
+      <a href="referenzen.html">Referenzen <svg class="icon icon--right"><use href="#i-right"/></svg></a>
+      <a href="kontakt.html">Kontakt <svg class="icon icon--right"><use href="#i-right"/></svg></a>
       <a class="button button--primary button--wide" href="kontakt.html#anfrage" data-anfrage>Projekt starten <svg class="icon icon--go"><use href="#i-go"/></svg></a>
     </nav>
   </div>
@@ -92,7 +92,7 @@
         <p class="hero__lead" data-intro style="--i:2">Ein Webauftritt, der zu Deinem KMU passt, Vertrauen schafft und bezahlbar bleibt.</p>
         <div class="hero__actions" data-intro style="--i:3">
           <a class="button button--primary" href="kontakt.html#anfrage" data-anfrage>Projekt starten <svg class="icon icon--go"><use href="#i-go"/></svg></a>
-          <a class="button button--glass" href="angebot.html">Das ist dabei <svg class="icon"><use href="#i-right"/></svg></a>
+          <a class="button button--glass" href="angebot.html">Das ist dabei <svg class="icon icon--right"><use href="#i-right"/></svg></a>
         </div>
         <ul class="hero__trust" aria-label="Leistungsmerkmale" data-intro style="--i:4">
           <li><svg class="icon"><use href="#i-check"/></svg>Bis 4 Seiten</li>
@@ -106,7 +106,7 @@
           <span class="price-tag__label">Deine neue Website</span>
           <span class="price-tag__price"><small>CHF</small>500.–</span>
         </span>
-        <span class="price-tag__note"><span>Klarer Fixpreis</span><svg class="icon"><use href="#i-right"/></svg></span>
+        <span class="price-tag__note"><span>Klarer Fixpreis</span><svg class="icon icon--right"><use href="#i-right"/></svg></span>
       </a>
     </div>
 
@@ -172,14 +172,14 @@
           </li>
         </ul>
 
-        <a class="text-link" href="ablauf.html">So arbeiten wir <svg class="icon"><use href="#i-right"/></svg></a>
+        <a class="text-link" href="ablauf.html">So arbeiten wir <svg class="icon icon--right"><use href="#i-right"/></svg></a>
       </div>
 
       <article class="price-card price-card--compact" data-reveal style="--i:1" aria-labelledby="paket-titel">
         <p class="price-card__label"><span id="paket-titel">Website-Paket</span><span class="price-card__badge">Fixpreis</span></p>
         <p class="price-card__price" aria-label="CHF 500.–"><span aria-hidden="true">CHF</span><strong aria-hidden="true">500</strong><small aria-hidden="true">.–</small></p>
         <p class="price-card__caption">Transparenter Fixpreis für eine kompakte Website bis 4 Seiten.</p>
-        <a class="button button--primary button--wide" href="angebot.html">Angebot ansehen <svg class="icon"><use href="#i-right"/></svg></a>
+        <a class="button button--primary button--wide" href="angebot.html">Angebot ansehen <svg class="icon icon--right"><use href="#i-right"/></svg></a>
         <p class="price-card__foot">Zusatzwünsche werden vorab klar und separat offeriert.</p>
       </article>
     </div>
@@ -272,7 +272,7 @@
         <div class="contact__mail">
           <a href="mailto:hallo@kmuwebstudio.ch?subject=Projektanfrage%20KMU%20Web%20Studio">hallo@kmuwebstudio.ch</a>
           <button class="copy" type="button" data-copy="hallo@kmuwebstudio.ch">
-            <svg class="icon icon--copy"><use href="#i-copy"/></svg><svg class="icon icon--check"><use href="#i-check"/></svg>
+            <span class="copy__icons"><svg class="icon icon--copy"><use href="#i-copy"/></svg><svg class="icon icon--check"><use href="#i-check"/></svg></span>
             <span data-copy-label>Kopieren</span>
           </button>
         </div>
