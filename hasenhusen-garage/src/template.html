@@ -29,7 +29,7 @@
   --ease-in-out:cubic-bezier(0.77,0,0.175,1);
   --gutter-l:max(20px,env(safe-area-inset-left,0px));
   --gutter-r:max(20px,env(safe-area-inset-right,0px));
-  --cut:16px;
+  --cut:16px; --road-h:232px; --smoke-h:130px; --start-x:max(118px,17%);
   color-scheme:dark;
 }
 
@@ -103,8 +103,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .stripes i:nth-child(2){top:130px;height:4px;opacity:.9}
 .stripes i:nth-child(3){top:80px;height:3px;opacity:.55}
 .hero__in{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:24px;
-  min-height:min(74svh,680px);padding-block:clamp(48px,7vw,92px)}
-.hero__copy{display:grid;gap:22px;justify-items:start;min-width:0}
+  padding-block:clamp(34px,5vw,60px) clamp(20px,3vw,34px)}
+.hero__main{position:relative}
+.hero__copy{position:relative;z-index:2;display:grid;gap:22px;justify-items:start;min-width:0}
 .hero h1{font:italic 700 var(--fs-hero)/.95 var(--font);letter-spacing:-.03em;text-transform:uppercase}
 .hero h1 span{display:block}
 .hero h1 em{font-style:inherit;color:var(--red-text)}
@@ -144,15 +145,62 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .stripes i:nth-child(2){animation-delay:90ms}.stripes i:nth-child(3){animation-delay:180ms}
 
 @media (max-width:860px){
-  .hero{display:flex;flex-direction:column}
-  .hero__in{grid-template-columns:minmax(0,1fr);min-height:0;width:100%;padding-block:34px 0}
-  .hero__shot{position:relative;order:2;width:auto;height:min(88vw,420px);margin-top:10px}
-  .hero__car{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 80%,transparent 100%)}
-  .hero__car img{object-position:50% 52%}
-  .hero__glow{left:62%;top:22%;width:50%}
-  .hero__note{top:64px}
-  .stripes{display:none}
+  :root{--road-h:190px;--smoke-h:110px}
+  .hero__in{grid-template-columns:minmax(0,1fr);padding-block:30px 6px}
+  .hero__copy{gap:18px}
+  .hero__shot{width:78%;opacity:.42}
+  .hero__car{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 75%),linear-gradient(180deg,#000 55%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 75%),linear-gradient(180deg,#000 55%,transparent 100%)}
+  .hero__car img{object-position:50% 38%}
+  .hero__note,.hero__glow,.stripes{display:none}
+  .hero .cta-row .btn{min-height:46px;padding:0 1.05em;font-size:.8rem}
 }
+
+/* ---------- Startszene: Strasse von oben ---------- */
+.road-wrap{position:relative;z-index:1;margin-top:66px;padding-bottom:60px}
+.road{position:relative;height:var(--road-h);
+  background:
+    repeating-linear-gradient(90deg,var(--red) 0 26px,#EDEEF0 26px 52px) 0 0/100% 7px no-repeat,
+    repeating-linear-gradient(90deg,#EDEEF0 0 26px,var(--red) 26px 52px) 0 100%/100% 7px no-repeat,
+    linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.5)) 0 15px/100% 2px no-repeat,
+    linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.5)) 0 calc(100% - 15px)/100% 2px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"),
+    radial-gradient(120% 160% at 30% 0%,#32363d,#22252a 70%)}
+.road__lane{position:absolute;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.26) 0 34px,transparent 34px 80px)}
+.road__lane:nth-of-type(1){top:calc(24px + (100% - 48px)/3)}
+.road__lane:nth-of-type(2){top:calc(24px + (100% - 48px)*2/3)}
+.road__paint{position:absolute;inset:0;display:grid;place-items:center;padding-left:calc(var(--start-x) + 30px);overflow:hidden;
+  font:italic 700 clamp(.8rem,.3rem + 2.2vw,1.9rem)/1 var(--font);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;color:rgba(255,255,255,.1)}
+.road__paint .m{display:none}
+.road__line{position:absolute;top:17px;bottom:17px;left:var(--start-x);width:16px;opacity:.9;
+  background:conic-gradient(#F2F3F5 25%,#101114 0 50%,#F2F3F5 0 75%,#101114 0) 0 0/16px 16px}
+.road canvas{position:absolute;left:0;width:100%;pointer-events:none}
+.road__tracks{top:0;height:100%;transition:opacity 1200ms ease}
+.road__fx{top:calc(var(--smoke-h)*-1);height:calc(100% + var(--smoke-h))}
+.lights{position:absolute;z-index:3;left:calc(var(--start-x) - 46px);top:-48px;display:flex;gap:7px;padding:8px 10px;border-radius:9px;
+  background:#050506;box-shadow:0 0 0 1px var(--edge),0 10px 24px rgba(0,0,0,.6)}
+.lights::after{content:"";position:absolute;left:50%;top:100%;width:4px;height:20px;margin-left:-2px;background:var(--edge)}
+.lights i{width:15px;height:15px;border-radius:50%;background:#2a0b0e;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.lights i.on{background:#ff2733;box-shadow:0 0 14px 3px rgba(255,39,51,.75),inset 0 0 0 1px rgba(255,255,255,.3)}
+.replay{position:absolute;z-index:3;right:max(16px,env(safe-area-inset-right,0px));top:calc(var(--road-h) + 12px);display:inline-flex;align-items:center;gap:7px;min-height:36px;
+  padding:0 12px;border:1px solid var(--edge);border-radius:6px;background:var(--bg-2);color:var(--muted);cursor:pointer;
+  font:italic 700 .72rem/1 var(--font);letter-spacing:.1em;text-transform:uppercase;transition:transform 160ms var(--ease-out),background-color 180ms ease}
+.replay svg{width:14px;height:14px}
+.replay:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.replay:hover{background:var(--red);color:var(--on-red)}}
+@media (max-width:700px){
+  .road-wrap{margin-top:56px}
+  .road__lane:nth-of-type(1){top:50%}
+  .road__lane:nth-of-type(2){display:none}
+  .road__paint{align-items:end;padding-bottom:calc(24px + (var(--road-h) - 48px)*.25 - .5em)}
+  .road__paint .d{display:none}.road__paint .m{display:inline}
+  .lights{top:-42px;gap:6px;padding:7px 9px}.lights i{width:12px;height:12px}
+}
+
+/* Scroll-Fortschritt: kleines Auto fährt unter dem Header und hinterlässt eine Spur */
+.prog{position:absolute;left:0;right:0;bottom:-2px;height:3px;pointer-events:none}
+.prog__track{position:absolute;inset:0;background:repeating-linear-gradient(90deg,var(--red) 0 7px,transparent 7px 10px);clip-path:inset(0 100% 0 0)}
+.prog__car{position:absolute;left:0;top:50%;width:30px;height:14px;transform:translate3d(0,-50%,0);opacity:0;transition:opacity 200ms ease}
+.is-stuck .prog__car{opacity:1}
 
 /* ---------- Leistungen ---------- */
 .grid-4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
@@ -343,6 +391,7 @@ legend{padding:0;margin-bottom:10px;font:700 var(--fs-small)/1.2 var(--font)}
   html{scroll-behavior:auto}
   .hero [data-in],.hero__car{animation:fade 300ms ease both}
   .hero__note,.hero__note path,.stripes i,.hero__car::after,.hero__glow,.ico *{animation:none !important}
+  .replay{display:none}
   .js [data-rv]{translate:none;transition:none}
   .js .bar{scale:none;transition:none}
   .card,.btn svg{transition:none}
@@ -362,12 +411,16 @@ legend{padding:0;margin-bottom:10px;font:700 var(--fs-small)/1.2 var(--font)}
       <a class="btn btn--small" href="#anfrage"><span>Anfrage</span></a>
     </nav>
   </div>
+  <div class="prog" aria-hidden="true"><div class="prog__track" id="progTrack"></div>
+    <svg class="prog__car" id="progCar" viewBox="0 0 30 14"><rect x="4" y="0" width="6" height="14" rx="1.5" fill="#050506"/><rect x="20" y="0" width="6" height="14" rx="1.5" fill="#050506"/><rect x="0" y="1.5" width="30" height="11" rx="4.5" fill="#F4F5F7"/><rect x="8" y="3" width="12" height="8" rx="2" fill="#15171b"/><rect x="0" y="2.5" width="1.6" height="3" fill="#E3202B"/><rect x="0" y="8.5" width="1.6" height="3" fill="#E3202B"/></svg>
+  </div>
 </header>
 
 <main>
 <!-- ================= HERO ================= -->
 <section class="hero">
   <div class="stripes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="hero__main">
   <div class="hero__shot">
     <div class="hero__car"><img id="car" src="{{CAR}}" width="736" height="1686" alt="Schwarzes Auto mit dunklen Felgen und roten Bremssätteln in der Werkstatt"><span class="hero__glow" aria-hidden="true"></span></div>
     <p class="hero__note"><span>Regional.</span><span>Persönlich.</span><span>Zuverlässig.</span>
@@ -388,6 +441,18 @@ legend{padding:0;margin-bottom:10px;font:700 var(--fs-small)/1.2 var(--font)}
         <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h14v10H9l-4 3v-3H3Z"/></svg>Anfragen per Instagram-DM</li>
       </ul>
     </div>
+  </div>
+  </div>
+  <div class="road-wrap">
+    <div class="lights" id="lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="road" id="road" aria-hidden="true">
+      <div class="road__lane"></div><div class="road__lane"></div>
+      <p class="road__paint"><span class="d">Von Auto-Enthusiasten für Auto-Enthusiasten</span><span class="m">Regional · Persönlich · Zuverlässig</span></p>
+      <div class="road__line" id="startLine"></div>
+      <canvas class="road__tracks" id="cvTracks"></canvas>
+      <canvas class="road__fx" id="cvFx"></canvas>
+    </div>
+    <button class="replay" id="replay" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.500 8a5.500 5.500 0 1 1-1.700-4M13.500 2v3h-3"/></svg>Nochmal starten</button>
   </div>
 </section>
 
@@ -623,15 +688,131 @@ legend{padding:0;margin-bottom:10px;font:700 var(--fs-small)/1.2 var(--font)}
   root.classList.add('js');
 
   /* Header-Linie, sobald gescrollt wird; Auto-Foto bewegt sich beim Scrollen leicht mit */
-  var top=$('.top'), car=$('#car'), ticking=false;
+  var top=$('.top'), car=$('#car'), ticking=false, progTrack=$('#progTrack'), progCar=$('#progCar');
   function onScroll(){
-    var y=window.scrollY;
+    var y=window.scrollY, max=Math.max(1,root.scrollHeight-window.innerHeight), p=Math.min(1,Math.max(0,y/max));
     top.classList.toggle('is-stuck',y>8);
+    progTrack.style.clipPath='inset(0 '+(100-p*100).toFixed(2)+'% 0 0)';
+    progCar.style.transform='translate3d('+(p*(root.clientWidth-30)).toFixed(1)+'px,-50%,0)';
     if(car&&!reduce&&y<900) car.style.transform='translate3d(0,'+(-y*0.07).toFixed(1)+'px,0)';
     ticking=false;
   }
   window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
   onScroll();
+
+  /* Startszene: Autos von oben. Ampel, Burnout mit Rauch, Start mit Reifenspuren, danach Vorbeifahrten. */
+  (function(){
+    var road=$('#road'); if(!road) return;
+    var cvT=$('#cvTracks'), cvF=$('#cvFx'), ctxT=cvT.getContext('2d'), ctxF=cvF.getContext('2d');
+    var lamps=$$('#lights i'), lineEl=$('#startLine');
+    var dpr=1,W=0,H=0,SM=0,S=1,lanes=3,startX=0,sprites=[],puff=null,cars=[],smoke=[],seq=null,raf=0,last=0,visible=true;
+    var PAL=[['#15171b','#E3202B'],['#E3202B',null],['#E8EAED','#15171b'],['#4d5561',null]];
+    var WHEELS=[[-36,-24.5],[-36,24.5],[36,-24.5],[36,24.5]];   /* hinten links, hinten rechts, vorne links, vorne rechts */
+
+    function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+    function body(c){c.beginPath();c.moveTo(-58,-20);c.quadraticCurveTo(-60,-25,-52,-25);c.lineTo(28,-25);c.quadraticCurveTo(52,-24,60,-11);
+      c.quadraticCurveTo(62,0,60,11);c.quadraticCurveTo(52,24,28,25);c.lineTo(-52,25);c.quadraticCurveTo(-60,25,-58,20);c.quadraticCurveTo(-60,0,-58,-20);c.closePath()}
+    function stripes(c,col){if(!col)return;c.fillStyle=col;c.fillRect(-62,-5.5,126,3.6);c.fillRect(-62,1.9,126,3.6)}
+    function shade(c){var g=c.createLinearGradient(0,-25,0,25);g.addColorStop(0,'rgba(255,255,255,.24)');g.addColorStop(.5,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(0,0,0,.32)');c.fillStyle=g}
+    function carSprite(col,stripe){
+      var pad=16,w=124+pad*2,h=60+pad*2,k=S*dpr,cv=d.createElement('canvas');cv.width=Math.ceil(w*k);cv.height=Math.ceil(h*k);
+      var c=cv.getContext('2d');c.scale(k,k);c.translate(w/2,h/2);
+      c.fillStyle='#050506';[[-37,-29],[-37,20],[35,-29],[35,20]].forEach(function(p){rr(c,p[0]-11,p[1],22,9,3);c.fill()});
+      c.save();c.shadowColor='rgba(0,0,0,.65)';c.shadowBlur=9*k;c.shadowOffsetY=3*k;body(c);c.fillStyle=col;c.fill();c.restore();
+      c.save();body(c);c.clip();stripes(c,stripe);shade(c);c.fillRect(-64,-28,130,56);c.restore();
+      body(c);c.strokeStyle='rgba(255,255,255,.16)';c.lineWidth=1;c.stroke();
+      c.beginPath();c.moveTo(-40,-19);c.lineTo(20,-20.5);c.quadraticCurveTo(25,0,20,20.5);c.lineTo(-40,19);c.quadraticCurveTo(-44,0,-40,-19);c.closePath();c.fillStyle='#090c11';c.fill();
+      c.save();rr(c,-28,-16.5,36,33,7);c.fillStyle=col;c.fill();c.clip();stripes(c,stripe);shade(c);c.fillRect(-30,-18,40,36);c.restore();
+      c.strokeStyle='rgba(255,255,255,.22)';c.lineWidth=1;c.beginPath();c.moveTo(12,-15);c.quadraticCurveTo(16,0,12,15);c.stroke();
+      c.fillStyle='#F4F8FF';c.beginPath();c.ellipse(54.500,-17,3.600,5.200,0,0,6.2832);c.fill();c.beginPath();c.ellipse(54.500,17,3.600,5.200,0,0,6.2832);c.fill();
+      c.fillStyle='#FF2A36';rr(c,-59.500,-21,3.600,10,1.500);c.fill();rr(c,-59.500,11,3.600,10,1.500);c.fill();
+      c.fillStyle=col;rr(c,8,-30,7,5.500,2);c.fill();rr(c,8,24.500,7,5.500,2);c.fill();
+      return {cv:cv,w:w*S,h:h*S};
+    }
+    function puffSprite(){var cv=d.createElement('canvas');cv.width=cv.height=64;var c=cv.getContext('2d'),g=c.createRadialGradient(32,32,2,32,32,32);
+      g.addColorStop(0,'rgba(236,239,243,1)');g.addColorStop(.45,'rgba(236,239,243,.42)');g.addColorStop(1,'rgba(236,239,243,0)');c.fillStyle=g;c.fillRect(0,0,64,64);return cv}
+
+    function laneY(i){var pad=24;return pad+(H-pad*2)/lanes*(i+.5)}
+    function setLamps(n){for(var i=0;i<lamps.length;i++)lamps[i].classList.toggle('on',i<n)}
+    function wheel(c,i){var cs=Math.cos(c.rot),sn=Math.sin(c.rot),lx=WHEELS[i][0]*S,ly=WHEELS[i][1]*S;return [c.x+lx*cs-ly*sn,c.y+lx*sn+ly*cs]}
+
+    function setup(){
+      dpr=Math.min(window.devicePixelRatio||1,2);W=road.clientWidth;H=road.clientHeight;SM=cvF.clientHeight-H;
+      S=W<700?.72:(W<1000?.86:1);lanes=W<700?2:3;startX=lineEl.offsetLeft;
+      cvT.width=Math.round(W*dpr);cvT.height=Math.round(H*dpr);ctxT.setTransform(dpr,0,0,dpr,0,0);
+      cvF.width=Math.round(W*dpr);cvF.height=Math.round((H+SM)*dpr);ctxF.setTransform(dpr,0,0,dpr,0,0);
+      sprites=PAL.map(function(p){return carSprite(p[0],p[1])});puff=puff||puffSprite();smoke=[];
+    }
+    function newSeq(first){
+      var intro=first?0:1.6,go=intro+2.9+.6+Math.random()*.5;
+      seq={T:0,intro:intro,go:go,fly:[go+2.5,go+3.7,go+4.8],fade:go+7,end:go+8.3,lamps:-1,faded:false};
+      cars=[];
+      for(var i=0;i<lanes;i++){var slot=startX-(62+7)*S-i*9*S;
+        cars.push({grid:true,x:first?slot:-140*S,slot:slot,y:laneY(i),y0:laneY(i),v:0,rot:0,ox:0,oy:0,acc:W*(1.05+Math.random()*.4),react:.03+Math.random()*.2,ph:Math.random()*6.28,sp:sprites[i%sprites.length],wp:null,emit:0})}
+      cvT.style.opacity='1';setLamps(0);
+    }
+    function emit(c,n,moving,mul){
+      c.emit+=n;
+      while(c.emit>=1){c.emit--;var p=wheel(c,Math.random()<.5?0:1);
+        smoke.push({x:p[0]-5*S,y:p[1]+(Math.random()-.5)*6*S,vx:(moving?-(40+Math.random()*120)+c.v*.1:-(6+Math.random()*74))*S,vy:(moving?(Math.random()-.5)*64-24:(Math.random()-.5)*84-22)*S,
+          r:(7+Math.random()*8)*S,g:(moving?30+Math.random()*40:30+Math.random()*34)*S,life:0,max:(moving?.8:1)+Math.random()*1.1,a:(moving?.1+Math.random()*.12:.055+Math.random()*.075)*(mul||1)})}
+      if(smoke.length>460) smoke.splice(0,smoke.length-460);
+    }
+    function patch(c,r){ctxT.fillStyle='rgba(5,5,6,'+(.035*r).toFixed(3)+')';
+      for(var i=0;i<2;i++){var p=wheel(c,i);ctxT.fillRect(p[0]-12*S+(Math.random()-.5)*2,p[1]-4.500*S,24*S,9*S)}}
+    function trail(c,aRear,aFront){
+      var wp=[wheel(c,0),wheel(c,1),wheel(c,2),wheel(c,3)];
+      if(c.wp){ctxT.lineWidth=8.500*S;ctxT.lineCap='butt';
+        for(var i=0;i<4;i++){var a=i<2?aRear:aFront;if(a<=0)continue;ctxT.strokeStyle='rgba(5,5,6,'+a.toFixed(3)+')';ctxT.beginPath();ctxT.moveTo(c.wp[i][0],c.wp[i][1]);ctxT.lineTo(wp[i][0],wp[i][1]);ctxT.stroke()}}
+      c.wp=wp;
+    }
+    function update(dt){
+      seq.T+=dt;var T=seq.T,tl=T-seq.intro,i,c;
+      var n=T>=seq.go?0:Math.max(0,Math.min(5,Math.floor((tl-.7)/.55)+1));if(n!==seq.lamps){setLamps(n);seq.lamps=n}
+      var rev=Math.max(0,Math.min(1,(tl-.4)/2.3));
+      for(i=0;i<cars.length;i++){c=cars[i];c.ox=c.oy=0;
+        if(!c.grid){c.x+=c.v*dt;trail(c,.08,0);emit(c,9*dt,true,.45);continue}
+        if(T<seq.intro){var e=1-Math.pow(1-T/seq.intro,3);c.x=-140*S+(c.slot+140*S)*e}
+        else if(T<seq.go+c.react){c.x=c.slot;
+          c.ox=(Math.random()-.5)*2.600*rev*S;c.oy=(Math.random()-.5)*1.400*rev*S;c.rot=(Math.random()-.5)*.014*rev;
+          if(rev>.05){emit(c,rev*rev*80*dt,false);patch(c,rev)}}
+        else{var tt=T-seq.go-c.react,slip=Math.max(0,1-tt/.9);
+          c.v=Math.min(c.acc*1.700,c.v+c.acc*dt);c.x+=c.v*dt;c.rot=Math.sin(tt*11+c.ph)*.04*slip;c.y=c.y0+Math.sin(tt*7+c.ph)*4*slip*S;
+          if(c.x<W+70) emit(c,(16+150*slip)*dt,true);
+          trail(c,.14+.5*slip,.03+.07*slip)}
+      }
+      cars=cars.filter(function(k){return k.x<W+160});
+      while(seq.fly.length&&T>=seq.fly[0]){seq.fly.shift();var ln=Math.floor(Math.random()*lanes);
+        cars.push({grid:false,x:-90*S,y:laneY(ln),y0:laneY(ln),v:W*(.75+Math.random()*.45),rot:0,ox:0,oy:0,sp:sprites[Math.floor(Math.random()*sprites.length)],wp:null,emit:0})}
+      for(i=smoke.length-1;i>=0;i--){var s=smoke[i];s.life+=dt;if(s.life>=s.max){smoke.splice(i,1);continue}
+        s.x+=s.vx*dt;s.y+=s.vy*dt;s.vx*=Math.pow(.2,dt);s.r+=s.g*dt}
+      if(!seq.faded&&T>=seq.fade){cvT.style.opacity='0';seq.faded=true}
+      if(T>=seq.end){ctxT.clearRect(0,0,W,H);newSeq(false)}
+    }
+    function render(){
+      var i,c,g;ctxF.clearRect(0,0,W,H+SM);
+      for(i=0;i<cars.length;i++){c=cars[i];var cx=c.x+c.ox,cy=c.y+c.oy+SM;
+        var fx=cx+56*S,len=170*S;g=ctxF.createLinearGradient(fx,0,fx+len,0);g.addColorStop(0,'rgba(255,250,236,.17)');g.addColorStop(1,'rgba(255,250,236,0)');
+        ctxF.fillStyle=g;ctxF.beginPath();ctxF.moveTo(fx,cy-15*S);ctxF.lineTo(fx+len,cy-46*S);ctxF.lineTo(fx+len,cy+46*S);ctxF.lineTo(fx,cy+15*S);ctxF.closePath();ctxF.fill();
+        if(c.grid&&seq.T<seq.go+c.react){g=ctxF.createRadialGradient(cx-60*S,cy,2,cx-60*S,cy,38*S);g.addColorStop(0,'rgba(255,36,48,.38)');g.addColorStop(1,'rgba(255,36,48,0)');
+          ctxF.fillStyle=g;ctxF.fillRect(cx-100*S,cy-40*S,80*S,80*S)}
+        ctxF.save();ctxF.translate(cx,cy);ctxF.rotate(c.rot);ctxF.drawImage(c.sp.cv,-c.sp.w/2,-c.sp.h/2,c.sp.w,c.sp.h);ctxF.restore()}
+      for(i=0;i<smoke.length;i++){var s=smoke[i],k=s.life/s.max;ctxF.globalAlpha=s.a*Math.pow(1-k,1.3)*Math.min(1,s.life/.08);
+        ctxF.drawImage(puff,s.x-s.r,s.y-s.r+SM,s.r*2,s.r*2)}
+      ctxF.globalAlpha=1;
+    }
+    function tick(t){raf=0;var dt=last?Math.min(.05,(t-last)/1000):.016;last=t;update(dt);render();if(visible&&!d.hidden)raf=requestAnimationFrame(tick)}
+    function start(){if(!raf&&!reduce){last=0;raf=requestAnimationFrame(tick)}}
+
+    setup();newSeq(true);
+    if(reduce){for(var q=0;q<cars.length;q++)for(var z=0;z<18;z++)patch(cars[q],1);render();return}
+    var rw=W,rt=0;
+    window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){if(road.clientWidth!==rw){rw=road.clientWidth;setup();newSeq(true)}},180)});
+    if('IntersectionObserver' in window) new IntersectionObserver(function(es){visible=es[0].isIntersecting;if(visible)start()},{rootMargin:'120px'}).observe(road);
+    d.addEventListener('visibilitychange',function(){if(!d.hidden&&visible)start()});
+    $('#replay').addEventListener('click',function(){ctxT.clearRect(0,0,W,H);smoke=[];newSeq(false);start()});
+    start();
+  })();
 
   /* Einblenden per Scroll (einmalig) und Icon-Animationen nur im Sichtfeld */
   if('IntersectionObserver' in window){
