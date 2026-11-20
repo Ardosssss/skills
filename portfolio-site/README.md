@@ -9,7 +9,7 @@ Eine einzelne Seite, die kurz zeigt, was ich mache, und meine Webseiten vorstell
 | `index.html` | Die ganze Seite in einer Datei (CSS und JavaScript inline): Hero, «Was ich mache», Projekte, Kontakt |
 | `assets/` | Pro Projekt WebP-Bilder: Desktop-Aufnahme in 1280 und 1920 px Breite (in doppelter Pixeldichte aufgenommen), Handy-Aufnahme (780 px) und Ausschnitte für die schwebenden Karten im Hero (1080 px, Handys 420 px). Dazu `portrait.webp` |
 
-Online liegt die Seite unter ardit.ch (Infomaniak Starter-Hosting). Dort liegen die Bilder im selben Ordner wie `index.html`: Für den Upload werden in `index.html` alle Pfade `assets/…` durch den blossen Dateinamen ersetzt.
+Online liegt die Seite unter ardit.ch (Infomaniak Starter-Hosting). Dort liegen die Bilder im selben Ordner wie `index.html`: Für den Upload werden in `index.html` alle Pfade `assets/…` durch den blossen Dateinamen ersetzt (`src`, `srcset`, `href`, `url()`).
 
 Keine Build-Tools nötig. Lokal ansehen: im Repo-Ordner `python3 -m http.server` starten und `/portfolio-site/` öffnen.
 
@@ -42,6 +42,10 @@ Alle Handyrahmen sind im iPhone-Stil gebaut (Titanrahmen, schmaler schwarzer Ran
 ## Weitere Projekte folgen
 
 Nach dem letzten Projekt steht der Abschnitt `#mehr`: Titel mit drei hüpfenden Punkten und daneben drei Szenen, die sich frei auf der Fläche abwechseln, je 7 Sekunden mit weichem Übergang: eine Webseite im Browserfenster baut sich auf, zwei Handys zeigen einen Social-Media-Post (mit Like) und eine App (eine Antwort wird gewählt), und Systeme werden verknüpft (Linien zeichnen sich, Punkte laufen darüber). Darunter wechselt eine kleine Beschriftung mit. Dauer und Tempo stehen als `--T` und `--D` bei `.soon`. Die Animation läuft nur, solange der Abschnitt zu sehen ist. Kommt ein neues Projekt dazu, wird es davor als `<article class="project">` eingefügt.
+
+## Suchmaschinen und geteilte Links
+
+Titel und Beschreibung stehen im Kopf von `index.html`, dazu die Hauptadresse `https://ardit.ch/` und der Seitenname «Ardit Selimi». `favicon.png` (Kopf mit Hut auf Blau) ist das Symbol im Browser-Tab und bei Google, `og.jpg` (1200 × 630) das Vorschaubild, wenn der Link geteilt wird.
 
 ## Schwebender Hut
 
