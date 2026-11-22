@@ -47,6 +47,10 @@ Nach dem letzten Projekt steht der Abschnitt `#mehr`: Titel mit drei hüpfenden 
 
 Titel und Beschreibung stehen im Kopf von `index.html`, dazu die Hauptadresse `https://ardit.ch/` und der Seitenname «Ardit Selimi». `favicon.png` (Kopf mit Hut auf Blau) ist das Symbol im Browser-Tab und bei Google, `og.jpg` (1200 × 630) das Vorschaubild, wenn der Link geteilt wird.
 
+## Dateien nur fürs Hosting
+
+`.htaccess` leitet `http://`, `www.ardit.ch` und `/index.html` per 301 auf `https://ardit.ch/` um und setzt Browser-Cache für Bilder. `robots.txt` und `sitemap.xml` zeigen Suchmaschinen den Weg. Alle drei liegen auf dem Hosting neben `index.html`.
+
 ## Schwebender Hut
 
 `assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Sein Farbschimmer passt sich dem Abschnitt an, über dem er schwebt (Farben in `TINTS` im Skript). Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.
