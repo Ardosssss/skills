@@ -51,6 +51,16 @@ Titel und Beschreibung stehen im Kopf von `index.html`, dazu die Hauptadresse `h
 
 `.htaccess` leitet `http://`, `www.ardit.ch` und `/index.html` per 301 auf `https://ardit.ch/` um und setzt Browser-Cache für Bilder. `robots.txt` und `sitemap.xml` zeigen Suchmaschinen den Weg. Alle drei liegen auf dem Hosting neben `index.html`.
 
+## Hut-Regen und Hingucker
+
+- **Hut-Regen:** Ein Klick auf «E-Mail senden» lässt 30 Hüte aus dem Kopf im Knopf springen. Sie fallen mit Schwerkraft, prallen ab und bleiben unten im Kontakt liegen (dafür wächst der Kontakt unten um etwas Platz). Scrollt man nach oben weg, lösen sie sich auf.
+- **Rückflug:** Ein Klick auf irgendeinen Hut (auch den Begleithut) fährt die Seite nach oben. Alle Hüte fliegen mit, steigen über den oberen Rand und tauchen in Foto und Projektkarten ab. Dreht man währenddessen am Mausrad, stoppt die Fahrt.
+- **Laufband:** Zwischen «Was ich mache» und den Projekten laufen zwei Zeilen mit Leistungen, getrennt durch Hüte. Tempo und Richtung folgen dem Scrollen.
+- **Name:** Die Buchstaben von «Ardit Selimi» heben und drehen sich, wenn die Maus in die Nähe kommt.
+- **Kontakt:** Ein heller Lichtfleck folgt der Maus. «Seite ansehen» und der Mail-Knopf ziehen leicht zur Maus.
+
+Bei reduzierter Bewegung ist das alles aus; der Mail-Knopf funktioniert normal.
+
 ## Schwebender Hut
 
 `assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Sein Farbschimmer passt sich dem Abschnitt an, über dem er schwebt (Farben in `TINTS` im Skript). Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.

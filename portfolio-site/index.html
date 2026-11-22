@@ -411,8 +411,40 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .soft .float{animation:none}
 .soft .dx,.soft .dy,.soft .cue span,.soft .ico *,.soft .soon .sc,.soft .soon .sc-cap span,.soft .soon .e,.soft .soon .ln,.soft .soon .gx,.soft .soon .pp,.soft .soon .dots i,.soft .bw__view::after{animation:none!important}
 .soft .sys .flow{display:none!important}
+.soft .contact::before{display:none}
 .soft a.float:hover .card{scale:1}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ---- Laufband: Leistungen als grosse Schrift, Tempo und Richtung folgen dem Scrollen ---- */
+.band-clip{position:relative;z-index:2;overflow:hidden;padding-block:12px}
+.band{position:relative;width:112%;margin-left:-6%;rotate:-2deg;padding-block:clamp(18px,3vw,40px);overflow:hidden}
+.band__row{display:flex;white-space:nowrap}
+.band__track{display:flex;align-items:center;gap:.42em;flex:none;padding-right:.42em;font-size:clamp(40px,7vw,104px);font-weight:700;letter-spacing:-.05em;line-height:1.08;will-change:transform}
+.band__track img{height:.5em;width:auto;flex:none;rotate:-8deg}
+.band__row--alt .band__track{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+.band__row--alt .band__track img{rotate:8deg;opacity:.85}
+
+/* ---- Name: Buchstaben weichen der Maus aus ---- */
+.hero h1 .w{display:inline-block;white-space:nowrap}
+.hero h1 .l{display:inline-block;will-change:transform}
+
+/* ---- Kontakt: Lichtfleck folgt der Maus ---- */
+.contact::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(560px circle at var(--mx,50%) var(--my,40%),rgba(143,203,242,.16),transparent 62%);opacity:var(--glow,0);transition:opacity 500ms ease}
+.contact{transition:padding-bottom 700ms var(--ease-out)}
+.contact.has-hats{padding-bottom:calc(clamp(40px,5vw,64px) + clamp(110px,16vw,170px))}
+
+/* ---- Hut-Regen aus dem Mail-Knopf ---- */
+.hats{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:visible}
+.hb{position:absolute;left:0;top:0;padding:0;border:0;background:none;cursor:pointer;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent;will-change:transform}
+.hb img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 10px rgba(0,0,0,.35));transition:scale 200ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.hb:hover img{scale:1.12}}
+.hb:focus-visible{outline:2px solid var(--accent-soft);outline-offset:4px;border-radius:12px}
+.hb.pop img{scale:0;opacity:0;transition:scale 320ms var(--ease-out),opacity 320ms ease}
+.hats-fly{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden}
+.hats-fly .hb{pointer-events:none}
+
+/* ---- Magnetische Knöpfe ---- */
+.magnet{transition:translate 420ms var(--ease-out),transform 200ms var(--ease-out),color 300ms ease,background-color 200ms ease}
 
 /* ---- Einblendungen ---- */
 .motion .reveal{opacity:0;transform:translateY(16px);transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out);transition-delay:calc(var(--d,0) * 70ms)}
@@ -496,6 +528,11 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
       </li>
     </ul>
   </section>
+
+  <div class="band-clip" aria-hidden="true"><div class="band">
+    <div class="band__row"><div class="band__track"><span>Webseiten</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Web-Apps</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Lern-Apps</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Online-Shops</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Systeme</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Motion</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Webseiten</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Web-Apps</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Lern-Apps</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Online-Shops</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Systeme</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Motion</span><img src="assets/hat.webp" width="375" height="237" alt=""></div></div>
+    <div class="band__row band__row--alt"><div class="band__track"><span>Social Media</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Design</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Animation</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>KI-Coaches</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Automationen</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Branding</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Social Media</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Design</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Animation</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>KI-Coaches</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Automationen</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Branding</span><img src="assets/hat.webp" width="375" height="237" alt=""></div></div>
+  </div></div>
 
   <section id="projekte" aria-labelledby="projekte-titel">
     <div class="projects-head wrap">
@@ -871,8 +908,201 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
       if (link) { link.click(); return; }
       if (stack.some((el) => el.closest('.stage'))) return;
     }
-    scrollTo({ top: 0, behavior: calm.matches ? 'auto' : 'smooth' });
+    goTop();
   });
+
+
+  // =====================================================================
+  //  Hingucker: Laufband, Name, Lichtfleck, magnetische Knöpfe, Hut-Regen
+  // =====================================================================
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  const contact = document.getElementById('kontakt');
+  const hatSrc = document.querySelector('#hat img').getAttribute('src');
+  const rnd = (a, b) => a + Math.random() * (b - a);
+
+  // --- Laufband: Grundtempo plus Schwung aus dem Scrollen, Richtung folgt der Scrollrichtung
+  const rows = [...document.querySelectorAll('.band__row')].map((row, i) => ({ track: row.firstElementChild, pos: 0, dir: i ? 1 : -1 }));
+  let bandLive = false, bandRaf = 0, bandLast = 0, bandY = scrollY, bandBoost = 0, bandSign = 1;
+  function bandFrame(t) {
+    const dt = bandLast ? Math.min(0.05, (t - bandLast) / 1000) : 0.016; bandLast = t;
+    const dy = scrollY - bandY; bandY = scrollY;
+    if (dy) bandSign = dy > 0 ? 1 : -1;
+    bandBoost += (Math.min(1600, Math.abs(dy) / dt) * 0.35 - bandBoost) * 0.08;
+    const v = (55 + bandBoost) * bandSign;
+    for (const r of rows) {
+      const half = r.track.scrollWidth / 2;
+      r.pos = (r.pos + r.dir * v * dt) % half;
+      if (r.pos > 0) r.pos -= half;
+      r.track.style.transform = `translate3d(${r.pos}px,0,0)`;
+    }
+    bandRaf = bandLive && on && !soft ? requestAnimationFrame(bandFrame) : 0;
+    if (!bandRaf) bandLast = 0;
+  }
+  new IntersectionObserver(([en]) => { bandLive = en.isIntersecting; if (bandLive && !bandRaf && on && !soft) bandRaf = requestAnimationFrame(bandFrame); }).observe(document.querySelector('.band'));
+
+  // --- Name: Buchstaben heben sich, wenn die Maus in die Nähe kommt
+  const h1 = hero.querySelector('h1');
+  const nameText = h1.textContent.trim();
+  h1.setAttribute('aria-label', nameText);
+  h1.innerHTML = nameText.split(' ').map((w) => `<span class="w" aria-hidden="true">${[...w].map((c) => `<span class="l">${c}</span>`).join('')}</span>`).join(' ');
+  const letters = [...h1.querySelectorAll('.l')].map((el) => ({ el, y: 0, r: 0, s: 1 }));
+  let lx = -9999, ly = -9999, letterRaf = 0;
+  function letterFrame() {
+    let moving = false;
+    for (const L of letters) {
+      const b = L.el.getBoundingClientRect();
+      const d = Math.hypot(b.left + b.width / 2 - lx, b.top + b.height / 2 - ly);
+      const f = Math.max(0, 1 - d / 190);
+      const ty = -f * f * 30, tr = (lx < b.left + b.width / 2 ? 1 : -1) * f * 10, ts = 1 + f * 0.12;
+      L.y += (ty - L.y) * 0.2; L.r += (tr - L.r) * 0.2; L.s += (ts - L.s) * 0.2;
+      if (Math.abs(ty - L.y) > 0.05 || Math.abs(tr - L.r) > 0.05) moving = true;
+      L.el.style.transform = `translate3d(0,${L.y.toFixed(2)}px,0) rotate(${L.r.toFixed(2)}deg) scale(${L.s.toFixed(3)})`;
+    }
+    letterRaf = moving ? requestAnimationFrame(letterFrame) : 0;
+  }
+  addEventListener('pointermove', (e) => {
+    if (!on || soft || !fine.matches) return;
+    lx = e.clientX; ly = e.clientY;
+    if (!letterRaf) letterRaf = requestAnimationFrame(letterFrame);
+  }, { passive: true });
+
+  // --- Kontakt: Lichtfleck folgt der Maus
+  contact.addEventListener('pointermove', (e) => {
+    if (soft || !fine.matches) return;
+    const r = contact.getBoundingClientRect();
+    contact.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    contact.style.setProperty('--my', `${e.clientY - r.top}px`);
+    contact.style.setProperty('--glow', 1);
+  });
+  contact.addEventListener('pointerleave', () => contact.style.setProperty('--glow', 0));
+
+  // --- Magnetische Knöpfe: ziehen leicht zur Maus
+  for (const el of document.querySelectorAll('.info .btn, .mailbtn')) {
+    el.classList.add('magnet');
+    el.addEventListener('pointermove', (e) => {
+      if (soft || !fine.matches) return;
+      const r = el.getBoundingClientRect();
+      el.style.translate = `${((e.clientX - r.left) / r.width - 0.5) * 16}px ${((e.clientY - r.top) / r.height - 0.5) * 12}px`;
+    });
+    el.addEventListener('pointerleave', () => { el.style.translate = ''; });
+  }
+
+  // --- Hut-Regen
+  const burst = { layer: null, hats: [], raf: 0, last: 0, sweeping: false };
+  function hatLayer() {
+    if (!burst.layer) { burst.layer = document.createElement('div'); burst.layer.className = 'hats'; contact.appendChild(burst.layer); }
+    return burst.layer;
+  }
+  function spawnHats(n) {
+    const layer = hatLayer();
+    contact.classList.add('has-hats');
+    const cr = contact.getBoundingClientRect();
+    const fr = mailbtn.querySelector('.face').getBoundingClientRect();
+    const ox = fr.left + fr.width / 2 - cr.left, oy = fr.top + fr.height / 2 - cr.top;
+    const small = innerWidth < 700;
+    for (let i = 0; i < n; i++) {
+      const w = small ? rnd(42, 66) : rnd(58, 96), h = w * 0.632;
+      const el = document.createElement('button');
+      el.type = 'button'; el.className = 'hb'; el.setAttribute('aria-label', 'Nach oben');
+      el.style.width = `${w}px`;
+      el.innerHTML = `<img src="${hatSrc}" width="375" height="237" alt="">`;
+      el.addEventListener('click', goTop);
+      layer.appendChild(el);
+      burst.hats.push({ el, w, h, x: ox - w / 2, y: oy - h / 2, vx: rnd(-1, 1) * rnd(300, small ? 650 : 1050), vy: -rnd(900, 1650), r: rnd(-30, 30), vr: rnd(-720, 720), rest: rnd(-16, 16), lift: Math.pow(Math.random(), 1.8) * (small ? 70 : 120), done: false });
+    }
+    while (burst.hats.length > 70) burst.hats.shift().el.remove();
+    if (!burst.raf) burst.raf = requestAnimationFrame(physics);
+  }
+  function physics(t) {
+    const dt = burst.last ? Math.min(0.033, (t - burst.last) / 1000) : 0.016; burst.last = t;
+    const W = contact.clientWidth, H = contact.offsetHeight;
+    let active = false;
+    for (const s of burst.hats) {
+      if (s.done) continue;
+      s.vy += 2700 * dt;
+      s.x += s.vx * dt; s.y += s.vy * dt; s.r += s.vr * dt;
+      const floor = H - s.h - 14 - s.lift;
+      if (s.x < 6) { s.x = 6; s.vx = Math.abs(s.vx) * 0.5; }
+      if (s.x > W - s.w - 6) { s.x = W - s.w - 6; s.vx = -Math.abs(s.vx) * 0.5; }
+      if (s.y > floor) {
+        s.y = floor; s.vy = -s.vy * 0.34; s.vx *= 0.72; s.vr *= 0.5;
+        if (Math.abs(s.vy) < 140) s.vy = 0;
+      }
+      if (s.vy === 0 && s.y >= floor - 0.5) {
+        s.vx *= Math.max(0, 1 - 7 * dt);
+        s.r += (s.rest - s.r) * Math.min(1, 9 * dt);
+        if (Math.abs(s.vx) < 6 && Math.abs(s.rest - s.r) < 0.4) s.done = true;
+      }
+      if (!s.done) active = true;
+      s.el.style.transform = `translate3d(${s.x.toFixed(1)}px,${s.y.toFixed(1)}px,0) rotate(${s.r.toFixed(1)}deg)`;
+    }
+    burst.raf = active ? requestAnimationFrame(physics) : 0;
+    if (!active) burst.last = 0;
+  }
+  // Hüte lösen sich auf, wenn man den Kontakt nach oben verlässt (der eine Begleithut bleibt)
+  function dismissHats() {
+    if (!burst.hats.length || burst.sweeping) return;
+    const hats = burst.hats; burst.hats = [];
+    cancelAnimationFrame(burst.raf); burst.raf = 0; burst.last = 0;
+    hats.forEach((s, i) => setTimeout(() => s.el.classList.add('pop'), i * 14));
+    setTimeout(() => { for (const s of hats) s.el.remove(); if (!burst.hats.length) contact.classList.remove('has-hats'); }, hats.length * 14 + 380);
+  }
+  addEventListener('scroll', () => {
+    if (burst.hats.length && !burst.sweeping && contact.getBoundingClientRect().top > innerHeight * 0.8) dismissHats();
+  }, { passive: true });
+
+  // Nach oben: Seite fährt hoch, alle Hüte fliegen mit, steigen über den Rand und tauchen in Foto und Projektkarten ab
+  const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  function goTop() {
+    if (burst.sweeping) return;
+    if (soft || !burst.hats.length) { scrollTo({ top: 0, behavior: soft ? 'auto' : 'smooth' }); return; }
+    burst.sweeping = true;
+    cancelAnimationFrame(burst.raf); burst.raf = 0; burst.last = 0;
+    const fly = document.createElement('div'); fly.className = 'hats-fly'; document.body.appendChild(fly);
+    const cr = contact.getBoundingClientRect();
+    const startY = scrollY;
+    const heroP = clamp(scrollY / hero.offsetHeight);
+    // Zielpunkte, wie sie nach dem Hochfahren (scrollY = 0) auf dem Bildschirm liegen
+    const targets = floats.map((f) => {
+      const b = f.el.getBoundingClientRect();
+      return { x: b.left, y: b.top + startY + heroP * f.depth * 150, w: b.width, h: b.height };
+    });
+    const hats = burst.hats; burst.hats = [];
+    const D = Math.min(1700, 900 + startY * 0.07);
+    const plan = hats.map((s, i) => {
+      fly.appendChild(s.el);
+      const sx = cr.left + s.x, sy = cr.top + s.y;
+      const tg = targets[Math.floor(Math.random() * targets.length)];
+      const ex = tg.x + tg.w * rnd(0.2, 0.8) - s.w / 2, ey = tg.y + tg.h * rnd(0.2, 0.8) - s.h / 2;
+      return { s, sx, sy, ex, ey, cx: (sx + ex) / 2 + rnd(-200, 200), cy: -rnd(220, 520), r0: s.r, spin: rnd(-540, 540), delay: rnd(0, 260) + i * 8, dur: D + rnd(200, 520) };
+    });
+    let cancelled = false;
+    const stop = () => { cancelled = true; };
+    addEventListener('wheel', stop, { passive: true, once: true });
+    addEventListener('touchstart', stop, { passive: true, once: true });
+    const t0 = performance.now();
+    (function frame(now) {
+      const t = now - t0;
+      if (!cancelled) scrollTo({ top: Math.round(startY * (1 - ease(Math.min(1, t / D)))), behavior: 'instant' });
+      let alive = false;
+      for (const q of plan) {
+        const p = clamp((t - q.delay) / q.dur);
+        if (p < 1) alive = true;
+        const e = ease(p), u = 1 - e;
+        const x = u * u * q.sx + 2 * u * e * q.cx + e * e * q.ex;
+        const y = u * u * q.sy + 2 * u * e * q.cy + e * e * q.ey;
+        const sc = p < 0.65 ? 1 : 1 - 0.85 * ((p - 0.65) / 0.35);
+        q.s.el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${(q.r0 + q.spin * e).toFixed(1)}deg) scale(${sc.toFixed(3)})`;
+        q.s.el.style.opacity = p < 0.78 ? 1 : (1 - (p - 0.78) / 0.22).toFixed(3);
+      }
+      if (alive || (!cancelled && t < D)) requestAnimationFrame(frame);
+      else {
+        fly.remove(); contact.classList.remove('has-hats');
+        removeEventListener('wheel', stop); removeEventListener('touchstart', stop);
+        burst.sweeping = false;
+      }
+    })(t0);
+  }
 
   // Mail-Knopf: der Klick zeigt die Bewegung auch ohne Maus und kopiert die Adresse, falls kein Mailprogramm aufgeht
   const mailbtn = document.querySelector('.mailbtn');
@@ -880,6 +1110,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   let mailTimer;
   mailbtn.addEventListener('click', () => {
     mailbtn.classList.add('is-on');
+    if (on && !soft) spawnHats(30);
     clearTimeout(mailTimer);
     mailTimer = setTimeout(() => { mailbtn.classList.remove('is-on'); mailnote.textContent = ''; }, 3500);
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -887,7 +1118,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     }
   });
 
-  calm.addEventListener('change', () => start(calm.matches));
+  calm.addEventListener('change', () => { start(calm.matches); if (bandLive && !bandRaf && !soft) bandRaf = requestAnimationFrame(bandFrame); if (soft) { dismissHats(); for (const L of letters) L.el.style.transform = ''; } });
   start(calm.matches);
 })();
 </script>
