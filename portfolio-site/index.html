@@ -176,7 +176,23 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
 .tags li{font-size:13px;font-weight:700;line-height:1;padding:8px 12px;border-radius:999px;border:1px solid var(--p-line);color:var(--p-fg)}
 .info p{font-size:clamp(16px,1.25vw,18px);color:var(--p-soft);max-width:30em;margin-top:22px;text-wrap:pretty}
-.go-wrap{margin-top:28px}
+.go-wrap{margin-top:24px}
+/* Aufklappbare Projektdetails: liegen im Quelltext für Suchmaschinen, auf der Seite erst auf Wunsch sichtbar */
+.more{margin-top:18px;max-width:30em}
+.more summary{display:inline-flex;align-items:center;gap:8px;cursor:pointer;list-style:none;font-size:14px;font-weight:700;color:var(--p-fg);padding:6px 0;border-bottom:1px solid var(--p-line);touch-action:manipulation}
+.more summary::-webkit-details-marker{display:none}
+.more summary svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 240ms var(--ease-out)}
+.more[open] summary svg{transform:rotate(180deg)}
+.more__body{margin-top:14px;max-height:min(40vh,320px);overflow:auto;padding-right:6px;color:var(--p-soft)}
+.info .more__body p{margin:0;font-size:15px}
+.more__body ul{margin-top:10px;display:grid;gap:6px;font-size:15px}
+.more__body li{position:relative;padding-left:16px}
+.more__body li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--p-accent)}
+@keyframes more-in{from{opacity:0;transform:translateY(-6px)}}
+.more[open] .more__body{animation:more-in 280ms var(--ease-out)}
+@media (prefers-reduced-motion:reduce){.more[open] .more__body{animation:none}}
+/* Am Desktop steht der Text fest im Bild: der aufgeklappte Bereich bekommt nur den Platz, der übrig ist, und scrollt darin */
+@media (min-width:900px){.motion .more__body{max-height:clamp(90px,calc(100vh - 640px),300px)}}
 .info .btn{position:relative;isolation:isolate;overflow:hidden;background:var(--p-fg);color:var(--p-bg);transition:transform 140ms var(--ease-out),color 300ms ease}
 .info .btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--p-accent);clip-path:circle(0% at calc(100% - 30px) 50%);transition:clip-path 520ms var(--ease-out)}
 .info .btn:hover,.info .btn:focus-visible{color:var(--p-on-accent)}
@@ -366,6 +382,9 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .foot-nav{display:flex;flex-wrap:wrap;gap:6px 18px}
 .foot-nav a{text-decoration:none;color:#C3D3DF;transition:color 200ms ease}
 .foot-nav a:hover{color:#fff}
+.share{display:flex;flex-wrap:wrap;gap:6px 14px;width:100%;color:#8FA6B8}
+.share a{text-decoration:none;color:#C3D3DF;transition:color 200ms ease}
+.share a:hover{color:#fff}
 
 /* ---- Hut: sitzt oben auf dem Kopf im Porträt, löst sich beim Scrollen und schwebt hinter den Inhalten durch die Seite ---- */
 .hat{display:none;position:fixed;left:0;top:0;z-index:1;width:200px;pointer-events:none;will-change:transform;--k:0}
@@ -492,7 +511,11 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
           <h3 class="reveal" style="--d:1">KMU Web Studio</h3>
           <ul class="tags reveal" style="--d:2"><li>Nebenbeschäftigung</li><li>Laufend</li><li>Webstudio</li></ul>
           <p class="reveal" style="--d:3">Meine aktuelle Nebenbeschäftigung: Webseiten für kleine Unternehmen, individuell gestaltet und zum Fixpreis. Die Seite führt durch Angebot und Ablauf und zeigt echte Referenzen auf Laptop und Handy. Wer mag, stellt sich seinen Webauftritt gleich selbst zusammen.</p>
-          <div class="go-wrap reveal" style="--d:4"><a class="btn" href="https://kmuwebstudio.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+          <details class="more reveal" style="--d:4">
+            <summary>Mehr zum Projekt <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="more__body"><p>Ein Webauftritt für kleine Unternehmen, der klar zeigt, was ein Betrieb anbietet, und Vertrauen schafft, bevor das erste Gespräch stattfindet. Das Angebot ist bewusst einfach gehalten: ein fester Preis, ein kompakter Umfang und ein persönlicher Ablauf ohne Agenturballast.</p><ul><li>Fixpreis von CHF 500 für eine Webseite mit bis zu vier Seiten</li><li>Individuelles Design, das für Handy, Tablet und Desktop optimiert ist</li><li>Ein Ablauf in vier Schritten: Kennenlernen, Planen, Umsetzen, Veröffentlichen</li><li>Ein Konfigurator, mit dem sich Besucher ihren Webauftritt selbst zusammenstellen</li></ul></div>
+          </details>
+          <div class="go-wrap reveal" style="--d:5"><a class="btn" href="https://kmuwebstudio.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -517,7 +540,11 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
           <h3 class="reveal" style="--d:1">HKBa Coach</h3>
           <ul class="tags reveal" style="--d:2"><li>Lern-App</li><li>KI-Coach</li><li>KV-Ausbildung</li></ul>
           <p class="reveal" style="--d:3">Ein KI-Lerncoach für die kaufmännische Ausbildung. Lernende wählen Lehrjahr und Leistungsziele, üben mit Multiple Choice, offenen Fragen und Fallbeispielen und bekommen sofort eine Bewertung mit Musterlösung. Für den Ernstfall gibt es eine ganze Prüfungssimulation.</p>
-          <div class="go-wrap reveal" style="--d:4"><a class="btn" href="https://hkba.live/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+          <details class="more reveal" style="--d:4">
+            <summary>Mehr zum Projekt <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="more__body"><p>Der Coach ist für Lernende in der kaufmännischen Grundbildung gedacht. Statt Lernziele nur nachzulesen, wird jede Antwort geprüft und kommentiert. So merkt man früh, wo noch Lücken sind, und kann gezielt daran arbeiten.</p><ul><li>Leistungsziele aus dem ersten bis dritten Lehrjahr, über 100 Ziele insgesamt</li><li>Vier Lernmodi, von Multiple Choice bis zur kompletten Prüfungssimulation</li><li>Sofortige Bewertung mit Musterlösung und Verbesserungsvorschlägen</li><li>Themen lassen sich auf Wunsch verständlich erklären, rund um die Uhr</li></ul></div>
+          </details>
+          <div class="go-wrap reveal" style="--d:5"><a class="btn" href="https://hkba.live/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -542,7 +569,11 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
           <h3 class="reveal" style="--d:1">HKBd Coach</h3>
           <ul class="tags reveal" style="--d:2"><li>Lern-App</li><li>HKB D</li><li>Reduziert</li></ul>
           <p class="reveal" style="--d:3">Das Gegenstück für den Bereich Kunden- und Lieferantenbeziehungen. Die App ist bewusst schlicht gehalten: Leistungsziele auswählen, üben, Fortschritt sehen. So bleibt der Kopf beim Lernen und nicht bei der Bedienung.</p>
-          <div class="go-wrap reveal" style="--d:4"><a class="btn" href="https://hkbd.live/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+          <details class="more reveal" style="--d:4">
+            <summary>Mehr zum Projekt <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="more__body"><p>HKBd Coach konzentriert sich auf einen einzigen Bereich und lässt alles weg, was beim Üben ablenkt. Die Auswahl der Leistungsziele wird automatisch gespeichert, damit man beim nächsten Mal direkt weitermachen kann.</p><ul><li>Leistungsziele nach Lehrjahr, nach Thema oder einzeln auswählen</li><li>Multiple Choice mit Sofortauswertung</li><li>Offene Fragen, die frei beantwortet und mit KI-Feedback bewertet werden</li><li>Prüfungssimulation als Mix aus allen Formaten unter Zeitdruck</li></ul></div>
+          </details>
+          <div class="go-wrap reveal" style="--d:5"><a class="btn" href="https://hkbd.live/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -567,7 +598,11 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
           <h3 class="reveal" style="--d:1">QV-Assistent</h3>
           <ul class="tags reveal" style="--d:2"><li>Lern-App</li><li>KV EFZ</li><li>Prüfungssimulation</li></ul>
           <p class="reveal" style="--d:3">Ein digitaler Lerncoach für das Qualifikationsverfahren der Kaufleute EFZ. Er bietet Übungen aus dem KV-Alltag, Prüfungssimulationen mit Zeitlimit und einen KI-Assistenten, der Lösungen Schritt für Schritt erklärt. Fortschritt und Badges zeigen, wie nah die Prüfungsreife ist.</p>
-          <div class="go-wrap reveal" style="--d:4"><a class="btn" href="https://qv-assistent.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+          <details class="more reveal" style="--d:4">
+            <summary>Mehr zum Projekt <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="more__body"><p>Der QV-Assistent begleitet Kaufleute EFZ auf dem Weg zum Qualifikationsverfahren. Übungen, Simulationen und Erklärungen sind auf das Profil der Kaufleute EFZ ausgerichtet, damit sich die Vorbereitung so anfühlt wie die echte Prüfung.</p><ul><li>Praxisnahe Aufgaben aus dem KV-Alltag mit direktem Feedback</li><li>Prüfungssimulationen mit Zeitlimit, Bewertung und PDF-Export der Lösungen</li><li>Ein KI-Prüfungsassistent, der Lösungswege Schritt für Schritt erklärt</li><li>Sichtbarer Lernstand mit Fortschrittsanzeige und Auszeichnungen</li></ul></div>
+          </details>
+          <div class="go-wrap reveal" style="--d:5"><a class="btn" href="https://qv-assistent.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -624,6 +659,13 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
           <a href="#p-qv">QV-Assistent</a>
           <a href="#mehr">Weitere Projekte</a>
         </nav>
+        <div class="share" aria-label="Seite teilen">
+          <span>Seite teilen:</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fardit.ch%2F" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://wa.me/?text=Ardit%20Selimi%20%E2%80%93%20Webseiten%2C%20Apps%20und%20Systeme%3A%20https%3A%2F%2Fardit.ch%2F" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fardit.ch%2F" target="_blank" rel="noopener">Facebook</a>
+          <a href="mailto:?subject=Ardit%20Selimi&amp;body=https%3A%2F%2Fardit.ch%2F">E-Mail</a>
+        </div>
         <a href="#top">Nach oben</a>
       </div>
     </div>
