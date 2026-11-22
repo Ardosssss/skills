@@ -1,3 +1,6 @@
+# Zeichensatz auch im HTTP-Header angeben
+AddDefaultCharset UTF-8
+
 # Eine einzige Adresse: https://ardit.ch/ (ohne www, ohne index.html)
 RewriteEngine On
 
