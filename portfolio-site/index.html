@@ -970,18 +970,21 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     const ox = fr.left + fr.width / 2 - cr.left, oy = fr.top + fr.height / 2 - cr.top;
     const vw = root.clientWidth, vh = innerHeight;
     const size = Math.max(86, Math.min(180, vw * 0.115));
-    // Zellen eines Rasters über den Bildschirm, gemischt; jeder Hut bekommt eine Zelle und darin eine zufällige Stelle
-    const cols = Math.max(3, Math.round(Math.sqrt(n * vw / vh))), rowsN = Math.ceil(n / cols) + 1;
-    const cells = [];
-    for (let r = 0; r < rowsN; r++) for (let c = 0; c < cols; c++) cells.push([c, r]);
-    cells.sort(() => Math.random() - 0.5);
+    // Unregelmässig verteilt: für jeden Hut werden mehrere Zufallsstellen geprüft und die mit dem meisten Abstand
+    // zu den schon liegenden Hüten genommen. Das füllt die Fläche dicht, ohne Reihen oder Muster.
+    const pts = burst.hats.map((q) => ({ x: cr.left + q.tx + q.w / 2, y: cr.top + q.ty + q.h / 2 }));
     const t0 = performance.now();
     for (let i = 0; i < n; i++) {
-      const w = size * rnd(0.85, 1.15), h = w * 0.632;
-      const [c, r] = cells[i % cells.length];
-      const cw = vw / cols, ch = vh / rowsN;
-      const tx = Math.min(vw - w - 4, Math.max(4, c * cw + rnd(0, Math.max(1, cw - w)))) - cr.left;
-      const ty = Math.min(vh - h - 4, Math.max(4, r * ch + rnd(0, Math.max(1, ch - h)))) - cr.top;
+      const w = size * rnd(0.7, 1.25), h = w * 0.632;
+      let best = null, bd = -1;
+      for (let k = 0; k < 18; k++) {
+        const c = { x: rnd(-0.03, 1.03) * vw, y: rnd(-0.03, 1.03) * vh };
+        let md = Infinity;
+        for (const q of pts) { const dx = q.x - c.x, dy = (q.y - c.y) * 1.45; md = Math.min(md, dx * dx + dy * dy); }
+        if (md > bd) { bd = md; best = c; }
+      }
+      pts.push(best);
+      const tx = best.x - w / 2 - cr.left, ty = best.y - h / 2 - cr.top;
       const el = document.createElement('button');
       el.type = 'button'; el.className = 'hb'; el.setAttribute('aria-label', 'Nach oben');
       el.style.width = `${w}px`; el.style.setProperty('--bob', `${rnd(2.6, 4.2).toFixed(2)}s`); el.style.setProperty('--bd', `${rnd(-3, 0).toFixed(2)}s`);
@@ -990,9 +993,9 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
       layer.appendChild(el);
       const sx = ox - w / 2, sy = oy - h / 2;
       burst.hats.push({ el, w, h, x: sx, y: sy, r: rnd(-40, 40), sx, sy, tx, ty, cx: sx + (tx - sx) * rnd(0.3, 0.7), cy: Math.min(sy, ty) - rnd(160, 380),
-        r0: rnd(-200, 200), rest: rnd(-18, 18), t0: t0 + i * 28 + rnd(0, 90), dur: rnd(850, 1300), done: false });
+        r0: rnd(-200, 200), rest: rnd(-34, 34), t0: t0 + i * 16 + rnd(0, 120), dur: rnd(850, 1300), done: false });
     }
-    while (burst.hats.length > 60) burst.hats.shift().el.remove();
+    while (burst.hats.length > 140) burst.hats.shift().el.remove();
     if (!burst.raf) burst.raf = requestAnimationFrame(physics);
   }
   const outBack = (x) => { const c = 1.4; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
@@ -1013,68 +1016,62 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     }
     burst.raf = active ? requestAnimationFrame(physics) : 0;
   }
-  // Hüte lösen sich auf, wenn man den Kontakt nach oben verlässt (der eine Begleithut bleibt)
+  // Hüte verschwinden, indem sie nach oben aus dem Bild steigen: jeder mit eigenem Tempo, leichtem Pendeln und Drehen.
+  function flyAway(hats) {
+    if (!hats.length) return;
+    cancelAnimationFrame(burst.raf); burst.raf = 0;
+    const fly = document.createElement('div'); fly.className = 'hats-fly'; document.body.appendChild(fly);
+    const cr = contact.getBoundingClientRect();
+    const plan = hats.map((s) => {
+      fly.appendChild(s.el); s.el.classList.remove('idle');
+      const x0 = cr.left + s.x, y0 = cr.top + s.y;
+      return { s, x0, y0, dist: y0 + s.h + rnd(120, 320), delay: rnd(0, 420), dur: rnd(950, 1500),
+        sway: rnd(16, 56) * (Math.random() < 0.5 ? -1 : 1), freq: rnd(0.8, 1.8), spin: rnd(-90, 90), r0: s.r };
+    });
+    const t0 = performance.now();
+    (function frame(now) {
+      let alive = false;
+      for (const q of plan) {
+        const p = clamp((now - t0 - q.delay) / q.dur);
+        if (p < 1) alive = true;
+        const e = Math.pow(p, 2.1);
+        const x = q.x0 + q.sway * Math.sin(p * Math.PI * q.freq);
+        const y = q.y0 - q.dist * e - Math.sin(p * Math.PI) * 10;
+        q.s.el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${(q.r0 + q.spin * e).toFixed(1)}deg) scale(${(1 + 0.12 * e).toFixed(3)})`;
+        q.s.el.style.opacity = p < 0.82 ? 1 : (1 - (p - 0.82) / 0.18).toFixed(3);
+      }
+      if (alive) requestAnimationFrame(frame); else fly.remove();
+    })(t0);
+  }
   function dismissHats() {
     if (!burst.hats.length || burst.sweeping) return;
     const hats = burst.hats; burst.hats = [];
-    cancelAnimationFrame(burst.raf); burst.raf = 0; burst.last = 0;
-    hats.forEach((s, i) => setTimeout(() => s.el.classList.add('pop'), i * 14));
-    setTimeout(() => { for (const s of hats) s.el.remove(); if (!burst.hats.length) contact.classList.remove('has-hats'); }, hats.length * 14 + 380);
+    flyAway(hats);
   }
+  // Wer den Kontakt nach oben verlässt, schickt die Hüte weg (der eine Begleithut bleibt)
   addEventListener('scroll', () => {
-    if (burst.hats.length && !burst.sweeping && contact.getBoundingClientRect().top > innerHeight * 0.8) dismissHats();
+    if (burst.hats.length && !burst.sweeping && contact.getBoundingClientRect().top > innerHeight * 0.35) dismissHats();
   }, { passive: true });
 
-  // Nach oben: Seite fährt hoch, alle Hüte fliegen mit, steigen über den Rand und tauchen in Foto und Projektkarten ab
+  // Nach oben: Die Seite fährt hoch, die Hüte steigen dabei nach oben aus dem Bild
   const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
   function goTop() {
     if (burst.sweeping) return;
     if (soft || !burst.hats.length) { scrollTo({ top: 0, behavior: soft ? 'auto' : 'smooth' }); return; }
     burst.sweeping = true;
-    cancelAnimationFrame(burst.raf); burst.raf = 0; burst.last = 0;
-    const fly = document.createElement('div'); fly.className = 'hats-fly'; document.body.appendChild(fly);
-    const cr = contact.getBoundingClientRect();
-    const startY = scrollY;
-    const heroP = clamp(scrollY / hero.offsetHeight);
-    // Zielpunkte, wie sie nach dem Hochfahren (scrollY = 0) auf dem Bildschirm liegen
-    const targets = floats.map((f) => {
-      const b = f.el.getBoundingClientRect();
-      return { x: b.left, y: b.top + startY + heroP * f.depth * 150, w: b.width, h: b.height };
-    });
     const hats = burst.hats; burst.hats = [];
-    const D = Math.min(1700, 900 + startY * 0.07);
-    const plan = hats.map((s, i) => {
-      fly.appendChild(s.el);
-      const sx = cr.left + s.x, sy = cr.top + s.y;
-      const tg = targets[Math.floor(Math.random() * targets.length)];
-      const ex = tg.x + tg.w * rnd(0.2, 0.8) - s.w / 2, ey = tg.y + tg.h * rnd(0.2, 0.8) - s.h / 2;
-      return { s, sx, sy, ex, ey, cx: (sx + ex) / 2 + rnd(-200, 200), cy: -rnd(220, 520), r0: s.r, spin: rnd(-540, 540), delay: rnd(0, 260) + i * 8, dur: D + rnd(200, 520) };
-    });
+    flyAway(hats);
+    const startY = scrollY, D = Math.min(1700, 900 + startY * 0.07);
     let cancelled = false;
     const stop = () => { cancelled = true; };
     addEventListener('wheel', stop, { passive: true, once: true });
     addEventListener('touchstart', stop, { passive: true, once: true });
     const t0 = performance.now();
     (function frame(now) {
-      const t = now - t0;
-      if (!cancelled) scrollTo({ top: Math.round(startY * (1 - ease(Math.min(1, t / D)))), behavior: 'instant' });
-      let alive = false;
-      for (const q of plan) {
-        const p = clamp((t - q.delay) / q.dur);
-        if (p < 1) alive = true;
-        const e = ease(p), u = 1 - e;
-        const x = u * u * q.sx + 2 * u * e * q.cx + e * e * q.ex;
-        const y = u * u * q.sy + 2 * u * e * q.cy + e * e * q.ey;
-        const sc = p < 0.65 ? 1 : 1 - 0.85 * ((p - 0.65) / 0.35);
-        q.s.el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${(q.r0 + q.spin * e).toFixed(1)}deg) scale(${sc.toFixed(3)})`;
-        q.s.el.style.opacity = p < 0.78 ? 1 : (1 - (p - 0.78) / 0.22).toFixed(3);
-      }
-      if (alive || (!cancelled && t < D)) requestAnimationFrame(frame);
-      else {
-        fly.remove(); contact.classList.remove('has-hats');
-        removeEventListener('wheel', stop); removeEventListener('touchstart', stop);
-        burst.sweeping = false;
-      }
+      const t = Math.min(1, (now - t0) / D);
+      if (!cancelled) scrollTo({ top: Math.round(startY * (1 - ease(t))), behavior: 'instant' });
+      if (t < 1 && !cancelled) requestAnimationFrame(frame);
+      else { removeEventListener('wheel', stop); removeEventListener('touchstart', stop); burst.sweeping = false; }
     })(t0);
   }
 
@@ -1084,7 +1081,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   let mailTimer;
   mailbtn.addEventListener('click', () => {
     mailbtn.classList.add('is-on');
-    if (on && !soft) spawnHats(30);
+    if (on && !soft) spawnHats(innerWidth < 700 ? 46 : 70);
     clearTimeout(mailTimer);
     mailTimer = setTimeout(() => { mailbtn.classList.remove('is-on'); mailnote.textContent = ''; }, 3500);
     if (navigator.clipboard && navigator.clipboard.writeText) {
