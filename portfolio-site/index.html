@@ -415,15 +415,6 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .soft a.float:hover .card{scale:1}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
-/* ---- Laufband: Leistungen als grosse Schrift, Tempo und Richtung folgen dem Scrollen ---- */
-.band-clip{position:relative;z-index:2;overflow:hidden;padding-block:12px}
-.band{position:relative;width:112%;margin-left:-6%;rotate:-2deg;padding-block:clamp(18px,3vw,40px);overflow:hidden}
-.band__row{display:flex;white-space:nowrap}
-.band__track{display:flex;align-items:center;gap:.42em;flex:none;padding-right:.42em;font-size:clamp(40px,7vw,104px);font-weight:700;letter-spacing:-.05em;line-height:1.08;will-change:transform}
-.band__track img{height:.5em;width:auto;flex:none;rotate:-8deg}
-.band__row--alt .band__track{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
-.band__row--alt .band__track img{rotate:8deg;opacity:.85}
-
 /* ---- Name: Buchstaben weichen der Maus aus ---- */
 .hero h1 .w{display:inline-block;white-space:nowrap}
 .hero h1 .l{display:inline-block;will-change:transform}
@@ -431,7 +422,6 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 /* ---- Kontakt: Lichtfleck folgt der Maus ---- */
 .contact::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(560px circle at var(--mx,50%) var(--my,40%),rgba(143,203,242,.16),transparent 62%);opacity:var(--glow,0);transition:opacity 500ms ease}
 .contact{transition:padding-bottom 700ms var(--ease-out)}
-.contact.has-hats{padding-bottom:calc(clamp(40px,5vw,64px) + clamp(110px,16vw,170px))}
 
 /* ---- Hut-Regen aus dem Mail-Knopf ---- */
 .hats{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:visible}
@@ -439,6 +429,9 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .hb img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 10px rgba(0,0,0,.35));transition:scale 200ms var(--ease-out)}
 @media (hover:hover) and (pointer:fine){.hb:hover img{scale:1.12}}
 .hb:focus-visible{outline:2px solid var(--accent-soft);outline-offset:4px;border-radius:12px}
+.hb.idle img{animation:hat-bob var(--bob,3.4s) ease-in-out var(--bd,0s) infinite alternate}
+@keyframes hat-bob{from{translate:0 -4px;rotate:-3deg}to{translate:0 4px;rotate:3deg}}
+.soft .hb.idle img{animation:none}
 .hb.pop img{scale:0;opacity:0;transition:scale 320ms var(--ease-out),opacity 320ms ease}
 .hats-fly{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden}
 .hats-fly .hb{pointer-events:none}
@@ -528,11 +521,6 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
       </li>
     </ul>
   </section>
-
-  <div class="band-clip" aria-hidden="true"><div class="band">
-    <div class="band__row"><div class="band__track"><span>Webseiten</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Web-Apps</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Lern-Apps</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Online-Shops</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Systeme</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Motion</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Webseiten</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Web-Apps</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Lern-Apps</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Online-Shops</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Systeme</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Motion</span><img src="assets/hat.webp" width="375" height="237" alt=""></div></div>
-    <div class="band__row band__row--alt"><div class="band__track"><span>Social Media</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Design</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Animation</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>KI-Coaches</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Automationen</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Branding</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Social Media</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Design</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Animation</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>KI-Coaches</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Automationen</span><img src="assets/hat.webp" width="375" height="237" alt=""><span>Branding</span><img src="assets/hat.webp" width="375" height="237" alt=""></div></div>
-  </div></div>
 
   <section id="projekte" aria-labelledby="projekte-titel">
     <div class="projects-head wrap">
@@ -913,32 +901,12 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 
 
   // =====================================================================
-  //  Hingucker: Laufband, Name, Lichtfleck, magnetische Knöpfe, Hut-Regen
+  //  Hingucker: Name, Lichtfleck, magnetische Knöpfe, Hut-Regen
   // =====================================================================
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const contact = document.getElementById('kontakt');
   const hatSrc = document.querySelector('#hat img').getAttribute('src');
   const rnd = (a, b) => a + Math.random() * (b - a);
-
-  // --- Laufband: Grundtempo plus Schwung aus dem Scrollen, Richtung folgt der Scrollrichtung
-  const rows = [...document.querySelectorAll('.band__row')].map((row, i) => ({ track: row.firstElementChild, pos: 0, dir: i ? 1 : -1 }));
-  let bandLive = false, bandRaf = 0, bandLast = 0, bandY = scrollY, bandBoost = 0, bandSign = 1;
-  function bandFrame(t) {
-    const dt = bandLast ? Math.min(0.05, (t - bandLast) / 1000) : 0.016; bandLast = t;
-    const dy = scrollY - bandY; bandY = scrollY;
-    if (dy) bandSign = dy > 0 ? 1 : -1;
-    bandBoost += (Math.min(1600, Math.abs(dy) / dt) * 0.35 - bandBoost) * 0.08;
-    const v = (55 + bandBoost) * bandSign;
-    for (const r of rows) {
-      const half = r.track.scrollWidth / 2;
-      r.pos = (r.pos + r.dir * v * dt) % half;
-      if (r.pos > 0) r.pos -= half;
-      r.track.style.transform = `translate3d(${r.pos}px,0,0)`;
-    }
-    bandRaf = bandLive && on && !soft ? requestAnimationFrame(bandFrame) : 0;
-    if (!bandRaf) bandLast = 0;
-  }
-  new IntersectionObserver(([en]) => { bandLive = en.isIntersecting; if (bandLive && !bandRaf && on && !soft) bandRaf = requestAnimationFrame(bandFrame); }).observe(document.querySelector('.band'));
 
   // --- Name: Buchstaben heben sich, wenn die Maus in die Nähe kommt
   const h1 = hero.querySelector('h1');
@@ -993,51 +961,57 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     if (!burst.layer) { burst.layer = document.createElement('div'); burst.layer.className = 'hats'; contact.appendChild(burst.layer); }
     return burst.layer;
   }
+  // Die Hüte springen aus dem Kopf im Knopf und verteilen sich über den ganzen sichtbaren Bildschirm,
+  // jeder etwa so gross wie der Begleithut. Danach wippen sie leicht.
   function spawnHats(n) {
     const layer = hatLayer();
-    contact.classList.add('has-hats');
     const cr = contact.getBoundingClientRect();
     const fr = mailbtn.querySelector('.face').getBoundingClientRect();
     const ox = fr.left + fr.width / 2 - cr.left, oy = fr.top + fr.height / 2 - cr.top;
-    const small = innerWidth < 700;
+    const vw = root.clientWidth, vh = innerHeight;
+    const size = Math.max(86, Math.min(180, vw * 0.115));
+    // Zellen eines Rasters über den Bildschirm, gemischt; jeder Hut bekommt eine Zelle und darin eine zufällige Stelle
+    const cols = Math.max(3, Math.round(Math.sqrt(n * vw / vh))), rowsN = Math.ceil(n / cols) + 1;
+    const cells = [];
+    for (let r = 0; r < rowsN; r++) for (let c = 0; c < cols; c++) cells.push([c, r]);
+    cells.sort(() => Math.random() - 0.5);
+    const t0 = performance.now();
     for (let i = 0; i < n; i++) {
-      const w = small ? rnd(42, 66) : rnd(58, 96), h = w * 0.632;
+      const w = size * rnd(0.85, 1.15), h = w * 0.632;
+      const [c, r] = cells[i % cells.length];
+      const cw = vw / cols, ch = vh / rowsN;
+      const tx = Math.min(vw - w - 4, Math.max(4, c * cw + rnd(0, Math.max(1, cw - w)))) - cr.left;
+      const ty = Math.min(vh - h - 4, Math.max(4, r * ch + rnd(0, Math.max(1, ch - h)))) - cr.top;
       const el = document.createElement('button');
       el.type = 'button'; el.className = 'hb'; el.setAttribute('aria-label', 'Nach oben');
-      el.style.width = `${w}px`;
+      el.style.width = `${w}px`; el.style.setProperty('--bob', `${rnd(2.6, 4.2).toFixed(2)}s`); el.style.setProperty('--bd', `${rnd(-3, 0).toFixed(2)}s`);
       el.innerHTML = `<img src="${hatSrc}" width="375" height="237" alt="">`;
       el.addEventListener('click', goTop);
       layer.appendChild(el);
-      burst.hats.push({ el, w, h, x: ox - w / 2, y: oy - h / 2, vx: rnd(-1, 1) * rnd(300, small ? 650 : 1050), vy: -rnd(900, 1650), r: rnd(-30, 30), vr: rnd(-720, 720), rest: rnd(-16, 16), lift: Math.pow(Math.random(), 1.8) * (small ? 70 : 120), done: false });
+      const sx = ox - w / 2, sy = oy - h / 2;
+      burst.hats.push({ el, w, h, x: sx, y: sy, r: rnd(-40, 40), sx, sy, tx, ty, cx: sx + (tx - sx) * rnd(0.3, 0.7), cy: Math.min(sy, ty) - rnd(160, 380),
+        r0: rnd(-200, 200), rest: rnd(-18, 18), t0: t0 + i * 28 + rnd(0, 90), dur: rnd(850, 1300), done: false });
     }
-    while (burst.hats.length > 70) burst.hats.shift().el.remove();
+    while (burst.hats.length > 60) burst.hats.shift().el.remove();
     if (!burst.raf) burst.raf = requestAnimationFrame(physics);
   }
-  function physics(t) {
-    const dt = burst.last ? Math.min(0.033, (t - burst.last) / 1000) : 0.016; burst.last = t;
-    const W = contact.clientWidth, H = contact.offsetHeight;
+  const outBack = (x) => { const c = 1.4; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+  function physics(now) {
     let active = false;
     for (const s of burst.hats) {
       if (s.done) continue;
-      s.vy += 2700 * dt;
-      s.x += s.vx * dt; s.y += s.vy * dt; s.r += s.vr * dt;
-      const floor = H - s.h - 14 - s.lift;
-      if (s.x < 6) { s.x = 6; s.vx = Math.abs(s.vx) * 0.5; }
-      if (s.x > W - s.w - 6) { s.x = W - s.w - 6; s.vx = -Math.abs(s.vx) * 0.5; }
-      if (s.y > floor) {
-        s.y = floor; s.vy = -s.vy * 0.34; s.vx *= 0.72; s.vr *= 0.5;
-        if (Math.abs(s.vy) < 140) s.vy = 0;
-      }
-      if (s.vy === 0 && s.y >= floor - 0.5) {
-        s.vx *= Math.max(0, 1 - 7 * dt);
-        s.r += (s.rest - s.r) * Math.min(1, 9 * dt);
-        if (Math.abs(s.vx) < 6 && Math.abs(s.rest - s.r) < 0.4) s.done = true;
-      }
-      if (!s.done) active = true;
-      s.el.style.transform = `translate3d(${s.x.toFixed(1)}px,${s.y.toFixed(1)}px,0) rotate(${s.r.toFixed(1)}deg)`;
+      const p = clamp((now - s.t0) / s.dur);
+      if (p <= 0) { active = true; s.el.style.opacity = 0; continue; }
+      const e = 1 - Math.pow(1 - p, 3), u = 1 - e;
+      s.x = u * u * s.sx + 2 * u * e * s.cx + e * e * s.tx;
+      s.y = u * u * s.sy + 2 * u * e * s.cy + e * e * s.ty;
+      s.r = s.r0 + (s.rest - s.r0) * e;
+      const sc = 0.25 + 0.75 * outBack(Math.min(1, p * 1.6));
+      s.el.style.opacity = 1;
+      s.el.style.transform = `translate3d(${s.x.toFixed(1)}px,${s.y.toFixed(1)}px,0) rotate(${s.r.toFixed(1)}deg) scale(${sc.toFixed(3)})`;
+      if (p >= 1) { s.done = true; s.el.classList.add('idle'); } else active = true;
     }
     burst.raf = active ? requestAnimationFrame(physics) : 0;
-    if (!active) burst.last = 0;
   }
   // Hüte lösen sich auf, wenn man den Kontakt nach oben verlässt (der eine Begleithut bleibt)
   function dismissHats() {
@@ -1118,7 +1092,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     }
   });
 
-  calm.addEventListener('change', () => { start(calm.matches); if (bandLive && !bandRaf && !soft) bandRaf = requestAnimationFrame(bandFrame); if (soft) { dismissHats(); for (const L of letters) L.el.style.transform = ''; } });
+  calm.addEventListener('change', () => { start(calm.matches); if (soft) { dismissHats(); for (const L of letters) L.el.style.transform = ''; } });
   start(calm.matches);
 })();
 </script>

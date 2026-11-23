@@ -53,9 +53,8 @@ Titel und Beschreibung stehen im Kopf von `index.html`, dazu die Hauptadresse `h
 
 ## Hut-Regen und Hingucker
 
-- **Hut-Regen:** Ein Klick auf «E-Mail senden» lässt 30 Hüte aus dem Kopf im Knopf springen. Sie fallen mit Schwerkraft, prallen ab und bleiben unten im Kontakt liegen (dafür wächst der Kontakt unten um etwas Platz). Scrollt man nach oben weg, lösen sie sich auf.
+- **Hut-Regen:** Ein Klick auf «E-Mail senden» lässt 30 Hüte aus dem Kopf im Knopf springen. Sie verteilen sich über den ganzen sichtbaren Bildschirm, jeder etwa so gross wie der Begleithut, und wippen danach leicht. Scrollt man nach oben weg, lösen sie sich auf.
 - **Rückflug:** Ein Klick auf irgendeinen Hut (auch den Begleithut) fährt die Seite nach oben. Alle Hüte fliegen mit, steigen über den oberen Rand und tauchen in Foto und Projektkarten ab. Dreht man währenddessen am Mausrad, stoppt die Fahrt.
-- **Laufband:** Zwischen «Was ich mache» und den Projekten laufen zwei Zeilen mit Leistungen, getrennt durch Hüte. Tempo und Richtung folgen dem Scrollen.
 - **Name:** Die Buchstaben von «Ardit Selimi» heben und drehen sich, wenn die Maus in die Nähe kommt.
 - **Kontakt:** Ein heller Lichtfleck folgt der Maus. «Seite ansehen» und der Mail-Knopf ziehen leicht zur Maus.
 
