@@ -228,6 +228,46 @@ h1,h2,h3,p{margin:0}
 .value h3{font-size:17px;margin-bottom:4px}
 .value p{font-size:15px;color:var(--muted)}
 
+/* ---------- Team (Anime-Figuren) ---------- */
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:1060px){.team{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.team{grid-template-columns:1fr}}
+.member{border-radius:var(--r);background:var(--surface);border:1px solid var(--line);overflow:hidden;transition:transform .35s var(--ease-out),border-color .3s ease}
+.avatar{position:relative;aspect-ratio:240/280;background:var(--av);overflow:hidden}
+.avatar::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1.2px,transparent 1.3px);background-size:16px 16px;-webkit-mask-image:linear-gradient(#000,transparent 70%);mask-image:linear-gradient(#000,transparent 70%);pointer-events:none}
+.avatar svg{position:relative;z-index:1;width:100%;height:100%}
+.member-body{padding:22px 22px 24px}
+.member h3{font-size:22px;letter-spacing:-.02em}
+.role{display:inline-block;margin:8px 0 12px;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--mint);background:rgba(61,220,196,.1);border:1px solid rgba(61,220,196,.24)}
+.member p{font-size:15px;color:var(--muted)}
+.av-char{transition:transform .45s var(--ease-out)}
+.av-head{animation:breathe 3.6s ease-in-out infinite alternate}
+@keyframes breathe{to{transform:translateY(-2px)}}
+.av-eyes{transform-box:fill-box;transform-origin:center;animation:blink 5.2s infinite;animation-delay:var(--blink,0s)}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+.m-open{opacity:0;transition:opacity .15s ease}
+.m-closed{transition:opacity .15s ease}
+.wing{transform-box:fill-box;animation:flutter .45s ease-in-out infinite alternate}
+.wing-l{transform-origin:100% 70%}.wing-r{transform-origin:0 70%;animation-delay:.05s}
+@keyframes flutter{to{transform:scaleX(.8) rotate(-2deg)}}
+.sway{transform-box:fill-box;transform-origin:50% 0;animation:sway 4.5s ease-in-out infinite alternate}
+@keyframes sway{from{transform:skewX(-1.2deg)}to{transform:skewX(1.2deg)}}
+.float{animation:bob 2.6s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-7px) rotate(4deg)}}
+.twinkle{transform-box:fill-box;transform-origin:center;animation:twinkle 2.2s ease-in-out infinite}
+.rise{transform-box:fill-box;transform-origin:center;animation:rise 3s ease-out infinite;opacity:0}
+@keyframes rise{0%{opacity:0;transform:translateY(10px) scale(.6)}20%{opacity:1}100%{opacity:0;transform:translateY(-46px) scale(1.1)}}
+@media (hover:hover) and (pointer:fine){
+  .member:hover{transform:translateY(-4px);border-color:var(--line-2)}
+  .member:hover .av-char{transform:translateY(-6px)}
+  .member:hover .m-open{opacity:1}
+  .member:hover .m-closed{opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .av-head,.av-eyes,.wing,.sway,.float,.twinkle{animation:none}
+  .rise{animation:none;opacity:.8}
+}
+
 /* ---------- Kontakt ---------- */
 .contact{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(28px,5vw,70px);padding:clamp(28px,5vw,64px);border-radius:32px;background:radial-gradient(80% 90% at 0% 0%,rgba(61,220,196,.14),transparent 60%),radial-gradient(70% 80% at 100% 100%,rgba(74,168,255,.12),transparent 60%),var(--surface);border:1px solid var(--line-2)}
 @media (max-width:900px){.contact{grid-template-columns:1fr}}
@@ -279,6 +319,7 @@ footer nav{display:flex;gap:20px}
       <a href="#leistungen">Leistungen</a>
       <a href="#vorher-nachher">Vorher / Nachher</a>
       <a href="#ablauf">Ablauf</a>
+      <a href="#team">Team</a>
       <a href="#kontakt">Kontakt</a>
       <a class="btn btn-glow" href="#kontakt">Offerte anfragen</a>
     </nav>
@@ -474,6 +515,228 @@ footer nav{display:flex;gap:20px}
       <div class="value reveal" style="--d:80ms"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><h3>Pünktlich &amp; zuverlässig</h3><p>Abgemachte Termine halten wir ein – ohne Wenn und Aber.</p></div></div>
       <div class="value reveal" style="--d:160ms"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><div><h3>Diskret &amp; vertrauenswürdig</h3><p>Ihr Zuhause und Ihr Büro sind bei uns in guten Händen.</p></div></div>
       <div class="value reveal" style="--d:240ms"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 6-14 15-14 0 9-6 15-14 15"/><path d="M5 19l7-7"/></svg><div><h3>Schonend für Material &amp; Umwelt</h3><p>Die richtigen Mittel für jede Oberfläche – nicht mehr als nötig.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="team">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="iris" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2E1A10"/><stop offset="1" stop-color="#9A6440"/></linearGradient>
+      <linearGradient id="iris-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#173B33"/><stop offset="1" stop-color="#3FA58C"/></linearGradient>
+      <symbol id="eye-m" viewBox="-15 -17 30 34" overflow="visible">
+        <ellipse rx="11" ry="12.5" fill="#fff"/>
+        <ellipse cy="1.5" rx="8.4" ry="10.6" fill="url(#iris)"/>
+        <ellipse cy="2.5" rx="4" ry="5.8" fill="#170C07"/>
+        <circle cx="-3.2" cy="-3.4" r="3.1" fill="#fff"/><circle cx="3.4" cy="5" r="1.5" fill="#fff" opacity=".9"/>
+        <path d="M-12.5-8.5Q0-17.5 12.5-8.5" stroke="#1B1412" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="eye-f" viewBox="-15 -17 30 34" overflow="visible">
+        <ellipse rx="11" ry="13" fill="#fff"/>
+        <ellipse cy="1.5" rx="8.6" ry="11" fill="url(#iris)"/>
+        <ellipse cy="2.5" rx="4" ry="6" fill="#170C07"/>
+        <circle cx="-3.2" cy="-3.6" r="3.3" fill="#fff"/><circle cx="3.4" cy="5.2" r="1.6" fill="#fff" opacity=".9"/>
+        <path d="M-12.5-8Q0-18.5 13-9.5L17-13" stroke="#1B1412" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.5-6.5L16-8.5" stroke="#1B1412" stroke-width="2.2" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="eye-fg" viewBox="-15 -17 30 34" overflow="visible">
+        <ellipse rx="11" ry="13" fill="#fff"/>
+        <ellipse cy="1.5" rx="8.6" ry="11" fill="url(#iris-g)"/>
+        <ellipse cy="2.5" rx="4" ry="6" fill="#0C1F1A"/>
+        <circle cx="-3.2" cy="-3.6" r="3.3" fill="#fff"/><circle cx="3.4" cy="5.2" r="1.6" fill="#fff" opacity=".9"/>
+        <path d="M-12.5-8Q0-18.5 13-9.5L17-13" stroke="#1B1412" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.5-6.5L16-8.5" stroke="#1B1412" stroke-width="2.2" stroke-linecap="round"/>
+      </symbol>
+      <path id="sparkle" d="M0-8L2-2 8 0 2 2 0 8-2 2-8 0-2-2z"/>
+      <path id="heart" d="M0 5C-8-1-5-7 0-4 5-7 8-1 0 5z"/>
+    </defs>
+  </svg>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Team</span>
+      <h2 class="h-sec">Die Köpfe hinter <em>dem Glanz.</em></h2>
+      <p class="lead">Ein eingespieltes Team mit einem Ziel: Räume, in denen man sich wohlfühlt.</p>
+    </div>
+    <div class="team">
+
+      <!-- Ardit -->
+      <article class="member reveal">
+        <div class="avatar" style="--av:radial-gradient(90% 70% at 50% 30%,#2D6CDF,#12234A)">
+          <svg viewBox="0 0 240 280" role="img" aria-label="Anime-Figur von Ardit: Mann mit Brille und leicht lockigem Haar im dunkelblauen Sakko">
+            <g class="av-char">
+              <path d="M26 280c2-44 36-70 94-70s92 26 94 70z" fill="#1F3A5F"/>
+              <path d="M100 211l20 44 20-44z" fill="#F4F7FA"/>
+              <path d="M101 213l17 48M139 213l-17 48" stroke="#14304F" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="166" cy="246" r="5" fill="#3DDCC4"/>
+              <g transform="translate(0 12)"><g class="av-head">
+                <path d="M104 160h32v46c0 9-32 9-32 0z" fill="#F5D0B0"/>
+                <path d="M104 166c10 12 22 12 32 0v-6h-32z" fill="#E5B190"/>
+                <g fill="#3A2418">
+                  <ellipse cx="120" cy="88" rx="54" ry="44"/>
+                  <circle cx="72" cy="100" r="13"/><circle cx="70" cy="84" r="14"/><circle cx="80" cy="66" r="16"/><circle cx="96" cy="52" r="17"/><circle cx="116" cy="44" r="18"/><circle cx="136" cy="46" r="17"/><circle cx="154" cy="56" r="16"/><circle cx="166" cy="72" r="15"/><circle cx="170" cy="90" r="13"/><circle cx="168" cy="104" r="11"/>
+                </g>
+                <ellipse cx="76" cy="118" rx="8" ry="12" fill="#F5D0B0"/><ellipse cx="77" cy="118" rx="4" ry="7" fill="#E5B190"/>
+                <ellipse cx="164" cy="118" rx="8" ry="12" fill="#F5D0B0"/><ellipse cx="163" cy="118" rx="4" ry="7" fill="#E5B190"/>
+                <path d="M74 104C74 70 94 54 120 54s46 16 46 50c0 32-14 58-34 70-8 5-16 5-24 0-20-12-34-38-34-70z" fill="#F5D0B0"/>
+                <g class="av-eyes" style="--blink:.4s">
+                  <g transform="matrix(-1 0 0 1 202 0)"><use href="#eye-m" x="86" y="103" width="30" height="34"/></g>
+                  <use href="#eye-m" x="124" y="103" width="30" height="34"/>
+                </g>
+                <path d="M89 100q12-6 24-1M127 99q12-5 24 1" stroke="#3A2418" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+                <path d="M121 131q-1 5-4 8" stroke="#D49A78" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <ellipse cx="94" cy="142" rx="8" ry="3.5" fill="#FF8DA1" opacity=".35"/><ellipse cx="146" cy="142" rx="8" ry="3.5" fill="#FF8DA1" opacity=".35"/>
+                <path class="m-closed" d="M110 150q10 8 20 0" stroke="#7A2E2E" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <g class="m-open"><path d="M109 148q11 15 22 0z" fill="#7A2E2E"/><path d="M114 155q6 4 12 0q-6-3-12 0z" fill="#E56B6B"/></g>
+                <g fill="rgba(255,255,255,.1)" stroke="#1E2430" stroke-width="3"><circle cx="101" cy="120" r="17"/><circle cx="139" cy="120" r="17"/></g>
+                <path d="M118 118q2-3 4 0M84 116l-8-3M156 116l8-3" stroke="#1E2430" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M91 111l6-5M129 111l6-5" stroke="#fff" stroke-width="2" opacity=".6" stroke-linecap="round"/>
+                <g fill="#3A2418"><circle cx="86" cy="76" r="12"/><circle cx="100" cy="68" r="13"/><circle cx="116" cy="64" r="13"/><circle cx="132" cy="66" r="13"/><circle cx="146" cy="72" r="12"/><circle cx="157" cy="82" r="10"/></g>
+                <path d="M92 70q6-7 12-1M110 62q7-6 13 0M128 64q7-5 12 1M144 72q6-3 9 3M78 62q5-8 12-6M150 52q8-2 12 6M104 46q8-6 16-2" stroke="#6A4630" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+              </g></g>
+            </g>
+          </svg>
+        </div>
+        <div class="member-body">
+          <h3>Ardit</h3><span class="role">CEO</span>
+          <p>Führt das Team und sorgt dafür, dass jeder Auftrag glänzt.</p>
+        </div>
+      </article>
+
+      <!-- Sadri -->
+      <article class="member reveal" style="--d:80ms">
+        <div class="avatar" style="--av:radial-gradient(90% 70% at 50% 30%,#5B5FC7,#1B1C3A)">
+          <svg viewBox="0 0 240 280" role="img" aria-label="Anime-Figur von Sadri: Mann mit rundeckigem Kopf, Brille und kurzen Haaren im Anzug mit Krawatte">
+            <g class="av-char">
+              <path d="M24 280c2-46 38-72 96-72s94 26 96 72z" fill="#2C3440"/>
+              <path d="M100 209l20 46 20-46z" fill="#F4F7FA"/>
+              <path d="M115 214h10l3 34-8 10-8-10z" fill="#3DDCC4"/><path d="M115 214h10l-2 7h-6z" fill="#2BB7A2"/>
+              <path d="M100 211l18 50M140 211l-18 50" stroke="#1F252E" stroke-width="7" stroke-linecap="round"/>
+              <path d="M156 238h16l-2 6h-12z" fill="#3DDCC4"/>
+              <g transform="translate(0 12)"><g class="av-head">
+                <path d="M104 158h32v48c0 9-32 9-32 0z" fill="#EFC5A2"/>
+                <path d="M104 166c10 12 22 12 32 0v-8h-32z" fill="#DCA683"/>
+                <path d="M70 106C64 58 92 42 120 42s56 16 50 64z" fill="#2A2523"/>
+                <ellipse cx="72" cy="118" rx="8" ry="12" fill="#EFC5A2"/><ellipse cx="73" cy="118" rx="4" ry="7" fill="#DCA683"/>
+                <ellipse cx="168" cy="118" rx="8" ry="12" fill="#EFC5A2"/><ellipse cx="167" cy="118" rx="4" ry="7" fill="#DCA683"/>
+                <path d="M72 98c0-32 20-44 48-44s48 12 48 44v38c0 24-18 40-48 40s-48-16-48-40z" fill="#EFC5A2"/>
+                <g class="av-eyes" style="--blink:1.6s">
+                  <g transform="matrix(-1 0 0 1 202 0)"><use href="#eye-m" x="86" y="104" width="30" height="34"/></g>
+                  <use href="#eye-m" x="124" y="104" width="30" height="34"/>
+                </g>
+                <path d="M88 101l25-2M127 99l25 2" stroke="#2A2523" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+                <path d="M121 132q-1 5-4 8" stroke="#C98E6C" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <ellipse cx="93" cy="144" rx="8" ry="3.5" fill="#FF8DA1" opacity=".3"/><ellipse cx="147" cy="144" rx="8" ry="3.5" fill="#FF8DA1" opacity=".3"/>
+                <path class="m-closed" d="M108 153q12 6 24 0" stroke="#7A2E2E" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <g class="m-open"><path d="M108 151q12 14 24 0z" fill="#7A2E2E"/><path d="M114 158q6 4 12 0q-6-3-12 0z" fill="#E56B6B"/></g>
+                <g fill="rgba(255,255,255,.1)" stroke="#111418" stroke-width="3.2"><rect x="84" y="108" width="34" height="26" rx="9"/><rect x="122" y="108" width="34" height="26" rx="9"/></g>
+                <path d="M118 119h4M84 116l-11-3M156 116l11-3" stroke="#111418" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+                <path d="M91 115l6-4M129 115l6-4" stroke="#fff" stroke-width="2" opacity=".6" stroke-linecap="round"/>
+                <path d="M72 100c-2-36 22-50 48-50s50 14 48 50c-6-14-12-20-20-22l-7-6-9 7-12-7-12 7-10-5-6 6c-8 4-16 12-20 20z" fill="#2A2523"/>
+                <path d="M98 60q12-6 26-4M132 58q12 2 20 10" stroke="#4A403B" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+              </g></g>
+            </g>
+          </svg>
+        </div>
+        <div class="member-body">
+          <h3>Sadri</h3><span class="role">Verwaltungsratspräsident</span>
+          <p>Behält den Überblick und gibt die Richtung vor.</p>
+        </div>
+      </article>
+
+      <!-- Shushka -->
+      <article class="member reveal" style="--d:160ms">
+        <div class="avatar" style="--av:radial-gradient(90% 70% at 50% 30%,#2FBFA8,#163D47)">
+          <svg viewBox="0 0 240 280" role="img" aria-label="Anime-Figur von Shushka, der Putzfee: Frau mit brustlangen Haaren, Feenflügeln und Zauberstab">
+            <g class="av-char">
+              <g fill="rgba(200,255,246,.42)" stroke="rgba(255,255,255,.85)" stroke-width="2">
+                <path class="wing wing-l" d="M100 196C56 130 8 140 14 184c4 30 44 36 86 18zM96 214c-30 4-58 20-50 44 8 18 36 6 54-30z"/>
+                <path class="wing wing-r" d="M140 196c44-66 92-56 86-12-4 30-44 36-86 18zM144 214c30 4 58 20 50 44-8 18-36 6-54-30z"/>
+              </g>
+              <g transform="translate(0 12)"><path class="sway back" d="M66 110C60 50 100 36 120 36s60 14 54 74c2 50 4 90-2 126H68c-6-36-4-76-2-126z" fill="#6B3A26"/></g>
+              <path d="M30 280c2-42 34-68 90-68s88 26 90 68z" fill="#2FC8B0"/>
+              <path d="M90 238q30-10 60 0v42H90z" fill="#fff"/>
+              <path d="M96 238l8-26M144 238l-8-26" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="120" cy="258" r="8" fill="#3DDCC4"/><use href="#sparkle" x="120" y="258" fill="#fff"/>
+              <g transform="translate(0 12)"><g class="av-head">
+                <path d="M106 160h28v46c0 8-28 8-28 0z" fill="#F7D6BA"/>
+                <path d="M106 166c9 11 19 11 28 0v-6h-28z" fill="#E8B796"/>
+                <path d="M76 108c-8 42-12 92-4 140 8 8 24 2 26-8-6-40-8-80-6-112zM164 108c8 42 12 92 4 140-8 8-24 2-26-8 6-40 8-80 6-112z" fill="#6B3A26"/>
+                <path d="M74 104C74 70 94 54 120 54s46 16 46 50c0 32-14 58-34 70-8 5-16 5-24 0-20-12-34-38-34-70z" fill="#F7D6BA"/>
+                <g class="av-eyes" style="--blink:2.6s">
+                  <g transform="matrix(-1 0 0 1 202 0)"><use href="#eye-fg" x="86" y="103" width="30" height="34"/></g>
+                  <use href="#eye-fg" x="124" y="103" width="30" height="34"/>
+                </g>
+                <path d="M90 98q11-5 21-1M129 97q10-4 21 1" stroke="#6B3A26" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <path d="M121 132q-1 4-3 6" stroke="#D9A182" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <ellipse cx="94" cy="141" rx="9" ry="4" fill="#FF8DA1" opacity=".5"/><ellipse cx="146" cy="141" rx="9" ry="4" fill="#FF8DA1" opacity=".5"/>
+                <path class="m-closed" d="M111 150q9 8 18 0" stroke="#A63A4A" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <g class="m-open"><path d="M110 148q10 14 20 0z" fill="#8A2E3C"/><path d="M114 155q6 4 12 0q-6-3-12 0z" fill="#E56B6B"/></g>
+                <path d="M70 110C68 66 96 46 122 46s52 20 48 64c-6-16-14-26-24-30-6 12-18 18-30 20 6-10 8-18 6-24-12 14-30 22-46 24z" fill="#6B3A26"/>
+                <path d="M100 62q14-8 30-4M146 66q10 6 14 18" stroke="#94593B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <path d="M78 84q42-34 84 0" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <use class="twinkle" href="#sparkle" x="150" y="68" fill="#FFE37A"/>
+              </g></g>
+              <g transform="translate(190 160)"><g class="float">
+                <path d="M0 80L16 16" stroke="#F2C94C" stroke-width="5" stroke-linecap="round"/>
+                <path d="M18 0l5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2z" fill="#FFE37A" stroke="#fff" stroke-width="1.5"/>
+              </g></g>
+              <use class="twinkle" href="#sparkle" x="212" y="134" fill="#fff"/>
+              <use class="twinkle" href="#sparkle" x="30" y="70" fill="#fff" style="animation-delay:.7s"/>
+              <use class="twinkle" href="#sparkle" x="198" y="44" fill="#FFE37A" style="animation-delay:1.3s"/>
+            </g>
+          </svg>
+        </div>
+        <div class="member-body">
+          <h3>Shushka</h3><span class="role">Die Putzfee</span>
+          <p>Kein Fleck ist vor ihr sicher – sie zaubert Sauberkeit.</p>
+        </div>
+      </article>
+
+      <!-- Arlinda -->
+      <article class="member reveal" style="--d:240ms">
+        <div class="avatar" style="--av:radial-gradient(90% 70% at 50% 30%,#E86A8A,#3A1830)">
+          <svg viewBox="0 0 240 280" role="img" aria-label="Anime-Figur von Arlinda: Frau mit sehr langen Haaren im rosa Blazer, daneben ein Megafon">
+            <g class="av-char">
+              <g transform="translate(0 12)"><path class="sway back" d="M66 110C60 48 100 34 120 34s60 14 54 76c4 60 16 120 22 180H44c6-60 18-120 22-180z" fill="#2B1A1E"/></g>
+              <path d="M28 280c2-44 36-70 92-70s90 26 92 70z" fill="#E2596F"/>
+              <path d="M102 211l18 38 18-38z" fill="#FFF1E6"/>
+              <path d="M102 212l15 46M138 212l-15 46" stroke="#C4425A" stroke-width="6" stroke-linecap="round"/>
+              <g transform="translate(0 12)"><g class="av-head">
+                <path d="M106 160h28v46c0 8-28 8-28 0z" fill="#F5D0B0"/>
+                <path d="M106 166c9 11 19 11 28 0v-6h-28z" fill="#E5B190"/>
+                <ellipse cx="76" cy="118" rx="7" ry="11" fill="#F5D0B0"/><ellipse cx="164" cy="118" rx="7" ry="11" fill="#F5D0B0"/>
+                <path d="M74 104C74 70 94 54 120 54s46 16 46 50c0 32-14 58-34 70-8 5-16 5-24 0-20-12-34-38-34-70z" fill="#F5D0B0"/>
+                <g class="av-eyes" style="--blink:3.4s">
+                  <g transform="matrix(-1 0 0 1 202 0)"><use href="#eye-f" x="86" y="103" width="30" height="34"/></g>
+                  <use href="#eye-f" x="124" y="103" width="30" height="34"/>
+                </g>
+                <path d="M90 99q11-5 21-1M129 98q10-4 21 1" stroke="#2B1A1E" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <path d="M121 132q-1 4-3 6" stroke="#D49A78" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <ellipse cx="94" cy="141" rx="8" ry="3.5" fill="#FF8DA1" opacity=".4"/><ellipse cx="146" cy="141" rx="8" ry="3.5" fill="#FF8DA1" opacity=".4"/>
+                <path class="m-closed" d="M111 150q9 7 18 0" stroke="#B23A55" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <g class="m-open"><path d="M110 148q10 14 20 0z" fill="#8A2E3C"/><path d="M114 155q6 4 12 0q-6-3-12 0z" fill="#E56B6B"/></g>
+                <path class="sway" d="M78 106c-8 50-12 110-6 180h30c-8-60-8-120-8-158zM162 106c8 50 12 110 6 180h-30c8-60 8-120 8-158z" fill="#2B1A1E"/>
+                <path d="M70 112C66 64 96 44 124 44s52 20 46 66c-6-18-18-32-36-38-12 14-34 26-58 34z" fill="#2B1A1E"/>
+                <path d="M88 76q20-18 46-20M140 60q16 6 24 22" stroke="#55333B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <circle cx="76" cy="132" r="4" fill="none" stroke="#F2C94C" stroke-width="2"/><circle cx="164" cy="132" r="4" fill="none" stroke="#F2C94C" stroke-width="2"/>
+              </g></g>
+              <g transform="translate(24 40) rotate(-14)"><g class="float">
+                <path d="M4 12l30-12v34L4 22z" fill="#fff"/><rect x="-6" y="10" width="12" height="14" rx="3" fill="#FFD3DC"/>
+                <path d="M10 22l4 12h6l-3-10" fill="#fff"/>
+                <path d="M40 8q6 9 0 18M46 3q10 14 0 28" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+              </g></g>
+              <use class="rise" href="#heart" x="200" y="120" fill="#FF8DA1"/>
+              <use class="rise" href="#heart" x="214" y="100" fill="#fff" style="animation-delay:1s"/>
+              <use class="rise" href="#heart" x="196" y="80" fill="#FFD3DC" style="animation-delay:2s"/>
+            </g>
+          </svg>
+        </div>
+        <div class="member-body">
+          <h3>Arlinda</h3><span class="role">Marketing</span>
+          <p>Bringt Selimi’s ins Gespräch – online und offline.</p>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>

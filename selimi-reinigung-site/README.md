@@ -28,11 +28,13 @@ Umgesetzt mit Canvas (Dreck, Partikel, Wischspur) und SVG (Staubsauger, Mopp, Be
 - Laufband mit den Leistungen
 - Leistungen als Karten mit Lichtkegel, der dem Mauszeiger folgt; beim ersten Hinscrollen fliegt ein Besen vorbei
 - Vorher/Nachher-Regler (Maus, Touch und Tastatur)
-- Ablauf in vier Schritten, Werte, Kontaktformular
+- Ablauf in vier Schritten, Werte
+- Team mit vier Anime-Figuren als SVG: Ardit (CEO), Sadri (Verwaltungsratspräsident), Shushka (Putzfee, mit Flügeln und Zauberstab), Arlinda (Marketing, mit Megafon). Sie blinzeln und atmen; mit der Maus darüber lächeln sie breiter.
+- Kontaktformular
 
 ## Offene Punkte
 
 - **Kontaktdaten sind Platzhalter**: Telefon, E-Mail (`info@ihre-domain.ch`, auch im `data-mail` am `<form>`) und Adresse ersetzen.
 - Das Formular öffnet das E-Mail-Programm des Besuchers. Für direkten Versand einen Formular-Dienst (z. B. Formspree) anbinden.
-- Texte zu Leistungen und Werten prüfen und an das tatsächliche Angebot anpassen.
+- Texte zu Leistungen, Werten und den Team-Kurztexten prüfen und an das tatsächliche Angebot anpassen.
 - Impressum und Datenschutz verlinken.
