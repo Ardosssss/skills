@@ -60,6 +60,10 @@ Titel und Beschreibung stehen im Kopf von `index.html`, dazu die Hauptadresse `h
 
 Bei reduzierter Bewegung ist das alles aus; der Mail-Knopf funktioniert normal.
 
+## KI-Suchen (GEO)
+
+`llms.txt` fasst für KI-Suchen in Klartext zusammen, wer Ardit Selimi ist und welche Projekte es gibt. `robots.txt` erlaubt die Crawler von ChatGPT, Claude, Perplexity, Google und Bing ausdrücklich. Im Kopf von `index.html` stehen die vier Projekte zusätzlich als strukturierte Daten (`ItemList` mit `WebApplication`/`WebSite`, Urheber Ardit Selimi).
+
 ## Schwebender Hut
 
 `assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Sein Farbschimmer passt sich dem Abschnitt an, über dem er schwebt (Farben in `TINTS` im Skript). Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.

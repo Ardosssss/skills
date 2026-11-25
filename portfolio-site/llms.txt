@@ -1,0 +1,18 @@
+# Ardit Selimi
+
+> Persönliche Website von Ardit Selimi. Er gestaltet und entwickelt Webseiten und Web-Apps, darunter KI-Lerncoaches für die kaufmännische Ausbildung in der Schweiz. Die Seite zeigt seine Projekte.
+
+Kontakt: selimi@ardit.ch
+
+## Projekte
+
+- [KMU Web Studio](https://kmuwebstudio.ch/): Eigenes kleines Webstudio. Die ganze Website hat Ardit Selimi selbst gestaltet und umgesetzt; Interessierte stellen ihr Projekt dort in einem Konfigurator in wenigen Schritten zusammen.
+- [HKBa Coach](https://hkba.live/): KI-Lerncoach für die kaufmännische Ausbildung. Lernende wählen Lehrjahr und Leistungsziele, üben mit Multiple Choice, offenen Fragen und Fallbeispielen und erhalten sofort eine Bewertung mit Musterlösung; dazu eine Prüfungssimulation.
+- [HKBd Coach](https://hkbd.live/): Lern-App für den Bereich Kunden- und Lieferantenbeziehungen (HKB D). Leistungsziele auswählen, üben, Fortschritt sehen.
+- [QV-Assistent](https://qv-assistent.ch/): Digitaler Lerncoach für das Qualifikationsverfahren der Kaufleute EFZ mit Übungen aus dem KV-Alltag, Prüfungssimulationen mit Zeitlimit und einem KI-Assistenten, der Lösungen Schritt für Schritt erklärt.
+
+## Schwerpunkte
+
+- Design: klare Seiten mit viel Raum und verständlichem Aufbau
+- Umsetzung: schlanker, schneller Code, auf Handy und Laptop gleich gut nutzbar
+- Motion: Animationen und Scroll-Effekte
