@@ -553,7 +553,16 @@ function arrowNav(box, sel) {
     daysEl.innerHTML = ''; slotsEl.innerHTML = '<p class="bstep-hint">Wähle zuerst einen Tag.</p>'; pickText();
     go(1, -1); scrollToForm();
   });
-  form.addEventListener('submit', e => { e.preventDefault(); if (st.step < 5) handleNext(); });
+  // Kein echtes Absenden: eingebettete Vorschauen (iframe) blockieren Formular-Submits.
+  next.addEventListener('click', () => { if (st.step < 5) handleNext(); });
+  form.addEventListener('submit', e => e.preventDefault());
+  // Enter in einem Eingabefeld = «Weiter» bzw. «Anfrage senden»
+  form.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.isComposing || st.step === 5) return;
+    const t = e.target;
+    if (t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON' || t.tagName === 'A') return;
+    e.preventDefault(); handleNext();
+  });
 
   // Direktlinks («Haarentfernung buchen» usw.)
   $$('[data-preset]').forEach(a => a.addEventListener('click', () => {

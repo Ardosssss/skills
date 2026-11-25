@@ -867,7 +867,7 @@ noscript p{max-width:560px;margin:0 auto;padding:20px;border-radius:var(--r-sm);
       <div class="book-foot">
         <button type="button" class="btn-text" id="bBack" hidden>← Zurück</button>
         <p class="book-err" id="bErr" role="alert"></p>
-        <button type="submit" class="btn btn-dark" id="bNext"><span>Weiter</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg><span class="loader" aria-hidden="true"><i></i><i></i><i></i></span></button>
+        <button type="button" class="btn btn-dark" id="bNext"><span>Weiter</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg><span class="loader" aria-hidden="true"><i></i><i></i><i></i></span></button>
       </div>
     </form>
   </div>
@@ -1477,7 +1477,16 @@ function arrowNav(box, sel) {
     daysEl.innerHTML = ''; slotsEl.innerHTML = '<p class="bstep-hint">Wähle zuerst einen Tag.</p>'; pickText();
     go(1, -1); scrollToForm();
   });
-  form.addEventListener('submit', e => { e.preventDefault(); if (st.step < 5) handleNext(); });
+  // Kein echtes Absenden: eingebettete Vorschauen (iframe) blockieren Formular-Submits.
+  next.addEventListener('click', () => { if (st.step < 5) handleNext(); });
+  form.addEventListener('submit', e => e.preventDefault());
+  // Enter in einem Eingabefeld = «Weiter» bzw. «Anfrage senden»
+  form.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.isComposing || st.step === 5) return;
+    const t = e.target;
+    if (t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON' || t.tagName === 'A') return;
+    e.preventDefault(); handleNext();
+  });
 
   // Direktlinks («Haarentfernung buchen» usw.)
   $$('[data-preset]').forEach(a => a.addEventListener('click', () => {
