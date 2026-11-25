@@ -57,6 +57,7 @@ const FAQ = [
   ['Kann ich einen Termin verschieben?', 'Klar. Bitte melde dich mindestens 24 Stunden vorher per WhatsApp, Telefon oder E-Mail – dann finden wir gemeinsam einen neuen Termin.']
 ];
 
+
 /* --------------------------------------------------------- */
 document.documentElement.classList.add('js');
 const $ = (s, el = document) => el.querySelector(s);
@@ -64,35 +65,64 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const chf = n => 'CHF ' + n + '.–';
 const pad = n => String(n).padStart(2, '0');
+const DAY_NAMES = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+
+/* ---------- Hero-Intro erst starten, wenn die Schrift bereit ist ---------- */
+(function heroStart() {
+  const hero = $('.hero'); if (!hero) return;
+  const go = () => hero.classList.add('is-go');
+  if (document.fonts && document.fonts.load) {
+    Promise.race([document.fonts.load('500 1em "Cormorant Garamond"'), new Promise(r => setTimeout(r, 1200))]).then(go, go);
+  } else go();
+})();
 
 /* ---------- Kontaktdaten einsetzen ---------- */
+function hoursRows() {
+  const order = [1, 2, 3, 4, 5, 6, 0], rows = [], closed = [];
+  for (let k = 0; k < order.length;) {
+    const d = order[k], h = CONFIG.hours[d];
+    if (!h) { closed.push(DAY_NAMES[d]); k++; continue; }
+    let j = k;
+    while (j + 1 < order.length && JSON.stringify(CONFIG.hours[order[j + 1]]) === JSON.stringify(h)) j++;
+    rows.push((j > k ? DAY_NAMES[d] + '–' + DAY_NAMES[order[j]] : DAY_NAMES[d]) + ' ' + h[0] + '–' + h[1]);
+    k = j + 1;
+  }
+  if (closed.length) rows.push(closed.join(' & ') + ' geschlossen');
+  return rows;
+}
 const cfgValues = {
   phone: CONFIG.phone,
   email: CONFIG.email,
   instagram: '@' + CONFIG.instagram,
   addressHtml: CONFIG.address.join('<br>'),
-  hoursHtml: (() => {
-    const names = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
-    const rows = []; let i = 1;
-    const order = [1, 2, 3, 4, 5, 6, 0];
-    // gleiche Zeiten zusammenfassen
-    for (let k = 0; k < order.length;) {
-      const d = order[k], h = CONFIG.hours[d]; let j = k;
-      while (j + 1 < order.length && JSON.stringify(CONFIG.hours[order[j + 1]]) === JSON.stringify(h)) j++;
-      const label = j > k ? names[d] + '–' + names[order[j]] : names[d];
-      rows.push(label + ' ' + (h ? h[0] + '–' + h[1] : 'geschlossen'));
-      k = j + 1; i++;
-    }
-    return rows.join('<br>');
-  })(),
+  hoursHtml: hoursRows().join('<br>'),
   telLink: 'tel:' + CONFIG.phone.replace(/\s/g, ''),
   mailLink: 'mailto:' + CONFIG.email,
   instagramLink: 'https://instagram.com/' + CONFIG.instagram,
-  whatsappLink: 'https://wa.me/' + CONFIG.whatsapp
+  whatsappLink: 'https://wa.me/' + CONFIG.whatsapp,
+  mapsLink: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('RE SKIN ' + CONFIG.address.join(', '))
 };
 $$('[data-cfg]').forEach(el => { el.innerHTML = cfgValues[el.dataset.cfg]; });
 $$('[data-cfg-href]').forEach(el => { el.href = cfgValues[el.dataset.cfgHref]; });
 $('#year').textContent = new Date().getFullYear();
+
+/* ---------- Strukturierte Daten für Google (Studio + FAQ) ---------- */
+(function seo() {
+  const zip = (CONFIG.address[1] || '').split(' ');
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const data = [{
+    '@context': 'https://schema.org', '@type': 'BeautySalon', name: 'RE | SKIN – Tattoo- & Haarentfernung',
+    url: location.origin + location.pathname, telephone: CONFIG.phone, email: CONFIG.email, priceRange: 'CHF 29–289',
+    address: { '@type': 'PostalAddress', streetAddress: CONFIG.address[0], postalCode: zip[0], addressLocality: zip.slice(1).join(' '), addressCountry: 'CH' },
+    openingHoursSpecification: Object.entries(CONFIG.hours).map(([d, h]) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: days[d], opens: h[0], closes: h[1] })),
+    sameAs: ['https://instagram.com/' + CONFIG.instagram]
+  }, {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))
+  }];
+  const s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = JSON.stringify(data);
+  document.head.appendChild(s);
+})();
 
 /* ---------- Palmenschatten zeichnen ---------- */
 (function drawPalm() {
@@ -137,19 +167,34 @@ $('#year').textContent = new Date().getFullYear();
 
 /* ---------- Header ---------- */
 const hdr = $('.hdr');
-const onScroll = () => hdr.classList.toggle('is-scrolled', scrollY > 12);
+const onScroll = () => hdr.classList.toggle('is-scrolled', scrollY > 12 || burger.getAttribute('aria-expanded') === 'true');
+const burger = $('.hdr-burger'), mnav = $('#mnav');
 addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-const burger = $('.hdr-burger'), mnav = $('#mnav');
 function setMenu(open) {
   burger.setAttribute('aria-expanded', open);
   burger.setAttribute('aria-label', open ? 'Menü schliessen' : 'Menü öffnen');
-  if (open) { mnav.hidden = false; requestAnimationFrame(() => mnav.classList.add('is-open')); hdr.classList.add('is-scrolled'); }
-  else { mnav.classList.remove('is-open'); setTimeout(() => { if (burger.getAttribute('aria-expanded') === 'false') mnav.hidden = true; }, 220); onScroll(); }
+  if (open) { mnav.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => mnav.classList.add('is-open'))); }
+  else { mnav.classList.remove('is-open'); setTimeout(() => { if (burger.getAttribute('aria-expanded') === 'false') mnav.hidden = true; }, 220); }
+  onScroll();
 }
 burger.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
 $$('a', mnav).forEach(a => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('click', e => { if (burger.getAttribute('aria-expanded') === 'true' && !hdr.contains(e.target)) setMenu(false); });
 addEventListener('keydown', e => { if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') { setMenu(false); burger.focus(); } });
+matchMedia('(min-width: 981px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+
+/* Aktiven Bereich in der Navigation markieren */
+(function scrollSpy() {
+  const links = $$('.hdr-nav a, .mnav a:not(.btn)');
+  const map = { behandlungen: 'behandlungen', studio: 'behandlungen', ablauf: 'ablauf', care: 'ablauf', preise: 'preise', faq: 'faq', kontakt: 'kontakt' };
+  const spy = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const key = map[e.target.id];
+    links.forEach(a => { if (key && a.getAttribute('href') === '#' + key) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  $$('main > section[id], .hero').forEach(s => spy.observe(s));
+})();
 
 /* ---------- Scroll-Reveal (einmalig, gestaffelt) ---------- */
 const groups = new Map();
@@ -164,12 +209,13 @@ $$('.reveal').forEach(el => io.observe(el));
 
 /* ---------- Mobile Buchungsleiste ---------- */
 const mbar = $('#mbar');
-const vis = { hero: true, book: false };
+const vis = { hero: true, book: false, foot: false };
 const barIO = new IntersectionObserver(es => {
-  es.forEach(e => { vis[e.target.classList.contains('hero') ? 'hero' : 'book'] = e.isIntersecting; });
-  mbar.classList.toggle('is-on', !vis.hero && !vis.book);
+  es.forEach(e => { vis[e.target.dataset.bar] = e.isIntersecting; });
+  mbar.classList.toggle('is-on', !vis.hero && !vis.book && !vis.foot);
 }, { threshold: 0 });
-barIO.observe($('.hero')); barIO.observe($('#termin'));
+$('.hero').dataset.bar = 'hero'; $('#termin').dataset.bar = 'book'; $('.ftr').dataset.bar = 'foot';
+barIO.observe($('.hero')); barIO.observe($('#termin')); barIO.observe($('.ftr'));
 
 /* ---------- Haarzyklus-Erklärung ---------- */
 (function hairCycle() {
@@ -213,17 +259,17 @@ barIO.observe($('.hero')); barIO.observe($('#termin'));
 
 /* ---------- Preisliste mit Segment-Umschalter ---------- */
 (function prices() {
-  const seg = $('.seg'), list = $('#plist'), tabs = $$('[role="tab"]', seg);
+  const seg = $('.seg'), list = $('#plist'), panel = $('#ppanel'), tabs = $$('[role="tab"]', seg);
   function render(key) {
     const s = SERVICES[key];
     list.innerHTML = s.zones.map(z => `
-      <li><span class="pn">${z.n}${z.d ? ` <span class="pd">${z.d}</span>` : ''}${z.first ? '<span class="tag">Aktion</span>' : ''}</span>
+      <li><span class="pn">${z.n}${z.d ? ` <span class="pd">${z.d}</span>` : ''}${z.first ? '<span class="tag">1. Behandlung</span>' : ''}</span>
       <span class="pdots" aria-hidden="true"></span>
-      <span class="pp">${z.p == null ? 'auf Anfrage' : z.first ? `<s>${z.p}.–</s>1. Behandlung ${z.first}.–` : z.p + '.–'}</span></li>`).join('');
+      <span class="pp">${z.p == null ? 'auf Anfrage' : z.first ? `<s aria-label="statt ${z.p} Franken">${z.p}.–</s> ${z.first}.–` : z.p + '.–'}</span></li>`).join('');
   }
   function select(i, focus) {
     tabs.forEach((t, j) => { t.setAttribute('aria-selected', i === j); t.tabIndex = i === j ? 0 : -1; });
-    seg.dataset.i = i; list.setAttribute('aria-labelledby', tabs[i].id);
+    seg.dataset.i = i; panel.setAttribute('aria-labelledby', tabs[i].id);
     render(tabs[i].dataset.tab); if (focus) tabs[i].focus();
   }
   tabs.forEach((t, i) => {
@@ -248,40 +294,63 @@ barIO.observe($('.hero')); barIO.observe($('#termin'));
   }));
 })();
 
+/* ---------- Pfeiltasten in Auswahlgruppen (Tage, Uhrzeiten) ---------- */
+function arrowNav(box, sel) {
+  box.addEventListener('keydown', e => {
+    if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+    const items = $$(sel, box).filter(b => !b.disabled), i = items.indexOf(document.activeElement);
+    if (i < 0) return;
+    e.preventDefault();
+    const n = items[(i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length];
+    n.focus(); n.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  });
+}
+
 /* ---------- Terminbuchung ---------- */
 (function booking() {
   const form = $('#book');
   const steps = $$('.bstep', form), dots = $$('.book-steps li', form);
   const next = $('#bNext'), back = $('#bBack'), err = $('#bErr');
-  const st = { step: 1, service: null, zones: [], date: null, time: null, dayOffset: 0 };
-  const DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+  const st = { step: 1, service: null, zones: [], date: null, time: null, busy: false };
   const MONTHS = ['Jan.', 'Feb.', 'März', 'Apr.', 'Mai', 'Juni', 'Juli', 'Aug.', 'Sept.', 'Okt.', 'Nov.', 'Dez.'];
   const toMin = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
-  const fmtDate = d => `${DAYS[d.getDay()]}, ${d.getDate()}. ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  const fmtDate = d => `${DAY_NAMES[d.getDay()]}, ${d.getDate()}. ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  next.disabled = false;
 
-  function go(n, dir = 1) {
+  function go(n, dir = 1, focus = true) {
     st.step = n;
     steps.forEach(s => { const on = +s.dataset.step === n; s.classList.toggle('is-on', on); s.classList.toggle('is-back', on && dir < 0); });
-    dots.forEach((d, i) => { d.classList.toggle('is-on', i + 1 === n); d.classList.toggle('is-done', i + 1 < n); });
+    dots.forEach((d, i) => {
+      const done = i + 1 < n;
+      d.classList.toggle('is-on', i + 1 === n); d.classList.toggle('is-done', done);
+      d.firstElementChild.tabIndex = done ? 0 : -1;
+      if (i + 1 === n) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current');
+    });
     back.hidden = n === 1 || n === 5;
     form.classList.toggle('is-done', n === 5);
     next.firstElementChild.textContent = n === 4 ? 'Anfrage senden' : 'Weiter';
-    err.textContent = '';
+    setErr('');
     if (n === 2) renderZones();
     if (n === 3) renderDays();
     if (n === 4) renderSummary($('#summary'));
-    update();
+    if (focus) {
+      const h = n === 5 ? $('[data-step="5"]') : $('.bstep.is-on .bstep-h', form);
+      h.tabIndex = -1; h.focus({ preventScroll: true });
+    }
   }
-  function update() {
-    const ok = { 1: !!st.service, 2: st.zones.length > 0, 3: !!(st.date && st.time), 4: true }[st.step];
-    next.disabled = !ok;
-  }
-  const scrollToForm = () => { const r = form.getBoundingClientRect(); if (r.top < 0 || r.top > innerHeight * .5) form.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); };
+  const setErr = t => { err.textContent = t; };
+  const scrollToForm = () => {
+    const r = form.getBoundingClientRect();
+    if (r.top < 0 || r.top > innerHeight * .4) form.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  };
+
+  // Fortschritt: erledigte Schritte sind anklickbar
+  dots.forEach((d, i) => d.firstElementChild.addEventListener('click', () => { if (i + 1 < st.step && st.step < 5) go(i + 1, -1); }));
 
   // Schritt 1
   $$('input[name="service"]', form).forEach(r => r.addEventListener('change', () => {
-    if (st.service !== r.value) { st.zones = []; }
-    st.service = r.value; update();
+    if (st.service !== r.value) st.zones = [];
+    st.service = r.value; setErr('');
   }));
 
   // Schritt 2
@@ -291,26 +360,28 @@ barIO.observe($('.hero')); barIO.observe($('#termin'));
     const type = s.multi ? 'checkbox' : 'radio';
     $('#zones').innerHTML = s.zones.map((z, i) => `
       <label class="chip"><input type="${type}" name="zone" value="${i}" ${st.zones.includes(i) ? 'checked' : ''}>
-      <span>${z.n}${z.d ? ` <small>${z.d}</small>` : ''}${z.p ? ` <small>${z.first ? z.first : z.p}.–</small>` : ''}</span></label>`).join('');
+      <span>${z.n}${z.d ? ` <small>${z.d}</small>` : ''}${z.p ? ` <small>${z.p}.–</small>` : ''}</span></label>`).join('');
     $$('#zones input').forEach(inp => inp.addEventListener('change', () => {
-      st.zones = $$('#zones input:checked').map(x => +x.value); zoneSum(); update();
+      st.zones = $$('#zones input:checked').map(x => +x.value); zoneSum(); setErr('');
     }));
     zoneSum();
   }
   function priceOf() {
-    const s = SERVICES[st.service]; let sum = 0, open = false;
-    st.zones.forEach(i => { const z = s.zones[i]; if (z.p == null) open = true; else sum += z.first || z.p; });
-    return { sum, open, free: st.service === 'beratung' };
+    const s = SERVICES[st.service]; let sum = 0, open = false, promo = false;
+    st.zones.forEach(i => { const z = s.zones[i]; if (z.p == null) open = true; else sum += z.p; if (z.first) promo = true; });
+    return { sum, open, promo, free: st.service === 'beratung' };
   }
+  const priceText = p => p.free ? 'kostenlos' : p.open && !p.sum ? 'nach Absprache' : chf(p.sum) + (p.open ? ' + Anfrage' : '');
   function zoneSum() {
     const el = $('#zoneSum'); const p = priceOf();
     if (!st.zones.length) { el.textContent = ''; return; }
     if (p.free) { el.innerHTML = 'Die Beratung ist <b>kostenlos</b> und unverbindlich.'; return; }
-    el.innerHTML = p.open && !p.sum ? 'Preis nach Absprache – wir melden uns.' : `Richtpreis pro Sitzung: <b>${chf(p.sum)}</b>${p.open ? ' + Anfrage' : ''} <span style="color:var(--muted)">· Neukunden −20 %</span>`;
+    el.innerHTML = `Richtpreis pro Sitzung: <b>${priceText(p)}</b><br><span style="color:var(--muted)">Deine erste Behandlung wird günstiger: −20 % für Neukunden${p.promo ? ', Achseln 35.–' : ''}.</span>`;
   }
 
   // Schritt 3
-  const daysEl = $('#days'), slotsEl = $('#slots');
+  const daysEl = $('#days'), slotsEl = $('#slots'), pick = $('#pickInfo');
+  arrowNav(daysEl, '.day'); arrowNav(slotsEl, '.slot');
   function slotList(date) {
     const h = CONFIG.hours[date.getDay()]; if (!h) return [];
     const out = []; const now = new Date();
@@ -327,16 +398,22 @@ barIO.observe($('.hero')); barIO.observe($('#termin'));
     for (let i = 0; i < CONFIG.bookingDays; i++) {
       const d = new Date(base); d.setDate(base.getDate() + i);
       const b = document.createElement('button');
-      b.type = 'button'; b.className = 'day'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
-      b.dataset.date = d.toISOString();
       const free = slotList(d).length > 0;
+      b.type = 'button'; b.className = 'day'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
       b.disabled = !free;
       b.setAttribute('aria-label', fmtDate(d) + (free ? '' : ', geschlossen'));
-      b.innerHTML = `<small>${i === 0 ? 'Heute' : DAYS[d.getDay()]}</small><b>${d.getDate()}</b><em>${MONTHS[d.getMonth()]}</em>`;
+      b.innerHTML = `<small>${i === 0 ? 'Heute' : i === 1 ? 'Morgen' : DAY_NAMES[d.getDay()]}</small><b>${d.getDate()}</b><em>${MONTHS[d.getMonth()]}</em>`;
       b.addEventListener('click', () => pickDay(b, d));
       daysEl.appendChild(b);
     }
+    navState();
   }
+  function navState() {
+    const [l, r] = $$('.days-nav', form);
+    l.disabled = daysEl.scrollLeft < 4;
+    r.disabled = daysEl.scrollLeft + daysEl.clientWidth > daysEl.scrollWidth - 4;
+  }
+  daysEl.addEventListener('scroll', navState, { passive: true });
   function pickDay(b, d) {
     $$('.day', daysEl).forEach(x => x.setAttribute('aria-checked', x === b));
     st.date = d; st.time = null;
@@ -344,9 +421,13 @@ barIO.observe($('.hero')); barIO.observe($('#termin'));
     slotsEl.innerHTML = list.map((t, i) => `<button type="button" class="slot" role="radio" aria-checked="false" style="animation-delay:${Math.min(i, 12) * 18}ms">${t}</button>`).join('');
     $$('.slot', slotsEl).forEach(s => s.addEventListener('click', () => {
       $$('.slot', slotsEl).forEach(x => x.setAttribute('aria-checked', x === s));
-      st.time = s.textContent; update();
+      st.time = s.textContent; pickText(); setErr('');
     }));
-    update();
+    pickText(); setErr('');
+  }
+  function pickText() {
+    if (!st.date) { pick.textContent = ''; return; }
+    pick.innerHTML = st.time ? `Dein Wunschtermin: <b>${fmtDate(st.date)}, ${st.time} Uhr</b>` : `${fmtDate(st.date)} – jetzt noch eine Uhrzeit wählen.`;
   }
   $$('.days-nav', form).forEach(b => b.addEventListener('click', () => daysEl.scrollBy({ left: +b.dataset.dir * daysEl.clientWidth * .8, behavior: reduce ? 'auto' : 'smooth' })));
 
@@ -368,45 +449,62 @@ barIO.observe($('.hero')); barIO.observe($('#termin'));
   }
   function renderSummary(el) {
     const d = data(); const p = priceOf();
-    const isNew = form.elements.new.checked;
-    let price = p.free ? 'kostenlos' : p.open && !p.sum ? 'nach Absprache' : chf(p.sum) + (p.open ? ' + Anfrage' : '');
-    if (isNew && !p.free && p.sum) price = `${chf(Math.round(p.sum * .8))} <small style="color:var(--muted)">(−20 % Neukunden)</small>`;
+    let price = priceText(p);
+    if (form.elements.new.checked && !p.free && p.sum) price += ' <small style="color:var(--muted)">– Neukunden-Rabatt wird abgezogen</small>';
     el.innerHTML = [['Behandlung', d.Behandlung], ['Auswahl', d.Auswahl], ['Termin', d.Datum + ', ' + d.Uhrzeit + ' Uhr'], ['Richtpreis', price]]
       .map(([k, v]) => `<div><span>${k}</span><span>${v}</span></div>`).join('');
   }
   form.elements.new.addEventListener('change', () => renderSummary($('#summary')));
 
+  const RULES = {
+    name: [v => v.trim().length > 1, 'Bitte gib deinen Namen ein.'],
+    tel: [v => v.replace(/\D/g, '').length >= 9, 'Bitte gib eine gültige Telefonnummer ein, z. B. 079 123 45 67.'],
+    email: [v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()), 'Bitte gib eine gültige E-Mail-Adresse ein.']
+  };
+  function checkField(name) {
+    const el = form.elements[name], [test, msg] = RULES[name], ok = test(el.value);
+    el.closest('.field').classList.toggle('is-bad', !ok);
+    el.setAttribute('aria-invalid', !ok);
+    $('#e-' + name).textContent = ok ? '' : msg;
+    return ok;
+  }
   function validate() {
-    const f = form.elements; let first = null;
-    const check = (el, ok) => { el.closest('.field, .tgl').classList.toggle('is-bad', !ok); if (!ok && !first) first = el; };
-    check(f.name, f.name.value.trim().length > 1);
-    check(f.tel, f.tel.value.replace(/\D/g, '').length >= 9);
-    check(f.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim()));
-    check(f.consent, f.consent.checked);
-    if (first) { err.textContent = 'Bitte prüfe die markierten Felder.'; first.focus(); return false; }
+    let first = null;
+    Object.keys(RULES).forEach(n => { if (!checkField(n) && !first) first = form.elements[n]; });
+    const c = form.elements.consent;
+    c.closest('.tgl').classList.toggle('is-bad', !c.checked);
+    if (!c.checked && !first) first = c;
+    if (first) { setErr(c.checked ? 'Bitte prüfe die markierten Felder.' : 'Bitte prüfe die markierten Felder und bestätige die Einwilligung.'); first.focus(); return false; }
     return true;
   }
-  $$('.field input, .tgl input', form).forEach(el => el.addEventListener('input', () => el.closest('.field, .tgl').classList.remove('is-bad')));
+  Object.keys(RULES).forEach(n => {
+    const el = form.elements[n];
+    el.addEventListener('blur', () => { if (el.value) checkField(n); });
+    el.addEventListener('input', () => { if (el.closest('.field').classList.contains('is-bad')) checkField(n); });
+  });
+  form.elements.consent.addEventListener('change', e => e.target.closest('.tgl').classList.toggle('is-bad', !e.target.checked));
 
   function messageText(d) {
     return `Hallo RE | SKIN, ich möchte gerne einen Termin anfragen:\n\n` +
       Object.entries(d).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join('\n') + `\n\nVielen Dank!`;
   }
+  const icsEsc = s => String(s).replace(/[\\,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
   function icsFile(d) {
     const s = new Date(st.date); const [h, m] = st.time.split(':').map(Number); s.setHours(h, m, 0, 0);
     const e = new Date(s.getTime() + 45 * 60000);
     const f = x => x.getFullYear() + pad(x.getMonth() + 1) + pad(x.getDate()) + 'T' + pad(x.getHours()) + pad(x.getMinutes()) + '00';
     const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//RESKIN//Termin//DE', 'BEGIN:VEVENT',
       'UID:' + Date.now() + '@reskin', 'DTSTAMP:' + f(new Date()), 'DTSTART:' + f(s), 'DTEND:' + f(e),
-      'SUMMARY:RE | SKIN – ' + d.Behandlung + ' (angefragt)', 'LOCATION:' + CONFIG.address.join(', '),
-      'DESCRIPTION:Terminanfrage – Bestätigung folgt.', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      'SUMMARY:' + icsEsc('RE | SKIN – ' + d.Behandlung + ' (angefragt)'), 'LOCATION:' + icsEsc(CONFIG.address.join(', ')),
+      'DESCRIPTION:' + icsEsc('Terminanfrage – die Bestätigung folgt.'), 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
     return URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
   }
 
   async function submit() {
-    if (!validate()) return;
+    if (st.busy || !validate()) return;
+    st.busy = true;
     const d = data();
-    next.classList.add('is-loading'); next.disabled = true;
+    next.classList.add('is-loading'); next.setAttribute('aria-busy', 'true');
     let sent = false;
     if (CONFIG.formEndpoint) {
       try {
@@ -414,43 +512,53 @@ barIO.observe($('.hero')); barIO.observe($('#termin'));
         sent = r.ok;
       } catch (_) { sent = false; }
     } else {
-      await new Promise(r => setTimeout(r, 600));
+      await new Promise(r => setTimeout(r, 500));
     }
-    next.classList.remove('is-loading');
+    next.classList.remove('is-loading'); next.removeAttribute('aria-busy'); st.busy = false;
+    const first = d.Name.split(' ')[0];
     const txt = encodeURIComponent(messageText(d));
     const wa = `<a class="btn btn-dark btn-sm" href="https://wa.me/${CONFIG.whatsapp}?text=${txt}" target="_blank" rel="noopener"><span>Per WhatsApp senden</span></a>`;
     const mail = `<a class="btn btn-ghost btn-sm" href="mailto:${CONFIG.email}?subject=${encodeURIComponent('Terminanfrage – ' + d.Behandlung)}&body=${txt}"><span>Per E-Mail senden</span></a>`;
     const cal = `<a class="btn btn-ghost btn-sm" href="${icsFile(d)}" download="reskin-termin.ics"><span>In den Kalender</span></a>`;
     if (sent) {
-      $('#doneTitle').textContent = `Danke, ${d.Name.split(' ')[0]}! Deine Anfrage ist bei uns.`;
+      $('#doneTitle').textContent = `Danke, ${first}! Deine Anfrage ist bei uns.`;
       $('#doneText').textContent = 'Wir melden uns innerhalb von 24 Stunden mit der Bestätigung.';
       $('#doneActions').innerHTML = cal;
     } else {
-      $('#doneTitle').textContent = `Fast geschafft, ${d.Name.split(' ')[0]}!`;
-      $('#doneText').textContent = 'Deine Nachricht ist schon vorbereitet. Schick sie uns mit einem Klick – wir bestätigen dir den Termin innerhalb von 24 Stunden.';
+      $('#doneTitle').textContent = `Fast geschafft, ${first}!`;
+      $('#doneText').textContent = 'Deine Nachricht ist schon fertig geschrieben. Schick sie uns mit einem Klick – wir bestätigen dir den Termin innerhalb von 24 Stunden.';
       $('#doneActions').innerHTML = wa + mail + cal;
     }
     renderSummary($('#doneSummary'));
     go(5); scrollToForm();
-    $('[data-step="5"]').focus({ preventScroll: true });
   }
 
-  next.addEventListener('click', () => {
-    if (st.step < 4) { go(st.step + 1); scrollToForm(); }
-    else submit();
-  });
+  const STEP_MSG = {
+    1: () => !st.service && 'Bitte wähle zuerst eine Behandlung.',
+    2: () => !st.zones.length && (st.service === 'tattoo' ? 'Bitte wähle die ungefähre Grösse.' : st.service === 'beratung' ? 'Bitte wähle aus, worum es geht.' : 'Bitte wähle mindestens eine Zone.'),
+    3: () => !st.date ? 'Bitte wähle einen Tag.' : !st.time && 'Bitte wähle eine Uhrzeit.'
+  };
+  function handleNext() {
+    if (st.step < 4) {
+      const msg = STEP_MSG[st.step]();
+      if (msg) { setErr(msg); return; }
+      go(st.step + 1); scrollToForm();
+    } else submit();
+  }
   back.addEventListener('click', () => { go(st.step - 1, -1); scrollToForm(); });
   $('#bookAgain').addEventListener('click', () => {
-    form.reset(); Object.assign(st, { service: null, zones: [], date: null, time: null });
-    daysEl.innerHTML = ''; slotsEl.innerHTML = '<p class="bstep-hint">Wähle zuerst einen Tag.</p>';
-    go(1, -1);
+    const keep = ['name', 'tel', 'email'].map(n => [n, form.elements[n].value]);
+    form.reset(); keep.forEach(([n, v]) => { form.elements[n].value = v; });
+    Object.assign(st, { service: null, zones: [], date: null, time: null });
+    daysEl.innerHTML = ''; slotsEl.innerHTML = '<p class="bstep-hint">Wähle zuerst einen Tag.</p>'; pickText();
+    go(1, -1); scrollToForm();
   });
-  form.addEventListener('submit', e => e.preventDefault());
+  form.addEventListener('submit', e => { e.preventDefault(); if (st.step < 5) handleNext(); });
 
   // Direktlinks («Haarentfernung buchen» usw.)
   $$('[data-preset]').forEach(a => a.addEventListener('click', () => {
     const v = a.dataset.preset; const r = form.querySelector(`input[name="service"][value="${v}"]`);
     if (!r || st.step === 5) return;
-    r.checked = true; if (st.service !== v) st.zones = []; st.service = v; go(2);
+    r.checked = true; if (st.service !== v) st.zones = []; st.service = v; go(2, 1, false);
   }));
 })();

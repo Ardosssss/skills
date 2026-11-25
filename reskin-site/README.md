@@ -14,7 +14,8 @@ Statische One-Page-Website für das Studio «RE | SKIN – Tattoo- & Haarentfern
 | Preise | Umschalter Haar / Tattoo, Angebote (Neukunden, Treue, Gutschein) |
 | Termin buchen | 4 Schritte: Behandlung → Zonen/Grösse → Tag und Uhrzeit → Kontakt. Danach Versand per WhatsApp oder E-Mail (vorausgefüllt) und Kalenderdatei (.ics) |
 | FAQ | 9 Fragen als Akkordeon |
-| Kontakt | Adresse, Öffnungszeiten, Telefon, E-Mail, Instagram |
+| Kontakt | Adresse mit «Route planen», Öffnungszeiten, Telefon, E-Mail, Instagram |
+| `impressum.html`, `datenschutz.html` | Vorlagen – Angaben in [eckigen Klammern] ersetzen |
 
 ## Vor dem Livegang anpassen
 
@@ -24,10 +25,13 @@ Alles Wichtige steht oben in `assets/site.js`:
 - `SERVICES` – Zonen und Preise. Gesichert sind nur «ab 29.–», «ab 149.–» und «Achseln 1. Behandlung 35.–», der Rest sind Platzhalter
 - `FAQ` – Fragen und Antworten
 - `CONFIG.formEndpoint` – optional, z. B. eine Formspree-URL. Dann landen Anfragen direkt im Postfach statt über WhatsApp oder E-Mail
-- Impressum und Datenschutz im Footer verlinken noch auf `#`
+- `impressum.html` und `datenschutz.html` – Vorlagen ausfüllen und prüfen lassen
+- `assets/og-image.png` – Vorschaubild für WhatsApp und Instagram, bei Bedarf durch ein Studiofoto ersetzen (1200 × 630 px)
 
 ## Technik
 
 - `index.html`, `assets/site.css`, `assets/site.js`, `assets/favicon.svg`
-- Schriften: Cormorant Garamond (Titel, wie das Logo) und Arial (Text)
+- Schriften: Cormorant Garamond (Titel, wie das Logo) und Arial (Text). Die Schrift liegt lokal in `assets/fonts/`, es gibt also keine Verbindung zu Google (Datenschutz)
+- Strukturierte Daten (Studio, Öffnungszeiten, FAQ) für Google werden aus `CONFIG` erzeugt
+- `vorschau-reskin.html` ist eine Kopie in einer Datei zum Anschauen und wird bei Änderungen nicht automatisch nachgeführt
 - Animationen nur mit `transform`, `opacity` und `clip-path`, Hover nur auf Geräten mit Maus, `prefers-reduced-motion` wird beachtet

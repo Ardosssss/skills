@@ -6,11 +6,17 @@
 <title>RE | SKIN – Tattoo- & Haarentfernung</title>
 <meta name="description" content="RE | SKIN – Laser-Haarentfernung und Tattooentfernung. Persönliche Beratung, moderne Lasertechnik, ehrliche Preise. Jetzt Termin buchen.">
 <meta name="theme-color" content="#DDD8D3">
+<meta property="og:type" content="website">
+<meta property="og:title" content="RE | SKIN – Tattoo- & Haarentfernung">
+<meta property="og:description" content="Laser-Haarentfernung und Tattooentfernung mit ehrlicher Beratung. Jetzt Termin buchen – Neukunden −20 %.">
+<meta property="og:image" content="assets/og-image.png">
+<meta property="og:locale" content="de_CH">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/cormorant-garamond.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add('js');setTimeout(function(){var h=document.querySelector('.hero');h&&h.classList.add('is-go')},2500)</script>
 </head>
 <body>
 
@@ -29,7 +35,7 @@
       <a href="#faq">FAQ</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
-    <a href="#termin" class="btn btn-dark btn-sm hdr-cta"><span>Termin buchen</span></a>
+    <a href="#book" class="btn btn-dark btn-sm hdr-cta"><span>Termin buchen</span></a>
     <button class="hdr-burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Menü öffnen">
       <i></i><i></i>
     </button>
@@ -40,7 +46,7 @@
     <a href="#preise">Preise</a>
     <a href="#faq">FAQ</a>
     <a href="#kontakt">Kontakt</a>
-    <a href="#termin" class="btn btn-dark"><span>Termin buchen</span></a>
+    <a href="#book" class="btn btn-dark"><span>Termin buchen</span></a>
   </nav>
 </header>
 
@@ -61,8 +67,8 @@
     <p class="hero-lead">Glatte Haut, freie Haut, <em>deine</em> Haut.<br>Mit moderner Lasertechnik, ehrlicher Beratung und viel Herz.</p>
 
     <div class="hero-cta">
-      <a href="#termin" class="btn btn-dark"><span>Termin buchen</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></a>
-      <a href="#termin" class="btn btn-ghost" data-preset="beratung"><span>Kostenlose Beratung</span></a>
+      <a href="#book" class="btn btn-dark"><span>Termin buchen</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></a>
+      <a href="#book" class="btn btn-ghost" data-preset="beratung"><span>Kostenlose Beratung</span></a>
     </div>
 
     <ul class="hero-pills" aria-label="Aktuelle Angebote">
@@ -91,7 +97,7 @@
 
     <div class="treat">
       <article class="treat-card reveal">
-        <a href="#termin" class="treat-visual skin-a" data-preset="haar" aria-label="Laser-Haarentfernung buchen">
+        <a href="#book" class="treat-visual skin-a" data-preset="haar" aria-label="Laser-Haarentfernung buchen">
           <svg class="palm" aria-hidden="true"><use href="#palm"/></svg>
           <span class="treat-price">ab 29.–</span>
           <span class="treat-title">Haar<br>entfernung</span>
@@ -104,12 +110,12 @@
             <li>Alle gängigen Körperzonen</li>
             <li>Sitzungen ab 15 Minuten</li>
           </ul>
-          <a href="#termin" class="link" data-preset="haar">Haarentfernung buchen <span aria-hidden="true">→</span></a>
+          <a href="#book" class="link" data-preset="haar">Haarentfernung buchen <span aria-hidden="true">→</span></a>
         </div>
       </article>
 
       <article class="treat-card reveal">
-        <a href="#termin" class="treat-visual skin-b" data-preset="tattoo" aria-label="Tattooentfernung buchen">
+        <a href="#book" class="treat-visual skin-b" data-preset="tattoo" aria-label="Tattooentfernung buchen">
           <svg class="palm" aria-hidden="true"><use href="#palm"/></svg>
           <span class="treat-price">ab 149.–</span>
           <span class="treat-title">Tattoo<br>entfernung</span>
@@ -123,7 +129,7 @@
             <li>Preis nach Grösse, transparent</li>
             <li>Ehrliche Einschätzung vorab</li>
           </ul>
-          <a href="#termin" class="link" data-preset="tattoo">Tattooentfernung buchen <span aria-hidden="true">→</span></a>
+          <a href="#book" class="link" data-preset="tattoo">Tattooentfernung buchen <span aria-hidden="true">→</span></a>
         </div>
       </article>
     </div>
@@ -241,10 +247,10 @@
     <div class="prices reveal">
       <div class="seg" role="tablist" aria-label="Behandlung wählen">
         <span class="seg-pill" aria-hidden="true"></span>
-        <button role="tab" type="button" id="tab-haar" aria-selected="true" aria-controls="plist" data-tab="haar">Haarentfernung</button>
-        <button role="tab" type="button" id="tab-tattoo" aria-selected="false" aria-controls="plist" data-tab="tattoo">Tattooentfernung</button>
+        <button role="tab" type="button" id="tab-haar" aria-selected="true" aria-controls="ppanel" data-tab="haar">Haarentfernung</button>
+        <button role="tab" type="button" id="tab-tattoo" aria-selected="false" aria-controls="ppanel" data-tab="tattoo">Tattooentfernung</button>
       </div>
-      <ul class="plist" id="plist" role="tabpanel" aria-labelledby="tab-haar"></ul>
+      <div id="ppanel" role="tabpanel" aria-labelledby="tab-haar"><ul class="plist" id="plist"></ul></div>
       <p class="pnote">Alle Preise in CHF pro Sitzung. Die genaue Anzahl Sitzungen besprechen wir in der kostenlosen Beratung.</p>
     </div>
 
@@ -278,12 +284,13 @@
       <p class="lead">Wähle Behandlung und Wunschtermin. Wir bestätigen dir den Termin innerhalb von 24 Stunden.</p>
     </header>
 
+    <noscript><p>Die Online-Buchung braucht JavaScript. Ruf uns einfach an oder schreib uns – die Kontaktdaten findest du weiter unten.</p></noscript>
     <form class="book reveal" id="book" novalidate>
       <ol class="book-steps" aria-label="Fortschritt">
-        <li class="is-on"><span>1</span><em>Behandlung</em></li>
-        <li><span>2</span><em>Details</em></li>
-        <li><span>3</span><em>Termin</em></li>
-        <li><span>4</span><em>Kontakt</em></li>
+        <li class="is-on" aria-current="step"><button type="button" data-go="1" tabindex="-1"><span class="sr">Schritt 1: </span>Behandlung</button></li>
+        <li><button type="button" data-go="2" tabindex="-1"><span class="sr">Schritt 2: </span>Details</button></li>
+        <li><button type="button" data-go="3" tabindex="-1"><span class="sr">Schritt 3: </span>Termin</button></li>
+        <li><button type="button" data-go="4" tabindex="-1"><span class="sr">Schritt 4: </span>Kontakt</button></li>
       </ol>
 
       <!-- Schritt 1 -->
@@ -334,6 +341,7 @@
           <button type="button" class="days-nav" data-dir="1" aria-label="Spätere Tage">›</button>
         </div>
         <div class="slots" id="slots" role="radiogroup" aria-label="Uhrzeit"><p class="bstep-hint">Wähle zuerst einen Tag.</p></div>
+        <p class="pick-info" id="pickInfo" aria-live="polite"></p>
         <p class="bstep-hint">Das ist eine Terminanfrage. Wir melden uns, falls dein Wunschtermin schon vergeben ist.</p>
       </fieldset>
 
@@ -341,13 +349,13 @@
       <fieldset class="bstep" data-step="4">
         <legend class="bstep-h">Fast geschafft.</legend>
         <div class="fields">
-          <label class="field"><span>Vor- und Nachname</span><input name="name" autocomplete="name" required></label>
-          <label class="field"><span>Telefon</span><input name="tel" type="tel" autocomplete="tel" inputmode="tel" required></label>
-          <label class="field field-w"><span>E-Mail</span><input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+          <label class="field"><span>Vor- und Nachname</span><input name="name" autocomplete="name" required aria-describedby="e-name"><em class="f-err" id="e-name"></em></label>
+          <label class="field"><span>Telefon</span><input name="tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="079 123 45 67" required aria-describedby="e-tel"><em class="f-err" id="e-tel"></em></label>
+          <label class="field field-w"><span>E-Mail</span><input name="email" type="email" autocomplete="email" inputmode="email" placeholder="name@beispiel.ch" required aria-describedby="e-email"><em class="f-err" id="e-email"></em></label>
           <label class="field field-w"><span>Nachricht <small>(optional)</small></span><textarea name="msg" rows="3" placeholder="z. B. Hauttyp, Grösse des Tattoos, Fragen …"></textarea></label>
         </div>
         <label class="tgl"><input type="checkbox" name="new" value="1"><span class="tgl-ui" aria-hidden="true"></span><span>Ich bin zum ersten Mal bei RE | SKIN <small>(−20 % auf die erste Behandlung)</small></span></label>
-        <label class="tgl"><input type="checkbox" name="consent" value="1" required><span class="tgl-ui" aria-hidden="true"></span><span>Ich bin einverstanden, dass meine Angaben zur Terminvereinbarung verwendet werden.</span></label>
+        <label class="tgl"><input type="checkbox" name="consent" value="1" required><span class="tgl-ui" aria-hidden="true"></span><span>Ich bin einverstanden, dass meine Angaben zur Terminvereinbarung verwendet werden (<a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a>).</span></label>
         <div class="bsummary" id="summary"></div>
       </fieldset>
 
@@ -364,7 +372,7 @@
       <div class="book-foot">
         <button type="button" class="btn-text" id="bBack" hidden>← Zurück</button>
         <p class="book-err" id="bErr" role="alert"></p>
-        <button type="button" class="btn btn-dark" id="bNext" disabled><span>Weiter</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg><span class="loader" aria-hidden="true"><i></i><i></i><i></i></span></button>
+        <button type="submit" class="btn btn-dark" id="bNext"><span>Weiter</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg><span class="loader" aria-hidden="true"><i></i><i></i><i></i></span></button>
       </div>
     </form>
   </div>
@@ -379,7 +387,7 @@
       <p class="lead">Deine Frage ist nicht dabei? Schreib uns einfach – wir antworten gerne.</p>
       <a href="#kontakt" class="link">Kontakt aufnehmen <span aria-hidden="true">→</span></a>
     </header>
-    <div class="faq" id="faqList"></div>
+    <div class="faq" id="faqList"><noscript><p>Die Antworten werden mit JavaScript angezeigt. Bei Fragen erreichst du uns jederzeit per Telefon oder E-Mail.</p></noscript></div>
   </div>
 </section>
 
@@ -390,12 +398,12 @@
       <p class="eyebrow">Kontakt</p>
       <h2 class="h2 h2-lg">Komm vorbei.<br>Wir freuen uns.</h2>
       <div class="hero-cta">
-        <a href="#termin" class="btn btn-light"><span>Termin buchen</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></a>
+        <a href="#book" class="btn btn-light"><span>Termin buchen</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></a>
         <a href="#" class="btn btn-ghost-l" data-cfg-href="whatsappLink" target="_blank" rel="noopener"><span>WhatsApp</span></a>
       </div>
     </div>
     <dl class="cinfo reveal">
-      <div><dt>Adresse</dt><dd data-cfg="addressHtml"></dd></div>
+      <div><dt>Adresse</dt><dd><span data-cfg="addressHtml"></span><br><a data-cfg-href="mapsLink" target="_blank" rel="noopener">Route planen</a></dd></div>
       <div><dt>Öffnungszeiten</dt><dd data-cfg="hoursHtml"></dd></div>
       <div><dt>Telefon</dt><dd><a data-cfg="phone" data-cfg-href="telLink"></a></dd></div>
       <div><dt>E-Mail</dt><dd><a data-cfg="email" data-cfg-href="mailLink"></a></dd></div>
@@ -410,12 +418,11 @@
   <div class="wrap ftr-in">
     <a href="#top" class="hdr-logo ftr-logo" aria-label="Nach oben"><span>RE</span><i></i><span>SKIN</span></a>
     <p>Tattoo- &amp; Haarentfernung · © <span id="year"></span></p>
-    <nav aria-label="Rechtliches"><a href="#">Impressum</a><a href="#">Datenschutz</a></nav>
+    <nav aria-label="Rechtliches"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></nav>
   </div>
+  <!-- Mobile: fixe Buchungsleiste -->
+  <a href="#book" class="mbar btn btn-dark" id="mbar" tabindex="-1"><span>Termin buchen</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></a>
 </footer>
-
-<!-- Mobile: fixe Buchungsleiste -->
-<a href="#termin" class="mbar btn btn-dark" id="mbar"><span>Termin buchen</span><svg class="btn-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></a>
 
 <!-- Palmenschatten (wird per JS gezeichnet) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="palm" viewBox="0 0 1000 1000"><g id="palmG"></g></symbol></svg>
