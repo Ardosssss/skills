@@ -4716,12 +4716,12 @@ html:has(.anfrage[open]) {
 }
 
 /* ==========================================================
-   Abschluss Startseite: Laufband der Referenzen und runder Knopf
+   Abschluss Startseite: runder Knopf mit Text-Ring
    ========================================================== */
 
 .finale {
   position: relative;
-  padding: clamp(64px, 8vw, 110px) 0 var(--section);
+  padding: var(--section) 0;
   overflow: hidden;
   background: var(--navy);
   color: #fff;
@@ -4739,60 +4739,6 @@ html:has(.anfrage[open]) {
   pointer-events: none;
 }
 
-.marquee {
-  display: flex;
-  overflow: hidden;
-  padding: 22px 0;
-  border-block: 1px solid var(--hair-dark);
-  -webkit-mask-image: linear-gradient(90deg, #0000, #000 8%, #000 92%, #0000);
-  mask-image: linear-gradient(90deg, #0000, #000 8%, #000 92%, #0000);
-}
-
-.marquee__track {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: clamp(28px, 4vw, 56px);
-  padding-right: clamp(28px, 4vw, 56px);
-  animation: marquee 46s linear infinite;
-}
-
-.marquee span {
-  font-family: var(--font-display);
-  font-size: clamp(40px, 6.4vw, 92px);
-  font-weight: 600;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: #0000;
-  -webkit-text-stroke: 1px #ffffff6b;
-}
-
-.marquee span:nth-of-type(odd) {
-  color: #fff;
-  -webkit-text-stroke: 0;
-}
-
-.marquee i {
-  flex: none;
-  width: clamp(16px, 1.8vw, 24px);
-  aspect-ratio: 1;
-  background: var(--cyan);
-  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .marquee:hover .marquee__track {
-    animation-play-state: paused;
-  }
-}
-
 .finale__grid {
   position: relative;
   z-index: 1;
@@ -4800,7 +4746,6 @@ html:has(.anfrage[open]) {
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
   align-items: center;
   gap: 48px clamp(40px, 6vw, 96px);
-  margin-top: clamp(56px, 7vw, 100px);
 }
 
 .finale .display {
@@ -5133,24 +5078,8 @@ html:has(.anfrage[open]) {
 
   .art *,
   .price-card::after,
-  .orb__ring,
-  .marquee__track {
+  .orb__ring {
     animation: none !important;
-  }
-
-  .marquee {
-    -webkit-mask-image: none;
-    mask-image: none;
-    flex-wrap: wrap;
-  }
-
-  .marquee__track + .marquee__track {
-    display: none;
-  }
-
-  .marquee__track {
-    flex-wrap: wrap;
-    row-gap: 12px;
   }
 
   [data-tilt]::after {

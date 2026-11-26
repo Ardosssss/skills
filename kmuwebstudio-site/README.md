@@ -6,7 +6,7 @@ Statische, überarbeitete Fassung von [kmuwebstudio.ch](https://kmuwebstudio.ch/
 
 | Datei | Inhalt |
 | --- | --- |
-| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen auf MacBook und iPhone, Manifest, Abschluss mit Laufband |
+| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen auf MacBook und iPhone, Manifest, Abschluss mit rundem Anfrage-Button |
 | `angebot.html` | Website-Paket mit Fixpreis, «Im Paket» mit vier bewegten Erklärbildern, Konfigurator |
 | `ablauf.html` | Vier Schritte, häufige Fragen |
 | `referenzen.html` | Sieben Referenzen in zwei Spalten: links vier Websites, rechts drei Lern-Apps, alle gleich gross |
@@ -67,7 +67,7 @@ Auf der Startseite stehen die Kategorie und der Name; die Seite `referenzen.html
 ### Bilder und weitere Referenzen
 
 - Die Bilder sind lange Bildschirmfotos: `assets/refs/<name>-desktop-lang.webp` (1200 px breit, aufgenommen mit 1440 px Fensterbreite) und `<name>-mobile-lang.webp` (480 px breit, aufgenommen mit 390 px). Ersetzt man ein Bild, in beiden Seiten im `<img>` Breite und Höhe anpassen.
-- Eine weitere Referenz braucht ein Gerät (`.device`, am einfachsten ein bestehendes kopieren) in `index.html` in `.showcase__board` und in `referenzen.html` in der passenden Spalte, den angepassten Satz «Sieben echte KWS-Referenzen …», auf der Startseite einen Platz für grosse Bildschirme (`.showcase__board > .device:nth-child(8)` in `assets/site.css`) und den Namen im Laufband am Ende der Startseite (`.marquee__track`, zweimal).
+- Eine weitere Referenz braucht ein Gerät (`.device`, am einfachsten ein bestehendes kopieren) in `index.html` in `.showcase__board` und in `referenzen.html` in der passenden Spalte, den angepassten Satz «Sieben echte KWS-Referenzen …» und auf der Startseite einen Platz für grosse Bildschirme (`.showcase__board > .device:nth-child(8)` in `assets/site.css`).
 
 ### Wie die Aufnahmen entstanden sind
 
@@ -90,12 +90,12 @@ Angeregt von [uiverse.io](https://uiverse.io/elements) (Buttons, Karten, Eingabe
 | Preiskarte | Ein Lichtrand läuft langsam um die Karte; ein weicher Lichtpunkt folgt der Maus |
 | Referenzen | Fliegen gestaffelt ein, die gewählte wird gross, ein Lichtschein folgt der Maus über die Fläche |
 | Angebot, «Im Paket» | Vier kleine Filme: eine Farbe wird gewählt, vier Seiten fächern auf, eine Seite passt sich von Desktop über Tablet zum Smartphone an, eine Anfrage wird gesendet. Sie laufen nur, solange sie zu sehen sind |
-| Abschluss der Startseite | Laufband mit den Namen der Referenzen; runder Button «Anfrage senden» mit drehendem Text-Ring, der zur Maus zieht |
+| Abschluss der Startseite | Runder Button «Anfrage senden» mit drehendem Text-Ring, der zur Maus zieht |
 | Häkchen in Listen, Konfigurator | Zeichnen sich nacheinander, wenn die Liste erscheint oder etwas gewählt wird |
 | Schritte im Ablauf | Jede Nummer sendet einen Ring aus, sobald die Linie sie erreicht |
 | «Kopieren», Formular | Symbol blendet zum Häkchen über; drehender Ring beim Senden, Fehlerhinweise gleiten ein, Häkchen beim Erfolg |
 
-Bei «Bewegung reduzieren» entfallen diese Bewegungen: Überschriften, Bilder und Karten stehen sofort da, Laufband und Ring stehen still. Effekte mit der Maus gibt es nur auf Geräten mit Maus. Ohne JavaScript ist alles sichtbar.
+Bei «Bewegung reduzieren» entfallen diese Bewegungen: Überschriften, Bilder und Karten stehen sofort da, der Ring steht still. Effekte mit der Maus gibt es nur auf Geräten mit Maus. Ohne JavaScript ist alles sichtbar.
 
 ## Anfrageformular
 
@@ -157,7 +157,7 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 | Karten mit Pfeil, der wie ein Link aussieht, aber nichts tut | Karten mit Symbol | Keine falschen Klickziele |
 | Schwebende Module (Design, Seiten, Mobil, Kontakt) überlagern die Preiskarte | Eigener Abschnitt «Im Paket» auf der Angebotsseite: vier Karten mit kleinen bewegten Erklärbildern | Der Preis ist ungestört lesbar, die Leistungen werden anschaulich |
 | Referenzen: nachgebaute Attrappen einer einzigen Seite | Die echten Websites und Lern-Apps aller sieben Referenzen auf MacBook und iPhone, von oben bis unten zum Durchscrollen (am Computer: Maus darauf, sie wird gross, dann scrollen) | Zeigt die tatsächliche Arbeit |
-| Kontaktbereich «Bereit für Deinen neuen Auftritt?» | Jede Seite endet eigen: Startseite mit Laufband und rundem Anfrage-Button, Referenzen mit «Deine Website als nächste Referenz?», Angebot mit dem Konfigurator, Ablauf mit den Fragen | Derselbe Abschluss auf jeder Seite nutzt sich ab |
+| Kontaktbereich «Bereit für Deinen neuen Auftritt?» | Jede Seite endet eigen: Startseite mit rundem Anfrage-Button, Referenzen mit «Deine Website als nächste Referenz?», Angebot mit dem Konfigurator, Ablauf mit den Fragen | Derselbe Abschluss auf jeder Seite nutzt sich ab |
 | Deko-Leiste, «Project Lab» | Entfernt | Weniger Ablenkung |
 
 ## Bedienung und Zugänglichkeit
