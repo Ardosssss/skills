@@ -3287,178 +3287,154 @@ html:has(.anfrage[open]) {
 }
 
 /* ==========================================================
-   Referenzen als Scroll-Szene (Startseite)
-   Ohne JavaScript, bei reduzierter Bewegung oder auf sehr
-   niedrigen Bildschirmen: alle Geräte untereinander, jedes mit
-   Beschriftung. Mit .is-scrolly: fixierte Bühne, die Seiten
-   laufen beim Scrollen durch die Geräte. Die Zahl der
-   Referenzen steht als --sc-count an der Section.
+   Referenzen (Startseite): alle Referenzen verteilt auf einer
+   Fläche, unterschiedlich gross und leicht schräg.
+   Mit Maus (.is-mouse): Maus auf eine Referenz und scrollen,
+   dann läuft deren Seite durch Browser und Handy (.is-live an
+   der Referenz, .has-live an der Fläche).
+   Ohne Maus (.is-touch): Jede Seite läuft beim Vorbeiscrollen
+   durch. Ohne Skript: ruhige Fläche.
    ========================================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 .showcase {
   position: relative;
   padding: var(--section) 0;
   background: var(--deep);
   color: #fff;
-}
-
-.showcase__sticky {
-  position: relative;
   overflow: clip;
 }
 
-.showcase__sticky::before {
+.showcase::before {
   content: "";
   position: absolute;
   right: -12%;
-  bottom: -40%;
+  bottom: -6%;
   width: 1000px;
   height: 760px;
   background: radial-gradient(closest-side, #2563eb33, #0000);
   pointer-events: none;
 }
 
-.showcase__layout {
+.showcase__head {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
-  align-items: start;
-  gap: clamp(32px, 5vw, 72px);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 0 clamp(40px, 6vw, 96px);
+  margin-bottom: clamp(56px, 6vw, 88px);
 }
 
-.showcase__copy h2 {
-  font-size: clamp(30px, 2.9vw, 42px);
-  line-height: 1.16;
-  text-wrap: wrap;
-}
-
-.showcase__copy .lead {
-  margin-top: 18px;
-  font-size: 17px;
-}
-
-/* Liste: Nummer und Name, darunter der Fortschritt */
-
-.showcase__list {
-  display: grid;
-  gap: 5px;
-  margin-top: 24px;
-}
-
-.showcase__item {
-  position: relative;
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  align-items: baseline;
-  width: 100%;
-  min-height: 44px;
-  padding: 9px 16px 10px 14px;
-  border-radius: var(--radius-sm);
-  background: #ffffff09;
-  border: 1px solid #ffffff1f;
-  text-align: left;
-  transition:
-    transform 160ms var(--ease-out),
-    background-color 260ms ease,
-    border-color 260ms ease;
-}
-
-.showcase__item:active {
-  transform: scale(0.98);
-}
-
-.showcase__num {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  font-variant-numeric: tabular-nums;
-  color: var(--on-dark-mute);
-  transition: color 260ms ease;
-}
-
-.showcase__item strong {
-  min-width: 0;
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 1.2;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--on-dark-soft);
-  transition: color 260ms ease;
-}
-
-.showcase__bar {
+.showcase__head .eyebrow {
   grid-column: 1 / -1;
+}
+
+.showcase__head h2 {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+  font-size: clamp(40px, 4.6vw, 66px);
+  line-height: 1.06;
+}
+
+.showcase__head .lead {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.showcase__hint {
+  grid-column: 2;
+  grid-row: 3;
   display: none;
-  height: 3px;
-  margin-top: 8px;
-  border-radius: 3px;
-  background: #ffffff1f;
-  overflow: hidden;
-  transition: background-color 260ms ease;
-}
-
-.showcase__bar b {
-  display: block;
-  height: 100%;
-  background: var(--cyan);
-  transform: scaleX(0);
-  transform-origin: left center;
-}
-
-/* Gerade gezeigte Referenz (nur in der Szene sichtbar) */
-
-.showcase__now {
-  display: none;
-  align-items: baseline;
-  gap: 12px;
-  margin-top: 2px;
-}
-
-.showcase__now span {
-  flex: none;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  font-variant-numeric: tabular-nums;
-  color: var(--on-dark-mute);
-}
-
-.showcase__now b {
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--cyan);
 }
 
-.showcase__now strong {
-  min-width: 0;
-  font-family: var(--font-display);
-  font-size: clamp(22px, 5.4vw, 30px);
-  font-weight: 600;
-  line-height: 1.15;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.showcase__hint .icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
 }
 
-.showcase__caption,
-.showcase__link,
-.showcase__cue {
-  display: none;
+.is-mouse .showcase__hint--mouse,
+.is-touch .showcase__hint--touch {
+  display: flex;
 }
 
-.showcase__stage {
+/* Die Fläche */
+
+.showcase__board {
+  position: relative;
   display: grid;
-  gap: 64px;
-  min-width: 0;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(20px, 2.4vw, 32px);
+  row-gap: clamp(48px, 5vw, 72px);
+  align-items: start;
 }
 
 .device {
   position: relative;
-  scroll-margin-top: calc(var(--header-h) + 24px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  transform: rotate(var(--tilt, 0deg));
+  transition:
+    transform 520ms var(--ease-out),
+    opacity 320ms ease;
+}
+
+@media (min-width: 1041px) {
+  .device:nth-child(1) {
+    grid-column: 1 / span 7;
+    --tilt: -0.8deg;
+  }
+
+  .device:nth-child(2) {
+    grid-column: 9 / span 4;
+    margin-top: 110px;
+    --tilt: 1.4deg;
+  }
+
+  .device:nth-child(3) {
+    grid-column: 2 / span 5;
+    margin-top: -24px;
+    --tilt: 1deg;
+  }
+
+  .device:nth-child(4) {
+    grid-column: 7 / span 6;
+    margin-top: 64px;
+    --tilt: -1.2deg;
+  }
+
+  .device:nth-child(5) {
+    grid-column: 1 / span 4;
+    margin-top: -8px;
+    --tilt: -1.4deg;
+  }
+
+  .device:nth-child(6) {
+    grid-column: 5 / span 4;
+    margin-top: 96px;
+    --tilt: 0.8deg;
+  }
+
+  .device:nth-child(7) {
+    grid-column: 9 / span 4;
+    margin-top: 28px;
+    --tilt: 1.2deg;
+  }
 }
 
 /* Browser und Handy; das Handy ragt unten rechts über den Browser */
@@ -3467,40 +3443,11 @@ html:has(.anfrage[open]) {
   padding-bottom: 7%;
 }
 
-/* Beschriftung, solange die Geräte untereinander stehen */
-
-.device__caption {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 2px 16px;
-  margin-bottom: 18px;
-}
-
-.device__caption small {
-  flex-basis: 100%;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--cyan);
-}
-
-.device__caption strong {
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 600;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.device__caption > span {
-  font-size: 15px;
-  color: var(--on-dark-soft);
-}
-
-.device__caption .text-link {
-  margin-left: auto;
+.device .browser {
+  position: relative;
+  transition:
+    border-color 320ms ease,
+    box-shadow 320ms ease;
 }
 
 .device .view {
@@ -3526,450 +3473,62 @@ html:has(.anfrage[open]) {
   border-radius: 0;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .showcase__item:hover {
-    background: #ffffff14;
-    border-color: #ffffff3d;
-  }
-
-  .showcase__item:hover strong {
-    color: #fff;
-  }
-}
-
-/* Ruhige Ansicht: Liste bleibt neben den Geräten stehen */
-@media (min-width: 1041px) {
-  .showcase:not(.is-scrolly):not(.is-board) .showcase__copy {
-    position: sticky;
-    top: calc(var(--header-h) + 32px);
-  }
-}
-
-/* ---------- fixierte Bühne ---------- */
-
-.showcase.is-scrolly {
-  height: calc(100svh + var(--sc-count, 3) * 100svh);
-  padding: 0;
-}
-
-.is-scrolly .showcase__sticky {
-  position: sticky;
-  top: 0;
+/* Beschriftung unter den Geräten */
+.device__caption {
+  order: 2;
   display: flex;
-  align-items: center;
-  height: 100svh;
-  padding-top: var(--header-h);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 12px;
+  margin-top: 16px;
 }
 
-.is-scrolly .showcase__layout {
-  align-items: center;
-}
-
-.is-scrolly .showcase__bar {
-  display: block;
-}
-
-.is-scrolly .showcase__caption {
-  display: block;
-  margin-top: 14px;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--on-dark-soft);
-}
-
-.is-scrolly .showcase__link {
-  display: inline-flex;
-  margin-top: 6px;
-}
-
-.is-scrolly .device__caption {
-  display: none;
-}
-
-.is-scrolly .showcase__item[aria-current="true"] {
-  background: #2563eb40;
-  border-color: var(--blue);
-}
-
-.is-scrolly .showcase__item[aria-current="true"] .showcase__num {
-  color: var(--cyan);
-}
-
-.is-scrolly .showcase__item[aria-current="true"] strong {
-  color: #fff;
-}
-
-.is-scrolly .showcase__stage {
-  width: 100%;
-  max-width: calc((100svh - var(--header-h) - 150px) * 1.5);
-  margin-inline: auto;
-  gap: 0;
-  transform-origin: 50% 50%;
-  will-change: transform;
-}
-
-.is-scrolly .device {
-  grid-area: 1 / 1;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(28px) scale(0.97);
-  transition:
-    opacity 260ms ease,
-    transform 420ms var(--ease-out),
-    visibility 0s linear 260ms;
-}
-
-.is-scrolly .device.is-active {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  transition:
-    opacity 420ms ease 60ms,
-    transform 620ms var(--ease-out) 60ms,
-    visibility 0s;
-}
-
-.is-scrolly .device.is-active .view img {
-  will-change: transform;
-}
-
-.is-scrolly .showcase__cue {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+.device__caption small {
+  flex-basis: 100%;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--on-dark-mute);
-  transform: translateX(-50%);
-  transition: opacity 300ms ease;
-  pointer-events: none;
-}
-
-.is-scrolly .showcase__cue i {
-  width: 1px;
-  height: 22px;
-  background: linear-gradient(var(--cyan), #22d3ee00);
-}
-
-.is-scrolly .showcase__cue.is-hidden {
-  opacity: 0;
-}
-
-/* Der Einleitungssatz nur, wenn neben der ganzen Liste Platz ist */
-@media (max-height: 939px) {
-  .is-scrolly .showcase__copy .lead {
-    display: none;
-  }
-}
-
-/* Schmal oder niedrig: statt der Namensliste eine Leiste mit einem
-   Abschnitt pro Referenz, darunter Nummer und Name der aktuellen. */
-@media (max-width: 1040px), (max-height: 759px) {
-  .is-scrolly .showcase__list {
-    display: flex;
-    gap: 6px;
-    margin-top: 18px;
-  }
-
-  .is-scrolly .showcase__list li {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-
-  .is-scrolly .showcase__item,
-  .is-scrolly .showcase__item[aria-current="true"] {
-    display: block;
-    min-height: 0;
-    padding: 20px 0;
-    background: none;
-    border: 0;
-    border-radius: 0;
-  }
-
-  .is-scrolly .showcase__num,
-  .is-scrolly .showcase__item strong {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .is-scrolly .showcase__bar {
-    margin-top: 0;
-    height: 4px;
-  }
-
-  .is-scrolly .showcase__item[aria-current="true"] .showcase__bar {
-    background: #ffffff38;
-  }
-
-  .is-scrolly .showcase__now {
-    display: flex;
-  }
-
-  .is-scrolly .showcase__caption {
-    margin-top: 6px;
-  }
-}
-
-@media (max-width: 1040px) and (hover: hover) and (pointer: fine), (max-height: 759px) and (hover: hover) and (pointer: fine) {
-  .is-scrolly .showcase__item:hover .showcase__bar {
-    background: #ffffff4d;
-  }
-}
-
-@media (max-width: 1040px) {
-  .showcase__layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .showcase__copy h2 br {
-    display: none;
-  }
-
-  .showcase__list {
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  }
-
-  /* fixierte Bühne: alles muss in eine Bildschirmhöhe passen */
-  .is-scrolly .showcase__layout {
-    gap: 18px;
-  }
-
-  .is-scrolly .showcase__copy h2 {
-    font-size: clamp(26px, 6.4vw, 44px);
-  }
-
-  .is-scrolly .showcase__copy .eyebrow {
-    margin-bottom: 10px;
-  }
-
-  .is-scrolly .showcase__copy .lead {
-    display: none;
-  }
-
-  .is-scrolly .showcase__stage {
-    max-width: calc((100svh - var(--header-h) - 320px) * 1.5);
-  }
-
-  .is-scrolly .showcase__cue {
-    display: none;
-  }
-}
-
-@media (max-width: 720px) {
-  .showcase__list {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .showcase__stage {
-    gap: 48px;
-  }
-
-  .device__caption strong {
-    font-size: 22px;
-  }
-
-  .device__caption .text-link {
-    margin-left: 0;
-  }
-}
-
-/* ==========================================================
-   Referenzen als Fläche (Startseite, Maus ab 1041 px Breite)
-   Alle Referenzen liegen verteilt auf der Fläche. Fährt man mit
-   der Maus auf eine und scrollt, läuft deren Seite durch Browser
-   und Handy (Skript: .is-board an der Section, .is-live an der
-   Referenz unter der Maus, .has-live an der Fläche).
-   ========================================================== */
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.showcase__hint,
-.device__thumb,
-.device__hint {
-  display: none;
-}
-
-.is-board .showcase__layout {
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(56px, 6vw, 88px);
-}
-
-.is-board .showcase__copy {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  align-items: end;
-  gap: 0 clamp(40px, 6vw, 96px);
-}
-
-.is-board .showcase__copy .eyebrow {
-  grid-column: 1 / -1;
-}
-
-.is-board .showcase__copy h2 {
-  grid-column: 1;
-  grid-row: 2 / span 2;
-  font-size: clamp(40px, 4.6vw, 66px);
-  line-height: 1.06;
-}
-
-.is-board .showcase__copy .lead {
-  grid-column: 2;
-  grid-row: 2;
-  margin-top: 0;
-}
-
-.is-board .showcase__hint {
-  grid-column: 2;
-  grid-row: 3;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 14px;
-  font-size: 15px;
-  font-weight: 600;
   color: var(--cyan);
 }
 
-.is-board .showcase__hint .icon {
-  width: 20px;
-  height: 20px;
-}
-
-.is-board .showcase__list,
-.is-board .showcase__now,
-.is-board .showcase__caption,
-.is-board .showcase__link {
-  display: none;
-}
-
-/* Die Fläche: zwölf Spalten, die Referenzen unterschiedlich gross und versetzt */
-
-.is-board .showcase__stage {
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(20px, 2.4vw, 32px);
-  row-gap: clamp(48px, 5vw, 72px);
-  align-items: start;
-}
-
-.is-board .device {
-  display: flex;
-  flex-direction: column;
-  border-radius: 18px;
-  transform: rotate(var(--tilt, 0deg));
-  transition:
-    transform 520ms var(--ease-out),
-    opacity 320ms ease;
-}
-
-.is-board .device:nth-child(1) {
-  grid-column: 1 / span 7;
-  --tilt: -0.8deg;
-}
-
-.is-board .device:nth-child(2) {
-  grid-column: 9 / span 4;
-  margin-top: 110px;
-  --tilt: 1.4deg;
-}
-
-.is-board .device:nth-child(3) {
-  grid-column: 2 / span 5;
-  margin-top: -24px;
-  --tilt: 1deg;
-}
-
-.is-board .device:nth-child(4) {
-  grid-column: 7 / span 6;
-  margin-top: 64px;
-  --tilt: -1.2deg;
-}
-
-.is-board .device:nth-child(5) {
-  grid-column: 1 / span 4;
-  margin-top: -8px;
-  --tilt: -1.4deg;
-}
-
-.is-board .device:nth-child(6) {
-  grid-column: 5 / span 4;
-  margin-top: 96px;
-  --tilt: 0.8deg;
-}
-
-.is-board .device:nth-child(7) {
-  grid-column: 9 / span 4;
-  margin-top: 28px;
-  --tilt: 1.2deg;
-}
-
-/* Beschriftung unter den Geräten */
-.is-board .device__caption {
-  order: 2;
-  margin: 16px 0 0;
-  gap: 0 12px;
-}
-
-.is-board .device__caption > span {
-  display: none;
-}
-
-.is-board .device__caption strong {
+.device__caption strong {
+  font-family: var(--font-display);
   font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
-.is-board .device__caption .text-link {
+.device__caption .text-link {
+  margin-left: auto;
   font-size: 14px;
 }
 
-.is-board .browser {
-  position: relative;
-  transition:
-    border-color 320ms ease,
-    box-shadow 320ms ease;
-}
-
-/* Die Referenz unter der Maus richtet sich auf und kommt nach vorn */
-.is-board .device.is-live {
+/* Mit Maus: Die Referenz unter der Maus richtet sich auf und kommt nach vorn */
+.device.is-live {
   z-index: 2;
   transform: translateY(-8px) scale(1.025);
 }
 
-.is-board .device.is-live .browser {
+.device.is-live .browser {
   border-color: #22d3ee80;
   box-shadow:
     0 60px 120px #000000a6,
     0 0 0 1px #22d3ee40;
 }
 
-.is-board .has-live .device:not(.is-live) {
+.has-live .device:not(.is-live) {
   opacity: 0.45;
 }
 
-.is-board .device:focus-visible {
+.device:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 8px;
 }
 
 /* Fortschritt am rechten Rand des Browsers */
-.is-board .device__thumb {
-  display: block;
+.device__thumb {
   position: absolute;
   top: 46px;
   right: 6px;
@@ -3982,7 +3541,7 @@ html:has(.anfrage[open]) {
   pointer-events: none;
 }
 
-.is-board .device__thumb b {
+.device__thumb b {
   display: block;
   height: 24%;
   border-radius: inherit;
@@ -3990,12 +3549,13 @@ html:has(.anfrage[open]) {
   box-shadow: 0 0 0 1px #ffffffb3;
 }
 
-.is-board .device.is-live .device__thumb {
+.device.is-live .device__thumb,
+.is-touch .device__thumb {
   opacity: 1;
 }
 
 /* Hinweis «Scrollen», bis man zum ersten Mal scrollt */
-.is-board .device__hint {
+.device__hint {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -4019,12 +3579,12 @@ html:has(.anfrage[open]) {
   pointer-events: none;
 }
 
-.is-board .device__hint .icon {
+.device__hint .icon {
   width: 18px;
   height: 18px;
 }
 
-.is-board .device.is-live:not(.is-moved) .device__hint {
+.device.is-live:not(.is-moved) .device__hint {
   opacity: 1;
   transform: translate(-50%, 0);
 }
@@ -4046,60 +3606,118 @@ html:has(.anfrage[open]) {
   }
 }
 
-.is-board .device.is-live .device__wheel {
+.device.is-live .device__wheel {
   animation: wheel-hint 1.4s var(--ease-out) infinite;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .is-board .device,
-  .is-board .device.is-live {
-    transform: none;
-    transition: opacity 200ms ease;
-  }
-
-  .is-board .device__hint {
-    transform: translate(-50%, 0);
-  }
-
-  .is-board .device.is-live .device__wheel {
-    animation: none;
-  }
-}
-
-/* Fläche in mittleren Fenstern (721–1040 px, mit Maus): zwei Spalten, versetzt */
-@media (max-width: 1040px) {
-  .is-board .showcase__copy {
+/* Mittlere Fenster: zwei Spalten, versetzt, die letzte Referenz mittig */
+@media (min-width: 721px) and (max-width: 1040px) {
+  .showcase__head {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .is-board .showcase__copy h2,
-  .is-board .showcase__copy .lead,
-  .is-board .showcase__hint {
+  .showcase__head h2,
+  .showcase__head .lead,
+  .showcase__hint {
     grid-column: 1;
     grid-row: auto;
   }
 
-  .is-board .showcase__copy .lead {
+  .showcase__head h2 br {
+    display: none;
+  }
+
+  .showcase__head .lead {
     margin-top: 18px;
   }
 
-  .is-board .device:nth-child(n) {
+  .device {
     grid-column: span 6;
-    margin-top: 0;
     --tilt: -1deg;
   }
 
-  .is-board .device:nth-child(even) {
+  .device:nth-child(even) {
     margin-top: 64px;
     --tilt: 1deg;
   }
 
-  .is-board .device:last-child:nth-child(odd) {
+  .device:last-child:nth-child(odd) {
     grid-column: 4 / span 6;
   }
 
-  .is-board .device__caption .text-link {
+  .device__caption .text-link {
     margin-left: 0;
+  }
+}
+
+/* Handy: eine Spalte, abwechselnd links und rechts versetzt */
+@media (max-width: 720px) {
+  .showcase__head {
+    grid-template-columns: minmax(0, 1fr);
+    margin-bottom: 40px;
+  }
+
+  .showcase__head h2,
+  .showcase__head .lead,
+  .showcase__hint {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .showcase__head h2 {
+    font-size: clamp(34px, 10vw, 46px);
+  }
+
+  .showcase__head h2 br {
+    display: none;
+  }
+
+  .showcase__head .lead {
+    margin-top: 16px;
+  }
+
+  .showcase__board {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 44px;
+  }
+
+  .device {
+    width: 88%;
+    justify-self: start;
+    --tilt: -1.2deg;
+  }
+
+  .device:nth-child(even) {
+    justify-self: end;
+    --tilt: 1.2deg;
+  }
+
+  .device__caption strong {
+    font-size: 20px;
+  }
+
+  .device__caption .text-link {
+    margin-left: 0;
+  }
+
+  .device__thumb {
+    top: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .device,
+  .device.is-live {
+    transform: none;
+    transition: opacity 200ms ease;
+  }
+
+  .device__hint {
+    transform: translate(-50%, 0);
+  }
+
+  .device.is-live .device__wheel {
+    animation: none;
   }
 }
 
