@@ -17,7 +17,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://ardit.ch/#website","name":"Ardit Selimi","url":"https://ardit.ch/","inLanguage":"de-CH","publisher":{"@id":"https://ardit.ch/#person"}},{"@type":"Person","@id":"https://ardit.ch/#person","name":"Ardit Selimi","url":"https://ardit.ch/","image":"https://ardit.ch/portrait.webp","email":"mailto:selimi@ardit.ch","jobTitle":"Webdesign und Entwicklung","knowsAbout":["Webdesign","Webentwicklung","Web-Apps","Animation"],"sameAs":["https://kmuwebstudio.ch/"]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://ardit.ch/#website","name":"Ardit Selimi","url":"https://ardit.ch/","inLanguage":"de-CH","publisher":{"@id":"https://ardit.ch/#person"},"description":"Portfolio von Ardit Selimi mit eigenen Webseiten und Lern-Apps."},{"@type":"Person","@id":"https://ardit.ch/#person","name":"Ardit Selimi","url":"https://ardit.ch/","image":"https://ardit.ch/portrait.webp","email":"mailto:selimi@ardit.ch","jobTitle":"Webdesign und Entwicklung","knowsAbout":["Webdesign","Webentwicklung","Web-Apps","KI-Lernanwendungen","Animation"],"sameAs":["https://kmuwebstudio.ch/"],"description":"Ardit Selimi gestaltet und entwickelt Webseiten und Web-Apps, darunter KI-Lerncoaches für die kaufmännische Ausbildung in der Schweiz."},{"@type":"ItemList","@id":"https://ardit.ch/#projekte","name":"Projekte von Ardit Selimi","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebSite","name":"KMU Web Studio","url":"https://kmuwebstudio.ch/","description":"Eigenes kleines Webstudio. Website selbst gestaltet und umgesetzt, mit einem Konfigurator, in dem Interessierte ihr Projekt in wenigen Schritten zusammenstellen.","creator":{"@id":"https://ardit.ch/#person"},"inLanguage":"de-CH"}},{"@type":"ListItem","position":2,"item":{"@type":"WebApplication","name":"HKBa Coach","url":"https://hkba.live/","description":"KI-Lerncoach für die kaufmännische Ausbildung: Leistungsziele aus dem 1. bis 3. Lehrjahr üben, mit Multiple Choice, offenen Fragen, Fallbeispielen, sofortiger Bewertung und Prüfungssimulation.","creator":{"@id":"https://ardit.ch/#person"},"inLanguage":"de-CH","applicationCategory":"EducationalApplication","operatingSystem":"Web"}},{"@type":"ListItem","position":3,"item":{"@type":"WebApplication","name":"HKBd Coach","url":"https://hkbd.live/","description":"Lern-App für den Bereich Kunden- und Lieferantenbeziehungen (HKB D): Leistungsziele auswählen, üben und Fortschritt sehen.","creator":{"@id":"https://ardit.ch/#person"},"inLanguage":"de-CH","applicationCategory":"EducationalApplication","operatingSystem":"Web"}},{"@type":"ListItem","position":4,"item":{"@type":"WebApplication","name":"QV-Assistent","url":"https://qv-assistent.ch/","description":"Digitaler Lerncoach für das Qualifikationsverfahren der Kaufleute EFZ mit Übungen, Prüfungssimulationen mit Zeitlimit und einem KI-Assistenten.","creator":{"@id":"https://ardit.ch/#person"},"inLanguage":"de-CH","applicationCategory":"EducationalApplication","operatingSystem":"Web"}}]}]}</script>
 <script>
 /* Auf der eigenen Domain immer die sichere Adresse nehmen */
 if (location.protocol === 'http:' && /(^|\.)ardit\.ch$/.test(location.hostname)) location.replace('https://' + location.host + location.pathname + location.search + location.hash);
@@ -109,7 +109,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .f-e{left:7%;top:34%;width:16%}
 .f-f{left:77%;top:30%;width:17%;z-index:6}
 @media (min-width:760px){
-  .scene{max-width:none;width:min(100%,1240px,calc((100svh - 310px) * 1.8));min-width:min(100%,720px);aspect-ratio:1.8/1}
+  .scene{max-width:none;width:min(100%,1240px,calc((100svh - 410px) * 1.8));min-width:min(100%,720px);aspect-ratio:1.8/1}
   .portrait{width:36%}
   .f-a{left:1%;top:5%;width:32%}
   .f-b{left:66.5%;top:0;width:33%}
@@ -361,6 +361,8 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .contact h2{font-size:clamp(40px,8vw,128px);font-weight:700;letter-spacing:-.055em;line-height:.94;max-width:10em;text-wrap:balance;margin-top:18px}
 .contact h2 em{font-style:normal;color:var(--accent-soft)}
 .contact p.lead{color:#C3D3DF;max-width:30em;margin:26px 0 0}
+.contact p.lead a{color:#fff;text-decoration:underline;text-decoration-color:rgba(143,203,242,.6);text-underline-offset:4px;transition:text-decoration-color 200ms ease}
+.contact p.lead a:hover{text-decoration-color:#fff}
 /* Mail-Knopf nach Uiverse.io (barisdogansutcu): beim Hover fährt der Kopf gross nach rechts, «E-Mail senden» weicht «Jetzt!» */
 .mailwrap{margin-top:32px}
 .mailbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:60px;padding:0 24px 0 12px;color:#fff;text-shadow:2px 2px rgba(15,46,70,.55);text-transform:uppercase;letter-spacing:1px;font-weight:600;font-size:17px;line-height:1;white-space:nowrap;border:2px solid var(--accent-soft);background-color:var(--accent);border-radius:50px;position:relative;overflow:hidden;cursor:pointer;touch-action:manipulation;transition:transform 300ms var(--ease-out)}
@@ -415,9 +417,12 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
 .soft a.float:hover .card{scale:1}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
-/* ---- Name: Buchstaben weichen der Maus aus ---- */
-.hero h1 .w{display:inline-block;white-space:nowrap}
-.hero h1 .l{display:inline-block;will-change:transform}
+/* ---- Name als Unterschrift: von Hand gezeichneter Linienzug in gleichmässiger Stiftstärke.
+   Die Animation zieht jeden Strich in Schreibreihenfolge mit gleichem Stifttempo nach (Skript unten). ---- */
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hero .sig-h{margin:clamp(10px,1.6vw,22px) auto 0;line-height:0}
+.sig{display:block;height:clamp(100px,22vh,230px);width:auto;max-width:94vw;margin-inline:auto;overflow:visible}
+.sig path{fill:none;stroke:var(--ink);stroke-width:4.6;stroke-linecap:round;stroke-linejoin:round}
 
 /* ---- Kontakt: Lichtfleck folgt der Maus ---- */
 .contact::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(560px circle at var(--mx,50%) var(--my,40%),rgba(143,203,242,.16),transparent 62%);opacity:var(--glow,0);transition:opacity 500ms ease}
@@ -477,9 +482,9 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
         <a class="float f-c" href="#p-qv" aria-label="Zum Projekt QV-Assistent" data-depth="1.25" style="--d:3;--ax:14px;--ay:14px;--ar:1.4deg;--tx:6.4s;--ty:8.3s;--dl:-1s">
           <div class="dx"><div class="dy"><div class="card" style="--rot:4deg"><div class="chrome"><i></i><i></i><i></i></div><img src="assets/qv-hero-1080.webp" width="1080" height="675" alt="Startseite des QV-Assistenten"></div></div></div>
         </a>
-        <a class="float f-d" href="#p-kmu" aria-label="Zum Projekt KMU Web Studio" data-depth=".75" style="--d:4;--ax:10px;--ay:18px;--ar:1deg;--tx:9.6s;--ty:7.4s;--dl:-4s">
-          <div class="dx"><div class="dy"><div class="card" style="--rot:-4deg"><div class="chrome chrome--dark"><i></i><i></i><i></i></div><img src="assets/kmuwebstudio-blue-1080.webp" width="1080" height="675" alt="Abschnitt «Persönlich statt kompliziert» von KMU Web Studio"></div></div></div>
-        </a>
+        <div class="float f-d" aria-hidden="true" data-depth=".75" style="--d:4;--ax:10px;--ay:18px;--ar:1deg;--tx:9.6s;--ty:7.4s;--dl:-4s">
+          <div class="dx"><div class="dy"><div class="card" style="--rot:-4deg"><div class="chrome chrome--dark"><i></i><i></i><i></i></div><img src="assets/kmuwebstudio-blue-1080.webp" width="1080" height="675" alt=""></div></div></div>
+        </div>
         <a class="float f-e" href="#p-hkbd" aria-label="Zum Projekt HKBd Coach" data-depth="1.1" style="--d:5;--ax:9px;--ay:13px;--ar:2deg;--tx:5.8s;--ty:7.9s;--dl:-3s">
           <div class="dx"><div class="dy"><div class="card card--phone" style="--rot:-7deg"><span class="keys"></span><img src="assets/hkbd-phone-420.webp" width="420" height="868" alt="HKBd Coach auf dem Handy"></div></div></div>
         </a>
@@ -495,7 +500,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
         </a>
       </div></div>
 
-      <h1 class="reveal" style="--d:2">Ardit Selimi</h1>
+      <h1 class="sig-h"><span class="sr">Ardit Selimi</span><svg class="sig" viewBox="-40 8 1214 312" aria-hidden="true" focusable="false"><path d="M294 178C298 168 311 137 320 114C328 92 345 49 347 43C349 37 341 63 332 79C324 94 311 114 297 136C282 157 263 185 245 207C227 229 206 251 190 267C174 284 155 303 151 306C147 310 157 300 164 289C171 277 183 255 193 239C203 223 216 205 226 192C235 180 246 173 248 164C250 155 246 147 239 139C231 131 219 123 203 118C187 112 164 108 145 107C125 106 100 109 86 114C73 119 65 129 64 136C62 142 62 149 77 153C91 158 120 161 148 162C176 163 214 160 245 159C276 157 309 155 334 153C359 152 383 149 396 150C409 150 407 153 412 156C417 159 422 162 426 166C430 170 433 173 433 178C433 183 430 191 428 198C426 205 422 217 422 218C422 219 424 209 425 204C426 199 429 192 431 188C433 184 436 181 439 179C442 177 446 175 450 175C454 175 457 176 460 178C463 180 463 185 466 186C469 187 473 183 478 182C483 181 489 179 494 178C499 177 508 177 508 178C508 179 498 180 494 183C490 186 484 194 482 199C480 204 481 212 484 215C487 218 494 217 499 214C504 211 509 207 516 196C523 185 531 165 538 150C546 135 555 115 561 104C567 93 572 84 572 82C573 80 568 82 564 90C559 98 552 113 545 130C538 147 526 176 522 190C517 204 517 210 518 214C519 218 525 217 529 216C533 215 539 210 542 206C546 202 550 196 553 192C556 188 560 181 560 182C560 183 554 194 552 200C551 206 549 214 551 216C553 218 560 216 564 214C568 212 571 210 575 204C579 198 583 193 589 180C595 167 612 125 613 124C613 123 599 158 593 172C588 186 583 200 582 208C581 216 584 219 588 220C592 221 601 217 608 214C615 211 628 204 632 202"/><path d="M568 158C569 158 572 156 573 155"/><path d="M584 152C592 151 626 145 634 144"/><path d="M837 62C833 58 828 41 817 36C806 31 785 28 771 30C756 32 740 39 731 48C722 57 717 72 720 84C722 96 737 107 747 118C756 129 772 139 778 152C783 165 784 181 778 194C773 207 761 222 746 232C731 242 707 250 688 252C669 254 644 251 632 246C619 241 612 230 613 222C614 214 625 205 638 200C652 195 673 192 695 191C718 190 756 194 774 196C791 198 793 201 800 200C808 199 816 192 818 188C820 184 817 178 813 178C810 178 799 184 796 190C792 196 790 207 793 212C795 217 803 219 809 218C814 217 819 214 826 206C834 198 842 188 854 170C866 152 887 116 896 100C906 84 909 77 909 74C909 71 903 71 897 80C890 89 879 110 871 130C862 150 850 185 846 200C843 215 847 217 851 218C854 219 862 213 868 208C873 203 882 189 884 190C885 191 877 211 878 214C879 217 886 214 891 210C896 206 908 189 910 190C912 191 902 215 903 216C904 217 911 201 916 196C920 191 927 186 931 186C935 186 938 191 938 196C938 201 930 216 931 216C932 216 939 201 944 196C948 191 955 186 959 186C963 186 966 191 966 196C966 201 957 217 959 216C962 215 977 190 980 190C982 190 972 211 974 214C976 217 979 211 990 208C1001 205 1019 200 1038 194C1058 188 1092 173 1106 170C1120 167 1128 169 1121 178C1115 187 1100 212 1068 226C1037 240 1021 252 933 262C844 272 648 280 540 284C431 288 349 286 280 284C210 282 149 274 123 272"/><path d="M897 160C898 160 901 158 902 157"/><path d="M991 160C992 160 995 158 996 157"/></svg></h1>
       <a class="cue" id="cue" href="#machen" aria-label="Nach unten scrollen"><span></span></a>
     </div>
   </section>
@@ -534,13 +539,9 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
         <div class="info">
           <div class="count reveal"><span>01 / 04</span><span class="meter" aria-hidden="true"><i></i></span></div>
           <h3 class="reveal" style="--d:1">KMU Web Studio</h3>
-          <ul class="tags reveal" style="--d:2"><li>Nebenbeschäftigung</li><li>Laufend</li><li>Webstudio</li></ul>
-          <p class="reveal" style="--d:3">Meine aktuelle Nebenbeschäftigung: Webseiten für kleine Unternehmen, individuell gestaltet und zum Fixpreis. Die Seite führt durch Angebot und Ablauf und zeigt echte Referenzen auf Laptop und Handy. Wer mag, stellt sich seinen Webauftritt gleich selbst zusammen.</p>
-          <details class="more reveal" style="--d:4">
-            <summary>Mehr zum Projekt <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-            <div class="more__body"><p>Ein Webauftritt für kleine Unternehmen, der klar zeigt, was ein Betrieb anbietet, und Vertrauen schafft, bevor das erste Gespräch stattfindet. Das Angebot ist bewusst einfach gehalten: ein fester Preis, ein kompakter Umfang und ein persönlicher Ablauf ohne Agenturballast.</p><ul><li>Fixpreis von CHF 500 für eine Webseite mit bis zu vier Seiten</li><li>Individuelles Design, das für Handy, Tablet und Desktop optimiert ist</li><li>Ein Ablauf in vier Schritten: Kennenlernen, Planen, Umsetzen, Veröffentlichen</li><li>Ein Konfigurator, mit dem sich Besucher ihren Webauftritt selbst zusammenstellen</li></ul></div>
-          </details>
-          <div class="go-wrap reveal" style="--d:5"><a class="btn" href="https://kmuwebstudio.ch/" target="_blank" rel="noopener">Seite ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+          <ul class="tags reveal" style="--d:2"><li>Website</li><li>Konfigurator</li><li>Eigenes Projekt</li></ul>
+          <p class="reveal" style="--d:3">Für mein eigenes kleines Webstudio habe ich die ganze Website selbst gestaltet und umgesetzt. Interessierte stellen ihr Projekt dort in einem Konfigurator in wenigen Schritten zusammen.</p>
+          <div class="go-wrap reveal" style="--d:5"><a class="btn" href="https://kmuwebstudio.ch/" target="_blank" rel="noopener">kmuwebstudio.ch ansehen <svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
         </div>
         <div class="track">
           <div class="visual">
@@ -664,10 +665,10 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   <section class="contact" id="kontakt">
     <div class="wrap">
       <p class="eyebrow reveal">Kontakt</p>
-      <h2 class="reveal" style="--d:1">Du hast eine Idee? <em>Schreib mir.</em></h2>
-      <p class="lead reveal" style="--d:2">Erzähl mir kurz, worum es geht. Ich melde mich mit einem ersten Vorschlag, wie daraus etwas Fertiges wird.</p>
+      <h2 class="reveal" style="--d:1">Fragen zu meinen Projekten? <em>Schreib mir.</em></h2>
+      <p class="lead reveal" style="--d:2">Schreib mir an <a href="mailto:selimi@ardit.ch">selimi@ardit.ch</a>.</p>
       <div class="mailwrap reveal" style="--d:3">
-        <a class="mailbtn" href="mailto:selimi@ardit.ch?subject=Anfrage%20Webseite" aria-label="E-Mail an selimi@ardit.ch senden">
+        <a class="mailbtn" href="mailto:selimi@ardit.ch" aria-label="E-Mail an selimi@ardit.ch senden">
           <span class="face"><img src="assets/head.webp" width="300" height="294" alt="Ardit Selimi" decoding="async"></span>
           <span class="now" aria-hidden="true">Jetzt!</span>
           <span class="play">E-Mail senden</span>
@@ -908,35 +909,32 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   const hatSrc = document.querySelector('#hat img').getAttribute('src');
   const rnd = (a, b) => a + Math.random() * (b - a);
 
-  // --- Name: Buchstaben heben sich, wenn die Maus in die Nähe kommt
-  const h1 = hero.querySelector('h1');
-  const nameText = h1.textContent.trim();
-  h1.setAttribute('aria-label', nameText);
-  h1.innerHTML = nameText.split(' ').map((w) => `<span class="w" aria-hidden="true">${[...w].map((c) => `<span class="l">${c}</span>`).join('')}</span>`).join(' ');
-  const letters = [...h1.querySelectorAll('.l')].map((el) => ({ el, y: 0, r: 0, s: 1 }));
-  let lx = -9999, ly = -9999, letterRaf = 0;
-  function letterFrame() {
-    let moving = false;
-    for (const L of letters) {
-      const b = L.el.getBoundingClientRect();
-      const d = Math.hypot(b.left + b.width / 2 - lx, b.top + b.height / 2 - ly);
-      const f = Math.max(0, 1 - d / 190);
-      const ty = -f * f * 30, tr = (lx < b.left + b.width / 2 ? 1 : -1) * f * 10, ts = 1 + f * 0.12;
-      L.y += (ty - L.y) * 0.2; L.r += (tr - L.r) * 0.2; L.s += (ts - L.s) * 0.2;
-      if (Math.abs(ty - L.y) > 0.05 || Math.abs(tr - L.r) > 0.05) moving = true;
-      L.el.style.transform = `translate3d(0,${L.y.toFixed(2)}px,0) rotate(${L.r.toFixed(2)}deg) scale(${L.s.toFixed(3)})`;
+  // --- Unterschrift: wird beim Laden Strich für Strich mit gleichmässigem Stifttempo geschrieben,
+  //     kurze Pausen dort, wo der Stift abgesetzt wird. Maus darüber oder Antippen: neu unterschreiben.
+  const sig = hero.querySelector('.sig');
+  const strokes = [...sig.querySelectorAll('path')].map((el) => ({ el, len: el.getTotalLength() }));
+  let sigBusy = false, sigAnims = [];
+  function sign() {
+    if (!on || soft || sigBusy) return;
+    sigBusy = true;
+    for (const a of sigAnims) a.cancel();
+    sigAnims = [];
+    let t = 380;
+    for (const s of strokes) {
+      const dur = Math.max(90, (s.len / 1500) * 1000);
+      s.el.style.strokeDasharray = `${s.len} ${s.len}`;
+      sigAnims.push(s.el.animate([{ strokeDashoffset: s.len }, { strokeDashoffset: 0 }], { duration: dur, delay: t, easing: 'cubic-bezier(.35,0,.65,1)', fill: 'both' }));
+      t += dur + 110;
     }
-    letterRaf = moving ? requestAnimationFrame(letterFrame) : 0;
+    setTimeout(() => { sigBusy = false; }, t + 1200);
   }
-  addEventListener('pointermove', (e) => {
-    if (!on || soft || !fine.matches) return;
-    lx = e.clientX; ly = e.clientY;
-    if (!letterRaf) letterRaf = requestAnimationFrame(letterFrame);
-  }, { passive: true });
+  setTimeout(sign, 0);   // erst nachdem start() die Bewegung eingeschaltet hat
+  sig.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') sign(); });
+  sig.addEventListener('click', sign);
 
   // --- Kontakt: Lichtfleck folgt der Maus
   contact.addEventListener('pointermove', (e) => {
-    if (soft || !fine.matches) return;
+    if (soft || e.pointerType === 'touch') return;
     const r = contact.getBoundingClientRect();
     contact.style.setProperty('--mx', `${e.clientX - r.left}px`);
     contact.style.setProperty('--my', `${e.clientY - r.top}px`);
@@ -948,7 +946,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
   for (const el of document.querySelectorAll('.info .btn, .mailbtn')) {
     el.classList.add('magnet');
     el.addEventListener('pointermove', (e) => {
-      if (soft || !fine.matches) return;
+      if (soft || e.pointerType === 'touch') return;
       const r = el.getBoundingClientRect();
       el.style.translate = `${((e.clientX - r.left) / r.width - 0.5) * 16}px ${((e.clientY - r.top) / r.height - 0.5) * 12}px`;
     });
@@ -1089,7 +1087,7 @@ a.float:focus-visible .card{outline:3px solid var(--accent);outline-offset:3px}
     }
   });
 
-  calm.addEventListener('change', () => { start(calm.matches); if (soft) { dismissHats(); for (const L of letters) L.el.style.transform = ''; } });
+  calm.addEventListener('change', () => { start(calm.matches); if (soft) { dismissHats(); for (const a of sigAnims) a.cancel(); sigAnims = []; for (const s of strokes) s.el.style.strokeDasharray = ''; } });
   start(calm.matches);
 })();
 </script>

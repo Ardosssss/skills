@@ -55,10 +55,14 @@ Titel und Beschreibung stehen im Kopf von `index.html`, dazu die Hauptadresse `h
 
 - **Hut-Regen:** Ein Klick auf «E-Mail senden» lässt 70 Hüte (am Handy 46) aus dem Kopf im Knopf springen. Sie verteilen sich dicht und unregelmässig über den ganzen sichtbaren Bildschirm, jeder etwa so gross wie der Begleithut, und wippen danach leicht. Scrollt man nach oben weg, steigen sie nach oben aus dem Bild.
 - **Rückflug:** Ein Klick auf irgendeinen Hut (auch den Begleithut) fährt die Seite nach oben, die Hüte steigen dabei pendelnd nach oben aus dem Bild. Dreht man währenddessen am Mausrad, stoppt die Fahrt.
-- **Name:** Die Buchstaben von «Ardit Selimi» heben und drehen sich, wenn die Maus in die Nähe kommt.
+- **Name als Unterschrift:** «Ardit Selimi» ist eine von Hand gezeichnete Unterschrift: schräg, gleichmässig dünne Linie, grosse Anfangsbuchstaben mit Schlaufen und ein Schwung darunter. Beim Laden wird sie Strich für Strich in Schreibreihenfolge mit gleichmässigem Stifttempo geschrieben, mit kurzen Pausen, wo der Stift abgesetzt wird. Maus darüber oder Antippen: neu unterschreiben. Für Suchmaschinen steht der Name weiter als Text in der H1.
 - **Kontakt:** Ein heller Lichtfleck folgt der Maus. «Seite ansehen» und der Mail-Knopf ziehen leicht zur Maus.
 
 Bei reduzierter Bewegung ist das alles aus; der Mail-Knopf funktioniert normal.
+
+## KI-Suchen (GEO)
+
+`llms.txt` fasst für KI-Suchen in Klartext zusammen, wer Ardit Selimi ist und welche Projekte es gibt. `robots.txt` erlaubt die Crawler von ChatGPT, Claude, Perplexity, Google und Bing ausdrücklich. Im Kopf von `index.html` stehen die vier Projekte zusätzlich als strukturierte Daten (`ItemList` mit `WebApplication`/`WebSite`, Urheber Ardit Selimi).
 
 ## Schwebender Hut
 

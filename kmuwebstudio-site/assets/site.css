@@ -1101,7 +1101,7 @@ h2.display {
 
 .ref-tabs {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .ref-tab {
@@ -1109,7 +1109,7 @@ h2.display {
   display: grid;
   gap: 4px;
   width: 100%;
-  padding: 18px 20px 18px 24px;
+  padding: 12px 18px 13px 22px;
   border-radius: var(--radius-sm);
   background: #ffffff09;
   border: 1px solid #ffffff1f;
@@ -1128,8 +1128,8 @@ h2.display {
   content: "";
   position: absolute;
   left: -1px;
-  top: 18px;
-  bottom: 18px;
+  top: 14px;
+  bottom: 14px;
   width: 3px;
   border-radius: 3px;
   background: var(--cyan);
@@ -1148,18 +1148,12 @@ h2.display {
 
 .ref-tab strong {
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 600;
   line-height: 1.15;
   text-transform: uppercase;
   color: var(--on-dark-soft);
   transition: color 220ms ease;
-}
-
-.ref-tab span {
-  font-size: 15px;
-  line-height: 1.4;
-  color: var(--on-dark-mute);
 }
 
 .ref-tab[aria-selected="true"] {
@@ -1179,10 +1173,6 @@ h2.display {
   color: #fff;
 }
 
-.ref-tab[aria-selected="true"] span {
-  color: var(--on-dark-soft);
-}
-
 @media (hover: hover) and (pointer: fine) {
   .ref-tab:not([aria-selected="true"]):hover {
     background: #ffffff14;
@@ -1194,8 +1184,15 @@ h2.display {
   }
 }
 
+.ref-note {
+  margin-top: 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--on-dark-soft);
+}
+
 .refs__link {
-  margin-top: 28px;
+  margin-top: 6px;
 }
 
 .stage {
@@ -2432,7 +2429,26 @@ h2.display {
   }
 
   .ref-tabs {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    gap: 8px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 6px var(--gutter);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .ref-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ref-tab {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 176px;
+    scroll-snap-align: start;
   }
 
   .steps {
@@ -2553,19 +2569,9 @@ h2.display {
     bottom: 20px;
   }
 
-  .cards,
-  .ref-tabs {
+  .cards {
     grid-template-columns: minmax(0, 1fr);
     gap: 14px;
-  }
-
-  .ref-tabs {
-    gap: 8px;
-  }
-
-  /* Geräte-Ansicht zuerst, Auswahl direkt darunter */
-  .stage {
-    order: -1;
   }
 
   .card {
@@ -2638,11 +2644,12 @@ h2.display {
   }
 
   .ref-tab {
-    padding: 14px 16px 14px 20px;
+    min-width: 160px;
+    padding: 11px 14px 12px 18px;
   }
 
   .ref-tab strong {
-    font-size: 21px;
+    font-size: 19px;
   }
 
   .browser {
@@ -3280,140 +3287,167 @@ html:has(.anfrage[open]) {
 }
 
 /* ==========================================================
-   Referenzen als Scroll-Szene (Startseite)
-   Ohne JavaScript oder bei reduzierter Bewegung: drei Geräte
-   untereinander. Mit .is-scrolly: fixierte Bühne, die Seiten
-   laufen beim Scrollen durch die Geräte.
+   Referenzen (Startseite): alle Referenzen verteilt auf einer
+   Fläche, unterschiedlich gross und leicht schräg.
+   Mit Maus (.is-mouse): Maus auf eine Referenz und scrollen,
+   dann läuft deren Seite durch Browser und Handy (.is-live an
+   der Referenz, .has-live an der Fläche).
+   Ohne Maus (.is-touch): Jede Seite läuft beim Vorbeiscrollen
+   durch. Ohne Skript: ruhige Fläche.
    ========================================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 .showcase {
   position: relative;
   padding: var(--section) 0;
   background: var(--deep);
   color: #fff;
-}
-
-.showcase__sticky {
-  position: relative;
   overflow: clip;
 }
 
-.showcase__sticky::before {
+.showcase::before {
   content: "";
   position: absolute;
   right: -12%;
-  bottom: -40%;
+  bottom: -6%;
   width: 1000px;
   height: 760px;
   background: radial-gradient(closest-side, #2563eb33, #0000);
   pointer-events: none;
 }
 
-.showcase__layout {
+.showcase__head {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 0 clamp(40px, 6vw, 96px);
+  margin-bottom: clamp(56px, 6vw, 88px);
+}
+
+.showcase__head .eyebrow {
+  grid-column: 1 / -1;
+}
+
+.showcase__head h2 {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+  font-size: clamp(40px, 4.6vw, 66px);
+  line-height: 1.06;
+}
+
+.showcase__head .lead {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.showcase__hint {
+  grid-column: 2;
+  grid-row: 3;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cyan);
+}
+
+.showcase__hint .icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+
+.is-mouse .showcase__hint--mouse,
+.is-touch .showcase__hint--touch {
+  display: flex;
+}
+
+/* Die Fläche */
+
+.showcase__board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(20px, 2.4vw, 32px);
+  row-gap: clamp(48px, 5vw, 72px);
   align-items: start;
-  gap: clamp(32px, 5vw, 72px);
-}
-
-.showcase__copy h2 {
-  font-size: clamp(30px, 2.9vw, 42px);
-  line-height: 1.16;
-  text-wrap: wrap;
-}
-
-.showcase__copy .lead {
-  margin-top: 18px;
-  font-size: 17px;
-}
-
-.showcase__list {
-  display: grid;
-  gap: 8px;
-  margin-top: 28px;
-}
-
-.showcase__item {
-  position: relative;
-  display: grid;
-  gap: 3px;
-  width: 100%;
-  padding: 14px 18px 16px;
-  border-radius: var(--radius-sm);
-  background: #ffffff09;
-  border: 1px solid #ffffff1f;
-  text-align: left;
-  transition:
-    transform 160ms var(--ease-out),
-    background-color 260ms ease,
-    border-color 260ms ease;
-}
-
-.showcase__item:active {
-  transform: scale(0.98);
-}
-
-.showcase__item small {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--on-dark-mute);
-  transition: color 260ms ease;
-}
-
-.showcase__item strong {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.15;
-  text-transform: uppercase;
-  color: var(--on-dark-soft);
-  transition: color 260ms ease;
-}
-
-.showcase__item span {
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--on-dark-mute);
-}
-
-.showcase__bar {
-  display: none;
-  height: 3px;
-  margin-top: 10px;
-  border-radius: 3px;
-  background: #ffffff1f;
-  overflow: hidden;
-}
-
-.showcase__bar b {
-  display: block;
-  height: 100%;
-  background: var(--cyan);
-  transform: scaleX(0);
-  transform-origin: left center;
-}
-
-.showcase__caption,
-.showcase__cue {
-  display: none;
-}
-
-.showcase__link {
-  margin-top: 22px;
-}
-
-.showcase__stage {
-  display: grid;
-  gap: 48px;
-  min-width: 0;
 }
 
 .device {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  transform: rotate(var(--tilt, 0deg));
+  transition:
+    transform 520ms var(--ease-out),
+    opacity 320ms ease;
+}
+
+@media (min-width: 1041px) {
+  .device:nth-child(1) {
+    grid-column: 1 / span 7;
+    --tilt: -0.8deg;
+  }
+
+  .device:nth-child(2) {
+    grid-column: 9 / span 4;
+    margin-top: 110px;
+    --tilt: 1.4deg;
+  }
+
+  .device:nth-child(3) {
+    grid-column: 2 / span 5;
+    margin-top: -24px;
+    --tilt: 1deg;
+  }
+
+  .device:nth-child(4) {
+    grid-column: 7 / span 6;
+    margin-top: 64px;
+    --tilt: -1.2deg;
+  }
+
+  .device:nth-child(5) {
+    grid-column: 1 / span 4;
+    margin-top: -8px;
+    --tilt: -1.4deg;
+  }
+
+  .device:nth-child(6) {
+    grid-column: 5 / span 4;
+    margin-top: 96px;
+    --tilt: 0.8deg;
+  }
+
+  .device:nth-child(7) {
+    grid-column: 9 / span 4;
+    margin-top: 28px;
+    --tilt: 1.2deg;
+  }
+}
+
+/* Browser und Handy; das Handy ragt unten rechts über den Browser */
+.device__screens {
+  position: relative;
   padding-bottom: 7%;
+}
+
+.device .browser {
+  position: relative;
+  transition:
+    border-color 320ms ease,
+    box-shadow 320ms ease;
 }
 
 .device .view {
@@ -3439,206 +3473,251 @@ html:has(.anfrage[open]) {
   border-radius: 0;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .showcase__item:hover {
-    background: #ffffff14;
-    border-color: #ffffff3d;
-  }
-
-  .showcase__item:hover strong {
-    color: #fff;
-  }
-}
-
-/* ---------- fixierte Bühne ---------- */
-
-.showcase.is-scrolly {
-  height: calc(100svh + 3 * 120svh);
-  padding: 0;
-}
-
-.is-scrolly .showcase__sticky {
-  position: sticky;
-  top: 0;
+/* Beschriftung unter den Geräten */
+.device__caption {
+  order: 2;
   display: flex;
-  align-items: center;
-  height: 100svh;
-  padding-top: var(--header-h);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 12px;
+  margin-top: 16px;
 }
 
-.is-scrolly .showcase__layout {
-  align-items: center;
-}
-
-.is-scrolly .showcase__bar {
-  display: block;
-}
-
-.is-scrolly .showcase__item[aria-current="true"] {
-  background: #2563eb40;
-  border-color: var(--blue);
-}
-
-.is-scrolly .showcase__item[aria-current="true"] small {
-  color: var(--cyan);
-}
-
-.is-scrolly .showcase__item[aria-current="true"] strong {
-  color: #fff;
-}
-
-.is-scrolly .showcase__item[aria-current="true"] span {
-  color: var(--on-dark-soft);
-}
-
-.is-scrolly .showcase__stage {
-  width: 100%;
-  max-width: calc((100svh - var(--header-h) - 150px) * 1.5);
-  margin-inline: auto;
-  gap: 0;
-  transform-origin: 50% 50%;
-  will-change: transform;
-}
-
-.is-scrolly .device {
-  grid-area: 1 / 1;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(28px) scale(0.97);
-  transition:
-    opacity 260ms ease,
-    transform 420ms var(--ease-out),
-    visibility 0s linear 260ms;
-}
-
-.is-scrolly .device.is-active {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  transition:
-    opacity 420ms ease 60ms,
-    transform 620ms var(--ease-out) 60ms,
-    visibility 0s;
-}
-
-.is-scrolly .device.is-active .view img {
-  will-change: transform;
-}
-
-.is-scrolly .showcase__cue {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+.device__caption small {
+  flex-basis: 100%;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--on-dark-mute);
-  transform: translateX(-50%);
-  transition: opacity 300ms ease;
+  color: var(--cyan);
+}
+
+.device__caption strong {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.device__caption .text-link {
+  margin-left: auto;
+  font-size: 14px;
+}
+
+/* Mit Maus: Die Referenz unter der Maus richtet sich auf und kommt nach vorn */
+.device.is-live {
+  z-index: 2;
+  transform: translateY(-8px) scale(1.025);
+}
+
+.device.is-live .browser {
+  border-color: #22d3ee80;
+  box-shadow:
+    0 60px 120px #000000a6,
+    0 0 0 1px #22d3ee40;
+}
+
+.has-live .device:not(.is-live) {
+  opacity: 0.45;
+}
+
+.device:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 8px;
+}
+
+/* Fortschritt am rechten Rand des Browsers */
+.device__thumb {
+  position: absolute;
+  top: 46px;
+  right: 6px;
+  bottom: 8px;
+  width: 4px;
+  border-radius: 4px;
+  background: #7f8a9b52;
+  opacity: 0;
+  transition: opacity 240ms ease;
   pointer-events: none;
 }
 
-.is-scrolly .showcase__cue i {
-  width: 1px;
-  height: 22px;
-  background: linear-gradient(var(--cyan), #22d3ee00);
+.device__thumb b {
+  display: block;
+  height: 24%;
+  border-radius: inherit;
+  background: var(--blue);
+  box-shadow: 0 0 0 1px #ffffffb3;
 }
 
-.is-scrolly .showcase__cue.is-hidden {
+.device.is-live .device__thumb,
+.is-touch .device__thumb {
+  opacity: 1;
+}
+
+/* Hinweis «Scrollen», bis man zum ersten Mal scrollt */
+.device__hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  padding: 8px 14px 8px 11px;
+  border-radius: 999px;
+  background: #0b1220e0;
+  border: 1px solid #ffffff29;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 12px 30px #0000004d;
   opacity: 0;
+  transform: translate(-50%, 8px);
+  transition:
+    opacity 200ms ease,
+    transform 320ms var(--ease-out);
+  pointer-events: none;
 }
 
-@media (max-width: 1040px) {
-  .showcase__layout {
+.device__hint .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.device.is-live:not(.is-moved) .device__hint {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@keyframes wheel-hint {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  70% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+.device.is-live .device__wheel {
+  animation: wheel-hint 1.4s var(--ease-out) infinite;
+}
+
+/* Mittlere Fenster: zwei Spalten, versetzt, die letzte Referenz mittig */
+@media (min-width: 721px) and (max-width: 1040px) {
+  .showcase__head {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .showcase__copy h2 br {
+  .showcase__head h2,
+  .showcase__head .lead,
+  .showcase__hint {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .showcase__head h2 br {
     display: none;
   }
 
-  .showcase__list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .showcase__head .lead {
+    margin-top: 18px;
   }
 
-  /* fixierte Bühne: alles muss in eine Bildschirmhöhe passen */
-  .is-scrolly .showcase__layout {
-    gap: 18px;
+  .device {
+    grid-column: span 6;
+    --tilt: -1deg;
   }
 
-  .is-scrolly .showcase__copy h2 {
-    font-size: clamp(26px, 6.4vw, 44px);
+  .device:nth-child(even) {
+    margin-top: 64px;
+    --tilt: 1deg;
   }
 
-  .is-scrolly .showcase__copy .eyebrow {
-    margin-bottom: 10px;
+  .device:last-child:nth-child(odd) {
+    grid-column: 4 / span 6;
   }
 
-  .is-scrolly .showcase__copy .lead {
+  .device__caption .text-link {
+    margin-left: 0;
+  }
+}
+
+/* Handy: eine Spalte, abwechselnd links und rechts versetzt */
+@media (max-width: 720px) {
+  .showcase__head {
+    grid-template-columns: minmax(0, 1fr);
+    margin-bottom: 40px;
+  }
+
+  .showcase__head h2,
+  .showcase__head .lead,
+  .showcase__hint {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .showcase__head h2 {
+    font-size: clamp(34px, 10vw, 46px);
+  }
+
+  .showcase__head h2 br {
     display: none;
   }
 
-  .is-scrolly .showcase__list {
-    gap: 6px;
+  .showcase__head .lead {
     margin-top: 16px;
   }
 
-  .is-scrolly .showcase__item {
-    padding: 10px 10px 12px;
+  .showcase__board {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 44px;
   }
 
-  .is-scrolly .showcase__item small,
-  .is-scrolly .showcase__item span {
-    display: none;
+  .device {
+    width: 88%;
+    justify-self: start;
+    --tilt: -1.2deg;
   }
 
-  .is-scrolly .showcase__item strong {
-    font-size: clamp(13px, 3.5vw, 18px);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .device:nth-child(even) {
+    justify-self: end;
+    --tilt: 1.2deg;
   }
 
-  .is-scrolly .showcase__bar {
-    margin-top: 8px;
+  .device__caption strong {
+    font-size: 20px;
   }
 
-  .is-scrolly .showcase__caption {
-    display: block;
-    margin-top: 12px;
-    font-size: 14px;
-    color: var(--on-dark-soft);
+  .device__caption .text-link {
+    margin-left: 0;
   }
 
-  .is-scrolly .showcase__link {
-    margin-top: 4px;
-  }
-
-  .is-scrolly .showcase__stage {
-    max-width: calc((100svh - var(--header-h) - 330px) * 1.5);
-  }
-
-  .is-scrolly .showcase__cue {
-    display: none;
+  .device__thumb {
+    top: 36px;
   }
 }
 
-@media (max-width: 720px) {
-  .showcase__list {
-    grid-template-columns: minmax(0, 1fr);
+@media (prefers-reduced-motion: reduce) {
+  .device,
+  .device.is-live {
+    transform: none;
+    transition: opacity 200ms ease;
   }
 
-  .is-scrolly .showcase__list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .device__hint {
+    transform: translate(-50%, 0);
   }
 
-  .showcase__stage {
-    gap: 32px;
+  .device.is-live .device__wheel {
+    animation: none;
   }
 }
 

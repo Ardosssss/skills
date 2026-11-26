@@ -6,10 +6,10 @@ Statische, überarbeitete Fassung von [kmuwebstudio.ch](https://kmuwebstudio.ch/
 
 | Datei | Inhalt |
 | --- | --- |
-| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen als Scroll-Szene, Manifest, Abschluss |
+| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen, Manifest, Abschluss |
 | `angebot.html` | Website-Paket mit Fixpreis und Leistungen, Konfigurator |
 | `ablauf.html` | Vier Schritte, häufige Fragen |
-| `referenzen.html` | Drei Referenzen auf Desktop und Smartphone zum Umschalten |
+| `referenzen.html` | Sieben Referenzen auf Desktop und Smartphone zum Umschalten |
 | `kontakt.html` | Anfrageformular, E-Mail-Adresse |
 | `impressum.html`, `datenschutz.html` | Rechtliche Seiten |
 | `assets/site.css` | Gesamtes Styling, Farbwerte als Variablen in `:root` |
@@ -24,14 +24,53 @@ python3 -m http.server 8000
 
 Kopfzeile, Fusszeile und Symbole stehen in jeder HTML-Datei. Wer dort etwas ändert, ändert es in allen sieben Dateien.
 
-## Referenzen als Scroll-Szene
+`assets/site.css` und `assets/site.js` sind mit einer Versionsnummer eingebunden (`site.css?v=…`). Nach einer Änderung an einer der beiden Dateien die Nummer in allen sieben Seiten durch einen neuen Wert ersetzen; sonst zeigen Browser, die die Seite schon kennen, noch die alte Fassung.
 
-Auf der Startseite bleibt die Bühne mit Browser- und Handyrahmen stehen, während man scrollt. Jede der drei Referenzen hat einen eigenen Scroll-Abschnitt; in ihm läuft die Website einmal von oben nach unten durch beide Rahmen. Die Liste links zeigt mit einem Balken, wie weit man ist; ein Klick auf einen Eintrag springt zu dieser Referenz.
+## Referenzen auf der Startseite
 
-- Die Bilder sind lange Bildschirmfotos: `assets/refs/<name>-desktop-lang.webp` (1200 px breit) und `<name>-mobile-lang.webp` (480 px breit). Ersetzt man ein Bild, im `<img>` in `index.html` die Höhe anpassen.
-- Eine weitere Referenz braucht einen Eintrag in der Liste (`.showcase__item`) und ein Gerät (`.device`) in `index.html` sowie in `assets/site.css` die Zahl in `height: calc(100svh + 3 * 120svh)`.
-- Bei «Bewegung reduzieren», ohne JavaScript und auf sehr niedrigen Bildschirmen (unter 600 px Höhe) stehen die drei Geräte stattdessen ruhig untereinander.
-- Die Seite `referenzen.html` zeigt dieselben Referenzen zum direkten Umschalten per Klick.
+Alle sieben Referenzen liegen auf jedem Gerät verteilt auf einer Fläche: unterschiedlich gross, versetzt und leicht schräg, jede mit Browser, Handy und Beschriftung. Wie man durch eine Website scrollt, hängt vom Gerät ab; das Skript setzt dafür eine Klasse an `<section id="referenzen">`.
+
+| Gerät | Verhalten |
+| --- | --- |
+| Computer mit Maus oder Trackpad (`.is-mouse`) | Fährt man mit der Maus auf eine Referenz, richtet sie sich auf, die anderen treten zurück, und «Scrollen» erscheint. Scrollt man jetzt, läuft genau diese Website durch Browser und Handy; die Seite selbst bleibt stehen. Am Ende der Referenz scrollt die Seite normal weiter. Ohne Klick. |
+| Handy und Tablet (`.is-touch`) | Jede Website läuft beim Vorbeiscrollen von oben nach unten durch: oben, wenn die Referenz unten ganz hereingekommen ist, am Ende, wenn sie oben ankommt. |
+| «Bewegung reduzieren» auf Handy und Tablet, ohne JavaScript | Die Fläche steht ruhig; jede Referenz zeigt den Anfang ihrer Website. |
+
+| Referenz | Adresse | Bezeichnung |
+| --- | --- | --- |
+| Swiss Carpoint | swisscarpoint.ch | Fahrzeugservice · Premium, dunkel, präzise |
+| Logistikexperte | logistikexperte.ch | Bildung & Beratung · Klar, kompetent, praxisnah |
+| Sadri Selimi | selimi.ch | Personal Branding · Editorial, persönlich, klar |
+| Ardit Selimi | ardit.ch | Portfolio · Persönlich, lebendig, voller Bewegung |
+| HKBa Coach | hkba.live | KI-Lerncoach · Hell, motivierend, interaktiv |
+| HKBd Coach | hkbd.live | Lern-App · Ruhig, schlicht, fokussiert |
+| QV-Assistent | qv-assistent.ch | QV-Vorbereitung · Warm, farbig, motivierend |
+
+Auf der Startseite stehen die Kategorie und der Name; die Bezeichnung mit dem Stil zeigt die Seite `referenzen.html`.
+
+### Mit Maus
+
+- **Kein Hängenbleiben:** Eine Referenz wird nur gewählt, wenn sich die Maus wirklich bewegt. Schiebt das Scrollen der Seite eine Referenz unter den stehenden Mauszeiger, scrollt die Seite einfach weiter. Fährt die Seite die gewählte Referenz unter dem Zeiger weg, ist sie nicht mehr gewählt und gleitet zurück an den Anfang.
+- **Tastatur:** Mit der Tabulatortaste lässt sich jede Referenz wählen; mit den Pfeiltasten, Bild auf/ab, Pos1 und Ende scrollt man durch sie.
+- Bei «Bewegung reduzieren» gibt es keine Schräglage und kein Nachgleiten; das Scrollen durch die Referenz bleibt, weil es direkt an der Hand des Besuchers hängt.
+
+### Anordnung
+
+- **Ab 1041 px Breite:** zwölf Spalten. Die Plätze stehen in `assets/site.css` bei `.device:nth-child(1)` bis `(7)`: Spalten (`grid-column`), Versatz nach unten (`margin-top`) und Schräglage (`--tilt`).
+- **721 bis 1040 px:** zwei versetzte Spalten, die letzte Referenz mittig.
+- **Handy:** eine Spalte, abwechselnd links und rechts versetzt.
+
+### Bilder und weitere Referenzen
+
+- Die Bilder sind lange Bildschirmfotos: `assets/refs/<name>-desktop-lang.webp` (1200 px breit, aufgenommen mit 1440 px Fensterbreite) und `<name>-mobile-lang.webp` (480 px breit, aufgenommen mit 390 px). Ersetzt man ein Bild, im `<img>` in `index.html` Breite und Höhe anpassen.
+- Eine weitere Referenz braucht in `index.html` ein Gerät (`.device`) in `.showcase__board`, den angepassten Satz «Sieben echte KWS-Referenzen …» und in `assets/site.css` einen Platz für grosse Bildschirme (`.device:nth-child(8)`). In `referenzen.html` kommen ein Knopf `.ref-tab` und ein `.stage__panel` dazu (Bilder `<name>-desktop.webp` 1440 × 900 und `<name>-mobile.webp` 585 × 1266).
+- Die Seite `referenzen.html` zeigt dieselben Referenzen zum direkten Umschalten per Klick; am Handy als Reihe zum Wischen.
+
+### Wie die Aufnahmen entstanden sind
+
+- **ardit.ch** koppelt die Projekte an die Scroll-Position. Für eine ruhige Ganzseitenaufnahme wurde die Seite mit reduzierter Bewegung geladen, einmal ganz durchgescrollt (damit alles eingeblendet ist) und danach die Kopplung abgeschaltet. Der Satz unter «Was ich mache» ist im gelesenen, dunklen Zustand aufgenommen. Desktop und Handy zeigen die ganze Seite bis zum Kontakt.
+- **HKBd Coach:** Die Startseite allein ist nur eine Bildschirmhöhe hoch. Darunter folgt deshalb die Seite «Leistungsziele», wie auf ardit.ch.
+- **HKBa Coach, QV-Assistent** und die drei älteren Referenzen: Startseite von oben, am Desktop bis 5400 px, am Handy bis 3800 px Höhe gekürzt.
 
 ## Feinbewegungen
 
@@ -89,7 +128,8 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 - Anfragefenster und Kontaktseite: «Unverbindlich anfragen», «Deine Anfrage», «Erzähl uns kurz von Deinem Projekt. Wir melden uns persönlich bei Dir.», die Feldnamen, Fehlermeldungen und «Danke für Deine Anfrage. Deine Nachricht ist bei uns angekommen. Wir melden uns persönlich bei Dir.»
 - Ablauf-Seite: «Noch etwas offen? Schreib uns – wir antworten persönlich.»
 - Datenschutz, Abschnitt 4: ein Absatz zum Anfrageformular.
-- Links zwischen den Seiten: «Angebot ansehen», «Alle Referenzen ansehen», «Anfrage senden».
+- Links zwischen den Seiten: «Angebot ansehen», «Anfrage senden».
+- Referenzen: die Bezeichnungen der vier neuen Referenzen (z. B. «KI-Lerncoach · Hell, motivierend, interaktiv»), «Sieben echte KWS-Referenzen, jede zum Durchscrollen.», die Hinweise «Fahre mit der Maus über eine Website und scrolle.» (Computer) und «Beim Scrollen läuft jede Website von oben nach unten durch.» (Handy) sowie «Scrollen» auf der gewählten Referenz.
 
 ## Was sich gegenüber der Live-Seite geändert hat
 
@@ -103,7 +143,7 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 | Preis im Hero als kleiner, drehender Kreis | Klare Preiskarte, die zum Angebot führt | Der Fixpreis ist das stärkste Argument |
 | Karten mit Pfeil, der wie ein Link aussieht, aber nichts tut | Karten mit Symbol | Keine falschen Klickziele |
 | Schwebende Module überlagern die Preiskarte | Module als geordnetes Raster | Der Preis ist ungestört lesbar |
-| Referenzen: nachgebaute Attrappen einer einzigen Seite | Scroll-Szene mit den echten Websites aller drei Referenzen, von oben bis unten | Zeigt die tatsächliche Arbeit |
+| Referenzen: nachgebaute Attrappen einer einzigen Seite | Die echten Websites und Lern-Apps aller sieben Referenzen verteilt auf einer Fläche, von oben bis unten zum Durchscrollen (am Computer: Maus darauf und scrollen) | Zeigt die tatsächliche Arbeit |
 | Deko-Leiste, Fortschrittsbalken, magnetische Buttons, «Project Lab» | Entfernt | Weniger Ablenkung |
 
 ## Bedienung und Zugänglichkeit
@@ -120,4 +160,4 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 - **Versand:** Ohne eingetragenen Formular-Dienst geht keine Anfrage direkt per E-Mail ein (siehe oben).
 - **Datenschutz:** Abschnitt 4 nennt den Formular-Dienst noch nicht beim Namen; sobald er feststeht, dort eintragen. Abschnitt 3 nennt ChatGPT Sites als Hosting und muss bei einem Wechsel des Hosts angepasst werden.
 - **Live-Seite:** Dieser Ordner ist ein eigenständiger Nachbau. Er ersetzt die Live-Seite erst, wenn er veröffentlicht wird.
-- **Referenzbilder:** Momentaufnahmen vom 16. November 2026. Ändert sich eine Referenzseite, die Bilder in `assets/refs/` ersetzen.
+- **Referenzbilder:** Momentaufnahmen (Swiss Carpoint, Logistikexperte, Sadri Selimi vom 16. November 2026; ardit.ch, HKBa Coach, HKBd Coach, QV-Assistent vom 26. November 2026). Ändert sich eine Referenzseite, die Bilder in `assets/refs/` ersetzen.
