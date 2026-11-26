@@ -3458,8 +3458,13 @@ html:has(.anfrage[open]) {
 
 .device {
   position: relative;
-  padding-bottom: 7%;
   scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+/* Browser und Handy; das Handy ragt unten rechts über den Browser */
+.device__screens {
+  position: relative;
+  padding-bottom: 7%;
 }
 
 /* Beschriftung, solange die Geräte untereinander stehen */
@@ -3532,9 +3537,9 @@ html:has(.anfrage[open]) {
   }
 }
 
-/* Ohne Szene: Liste bleibt neben den Geräten stehen */
+/* Ruhige Ansicht: Liste bleibt neben den Geräten stehen */
 @media (min-width: 1041px) {
-  .showcase:not(.is-scrolly) .showcase__copy {
+  .showcase:not(.is-scrolly):not(.is-board) .showcase__copy {
     position: sticky;
     top: calc(var(--header-h) + 32px);
   }
@@ -3775,6 +3780,289 @@ html:has(.anfrage[open]) {
 
   .device__caption .text-link {
     margin-left: 0;
+  }
+}
+
+/* ==========================================================
+   Referenzen als Fläche (Startseite, Maus ab 1041 px Breite)
+   Alle Referenzen liegen verteilt auf der Fläche. Fährt man mit
+   der Maus auf eine und scrollt, läuft deren Seite durch Browser
+   und Handy (Skript: .is-board an der Section, .is-live an der
+   Referenz unter der Maus, .has-live an der Fläche).
+   ========================================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.showcase__hint,
+.device__thumb,
+.device__hint {
+  display: none;
+}
+
+.is-board .showcase__layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(56px, 6vw, 88px);
+}
+
+.is-board .showcase__copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 0 clamp(40px, 6vw, 96px);
+}
+
+.is-board .showcase__copy .eyebrow {
+  grid-column: 1 / -1;
+}
+
+.is-board .showcase__copy h2 {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+  font-size: clamp(40px, 4.6vw, 66px);
+  line-height: 1.06;
+}
+
+.is-board .showcase__copy .lead {
+  grid-column: 2;
+  grid-row: 2;
+  margin-top: 0;
+}
+
+.is-board .showcase__hint {
+  grid-column: 2;
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cyan);
+}
+
+.is-board .showcase__hint .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.is-board .showcase__list,
+.is-board .showcase__now,
+.is-board .showcase__caption,
+.is-board .showcase__link {
+  display: none;
+}
+
+/* Die Fläche: zwölf Spalten, die Referenzen unterschiedlich gross und versetzt */
+
+.is-board .showcase__stage {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(20px, 2.4vw, 32px);
+  row-gap: clamp(48px, 5vw, 72px);
+  align-items: start;
+}
+
+.is-board .device {
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  transform: rotate(var(--tilt, 0deg));
+  transition:
+    transform 520ms var(--ease-out),
+    opacity 320ms ease;
+}
+
+.is-board .device:nth-child(1) {
+  grid-column: 1 / span 7;
+  --tilt: -0.8deg;
+}
+
+.is-board .device:nth-child(2) {
+  grid-column: 9 / span 4;
+  margin-top: 110px;
+  --tilt: 1.4deg;
+}
+
+.is-board .device:nth-child(3) {
+  grid-column: 2 / span 5;
+  margin-top: -24px;
+  --tilt: 1deg;
+}
+
+.is-board .device:nth-child(4) {
+  grid-column: 7 / span 6;
+  margin-top: 64px;
+  --tilt: -1.2deg;
+}
+
+.is-board .device:nth-child(5) {
+  grid-column: 1 / span 4;
+  margin-top: -8px;
+  --tilt: -1.4deg;
+}
+
+.is-board .device:nth-child(6) {
+  grid-column: 5 / span 4;
+  margin-top: 96px;
+  --tilt: 0.8deg;
+}
+
+.is-board .device:nth-child(7) {
+  grid-column: 9 / span 4;
+  margin-top: 28px;
+  --tilt: 1.2deg;
+}
+
+/* Beschriftung unter den Geräten */
+.is-board .device__caption {
+  order: 2;
+  margin: 16px 0 0;
+  gap: 0 12px;
+}
+
+.is-board .device__caption > span {
+  display: none;
+}
+
+.is-board .device__caption strong {
+  font-size: 22px;
+}
+
+.is-board .device__caption .text-link {
+  font-size: 14px;
+}
+
+.is-board .browser {
+  position: relative;
+  transition:
+    border-color 320ms ease,
+    box-shadow 320ms ease;
+}
+
+/* Die Referenz unter der Maus richtet sich auf und kommt nach vorn */
+.is-board .device.is-live {
+  z-index: 2;
+  transform: translateY(-8px) scale(1.025);
+}
+
+.is-board .device.is-live .browser {
+  border-color: #22d3ee80;
+  box-shadow:
+    0 60px 120px #000000a6,
+    0 0 0 1px #22d3ee40;
+}
+
+.is-board .has-live .device:not(.is-live) {
+  opacity: 0.45;
+}
+
+.is-board .device:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 8px;
+}
+
+/* Fortschritt am rechten Rand des Browsers */
+.is-board .device__thumb {
+  display: block;
+  position: absolute;
+  top: 46px;
+  right: 6px;
+  bottom: 8px;
+  width: 4px;
+  border-radius: 4px;
+  background: #7f8a9b52;
+  opacity: 0;
+  transition: opacity 240ms ease;
+  pointer-events: none;
+}
+
+.is-board .device__thumb b {
+  display: block;
+  height: 24%;
+  border-radius: inherit;
+  background: var(--blue);
+  box-shadow: 0 0 0 1px #ffffffb3;
+}
+
+.is-board .device.is-live .device__thumb {
+  opacity: 1;
+}
+
+/* Hinweis «Scrollen», bis man zum ersten Mal scrollt */
+.is-board .device__hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  padding: 8px 14px 8px 11px;
+  border-radius: 999px;
+  background: #0b1220e0;
+  border: 1px solid #ffffff29;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 12px 30px #0000004d;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition:
+    opacity 200ms ease,
+    transform 320ms var(--ease-out);
+  pointer-events: none;
+}
+
+.is-board .device__hint .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.is-board .device.is-live:not(.is-moved) .device__hint {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@keyframes wheel-hint {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  70% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+.is-board .device.is-live .device__wheel {
+  animation: wheel-hint 1.4s var(--ease-out) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-board .device,
+  .is-board .device.is-live {
+    transform: none;
+    transition: opacity 200ms ease;
+  }
+
+  .is-board .device__hint {
+    transform: translate(-50%, 0);
+  }
+
+  .is-board .device.is-live .device__wheel {
+    animation: none;
   }
 }
 

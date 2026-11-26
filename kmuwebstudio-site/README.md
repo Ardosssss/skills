@@ -6,7 +6,7 @@ Statische, überarbeitete Fassung von [kmuwebstudio.ch](https://kmuwebstudio.ch/
 
 | Datei | Inhalt |
 | --- | --- |
-| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen als Scroll-Szene, Manifest, Abschluss |
+| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen, Manifest, Abschluss |
 | `angebot.html` | Website-Paket mit Fixpreis und Leistungen, Konfigurator |
 | `ablauf.html` | Vier Schritte, häufige Fragen |
 | `referenzen.html` | Sieben Referenzen auf Desktop und Smartphone zum Umschalten |
@@ -24,9 +24,15 @@ python3 -m http.server 8000
 
 Kopfzeile, Fusszeile und Symbole stehen in jeder HTML-Datei. Wer dort etwas ändert, ändert es in allen sieben Dateien.
 
-## Referenzen als Scroll-Szene
+## Referenzen auf der Startseite
 
-Auf der Startseite bleibt die Bühne mit Browser- und Handyrahmen stehen, während man scrollt. Jede der sieben Referenzen hat einen eigenen Scroll-Abschnitt von einer Bildschirmhöhe; in ihm läuft die Website einmal von oben nach unten durch beide Rahmen. Ein Klick auf eine Referenz springt zu ihr.
+Die sieben Referenzen erscheinen je nach Gerät auf drei Arten. Es sind immer dieselben Geräte (`.device`), das Skript setzt nur eine Klasse an `<section id="referenzen">`.
+
+| Gerät | Darstellung |
+| --- | --- |
+| Computer mit Maus, Fenster ab 1041 px breit (`.is-board`) | **Fläche:** Alle Referenzen liegen verteilt, unterschiedlich gross und leicht schräg. Fährt man mit der Maus auf eine, richtet sie sich auf, die anderen treten zurück, und «Scrollen» erscheint. Scrollt man jetzt, läuft genau diese Website durch Browser und Handy; die Seite selbst bleibt stehen. Am Ende der Referenz scrollt die Seite normal weiter. Ohne Klick. |
+| Handy, Tablet, schmale Fenster (`.is-scrolly`) | **Szene:** Die Bühne bleibt stehen, jede Referenz hat einen Scroll-Abschnitt von einer Bildschirmhöhe; in ihm läuft die Website von oben nach unten durch beide Rahmen. |
+| Ohne JavaScript, «Bewegung reduzieren» ohne Maus, Bildschirme unter 600 px Höhe | **Ruhig:** alle Geräte untereinander, jedes mit Name, Bezeichnung und Link. Am grossen Bildschirm bleibt die Liste links stehen. |
 
 | Referenz | Adresse | Bezeichnung |
 | --- | --- | --- |
@@ -38,11 +44,22 @@ Auf der Startseite bleibt die Bühne mit Browser- und Handyrahmen stehen, währe
 | HKBd Coach | hkbd.live | Lern-App · Ruhig, schlicht, fokussiert |
 | QV-Assistent | qv-assistent.ch | QV-Vorbereitung · Warm, farbig, motivierend |
 
-- **Grosser Bildschirm:** Links stehen alle Referenzen mit Nummer und Name, jede mit eigenem Fortschrittsbalken; darunter Bezeichnung und Link der aktuellen.
-- **Handy, Tablet und niedrige Bildschirme** (unter 760 px Höhe): statt der Namen eine Leiste mit sieben Abschnitten, darunter «04 / 07» mit dem Namen der aktuellen Referenz. Jeder Abschnitt lässt sich antippen.
+### Fläche
+
+- **Kein Hängenbleiben:** Eine Referenz wird nur gewählt, wenn sich die Maus wirklich bewegt. Schiebt das Scrollen der Seite eine Referenz unter den stehenden Mauszeiger, scrollt die Seite einfach weiter. Fährt die Seite die gewählte Referenz unter dem Zeiger weg, ist sie nicht mehr gewählt und gleitet zurück an den Anfang.
+- **Tastatur:** Mit der Tabulatortaste lässt sich jede Referenz wählen; mit den Pfeiltasten, Bild auf/ab, Pos1 und Ende scrollt man durch sie.
+- **Anordnung:** Die Plätze stehen in `assets/site.css` bei `.is-board .device:nth-child(1)` bis `(7)`: Spalten von 12 (`grid-column`), Versatz nach unten (`margin-top`) und Schräglage (`--tilt`).
+- Bei «Bewegung reduzieren» gibt es keine Schräglage und kein Nachgleiten; das Scrollen durch die Referenz bleibt, weil es direkt an der Hand des Besuchers hängt.
+
+### Szene
+
+- **Grosse Touch-Geräte** (ab 1041 px Breite und 760 px Höhe, z. B. Tablet quer): Links stehen alle Referenzen mit Nummer und Name, jede mit eigenem Fortschrittsbalken; darunter Bezeichnung und Link der aktuellen.
+- **Handy, kleinere Tablets und niedrige Bildschirme:** statt der Namen eine Leiste mit sieben Abschnitten, darunter «04 / 07» mit dem Namen der aktuellen Referenz. Jeder Abschnitt lässt sich antippen.
+
+### Bilder und weitere Referenzen
+
 - Die Bilder sind lange Bildschirmfotos: `assets/refs/<name>-desktop-lang.webp` (1200 px breit, aufgenommen mit 1440 px Fensterbreite) und `<name>-mobile-lang.webp` (480 px breit, aufgenommen mit 390 px). Ersetzt man ein Bild, im `<img>` in `index.html` Breite und Höhe anpassen.
-- Eine weitere Referenz braucht in `index.html` einen Eintrag in der Liste (`.showcase__item`) und ein Gerät (`.device`, mit Beschriftung `.device__caption`). Dazu die Zahl `--sc-count` am `<section id="referenzen">` und «/ 07» in `.showcase__now` erhöhen und den Satz «Scrolle durch sieben …» anpassen. In `referenzen.html` kommen ein Knopf `.ref-tab` und ein `.stage__panel` dazu (Bilder `<name>-desktop.webp` 1440 × 900 und `<name>-mobile.webp` 585 × 1266).
-- Bei «Bewegung reduzieren», ohne JavaScript und auf sehr niedrigen Bildschirmen (unter 600 px Höhe) stehen die Geräte stattdessen ruhig untereinander, jedes mit Name, Bezeichnung und Link. Am grossen Bildschirm bleibt die Liste dabei links stehen.
+- Eine weitere Referenz braucht in `index.html` einen Eintrag in der Liste (`.showcase__item`) und ein Gerät (`.device`, mit Beschriftung `.device__caption`). Dazu die Zahl `--sc-count` am `<section id="referenzen">` und «/ 07» in `.showcase__now` erhöhen, den Satz «Scrolle durch sieben …» anpassen und in `assets/site.css` einen Platz auf der Fläche ergänzen (`.is-board .device:nth-child(8)`). In `referenzen.html` kommen ein Knopf `.ref-tab` und ein `.stage__panel` dazu (Bilder `<name>-desktop.webp` 1440 × 900 und `<name>-mobile.webp` 585 × 1266).
 - Die Seite `referenzen.html` zeigt dieselben Referenzen zum direkten Umschalten per Klick; am Handy als Reihe zum Wischen.
 
 ### Wie die Aufnahmen entstanden sind
@@ -108,7 +125,7 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 - Ablauf-Seite: «Noch etwas offen? Schreib uns – wir antworten persönlich.»
 - Datenschutz, Abschnitt 4: ein Absatz zum Anfrageformular.
 - Links zwischen den Seiten: «Angebot ansehen», «Anfrage senden».
-- Referenzen: die Bezeichnungen der vier neuen Referenzen (z. B. «KI-Lerncoach · Hell, motivierend, interaktiv») und «Scrolle durch sieben echte KWS-Referenzen.»
+- Referenzen: die Bezeichnungen der vier neuen Referenzen (z. B. «KI-Lerncoach · Hell, motivierend, interaktiv») und «Scrolle durch sieben echte KWS-Referenzen.» Dazu der Hinweis «Fahre mit der Maus über eine Website und scrolle.» und «Scrollen» auf der gewählten Referenz.
 
 ## Was sich gegenüber der Live-Seite geändert hat
 
@@ -122,7 +139,7 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 | Preis im Hero als kleiner, drehender Kreis | Klare Preiskarte, die zum Angebot führt | Der Fixpreis ist das stärkste Argument |
 | Karten mit Pfeil, der wie ein Link aussieht, aber nichts tut | Karten mit Symbol | Keine falschen Klickziele |
 | Schwebende Module überlagern die Preiskarte | Module als geordnetes Raster | Der Preis ist ungestört lesbar |
-| Referenzen: nachgebaute Attrappen einer einzigen Seite | Scroll-Szene mit den echten Websites und Lern-Apps aller sieben Referenzen, von oben bis unten | Zeigt die tatsächliche Arbeit |
+| Referenzen: nachgebaute Attrappen einer einzigen Seite | Die echten Websites und Lern-Apps aller sieben Referenzen, von oben bis unten zum Durchscrollen: am Computer verteilt auf einer Fläche (Maus darauf, scrollen), am Handy als Szene | Zeigt die tatsächliche Arbeit |
 | Deko-Leiste, Fortschrittsbalken, magnetische Buttons, «Project Lab» | Entfernt | Weniger Ablenkung |
 
 ## Bedienung und Zugänglichkeit

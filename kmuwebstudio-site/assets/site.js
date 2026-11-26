@@ -169,10 +169,17 @@
     });
   }
 
-  /* ---------- Referenzen als Scroll-Szene (Startseite) ----------
-     Die Bühne bleibt stehen, während man scrollt. Jede Referenz hat
-     einen eigenen Scroll-Abschnitt; in ihm läuft die Seite einmal von
-     oben nach unten durch Browser- und Handyrahmen. */
+  /* ---------- Referenzen (Startseite) ----------
+     Dieselben Geräte in drei Darstellungen:
+     – Fläche (Maus, ab 1041 px Breite): Alle Referenzen liegen verteilt.
+       Fährt man mit der Maus auf eine und scrollt, läuft deren Seite von
+       oben nach unten durch Browser und Handy. Am Ende scrollt die Seite
+       normal weiter. Ohne echte Mausbewegung (die Seite schiebt eine
+       Referenz unter den stehenden Zeiger) bleibt alles ruhig.
+     – Szene (Touch, schmale Fenster): Die Bühne bleibt stehen, jede
+       Referenz hat einen eigenen Scroll-Abschnitt.
+     – Ruhig (ohne Skript, reduzierte Bewegung ohne Maus, sehr niedrige
+       Bildschirme): alle Geräte untereinander. */
 
   var showcase = $("[data-showcase]");
   if (showcase) {
@@ -192,6 +199,7 @@
       });
     });
     var scCount = scDevices.length;
+    var boardMode = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1041px)");
     var scMode = window.matchMedia("(prefers-reduced-motion: no-preference) and (min-height: 600px)");
     var scOn = false;
     var scActive = 0;
@@ -298,15 +306,188 @@
       });
     });
 
-    window.addEventListener("scroll", scUpdate, { passive: true });
-    window.addEventListener("resize", function () { if (scOn) { scMeasure(); scUpdate(); } });
-    scShots.forEach(function (shots) {
-      shots.forEach(function (shot) {
-        shot.img.addEventListener("load", function () { if (scOn) { scMeasure(); scUpdate(); } });
+    /* ---- Fläche: Maus auf eine Referenz, dann scrollen ---- */
+
+    var bdOn = false;
+    var bdLive = null;
+    var bdByKey = false;
+    var bdFrame = 0;
+    var bdX = -1;
+    var bdY = -1;
+    var bdCards = scDevices.map(function (device, i) {
+      return {
+        el: device,
+        desk: scShots[i][0],
+        phone: scShots[i][1],
+        thumb: $(".device__thumb b", device),
+        current: 0,
+        target: 0,
+        max: 0
+      };
+    });
+
+    var bdMeasure = function () {
+      bdCards.forEach(function (card) {
+        card.desk.max = Math.max(0, card.desk.img.offsetHeight - card.desk.view.clientHeight);
+        card.phone.max = Math.max(0, card.phone.img.offsetHeight - card.phone.view.clientHeight);
+        card.max = card.desk.max;
+        card.target = Math.min(card.target, card.max);
+      });
+    };
+
+    var bdPaint = function () {
+      var moving = false;
+      bdCards.forEach(function (card) {
+        var delta = card.target - card.current;
+        if (reduceMotion.matches || Math.abs(delta) < 0.5) card.current = card.target;
+        else { card.current += delta * 0.22; moving = true; }
+        var progress = card.max ? card.current / card.max : 0;
+        card.desk.img.style.transform = "translate3d(0," + (-card.current).toFixed(1) + "px,0)";
+        card.phone.img.style.transform = "translate3d(0," + (-progress * card.phone.max).toFixed(1) + "px,0)";
+        /* Der Balken ist 24 % so hoch wie seine Spur: Weg = 76/24 seiner Höhe. */
+        if (card.thumb) card.thumb.style.transform = "translateY(" + (progress * 316.67).toFixed(1) + "%)";
+      });
+      bdFrame = moving ? window.requestAnimationFrame(bdPaint) : 0;
+    };
+
+    var bdKick = function () {
+      if (!bdFrame) bdFrame = window.requestAnimationFrame(bdPaint);
+    };
+
+    var bdSetLive = function (card, byKey) {
+      bdByKey = Boolean(card && byKey);
+      if (card === bdLive) return;
+      if (bdLive) {
+        bdLive.el.classList.remove("is-live", "is-moved");
+        bdLive.target = 0; /* gleitet zurück an den Anfang */
+      }
+      bdLive = card;
+      scStage.classList.toggle("has-live", Boolean(card));
+      if (card) {
+        card.el.classList.add("is-live");
+        bdMeasure();
+      }
+      bdKick();
+    };
+
+    var bdCardAt = function (node) {
+      var el = node && node.closest ? node.closest(".device") : null;
+      var index = el ? scDevices.indexOf(el) : -1;
+      return index === -1 ? null : bdCards[index];
+    };
+
+    var bdScrollBy = function (card, amount) {
+      var next = Math.max(0, Math.min(card.max, card.target + amount));
+      if (next === card.target) return false;
+      card.target = next;
+      card.el.classList.add("is-moved");
+      bdKick();
+      return true;
+    };
+
+    scStage.addEventListener("pointermove", function (event) {
+      if (!bdOn || event.pointerType === "touch") return;
+      /* Nur echte Mausbewegung wählt eine Referenz. */
+      if (event.clientX === bdX && event.clientY === bdY) return;
+      bdX = event.clientX;
+      bdY = event.clientY;
+      bdSetLive(bdCardAt(event.target), false);
+    });
+
+    scStage.addEventListener("pointerleave", function (event) {
+      if (bdOn && !bdByKey && event.pointerType !== "touch") bdSetLive(null);
+    });
+
+    scStage.addEventListener("wheel", function (event) {
+      if (!bdOn || !bdLive || event.ctrlKey || !bdLive.el.contains(event.target)) return;
+      var dy = event.deltaY;
+      if (event.deltaMode === 1) dy *= 32;
+      else if (event.deltaMode === 2) dy *= window.innerHeight;
+      if (!dy) return;
+      /* Am Anfang oder am Ende der Referenz scrollt die Seite weiter. */
+      if (bdScrollBy(bdLive, dy)) event.preventDefault();
+    }, { passive: false });
+
+    /* Schiebt die Seite die Referenz unter dem Zeiger weg, ist sie nicht mehr gewählt. */
+    window.addEventListener("scroll", function () {
+      if (!bdOn || !bdLive || bdByKey) return;
+      var rect = bdLive.el.getBoundingClientRect();
+      if (bdX < rect.left || bdX > rect.right || bdY < rect.top || bdY > rect.bottom) bdSetLive(null);
+    }, { passive: true });
+
+    /* Tastatur: Referenz mit Tab wählen, mit Pfeilen, Bild auf/ab, Pos1 und Ende scrollen. */
+    bdCards.forEach(function (card) {
+      card.el.addEventListener("focus", function () {
+        if (bdOn && card.el.matches(":focus-visible")) bdSetLive(card, true);
+      });
+      card.el.addEventListener("blur", function () {
+        if (bdOn && bdByKey && bdLive === card) bdSetLive(null);
+      });
+      card.el.addEventListener("keydown", function (event) {
+        if (!bdOn || event.target !== card.el) return;
+        var page = card.desk.view.clientHeight * 0.9;
+        var steps = { ArrowDown: 80, ArrowUp: -80, PageDown: page, PageUp: -page, Home: -Infinity, End: Infinity };
+        if (!Object.prototype.hasOwnProperty.call(steps, event.key)) return;
+        event.preventDefault();
+        if (bdLive !== card) bdSetLive(card, true);
+        bdScrollBy(card, steps[event.key]);
       });
     });
-    scMode.addEventListener("change", function () { scEnable(scMode.matches); });
-    scEnable(scMode.matches);
+
+    var bdEnable = function (on) {
+      bdOn = on;
+      showcase.classList.toggle("is-board", on);
+      scDevices.forEach(function (device) {
+        if (on) {
+          device.tabIndex = 0;
+          device.setAttribute("aria-describedby", "showcase-hint");
+        } else {
+          device.removeAttribute("tabindex");
+          device.removeAttribute("aria-describedby");
+        }
+      });
+      if (on) {
+        bdMeasure();
+        return;
+      }
+      bdSetLive(null);
+      window.cancelAnimationFrame(bdFrame);
+      bdFrame = 0;
+      bdCards.forEach(function (card) {
+        card.current = card.target = 0;
+        card.desk.img.style.transform = "";
+        card.phone.img.style.transform = "";
+        if (card.thumb) card.thumb.style.transform = "";
+      });
+    };
+
+    /* ---- Darstellung wählen ---- */
+
+    var applyMode = function () {
+      var board = boardMode.matches;
+      var scene = !board && scMode.matches;
+      if (!board) bdEnable(false);
+      if (!scene) scEnable(false);
+      if (board) bdEnable(true);
+      if (scene) scEnable(true);
+    };
+
+    window.addEventListener("scroll", scUpdate, { passive: true });
+    window.addEventListener("resize", function () {
+      if (scOn) { scMeasure(); scUpdate(); }
+      if (bdOn) bdMeasure();
+    });
+    scShots.forEach(function (shots) {
+      shots.forEach(function (shot) {
+        shot.img.addEventListener("load", function () {
+          if (scOn) { scMeasure(); scUpdate(); }
+          if (bdOn) bdMeasure();
+        });
+      });
+    });
+    boardMode.addEventListener("change", applyMode);
+    scMode.addEventListener("change", applyMode);
+    applyMode();
   }
 
   /* ---------- Konfigurator ---------- */
