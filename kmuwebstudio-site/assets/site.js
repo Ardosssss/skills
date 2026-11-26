@@ -125,18 +125,22 @@
 
   /* ---------- Referenzen ---------- */
 
-  var references = {
-    swisscarpoint: { domain: "swisscarpoint.ch", url: "https://swisscarpoint.ch" },
-    logistikexperte: { domain: "logistikexperte.ch", url: "https://logistikexperte.ch" },
-    selimi: { domain: "selimi.ch", url: "https://selimi.ch" }
-  };
-
   var tablist = $(".ref-tabs");
   if (tablist) {
     var tabs = $$("[role='tab']", tablist);
+    var refNote = $("[data-ref-note]");
+
+    /* In der waagrechten Reihe (Tablet, Handy) die gewählte Referenz ganz zeigen */
+    var revealTab = function (tab) {
+      if (tablist.scrollWidth <= tablist.clientWidth) return;
+      var pad = parseFloat(window.getComputedStyle(tablist).paddingLeft) || 0;
+      var box = tablist.getBoundingClientRect();
+      var rect = tab.getBoundingClientRect();
+      if (rect.left >= box.left + pad && rect.right <= box.right - pad) return;
+      tablist.scrollBy({ left: rect.left - box.left - pad, behavior: reduceMotion.matches ? "auto" : "smooth" });
+    };
 
     var selectTab = function (tab, focus) {
-      var ref = references[tab.getAttribute("data-ref")];
       tabs.forEach(function (other) {
         var selected = other === tab;
         other.setAttribute("aria-selected", String(selected));
@@ -144,11 +148,12 @@
         var panel = document.getElementById(other.getAttribute("aria-controls"));
         if (panel) panel.classList.toggle("is-active", selected);
       });
-      if (ref) {
-        $("[data-ref-domain]").textContent = ref.domain;
-        $("[data-ref-link]").href = ref.url;
-      }
-      if (focus) tab.focus();
+      var domain = tab.getAttribute("data-domain");
+      $("[data-ref-domain]").textContent = domain;
+      $("[data-ref-link]").href = "https://" + domain;
+      if (refNote) refNote.textContent = tab.getAttribute("data-note");
+      if (focus) tab.focus({ preventScroll: true });
+      revealTab(tab);
     };
 
     tabs.forEach(function (tab, index) {
@@ -178,6 +183,8 @@
     var scLink = $("[data-showcase-link]", showcase);
     var scDomain = $("[data-showcase-domain]", showcase);
     var scCaption = $("[data-showcase-caption]", showcase);
+    var scNum = $("[data-showcase-num]", showcase);
+    var scName = $("[data-showcase-name]", showcase);
     var scBars = scItems.map(function (item) { return $(".showcase__bar b", item); });
     var scShots = scDevices.map(function (device) {
       return $$(".view", device).map(function (view) {
@@ -202,6 +209,8 @@
       scLink.href = "https://" + item.getAttribute("data-domain");
       scDomain.textContent = item.getAttribute("data-domain");
       scCaption.textContent = item.getAttribute("data-caption");
+      if (scNum) scNum.textContent = item.getAttribute("data-num");
+      if (scName) scName.textContent = item.getAttribute("data-name");
     };
 
     var scMeasure = function () {
@@ -280,7 +289,7 @@
     scItems.forEach(function (item, i) {
       item.addEventListener("click", function () {
         if (!scOn) {
-          scDevices[i].scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "center" });
+          scDevices[i].scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
           return;
         }
         var rect = showcase.getBoundingClientRect();

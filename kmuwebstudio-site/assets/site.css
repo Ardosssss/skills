@@ -1101,7 +1101,7 @@ h2.display {
 
 .ref-tabs {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .ref-tab {
@@ -1109,7 +1109,7 @@ h2.display {
   display: grid;
   gap: 4px;
   width: 100%;
-  padding: 18px 20px 18px 24px;
+  padding: 12px 18px 13px 22px;
   border-radius: var(--radius-sm);
   background: #ffffff09;
   border: 1px solid #ffffff1f;
@@ -1128,8 +1128,8 @@ h2.display {
   content: "";
   position: absolute;
   left: -1px;
-  top: 18px;
-  bottom: 18px;
+  top: 14px;
+  bottom: 14px;
   width: 3px;
   border-radius: 3px;
   background: var(--cyan);
@@ -1148,18 +1148,12 @@ h2.display {
 
 .ref-tab strong {
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 600;
   line-height: 1.15;
   text-transform: uppercase;
   color: var(--on-dark-soft);
   transition: color 220ms ease;
-}
-
-.ref-tab span {
-  font-size: 15px;
-  line-height: 1.4;
-  color: var(--on-dark-mute);
 }
 
 .ref-tab[aria-selected="true"] {
@@ -1179,10 +1173,6 @@ h2.display {
   color: #fff;
 }
 
-.ref-tab[aria-selected="true"] span {
-  color: var(--on-dark-soft);
-}
-
 @media (hover: hover) and (pointer: fine) {
   .ref-tab:not([aria-selected="true"]):hover {
     background: #ffffff14;
@@ -1194,8 +1184,15 @@ h2.display {
   }
 }
 
+.ref-note {
+  margin-top: 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--on-dark-soft);
+}
+
 .refs__link {
-  margin-top: 28px;
+  margin-top: 6px;
 }
 
 .stage {
@@ -2432,7 +2429,26 @@ h2.display {
   }
 
   .ref-tabs {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    gap: 8px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 6px var(--gutter);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .ref-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ref-tab {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 176px;
+    scroll-snap-align: start;
   }
 
   .steps {
@@ -2553,19 +2569,9 @@ h2.display {
     bottom: 20px;
   }
 
-  .cards,
-  .ref-tabs {
+  .cards {
     grid-template-columns: minmax(0, 1fr);
     gap: 14px;
-  }
-
-  .ref-tabs {
-    gap: 8px;
-  }
-
-  /* Geräte-Ansicht zuerst, Auswahl direkt darunter */
-  .stage {
-    order: -1;
   }
 
   .card {
@@ -2638,11 +2644,12 @@ h2.display {
   }
 
   .ref-tab {
-    padding: 14px 16px 14px 20px;
+    min-width: 160px;
+    padding: 11px 14px 12px 18px;
   }
 
   .ref-tab strong {
-    font-size: 21px;
+    font-size: 19px;
   }
 
   .browser {
@@ -3281,9 +3288,11 @@ html:has(.anfrage[open]) {
 
 /* ==========================================================
    Referenzen als Scroll-Szene (Startseite)
-   Ohne JavaScript oder bei reduzierter Bewegung: drei Geräte
-   untereinander. Mit .is-scrolly: fixierte Bühne, die Seiten
-   laufen beim Scrollen durch die Geräte.
+   Ohne JavaScript, bei reduzierter Bewegung oder auf sehr
+   niedrigen Bildschirmen: alle Geräte untereinander, jedes mit
+   Beschriftung. Mit .is-scrolly: fixierte Bühne, die Seiten
+   laufen beim Scrollen durch die Geräte. Die Zahl der
+   Referenzen steht als --sc-count an der Section.
    ========================================================== */
 
 .showcase {
@@ -3328,18 +3337,22 @@ html:has(.anfrage[open]) {
   font-size: 17px;
 }
 
+/* Liste: Nummer und Name, darunter der Fortschritt */
+
 .showcase__list {
   display: grid;
-  gap: 8px;
-  margin-top: 28px;
+  gap: 5px;
+  margin-top: 24px;
 }
 
 .showcase__item {
   position: relative;
   display: grid;
-  gap: 3px;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: baseline;
   width: 100%;
-  padding: 14px 18px 16px;
+  min-height: 44px;
+  padding: 9px 16px 10px 14px;
   border-radius: var(--radius-sm);
   background: #ffffff09;
   border: 1px solid #ffffff1f;
@@ -3354,38 +3367,38 @@ html:has(.anfrage[open]) {
   transform: scale(0.98);
 }
 
-.showcase__item small {
+.showcase__num {
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
   color: var(--on-dark-mute);
   transition: color 260ms ease;
 }
 
 .showcase__item strong {
+  min-width: 0;
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.2;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: var(--on-dark-soft);
   transition: color 260ms ease;
 }
 
-.showcase__item span {
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--on-dark-mute);
-}
-
 .showcase__bar {
+  grid-column: 1 / -1;
   display: none;
   height: 3px;
-  margin-top: 10px;
+  margin-top: 8px;
   border-radius: 3px;
   background: #ffffff1f;
   overflow: hidden;
+  transition: background-color 260ms ease;
 }
 
 .showcase__bar b {
@@ -3396,24 +3409,93 @@ html:has(.anfrage[open]) {
   transform-origin: left center;
 }
 
+/* Gerade gezeigte Referenz (nur in der Szene sichtbar) */
+
+.showcase__now {
+  display: none;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.showcase__now span {
+  flex: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: var(--on-dark-mute);
+}
+
+.showcase__now b {
+  font-weight: 600;
+  color: var(--cyan);
+}
+
+.showcase__now strong {
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5.4vw, 30px);
+  font-weight: 600;
+  line-height: 1.15;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .showcase__caption,
+.showcase__link,
 .showcase__cue {
   display: none;
 }
 
-.showcase__link {
-  margin-top: 22px;
-}
-
 .showcase__stage {
   display: grid;
-  gap: 48px;
+  gap: 64px;
   min-width: 0;
 }
 
 .device {
   position: relative;
   padding-bottom: 7%;
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+/* Beschriftung, solange die Geräte untereinander stehen */
+
+.device__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 16px;
+  margin-bottom: 18px;
+}
+
+.device__caption small {
+  flex-basis: 100%;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.device__caption strong {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.device__caption > span {
+  font-size: 15px;
+  color: var(--on-dark-soft);
+}
+
+.device__caption .text-link {
+  margin-left: auto;
 }
 
 .device .view {
@@ -3450,10 +3532,18 @@ html:has(.anfrage[open]) {
   }
 }
 
+/* Ohne Szene: Liste bleibt neben den Geräten stehen */
+@media (min-width: 1041px) {
+  .showcase:not(.is-scrolly) .showcase__copy {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+}
+
 /* ---------- fixierte Bühne ---------- */
 
 .showcase.is-scrolly {
-  height: calc(100svh + 3 * 120svh);
+  height: calc(100svh + var(--sc-count, 3) * 100svh);
   padding: 0;
 }
 
@@ -3474,21 +3564,34 @@ html:has(.anfrage[open]) {
   display: block;
 }
 
+.is-scrolly .showcase__caption {
+  display: block;
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--on-dark-soft);
+}
+
+.is-scrolly .showcase__link {
+  display: inline-flex;
+  margin-top: 6px;
+}
+
+.is-scrolly .device__caption {
+  display: none;
+}
+
 .is-scrolly .showcase__item[aria-current="true"] {
   background: #2563eb40;
   border-color: var(--blue);
 }
 
-.is-scrolly .showcase__item[aria-current="true"] small {
+.is-scrolly .showcase__item[aria-current="true"] .showcase__num {
   color: var(--cyan);
 }
 
 .is-scrolly .showcase__item[aria-current="true"] strong {
   color: #fff;
-}
-
-.is-scrolly .showcase__item[aria-current="true"] span {
-  color: var(--on-dark-soft);
 }
 
 .is-scrolly .showcase__stage {
@@ -3553,6 +3656,71 @@ html:has(.anfrage[open]) {
   opacity: 0;
 }
 
+/* Der Einleitungssatz nur, wenn neben der ganzen Liste Platz ist */
+@media (max-height: 939px) {
+  .is-scrolly .showcase__copy .lead {
+    display: none;
+  }
+}
+
+/* Schmal oder niedrig: statt der Namensliste eine Leiste mit einem
+   Abschnitt pro Referenz, darunter Nummer und Name der aktuellen. */
+@media (max-width: 1040px), (max-height: 759px) {
+  .is-scrolly .showcase__list {
+    display: flex;
+    gap: 6px;
+    margin-top: 18px;
+  }
+
+  .is-scrolly .showcase__list li {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .is-scrolly .showcase__item,
+  .is-scrolly .showcase__item[aria-current="true"] {
+    display: block;
+    min-height: 0;
+    padding: 20px 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .is-scrolly .showcase__num,
+  .is-scrolly .showcase__item strong {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .is-scrolly .showcase__bar {
+    margin-top: 0;
+    height: 4px;
+  }
+
+  .is-scrolly .showcase__item[aria-current="true"] .showcase__bar {
+    background: #ffffff38;
+  }
+
+  .is-scrolly .showcase__now {
+    display: flex;
+  }
+
+  .is-scrolly .showcase__caption {
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 1040px) and (hover: hover) and (pointer: fine), (max-height: 759px) and (hover: hover) and (pointer: fine) {
+  .is-scrolly .showcase__item:hover .showcase__bar {
+    background: #ffffff4d;
+  }
+}
+
 @media (max-width: 1040px) {
   .showcase__layout {
     grid-template-columns: minmax(0, 1fr);
@@ -3563,7 +3731,7 @@ html:has(.anfrage[open]) {
   }
 
   .showcase__list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   }
 
   /* fixierte Bühne: alles muss in eine Bildschirmhöhe passen */
@@ -3583,44 +3751,8 @@ html:has(.anfrage[open]) {
     display: none;
   }
 
-  .is-scrolly .showcase__list {
-    gap: 6px;
-    margin-top: 16px;
-  }
-
-  .is-scrolly .showcase__item {
-    padding: 10px 10px 12px;
-  }
-
-  .is-scrolly .showcase__item small,
-  .is-scrolly .showcase__item span {
-    display: none;
-  }
-
-  .is-scrolly .showcase__item strong {
-    font-size: clamp(13px, 3.5vw, 18px);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .is-scrolly .showcase__bar {
-    margin-top: 8px;
-  }
-
-  .is-scrolly .showcase__caption {
-    display: block;
-    margin-top: 12px;
-    font-size: 14px;
-    color: var(--on-dark-soft);
-  }
-
-  .is-scrolly .showcase__link {
-    margin-top: 4px;
-  }
-
   .is-scrolly .showcase__stage {
-    max-width: calc((100svh - var(--header-h) - 330px) * 1.5);
+    max-width: calc((100svh - var(--header-h) - 320px) * 1.5);
   }
 
   .is-scrolly .showcase__cue {
@@ -3633,12 +3765,16 @@ html:has(.anfrage[open]) {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .is-scrolly .showcase__list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .showcase__stage {
+    gap: 48px;
   }
 
-  .showcase__stage {
-    gap: 32px;
+  .device__caption strong {
+    font-size: 22px;
+  }
+
+  .device__caption .text-link {
+    margin-left: 0;
   }
 }
 
