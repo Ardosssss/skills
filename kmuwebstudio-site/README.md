@@ -6,14 +6,14 @@ Statische, überarbeitete Fassung von [kmuwebstudio.ch](https://kmuwebstudio.ch/
 
 | Datei | Inhalt |
 | --- | --- |
-| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen, Manifest, Abschluss |
-| `angebot.html` | Website-Paket mit Fixpreis und Leistungen, Konfigurator |
+| `index.html` | Startseite: Hero, Warum, Angebot in Kürze, Referenzen auf MacBook und iPhone, Manifest, Abschluss mit Laufband |
+| `angebot.html` | Website-Paket mit Fixpreis, «Im Paket» mit vier bewegten Erklärbildern, Konfigurator |
 | `ablauf.html` | Vier Schritte, häufige Fragen |
-| `referenzen.html` | Sieben Referenzen auf Desktop und Smartphone zum Umschalten |
+| `referenzen.html` | Sieben Referenzen in zwei Spalten: links vier Websites, rechts drei Lern-Apps, alle gleich gross |
 | `kontakt.html` | Anfrageformular, E-Mail-Adresse |
 | `impressum.html`, `datenschutz.html` | Rechtliche Seiten |
 | `assets/site.css` | Gesamtes Styling, Farbwerte als Variablen in `:root` |
-| `assets/site.js` | Menü, Video, Referenz-Auswahl, Konfigurator, FAQ, Anfrageformular |
+| `assets/site.js` | Menü, Video, Referenzen, Konfigurator, FAQ, Anfrageformular, Bewegungen |
 | `assets/brand/`, `assets/fonts/`, `assets/media/`, `assets/refs/` | Logo, Schriften, Hero-Bild und -Video, Bildschirmfotos der Referenzen |
 
 Keine Build-Tools nötig: Ordner auf einen beliebigen Static-Host legen. Lokal ansehen:
@@ -26,15 +26,17 @@ Kopfzeile, Fusszeile und Symbole stehen in jeder HTML-Datei. Wer dort etwas änd
 
 `assets/site.css` und `assets/site.js` sind mit einer Versionsnummer eingebunden (`site.css?v=…`). Nach einer Änderung an einer der beiden Dateien die Nummer in allen sieben Seiten durch einen neuen Wert ersetzen; sonst zeigen Browser, die die Seite schon kennen, noch die alte Fassung.
 
-## Referenzen auf der Startseite
+## Referenzen: MacBook und iPhone
 
-Alle sieben Referenzen liegen auf jedem Gerät verteilt auf einer Fläche: unterschiedlich gross, versetzt und leicht schräg, jede mit Browser, Handy und Beschriftung. Wie man durch eine Website scrollt, hängt vom Gerät ab; das Skript setzt dafür eine Klasse an `<section id="referenzen">`.
+Jede Referenz steht als MacBook mit einem iPhone daneben da, gebaut nur mit CSS: das MacBook mit schmalem schwarzem Rand, Notch, Menüleiste, Safari-Leiste mit den drei Punkten und der Adresse und einem Unterteil aus Aluminium; das iPhone mit Titanrahmen, Dynamic Island und Seitentasten. In beiden Geräten steckt ein langes Bildschirmfoto der echten Website.
+
+Startseite und Seite Referenzen verhalten sich gleich. Wie man durch eine Website scrollt, hängt vom Gerät ab; das Skript setzt dafür eine Klasse an die Section mit `data-showcase`.
 
 | Gerät | Verhalten |
 | --- | --- |
-| Computer mit Maus oder Trackpad (`.is-mouse`) | Fährt man mit der Maus auf eine Referenz, richtet sie sich auf, die anderen treten zurück, und «Scrollen» erscheint. Scrollt man jetzt, läuft genau diese Website durch Browser und Handy; die Seite selbst bleibt stehen. Am Ende der Referenz scrollt die Seite normal weiter. Ohne Klick. |
+| Computer mit Maus oder Trackpad (`.is-mouse`) | Fährt man mit der Maus auf eine Referenz, wird sie gross: Sie zoomt um die Stelle unter der Maus, liegt auf einer dunklen Karte, und die anderen treten zurück. «Scrollen» erscheint. Scrollt man jetzt, läuft genau diese Website durch MacBook und iPhone, im selben Tempo wie die Seite; die Seite selbst bleibt stehen. Am Ende der Referenz scrollt die Seite normal weiter. Ohne Klick. |
 | Handy und Tablet (`.is-touch`) | Jede Website läuft beim Vorbeiscrollen von oben nach unten durch: oben, wenn die Referenz unten ganz hereingekommen ist, am Ende, wenn sie oben ankommt. |
-| «Bewegung reduzieren» auf Handy und Tablet, ohne JavaScript | Die Fläche steht ruhig; jede Referenz zeigt den Anfang ihrer Website. |
+| «Bewegung reduzieren» auf Handy und Tablet, ohne JavaScript | Die Referenzen stehen ruhig; jede zeigt den Anfang ihrer Website. |
 
 | Referenz | Adresse | Bezeichnung |
 | --- | --- | --- |
@@ -46,25 +48,26 @@ Alle sieben Referenzen liegen auf jedem Gerät verteilt auf einer Fläche: unter
 | HKBd Coach | hkbd.live | Lern-App · Ruhig, schlicht, fokussiert |
 | QV-Assistent | qv-assistent.ch | QV-Vorbereitung · Warm, farbig, motivierend |
 
-Auf der Startseite stehen die Kategorie und der Name; die Bezeichnung mit dem Stil zeigt die Seite `referenzen.html`.
+Auf der Startseite stehen die Kategorie und der Name; die Seite `referenzen.html` zeigt zusätzlich die Bezeichnung mit dem Stil.
 
 ### Mit Maus
 
+- **Gross zeigen:** Kleine Referenzen werden stärker vergrössert als grosse (höchstens 1,8-fach). Die grosse Referenz bleibt immer innerhalb der Fläche und zwischen Kopfzeile und unterem Bildschirmrand; die Stelle unter der Maus bleibt dabei bedeckt.
 - **Kein Hängenbleiben:** Eine Referenz wird nur gewählt, wenn sich die Maus wirklich bewegt. Schiebt das Scrollen der Seite eine Referenz unter den stehenden Mauszeiger, scrollt die Seite einfach weiter. Fährt die Seite die gewählte Referenz unter dem Zeiger weg, ist sie nicht mehr gewählt und gleitet zurück an den Anfang.
 - **Tastatur:** Mit der Tabulatortaste lässt sich jede Referenz wählen; mit den Pfeiltasten, Bild auf/ab, Pos1 und Ende scrollt man durch sie.
-- Bei «Bewegung reduzieren» gibt es keine Schräglage und kein Nachgleiten; das Scrollen durch die Referenz bleibt, weil es direkt an der Hand des Besuchers hängt.
+- Bei «Bewegung reduzieren» gibt es keinen Zoom, keine Schräglage und kein Nachgleiten; das Scrollen durch die Referenz bleibt, weil es direkt an der Hand des Besuchers hängt.
 
 ### Anordnung
 
-- **Ab 1041 px Breite:** zwölf Spalten. Die Plätze stehen in `assets/site.css` bei `.device:nth-child(1)` bis `(7)`: Spalten (`grid-column`), Versatz nach unten (`margin-top`) und Schräglage (`--tilt`).
-- **721 bis 1040 px:** zwei versetzte Spalten, die letzte Referenz mittig.
-- **Handy:** eine Spalte, abwechselnd links und rechts versetzt.
+- **Startseite ab 1041 px Breite:** zwölf Spalten, unterschiedlich gross, versetzt und leicht schräg. Die Plätze stehen in `assets/site.css` bei `.showcase__board > .device:nth-child(1)` bis `(7)`: Spalten (`grid-column`), Versatz nach unten (`margin-top`) und Schräglage (`--tilt`).
+- **Startseite 721 bis 1040 px:** zwei versetzte Spalten, die letzte Referenz mittig.
+- **Startseite am Handy:** eine Spalte, abwechselnd links und rechts versetzt.
+- **Seite Referenzen ab 721 px:** zwei Spalten. Links «Websites» (Swiss Carpoint, Logistikexperte, Sadri Selimi, Ardit Selimi), rechts «Lern-Apps» (HKBa Coach, HKBd Coach, QV-Assistent). Alle sind gleich gross; die drei rechts verteilen sich gleichmässig auf die Höhe der vier links. Schmaler: eine Spalte.
 
 ### Bilder und weitere Referenzen
 
-- Die Bilder sind lange Bildschirmfotos: `assets/refs/<name>-desktop-lang.webp` (1200 px breit, aufgenommen mit 1440 px Fensterbreite) und `<name>-mobile-lang.webp` (480 px breit, aufgenommen mit 390 px). Ersetzt man ein Bild, im `<img>` in `index.html` Breite und Höhe anpassen.
-- Eine weitere Referenz braucht in `index.html` ein Gerät (`.device`) in `.showcase__board`, den angepassten Satz «Sieben echte KWS-Referenzen …» und in `assets/site.css` einen Platz für grosse Bildschirme (`.device:nth-child(8)`). In `referenzen.html` kommen ein Knopf `.ref-tab` und ein `.stage__panel` dazu (Bilder `<name>-desktop.webp` 1440 × 900 und `<name>-mobile.webp` 585 × 1266).
-- Die Seite `referenzen.html` zeigt dieselben Referenzen zum direkten Umschalten per Klick; am Handy als Reihe zum Wischen.
+- Die Bilder sind lange Bildschirmfotos: `assets/refs/<name>-desktop-lang.webp` (1200 px breit, aufgenommen mit 1440 px Fensterbreite) und `<name>-mobile-lang.webp` (480 px breit, aufgenommen mit 390 px). Ersetzt man ein Bild, in beiden Seiten im `<img>` Breite und Höhe anpassen.
+- Eine weitere Referenz braucht ein Gerät (`.device`, am einfachsten ein bestehendes kopieren) in `index.html` in `.showcase__board` und in `referenzen.html` in der passenden Spalte, den angepassten Satz «Sieben echte KWS-Referenzen …», auf der Startseite einen Platz für grosse Bildschirme (`.showcase__board > .device:nth-child(8)` in `assets/site.css`) und den Namen im Laufband am Ende der Startseite (`.marquee__track`, zweimal).
 
 ### Wie die Aufnahmen entstanden sind
 
@@ -72,21 +75,27 @@ Auf der Startseite stehen die Kategorie und der Name; die Bezeichnung mit dem St
 - **HKBd Coach:** Die Startseite allein ist nur eine Bildschirmhöhe hoch. Darunter folgt deshalb die Seite «Leistungsziele», wie auf ardit.ch.
 - **HKBa Coach, QV-Assistent** und die drei älteren Referenzen: Startseite von oben, am Desktop bis 5400 px, am Handy bis 3800 px Höhe gekürzt.
 
-## Feinbewegungen
+## Bewegung
 
-Angeregt von den Elementen auf [uiverse.io](https://uiverse.io/elements), aber eigener Code und bewusst wenige. Jede Bewegung gibt eine Rückmeldung an einer Stelle, an der etwas passiert; nichts bewegt sich dauerhaft.
+Angeregt von [uiverse.io](https://uiverse.io/elements) (Buttons, Karten, Eingaben), [prompt-motion.com](https://prompt-motion.com/) (bewegte Typografie) und den Produktseiten von Apple (Geräte, Zoom, Überschriften, die Wort für Wort aufsteigen). Eigener Code, ohne Bibliotheken; animiert werden nur `transform`, `opacity` und Strichlängen. [refs.gallery](https://refs.gallery/category/motion) liess sich nicht laden: Die Seite blockiert automatische Browser mit einer Prüfung.
 
-| Stelle | Bewegung | Zweck |
-| --- | --- | --- |
-| Blaue Buttons (Maus darüber) | Ein Lichtschein zieht einmal durch, der Pfeil fliegt hinaus und neu herein | Zeigt: Hier geht es weiter |
-| Häkchen in Listen (Angebot, Hero, Abschluss) | Zeichnen sich nacheinander, wenn die Liste erscheint | Lenkt den Blick kurz auf die Leistungen |
-| Seitenwahl im Konfigurator | Häkchen zeichnet sich beim Auswählen | Bestätigt die Auswahl |
-| Schritte im Ablauf | Jede Nummer sendet einen Ring aus, sobald die Linie sie erreicht | Macht die Reihenfolge sichtbar |
-| Preiskarte und Kontaktkarte (Maus darüber) | Ein weicher Lichtpunkt folgt dem Mauszeiger | Hebt die beiden wichtigsten Karten hervor |
-| «Kopieren» | Symbol blendet weich zum Häkchen über | Bestätigt das Kopieren |
-| Formular | Drehender Ring beim Senden, Fehlerhinweise gleiten ein, Häkchen zeichnet sich beim Erfolg | Zeigt den Zustand |
+| Stelle | Bewegung |
+| --- | --- |
+| Wechsel zwischen den Seiten | Weiche Überblendung (View Transitions; Browser ohne Unterstützung wechseln wie gewohnt) |
+| Grosse Überschriften | Die Wörter steigen nacheinander auf, wenn die Überschrift ins Bild kommt |
+| Kopfzeile | Ein dünner Balken zeigt, wie weit man gescrollt hat |
+| Hero der Startseite | Das Bild sinkt beim Scrollen langsamer, der Text hebt sich und blendet aus, die Preiskarte schwebt mit |
+| Buttons (Maus) | Ziehen leicht zur Maus; bei den blauen zieht ein Lichtschein durch, und der Pfeil fliegt hinaus und neu herein |
+| Karten (Maus) | Neigen sich zur Maus, mit einem Glanz an der Stelle des Zeigers |
+| Preiskarte | Ein Lichtrand läuft langsam um die Karte; ein weicher Lichtpunkt folgt der Maus |
+| Referenzen | Fliegen gestaffelt ein, die gewählte wird gross, ein Lichtschein folgt der Maus über die Fläche |
+| Angebot, «Im Paket» | Vier kleine Filme: eine Farbe wird gewählt, vier Seiten fächern auf, eine Seite passt sich von Desktop über Tablet zum Smartphone an, eine Anfrage wird gesendet. Sie laufen nur, solange sie zu sehen sind |
+| Abschluss der Startseite | Laufband mit den Namen der Referenzen; runder Button «Anfrage senden» mit drehendem Text-Ring, der zur Maus zieht |
+| Häkchen in Listen, Konfigurator | Zeichnen sich nacheinander, wenn die Liste erscheint oder etwas gewählt wird |
+| Schritte im Ablauf | Jede Nummer sendet einen Ring aus, sobald die Linie sie erreicht |
+| «Kopieren», Formular | Symbol blendet zum Häkchen über; drehender Ring beim Senden, Fehlerhinweise gleiten ein, Häkchen beim Erfolg |
 
-Bewusst **nicht** übernommen: leuchtende Neon-Buttons und Farbverläufe (verändern die Farben), schwebende Feldbeschriftungen (schlechter lesbar), hochzählende Preiszahl (lenkt beim Lesen ab), kippende 3D-Karten und ein Lade-Bildschirm. Bei «Bewegung reduzieren» entfallen diese Bewegungen oder werden zu einer einfachen Überblendung; Hover-Effekte gibt es nur auf Geräten mit Maus.
+Bei «Bewegung reduzieren» entfallen diese Bewegungen: Überschriften, Bilder und Karten stehen sofort da, Laufband und Ring stehen still. Effekte mit der Maus gibt es nur auf Geräten mit Maus. Ohne JavaScript ist alles sichtbar.
 
 ## Anfrageformular
 
@@ -126,10 +135,14 @@ Das Formular sendet die Felder `name`, `email`, `phone`, `message`, `subject`, `
 Diese Sätze gab es auf der bisherigen Seite nicht:
 
 - Anfragefenster und Kontaktseite: «Unverbindlich anfragen», «Deine Anfrage», «Erzähl uns kurz von Deinem Projekt. Wir melden uns persönlich bei Dir.», die Feldnamen, Fehlermeldungen und «Danke für Deine Anfrage. Deine Nachricht ist bei uns angekommen. Wir melden uns persönlich bei Dir.»
+- Kontaktseite: «Kontakt» und «Deine neue Website beginnt hier.» (statt «Bereit für Deinen neuen Auftritt? Lass uns Deine Website starten.»)
+- Abschluss der Startseite: «Dein Projekt», «Und jetzt: Deine Website.», «Erzähl uns in ein paar Sätzen, was Dein KMU braucht. Wir melden uns persönlich bei Dir.», «Lieber direkt?» und der Ring «Projekt starten · CHF 500.– Fixpreis · Persönlich».
+- Angebot, «Im Paket»: «Das steckt im Fixpreis.», «Jede KWS-Website bringt diese vier Dinge mit.», die Titel «Eigenes Design», «Bis 4 Seiten», «Jedes Gerät», «Klarer Kontakt» und die Sätze darunter (der Satz bei «Jedes Gerät» stammt von der bisherigen Seite).
+- Referenzen-Seite: «Sieben echte KWS-Referenzen, vier Websites und drei Lern-Apps, jede auf MacBook und iPhone.», die Spaltentitel «Websites» und «Lern-Apps», «Deine Website als nächste Referenz?»
+- Referenzen allgemein: die Bezeichnungen der vier neuen Referenzen (z. B. «KI-Lerncoach · Hell, motivierend, interaktiv»), «Sieben echte KWS-Referenzen, jede zum Durchscrollen.», die Hinweise «Fahre mit der Maus auf eine Website und scrolle durch sie.» (Computer) und «Beim Scrollen läuft jede Website von oben nach unten durch.» (Handy) sowie «Scrollen» auf der gewählten Referenz.
 - Ablauf-Seite: «Noch etwas offen? Schreib uns – wir antworten persönlich.»
 - Datenschutz, Abschnitt 4: ein Absatz zum Anfrageformular.
 - Links zwischen den Seiten: «Angebot ansehen», «Anfrage senden».
-- Referenzen: die Bezeichnungen der vier neuen Referenzen (z. B. «KI-Lerncoach · Hell, motivierend, interaktiv»), «Sieben echte KWS-Referenzen, jede zum Durchscrollen.», die Hinweise «Fahre mit der Maus über eine Website und scrolle.» (Computer) und «Beim Scrollen läuft jede Website von oben nach unten durch.» (Handy) sowie «Scrollen» auf der gewählten Referenz.
 
 ## Was sich gegenüber der Live-Seite geändert hat
 
@@ -142,9 +155,10 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 | Beschriftungen in 9–11 px, Fliesstext 13–14 px | Mindestens 12 px für Beschriftungen, 16–19 px für Fliesstext | Lesbarkeit, besonders auf dem Handy |
 | Preis im Hero als kleiner, drehender Kreis | Klare Preiskarte, die zum Angebot führt | Der Fixpreis ist das stärkste Argument |
 | Karten mit Pfeil, der wie ein Link aussieht, aber nichts tut | Karten mit Symbol | Keine falschen Klickziele |
-| Schwebende Module überlagern die Preiskarte | Module als geordnetes Raster | Der Preis ist ungestört lesbar |
-| Referenzen: nachgebaute Attrappen einer einzigen Seite | Die echten Websites und Lern-Apps aller sieben Referenzen verteilt auf einer Fläche, von oben bis unten zum Durchscrollen (am Computer: Maus darauf und scrollen) | Zeigt die tatsächliche Arbeit |
-| Deko-Leiste, Fortschrittsbalken, magnetische Buttons, «Project Lab» | Entfernt | Weniger Ablenkung |
+| Schwebende Module (Design, Seiten, Mobil, Kontakt) überlagern die Preiskarte | Eigener Abschnitt «Im Paket» auf der Angebotsseite: vier Karten mit kleinen bewegten Erklärbildern | Der Preis ist ungestört lesbar, die Leistungen werden anschaulich |
+| Referenzen: nachgebaute Attrappen einer einzigen Seite | Die echten Websites und Lern-Apps aller sieben Referenzen auf MacBook und iPhone, von oben bis unten zum Durchscrollen (am Computer: Maus darauf, sie wird gross, dann scrollen) | Zeigt die tatsächliche Arbeit |
+| Kontaktbereich «Bereit für Deinen neuen Auftritt?» | Jede Seite endet eigen: Startseite mit Laufband und rundem Anfrage-Button, Referenzen mit «Deine Website als nächste Referenz?», Angebot mit dem Konfigurator, Ablauf mit den Fragen | Derselbe Abschluss auf jeder Seite nutzt sich ab |
+| Deko-Leiste, «Project Lab» | Entfernt | Weniger Ablenkung |
 
 ## Bedienung und Zugänglichkeit
 

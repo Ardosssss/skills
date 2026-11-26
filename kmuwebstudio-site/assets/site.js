@@ -123,67 +123,22 @@
     revealItems.forEach(function (item) { item.classList.add("is-in"); });
   }
 
-  /* ---------- Referenzen ---------- */
-
-  var tablist = $(".ref-tabs");
-  if (tablist) {
-    var tabs = $$("[role='tab']", tablist);
-    var refNote = $("[data-ref-note]");
-
-    /* In der waagrechten Reihe (Tablet, Handy) die gewählte Referenz ganz zeigen */
-    var revealTab = function (tab) {
-      if (tablist.scrollWidth <= tablist.clientWidth) return;
-      var pad = parseFloat(window.getComputedStyle(tablist).paddingLeft) || 0;
-      var box = tablist.getBoundingClientRect();
-      var rect = tab.getBoundingClientRect();
-      if (rect.left >= box.left + pad && rect.right <= box.right - pad) return;
-      tablist.scrollBy({ left: rect.left - box.left - pad, behavior: reduceMotion.matches ? "auto" : "smooth" });
-    };
-
-    var selectTab = function (tab, focus) {
-      tabs.forEach(function (other) {
-        var selected = other === tab;
-        other.setAttribute("aria-selected", String(selected));
-        other.tabIndex = selected ? 0 : -1;
-        var panel = document.getElementById(other.getAttribute("aria-controls"));
-        if (panel) panel.classList.toggle("is-active", selected);
-      });
-      var domain = tab.getAttribute("data-domain");
-      $("[data-ref-domain]").textContent = domain;
-      $("[data-ref-link]").href = "https://" + domain;
-      if (refNote) refNote.textContent = tab.getAttribute("data-note");
-      if (focus) tab.focus({ preventScroll: true });
-      revealTab(tab);
-    };
-
-    tabs.forEach(function (tab, index) {
-      tab.addEventListener("click", function () { selectTab(tab, false); });
-      tab.addEventListener("keydown", function (event) {
-        var next = null;
-        if (event.key === "ArrowRight" || event.key === "ArrowDown") next = tabs[(index + 1) % tabs.length];
-        if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = tabs[(index - 1 + tabs.length) % tabs.length];
-        if (event.key === "Home") next = tabs[0];
-        if (event.key === "End") next = tabs[tabs.length - 1];
-        if (next) { event.preventDefault(); selectTab(next, true); }
-      });
-    });
-  }
-
-  /* ---------- Referenzen (Startseite) ----------
-     Alle Referenzen liegen verteilt auf einer Fläche.
-     – Mit Maus: Maus auf eine Referenz und scrollen, dann läuft deren
-       Seite von oben nach unten durch Browser und Handy; die Seite selbst
-       bleibt stehen. Am Ende der Referenz scrollt die Seite weiter. Gewählt
-       wird nur durch echte Mausbewegung: Schiebt das Scrollen eine Referenz
-       unter den stehenden Zeiger, scrollt die Seite einfach weiter.
+  /* ---------- Referenzen (Startseite und Seite Referenzen) ----------
+     MacBook und iPhone je Referenz.
+     – Mit Maus: Maus auf eine Referenz, sie wird gross; dann scrollen,
+       und ihre Seite läuft von oben nach unten durch MacBook und iPhone.
+       Die Seite selbst bleibt stehen; am Ende scrollt sie weiter.
+       Gewählt wird nur durch echte Mausbewegung: Schiebt das Scrollen
+       eine Referenz unter den stehenden Zeiger, scrollt die Seite weiter.
      – Ohne Maus (Handy, Tablet): Jede Seite läuft beim Vorbeiscrollen
        durch. Bei «Bewegung reduzieren» bleibt sie stehen. */
 
-  var showcase = $("[data-showcase]");
-  if (showcase) {
+  var mouseQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var siteHeader = $(".site-header");
+
+  $$("[data-showcase]").forEach(function (showcase) {
     var board = $("[data-showcase-stage]", showcase);
     var devices = $$(".device", board);
-    var mouseQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
     var clamp01 = function (value) { return Math.max(0, Math.min(1, value)); };
     var shot = function (view) { return { view: view, img: $("img", view), max: 0 }; };
     var cards = devices.map(function (device) {
@@ -238,7 +193,44 @@
       if (!frame) frame = window.requestAnimationFrame(paint);
     };
 
-    /* ---- Mit Maus ---- */
+    /* ---- Gross zeigen: Zoom um einen Punkt in der Karte ----
+       Liegt der Ursprung in der Karte, deckt die grosse Karte den Zeiger
+       weiter ab. Der Punkt wird so gewählt, dass die grosse Karte in der
+       Fläche und im sichtbaren Bereich bleibt, möglichst beim Zeiger. */
+    /* Lage ohne transform, damit eine laufende Animation nicht mitzählt */
+    var layoutBox = function (el) {
+      var x = 0;
+      var y = 0;
+      for (var node = el; node; node = node.offsetParent) {
+        x += node.offsetLeft;
+        y += node.offsetTop;
+      }
+      return { left: x - window.scrollX, top: y - window.scrollY, width: el.offsetWidth, height: el.offsetHeight };
+    };
+
+    var zoom = function (card, px, py) {
+      var rect = layoutBox(card.el);
+      var area = board.getBoundingClientRect();
+      var section = showcase.getBoundingClientRect();
+      var top = Math.max((siteHeader ? siteHeader.getBoundingClientRect().bottom : 0) + 20, section.top + 20);
+      var bottom = Math.min(window.innerHeight - 20, section.bottom - 20);
+      var want = Math.max(rect.width * 1.14, Math.min(area.width * 0.62, 860));
+      /* nie breiter als die Fläche und nie höher als der sichtbare Bereich */
+      var scale = Math.max(1.04, Math.min(1.8, want / rect.width, area.width / rect.width, (bottom - top) / rect.height));
+      var axis = function (start, size, low, high, pointer) {
+        var room = scale - 1;
+        var from = (start + scale * size - high) / room;
+        var to = (start - low) / room;
+        /* Passt es nicht ganz, ragt die Karte auf beiden Seiten gleich weit hinaus. */
+        var origin = from <= to ? Math.max(from, Math.min(to, pointer - start)) : (from + to) / 2;
+        return Math.max(0, Math.min(size, origin));
+      };
+      var ox = axis(rect.left, rect.width, area.left, area.right, px == null ? rect.left + rect.width / 2 : px);
+      var oy = axis(rect.top, rect.height, top, bottom, py == null ? rect.top + rect.height / 2 : py);
+      card.zoom = scale;
+      card.el.style.transformOrigin = ox.toFixed(1) + "px " + oy.toFixed(1) + "px";
+      card.el.style.setProperty("--zoom", scale.toFixed(3));
+    };
 
     var setLive = function (card, byKey) {
       liveByKey = Boolean(card && byKey);
@@ -250,8 +242,9 @@
       live = card;
       board.classList.toggle("has-live", Boolean(card));
       if (card) {
-        card.el.classList.add("is-live");
         measure();
+        if (byKey) zoom(card); else zoom(card, lastX, lastY);
+        card.el.classList.add("is-live");
       }
       kick();
     };
@@ -289,9 +282,27 @@
       if (event.deltaMode === 1) dy *= 32;
       else if (event.deltaMode === 2) dy *= window.innerHeight;
       if (!dy) return;
-      /* Am Anfang oder am Ende der Referenz scrollt die Seite weiter. */
-      if (scrollCard(live, dy)) event.preventDefault();
+      /* Am Anfang oder am Ende der Referenz scrollt die Seite weiter.
+         Die Referenz ist vergrössert: geteilt durch den Zoom läuft sie so schnell wie die Seite. */
+      if (scrollCard(live, dy / (live.zoom || 1))) event.preventDefault();
     }, { passive: false });
+
+    /* Lichtfleck folgt der Maus */
+    var lightFrame = 0;
+    showcase.addEventListener("pointermove", function (event) {
+      if (mode !== "mouse" || reduceMotion.matches) return;
+      var x = event.clientX;
+      var y = event.clientY;
+      if (lightFrame) return;
+      lightFrame = window.requestAnimationFrame(function () {
+        lightFrame = 0;
+        var rect = showcase.getBoundingClientRect();
+        showcase.style.setProperty("--sx", (x - rect.left).toFixed(0) + "px");
+        showcase.style.setProperty("--sy", (y - rect.top).toFixed(0) + "px");
+        showcase.classList.add("is-lit");
+      });
+    });
+    showcase.addEventListener("pointerleave", function () { showcase.classList.remove("is-lit"); });
 
     /* Tastatur: Referenz mit Tab wählen, mit Pfeilen, Bild auf/ab, Pos1 und Ende scrollen. */
     cards.forEach(function (card) {
@@ -321,7 +332,7 @@
       cards.forEach(function (card) {
         var rect = card.el.getBoundingClientRect();
         if (rect.bottom < -80 || rect.top > height + 80) return;
-        /* 0, wenn die Referenz ganz unten hereingekommen ist; 1, wenn sie oben ankommt. */
+        /* 0, wenn die Referenz unten ganz hereingekommen ist; 1, wenn sie oben ankommt. */
         var range = Math.max(1, height - rect.height);
         card.target = card.current = clamp01((height - rect.height - rect.top) / range) * card.max;
         apply(card);
@@ -340,6 +351,25 @@
       if (lastX < rect.left || lastX > rect.right || lastY < rect.top || lastY > rect.bottom) setLive(null);
     }, { passive: true });
 
+    /* ---- Einflug: Geräte steigen gestaffelt auf, wenn sie ins Bild kommen ---- */
+    if ("IntersectionObserver" in window) {
+      var arrive = new IntersectionObserver(function (entries) {
+        var wave = 0;
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          el.style.setProperty("--d", String(wave));
+          wave += 1;
+          el.classList.add("is-in");
+          arrive.unobserve(el);
+          window.setTimeout(function () { el.classList.add("is-settled"); }, 900 + wave * 90);
+        });
+      }, { rootMargin: "0px 0px -6% 0px", threshold: 0.12 });
+      devices.forEach(function (device) { arrive.observe(device); });
+    } else {
+      devices.forEach(function (device) { device.classList.add("is-in", "is-settled"); });
+    }
+
     /* ---- Darstellung wählen ---- */
 
     var applyMode = function () {
@@ -352,7 +382,7 @@
       devices.forEach(function (device) {
         if (mode === "mouse") {
           device.tabIndex = 0;
-          device.setAttribute("aria-describedby", "showcase-hint");
+          device.setAttribute("aria-describedby", showcase.getAttribute("data-hint") || "");
         } else {
           device.removeAttribute("tabindex");
           device.removeAttribute("aria-describedby");
@@ -379,7 +409,7 @@
     mouseQuery.addEventListener("change", applyMode);
     reduceMotion.addEventListener("change", applyMode);
     applyMode();
-  }
+  });
 
   /* ---------- Konfigurator ---------- */
 
@@ -493,10 +523,166 @@
     });
   });
 
+  /* ==========================================================
+     Motion: Überschriften, Fortschritt, Magnet-Buttons, Hero,
+     Neigung, Erklärbilder. Alles aus bei «Bewegung reduzieren»,
+     Maus-Effekte nur mit Maus.
+     ========================================================== */
+
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  /* ---------- Überschriften Wort für Wort ---------- */
+
+  var splitWords = function (heading) {
+    var count = 0;
+    var walk = function (node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var fragment = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { fragment.appendChild(document.createTextNode(part)); return; }
+            var outer = document.createElement("span");
+            var inner = document.createElement("span");
+            outer.className = "word";
+            inner.textContent = part;
+            inner.style.setProperty("--w", String(count));
+            count += 1;
+            outer.appendChild(inner);
+            fragment.appendChild(outer);
+          });
+          node.replaceChild(fragment, child);
+        } else if (child.nodeType === 1 && child.tagName !== "BR") {
+          walk(child);
+        }
+      });
+    };
+    walk(heading);
+    heading.classList.add("is-split");
+  };
+
+  var headings = $$(".display").filter(function (heading) {
+    /* Wörter mit weichem Trennstrich (Web­auftritt) nicht zerlegen */
+    return heading.textContent.indexOf("­") === -1;
+  });
+  headings.forEach(splitWords);
+
+  var showHeading = function (heading) { heading.classList.add("is-shown"); };
+  if ("IntersectionObserver" in window) {
+    var headingWatch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        showHeading(entry.target);
+        headingWatch.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
+    headings.forEach(function (heading) {
+      if (heading.hasAttribute("data-intro")) {
+        heading.style.setProperty("--wd", "120ms");
+        window.requestAnimationFrame(function () { showHeading(heading); });
+      } else {
+        headingWatch.observe(heading);
+      }
+    });
+  } else {
+    headings.forEach(showHeading);
+  }
+
+  /* ---------- Scroll-Fortschritt, Hero-Tiefe ---------- */
+
+  var bar = null;
+  if (header) {
+    var progressEl = document.createElement("div");
+    progressEl.className = "progress";
+    progressEl.setAttribute("aria-hidden", "true");
+    progressEl.innerHTML = "<i></i>";
+    header.appendChild(progressEl);
+    bar = progressEl.firstChild;
+  }
+
+  var hero = $(".hero");
+  var heroMedia = hero ? $(".hero__media", hero) : null;
+  var heroCopy = hero ? $(".hero__copy", hero) : null;
+  var heroTag = hero ? $(".price-tag", hero) : null;
+  var scrollFrame = 0;
+
+  var onScroll = function () {
+    scrollFrame = 0;
+    var y = window.scrollY;
+    if (bar) {
+      var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      bar.style.transform = "scaleX(" + Math.min(1, y / max).toFixed(4) + ")";
+    }
+    if (hero && !reduceMotion.matches) {
+      var height = hero.offsetHeight;
+      var p = Math.max(0, Math.min(1, y / height));
+      if (heroMedia) heroMedia.style.transform = "translate3d(0," + (p * height * 0.28).toFixed(1) + "px,0) scale(" + (1 + p * 0.08).toFixed(4) + ")";
+      if (heroCopy) {
+        heroCopy.style.transform = "translate3d(0," + (-p * 70).toFixed(1) + "px,0)";
+        heroCopy.style.opacity = String(Math.max(0, 1 - p * 1.25).toFixed(3));
+      }
+      if (heroTag) heroTag.style.translate = "0 " + (-p * 120).toFixed(1) + "px";
+    }
+  };
+
+  window.addEventListener("scroll", function () {
+    if (!scrollFrame) scrollFrame = window.requestAnimationFrame(onScroll);
+  }, { passive: true });
+  window.addEventListener("resize", function () {
+    if (!scrollFrame) scrollFrame = window.requestAnimationFrame(onScroll);
+  });
+  onScroll();
+
+  /* ---------- Buttons ziehen leicht zur Maus ---------- */
+
+  if (finePointer.matches && !reduceMotion.matches) {
+    $$(".button--primary, .button--glass, .button--light, [data-magnet]").forEach(function (el) {
+      var pull = el.hasAttribute("data-magnet") ? 0.3 : 0.16;
+      el.addEventListener("pointermove", function (event) {
+        var rect = el.getBoundingClientRect();
+        var x = (event.clientX - rect.left - rect.width / 2) * pull;
+        var y = (event.clientY - rect.top - rect.height / 2) * pull;
+        el.style.translate = x.toFixed(1) + "px " + y.toFixed(1) + "px";
+      });
+      el.addEventListener("pointerleave", function () { el.style.translate = ""; });
+    });
+
+    /* ---------- Karten neigen sich zur Maus, mit Glanz ---------- */
+    $$("[data-tilt]").forEach(function (card) {
+      var settle = 0;
+      card.addEventListener("pointermove", function (event) {
+        var rect = card.getBoundingClientRect();
+        var x = (event.clientX - rect.left) / rect.width - 0.5;
+        var y = (event.clientY - rect.top) / rect.height - 0.5;
+        window.clearTimeout(settle);
+        card.style.transition = "transform 160ms cubic-bezier(0.23, 1, 0.32, 1)";
+        card.style.transform = "perspective(900px) rotateX(" + (-y * 8).toFixed(2) + "deg) rotateY(" + (x * 10).toFixed(2) + "deg) translateY(-6px)";
+        card.style.setProperty("--gx", ((x + 0.5) * 100).toFixed(1) + "%");
+        card.style.setProperty("--gy", ((y + 0.5) * 100).toFixed(1) + "%");
+        card.classList.add("is-tilt");
+      });
+      card.addEventListener("pointerleave", function () {
+        card.style.transition = "transform 700ms cubic-bezier(0.23, 1, 0.32, 1)";
+        card.style.transform = "";
+        card.classList.remove("is-tilt");
+        settle = window.setTimeout(function () { card.style.transition = ""; }, 720);
+      });
+    });
+  }
+
+  /* ---------- Erklärbilder laufen nur, solange sie zu sehen sind ---------- */
+
+  if ("IntersectionObserver" in window) {
+    var players = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { entry.target.classList.toggle("is-playing", entry.isIntersecting); });
+    }, { threshold: 0.25 });
+    $$("[data-play]").forEach(function (el) { players.observe(el); });
+  }
+
   /* ---------- Lichtpunkt unter dem Mauszeiger ---------- */
 
   if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion.matches) {
-    $$(".price-card, .contact__box").forEach(function (card) {
+    $$(".price-card").forEach(function (card) {
       card.addEventListener("pointermove", function (event) {
         var rect = card.getBoundingClientRect();
         card.style.setProperty("--mx", (event.clientX - rect.left).toFixed(0) + "px");
