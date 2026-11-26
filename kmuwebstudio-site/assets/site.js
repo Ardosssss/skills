@@ -171,7 +171,7 @@
 
   /* ---------- Referenzen (Startseite) ----------
      Dieselben Geräte in drei Darstellungen:
-     – Fläche (Maus, ab 1041 px Breite): Alle Referenzen liegen verteilt.
+     – Fläche (Maus, ab 721 px Breite): Alle Referenzen liegen verteilt.
        Fährt man mit der Maus auf eine und scrollt, läuft deren Seite von
        oben nach unten durch Browser und Handy. Am Ende scrollt die Seite
        normal weiter. Ohne echte Mausbewegung (die Seite schiebt eine
@@ -199,7 +199,7 @@
       });
     });
     var scCount = scDevices.length;
-    var boardMode = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1041px)");
+    var boardMode = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 721px)");
     var scMode = window.matchMedia("(prefers-reduced-motion: no-preference) and (min-height: 600px)");
     var scOn = false;
     var scActive = 0;

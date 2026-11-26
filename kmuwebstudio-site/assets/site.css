@@ -4066,6 +4066,43 @@ html:has(.anfrage[open]) {
   }
 }
 
+/* Fläche in mittleren Fenstern (721–1040 px, mit Maus): zwei Spalten, versetzt */
+@media (max-width: 1040px) {
+  .is-board .showcase__copy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .is-board .showcase__copy h2,
+  .is-board .showcase__copy .lead,
+  .is-board .showcase__hint {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .is-board .showcase__copy .lead {
+    margin-top: 18px;
+  }
+
+  .is-board .device:nth-child(n) {
+    grid-column: span 6;
+    margin-top: 0;
+    --tilt: -1deg;
+  }
+
+  .is-board .device:nth-child(even) {
+    margin-top: 64px;
+    --tilt: 1deg;
+  }
+
+  .is-board .device:last-child:nth-child(odd) {
+    grid-column: 4 / span 6;
+  }
+
+  .is-board .device__caption .text-link {
+    margin-left: 0;
+  }
+}
+
 /* ==========================================================
    Feinbewegungen
    Kleine Rückmeldungen an Stellen, an denen etwas passiert:

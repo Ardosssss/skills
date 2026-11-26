@@ -24,13 +24,15 @@ python3 -m http.server 8000
 
 Kopfzeile, Fusszeile und Symbole stehen in jeder HTML-Datei. Wer dort etwas ändert, ändert es in allen sieben Dateien.
 
+`assets/site.css` und `assets/site.js` sind mit einer Versionsnummer eingebunden (`site.css?v=…`). Nach einer Änderung an einer der beiden Dateien die Nummer in allen sieben Seiten durch einen neuen Wert ersetzen; sonst zeigen Browser, die die Seite schon kennen, noch die alte Fassung.
+
 ## Referenzen auf der Startseite
 
 Die sieben Referenzen erscheinen je nach Gerät auf drei Arten. Es sind immer dieselben Geräte (`.device`), das Skript setzt nur eine Klasse an `<section id="referenzen">`.
 
 | Gerät | Darstellung |
 | --- | --- |
-| Computer mit Maus, Fenster ab 1041 px breit (`.is-board`) | **Fläche:** Alle Referenzen liegen verteilt, unterschiedlich gross und leicht schräg. Fährt man mit der Maus auf eine, richtet sie sich auf, die anderen treten zurück, und «Scrollen» erscheint. Scrollt man jetzt, läuft genau diese Website durch Browser und Handy; die Seite selbst bleibt stehen. Am Ende der Referenz scrollt die Seite normal weiter. Ohne Klick. |
+| Computer mit Maus, Fenster ab 721 px breit (`.is-board`) | **Fläche:** Alle Referenzen liegen verteilt, unterschiedlich gross und leicht schräg. Fährt man mit der Maus auf eine, richtet sie sich auf, die anderen treten zurück, und «Scrollen» erscheint. Scrollt man jetzt, läuft genau diese Website durch Browser und Handy; die Seite selbst bleibt stehen. Am Ende der Referenz scrollt die Seite normal weiter. Ohne Klick. |
 | Handy, Tablet, schmale Fenster (`.is-scrolly`) | **Szene:** Die Bühne bleibt stehen, jede Referenz hat einen Scroll-Abschnitt von einer Bildschirmhöhe; in ihm läuft die Website von oben nach unten durch beide Rahmen. |
 | Ohne JavaScript, «Bewegung reduzieren» ohne Maus, Bildschirme unter 600 px Höhe | **Ruhig:** alle Geräte untereinander, jedes mit Name, Bezeichnung und Link. Am grossen Bildschirm bleibt die Liste links stehen. |
 
@@ -48,7 +50,7 @@ Die sieben Referenzen erscheinen je nach Gerät auf drei Arten. Es sind immer di
 
 - **Kein Hängenbleiben:** Eine Referenz wird nur gewählt, wenn sich die Maus wirklich bewegt. Schiebt das Scrollen der Seite eine Referenz unter den stehenden Mauszeiger, scrollt die Seite einfach weiter. Fährt die Seite die gewählte Referenz unter dem Zeiger weg, ist sie nicht mehr gewählt und gleitet zurück an den Anfang.
 - **Tastatur:** Mit der Tabulatortaste lässt sich jede Referenz wählen; mit den Pfeiltasten, Bild auf/ab, Pos1 und Ende scrollt man durch sie.
-- **Anordnung:** Die Plätze stehen in `assets/site.css` bei `.is-board .device:nth-child(1)` bis `(7)`: Spalten von 12 (`grid-column`), Versatz nach unten (`margin-top`) und Schräglage (`--tilt`).
+- **Anordnung:** Ab 1041 px Breite stehen die Plätze in `assets/site.css` bei `.is-board .device:nth-child(1)` bis `(7)`: Spalten von 12 (`grid-column`), Versatz nach unten (`margin-top`) und Schräglage (`--tilt`). Zwischen 721 und 1040 px liegen die Referenzen in zwei versetzten Spalten, die letzte mittig.
 - Bei «Bewegung reduzieren» gibt es keine Schräglage und kein Nachgleiten; das Scrollen durch die Referenz bleibt, weil es direkt an der Hand des Besuchers hängt.
 
 ### Szene
