@@ -59,9 +59,9 @@ Auf der Startseite stehen die Kategorie und der Name; die Seite `referenzen.html
 
 ### Anordnung
 
-- **Startseite ab 1041 px Breite:** zwölf Spalten, unterschiedlich gross, versetzt und leicht schräg. Die Plätze stehen in `assets/site.css` bei `.showcase__board > .device:nth-child(1)` bis `(7)`: Spalten (`grid-column`), Versatz nach unten (`margin-top`) und Schräglage (`--tilt`).
-- **Startseite 721 bis 1040 px:** zwei versetzte Spalten, die letzte Referenz mittig.
-- **Startseite am Handy:** eine Spalte, abwechselnd links und rechts versetzt.
+- **Startseite ab 1041 px Breite:** zwölf Spalten, versetzt und leicht schräg. Swiss Carpoint und Logistikexperte stehen gross nebeneinander am Anfang (je sechs Spalten), die übrigen fünf sind gleich gross (je vier Spalten). Die Plätze stehen in `assets/site.css` bei `.showcase__board > .device:nth-child(1)` bis `(7)`: Spalten (`grid-column`), Versatz nach unten (`margin-top`) und Schräglage (`--tilt`).
+- **Startseite 721 bis 1040 px:** Swiss Carpoint und Logistikexperte je in einer eigenen Zeile über zehn Spalten, die übrigen in zwei versetzten Spalten, die letzte mittig.
+- **Startseite am Handy:** eine Spalte. Swiss Carpoint und Logistikexperte über die ganze Breite, die übrigen etwas schmaler, abwechselnd links und rechts versetzt.
 - **Seite Referenzen ab 721 px:** zwei Spalten. Links «Websites» (Swiss Carpoint, Logistikexperte, Sadri Selimi, Ardit Selimi), rechts «Lern-Apps» (HKBa Coach, HKBd Coach, QV-Assistent). Alle sind gleich gross; die drei rechts verteilen sich gleichmässig auf die Höhe der vier links. Schmaler: eine Spalte.
 
 ### Bilder und weitere Referenzen
