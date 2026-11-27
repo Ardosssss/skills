@@ -206,9 +206,17 @@ h2.display {
   color: var(--blue);
 }
 
-.on-dark .display em,
-.on-blue .display em {
+.on-dark .display em {
   color: var(--cyan);
+}
+
+/* Auf Blau ist Cyan zu schwach (2,9 : 1). Das betonte Wort ist dort weiss
+   und trägt den Cyan als Strich darunter (5,2 : 1). */
+.on-blue .display em {
+  color: #fff;
+  background: linear-gradient(var(--cyan), var(--cyan)) 0 90% / 100% 0.055em no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .eyebrow {
@@ -236,9 +244,12 @@ h2.display {
   color: var(--muted);
 }
 
-.on-dark .eyebrow,
-.on-blue .eyebrow {
+.on-dark .eyebrow {
   color: var(--on-dark-soft);
+}
+
+.on-blue .eyebrow {
+  color: #fff;
 }
 
 .on-dark .eyebrow b {
@@ -254,6 +265,11 @@ h2.display {
 
 .on-dark .lead {
   color: var(--on-dark-soft);
+}
+
+/* Auf hellgrauen Flächen etwas dunkler, damit der Kontrast reicht (5,6 : 1) */
+.on-light .lead {
+  color: color-mix(in srgb, var(--muted) 82%, var(--ink));
 }
 
 /* ---------- Buttons ---------- */
@@ -360,6 +376,11 @@ h2.display {
   .text-link:hover .icon {
     transform: translateX(3px);
   }
+}
+
+/* Ziel des Sprunglinks: bekommt den Fokus, braucht aber keinen Rahmen */
+#inhalt:focus {
+  outline: none;
 }
 
 /* ---------- Kopfzeile ---------- */
@@ -685,11 +706,11 @@ h2.display {
 }
 
 .video-toggle .icon--play,
-.video-toggle[aria-pressed="true"] .icon--pause {
+.video-toggle[data-paused="true"] .icon--pause {
   display: none;
 }
 
-.video-toggle[aria-pressed="true"] .icon--play {
+.video-toggle[data-paused="true"] .icon--play {
   display: block;
 }
 
@@ -1547,7 +1568,7 @@ h2.display {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #ffffffe0;
+  color: #fff;
 }
 
 .manifesto h2 {
@@ -1978,6 +1999,135 @@ h2.display {
   margin-top: 48px;
   font-size: 15px !important;
   color: var(--muted) !important;
+}
+
+/* Kurzfassung, Inhaltsverzeichnis, Rechtsgrundlagen, Widerspruchsrecht */
+.legal-summary {
+  margin-top: 40px;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--light);
+}
+
+.legal-summary h2,
+.legal-toc h2 {
+  margin-bottom: 4px;
+  font-size: 22px;
+}
+
+.legal-summary ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legal-summary li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--ink) 78%, var(--white));
+}
+
+.legal-summary li strong {
+  color: var(--ink);
+}
+
+.legal-summary .icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+  color: var(--blue);
+}
+
+.legal-toc {
+  margin-top: 40px;
+}
+
+.legal-toc ol {
+  margin: 12px 0 0;
+  padding-left: 1.5em;
+  list-style: decimal;
+  columns: 2;
+  column-gap: 40px;
+}
+
+.legal-toc li {
+  margin-bottom: 8px;
+  padding-left: 4px;
+  break-inside: avoid;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.legal-toc li::marker {
+  font-variant-numeric: tabular-nums;
+}
+
+.legal-toc a,
+.legal-summary a,
+.legal-note a {
+  color: var(--blue);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.legal-list {
+  margin: 14px 0 0;
+  padding-left: 1.3em;
+  list-style: disc;
+}
+
+.legal-list li {
+  margin-top: 8px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--ink) 78%, var(--white));
+}
+
+.legal-list li::marker {
+  color: var(--blue);
+}
+
+.legal-list + p {
+  margin-top: 16px;
+}
+
+.legal-content .legal-basis {
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+.legal-note {
+  margin: 24px 0 16px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: color-mix(in srgb, var(--blue) 6%, var(--white));
+}
+
+.legal-note h3 {
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .legal-toc ol {
+    columns: 1;
+  }
 }
 
 /* ---------- Einblendungen ---------- */
@@ -4115,7 +4265,13 @@ html:has(.anfrage[open]) {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   animation: beam 5.5s linear infinite;
+  animation-play-state: paused;
   pointer-events: none;
+}
+
+.price-card:hover::after,
+.price-card:focus-within::after {
+  animation-play-state: running;
 }
 
 @keyframes beam {
@@ -4182,6 +4338,67 @@ html:has(.anfrage[open]) {
 
 .art.is-playing * {
   animation-play-state: running;
+}
+
+.pack.is-paused .art * {
+  animation-play-state: paused;
+}
+
+.section-head__side {
+  display: grid;
+  justify-items: start;
+}
+
+/* Knopf zum Anhalten der Erklärbilder */
+.motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: 18px;
+  padding: 0 18px 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color 200ms ease,
+    transform 160ms var(--ease-out);
+}
+
+.motion-toggle[hidden] {
+  display: none;
+}
+
+.motion-toggle:active {
+  transform: scale(0.97);
+}
+
+.motion-toggle .icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  stroke: none;
+  color: var(--blue);
+}
+
+.motion-toggle .icon--play,
+.motion-toggle[data-paused="true"] .icon--pause {
+  display: none;
+}
+
+.motion-toggle[data-paused="true"] .icon--play {
+  display: block;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .motion-toggle:hover {
+    border-color: var(--blue);
+  }
 }
 
 .art i,
@@ -4810,6 +5027,12 @@ html:has(.anfrage[open]) {
   height: 100%;
   overflow: visible;
   animation: orb-spin 20s linear infinite;
+  animation-play-state: paused;
+}
+
+.orb:hover .orb__ring,
+.orb:focus-visible .orb__ring {
+  animation-play-state: running;
 }
 
 .orb__ring text {

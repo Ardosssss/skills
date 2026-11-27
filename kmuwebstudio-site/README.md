@@ -87,10 +87,10 @@ Angeregt von [uiverse.io](https://uiverse.io/elements) (Buttons, Karten, Eingabe
 | Hero der Startseite | Das Bild sinkt beim Scrollen langsamer, der Text hebt sich und blendet aus, die Preiskarte schwebt mit |
 | Buttons (Maus) | Ziehen leicht zur Maus; bei den blauen zieht ein Lichtschein durch, und der Pfeil fliegt hinaus und neu herein |
 | Karten (Maus) | Neigen sich zur Maus, mit einem Glanz an der Stelle des Zeigers |
-| Preiskarte | Ein Lichtrand läuft langsam um die Karte; ein weicher Lichtpunkt folgt der Maus |
+| Preiskarte | Ein Lichtrand läuft um die Karte, solange die Maus darauf ist oder der Fokus darin liegt; ein weicher Lichtpunkt folgt der Maus |
 | Referenzen | Fliegen gestaffelt ein, die gewählte wird gross, ein Lichtschein folgt der Maus über die Fläche |
-| Angebot, «Im Paket» | Vier kleine Filme: eine Farbe wird gewählt, vier Seiten fächern auf, eine Seite passt sich von Desktop über Tablet zum Smartphone an, eine Anfrage wird gesendet. Sie laufen nur, solange sie zu sehen sind |
-| Abschluss der Startseite | Runder Button «Anfrage senden» mit drehendem Text-Ring, der zur Maus zieht |
+| Angebot, «Im Paket» | Vier kleine Filme: eine Farbe wird gewählt, vier Seiten fächern auf, eine Seite passt sich von Desktop über Tablet zum Smartphone an, eine Anfrage wird gesendet. Sie laufen nur, solange sie zu sehen sind; der Knopf «Animationen anhalten» hält sie an |
+| Abschluss der Startseite | Runder Button «Anfrage senden», der zur Maus zieht; der Text-Ring dreht sich, solange die Maus darauf ist |
 | Häkchen in Listen, Konfigurator | Zeichnen sich nacheinander, wenn die Liste erscheint oder etwas gewählt wird |
 | Schritte im Ablauf | Jede Nummer sendet einen Ring aus, sobald die Linie sie erreicht |
 | «Kopieren», Formular | Symbol blendet zum Häkchen über; drehender Ring beim Senden, Fehlerhinweise gleiten ein, Häkchen beim Erfolg |
@@ -141,7 +141,9 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 - Referenzen-Seite: «Sieben echte KWS-Referenzen, vier Websites und drei Lern-Apps, jede auf MacBook und iPhone.», die Spaltentitel «Websites» und «Lern-Apps», «Deine Website als nächste Referenz?»
 - Referenzen allgemein: die Bezeichnungen der vier neuen Referenzen (z. B. «KI-Lerncoach · Hell, motivierend, interaktiv»), «Sieben echte KWS-Referenzen, jede zum Durchscrollen.», die Hinweise «Fahre mit der Maus auf eine Website und scrolle durch sie.» (Computer) und «Beim Scrollen läuft jede Website von oben nach unten durch.» (Handy) sowie «Scrollen» auf der gewählten Referenz.
 - Ablauf-Seite: «Noch etwas offen? Schreib uns – wir antworten persönlich.»
-- Datenschutz, Abschnitt 4: ein Absatz zum Anfrageformular.
+- Datenschutz: Kurzfassung «Das Wichtigste in Kürze», Inhaltsverzeichnis, die Abschnitte 2 (Welches Recht gilt), 7 (Links), 11 (Beschwerde) und 12 (Keine automatisierten Entscheidungen), die Rechtsgrundlagen nach DSGVO, das Widerspruchsrecht sowie Ergänzungen in den Abschnitten 5, 6, 8, 9 und 10.
+- Hinweis unter dem Formular: «Wir verwenden Deine Angaben, um Deine Anfrage zu beantworten. Mehr dazu in der Datenschutzerklärung.»
+- Angebot: «Animationen anhalten» / «Animationen abspielen». Externe Links: «(öffnet in neuem Tab)» für Screenreader.
 - Links zwischen den Seiten: «Angebot ansehen», «Anfrage senden».
 
 ## Was sich gegenüber der Live-Seite geändert hat
@@ -160,8 +162,43 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 | Kontaktbereich «Bereit für Deinen neuen Auftritt?» | Jede Seite endet eigen: Startseite mit rundem Anfrage-Button, Referenzen mit «Deine Website als nächste Referenz?», Angebot mit dem Konfigurator, Ablauf mit den Fragen | Derselbe Abschluss auf jeder Seite nutzt sich ab |
 | Deko-Leiste, «Project Lab» | Entfernt | Weniger Ablenkung |
 
+## Datenschutz (DSGVO und Schweizer DSG)
+
+Geprüft am 27. November 2026 anhand der DSGVO auf [dsgvo-gesetz.de](https://dsgvo-gesetz.de/) (Art. 3, 5, 6, 7, 12, 13, 15–21, 25, 27, 28, 30, 32, 44–46, 77 und § 25 TDDDG) und des Schweizer DSG. Keine Rechtsberatung; vor der Veröffentlichung von einer Fachperson prüfen lassen.
+
+**Technik, gemessen auf allen Seiten (Computer und Handy):**
+
+- Die Website lädt nichts von fremden Servern: Schriften, Bilder und Video liegen im Ordner `assets/`. Keine Google Fonts, kein YouTube, keine Karten, kein Tracking, keine eingebetteten Fremdinhalte.
+- Keine Cookies, nichts in `localStorage`, `sessionStorage` oder IndexedDB, kein Service Worker. Deshalb braucht es kein Cookie-Banner (§ 25 TDDDG, Art. 6 und 7 DSGVO).
+- Links zu den Referenzen öffnen fremde Websites erst beim Klick.
+- Das Formular fragt nur, was für eine Antwort nötig ist (Telefon freiwillig), hat nichts vorausgewählt (Art. 25 DSGVO) und fängt Spam mit einem unsichtbaren Feld statt mit reCAPTCHA ab. Solange kein Formular-Dienst eingetragen ist, öffnet es das E-Mail-Programm; es geht also nichts an Dritte.
+
+**Datenschutzerklärung (`datenschutz.html`):** Sie enthält jetzt alle Angaben nach Art. 13 DSGVO und Art. 19 DSG, in einfacher Sprache (Art. 12 DSGVO): Kurzfassung, Inhaltsverzeichnis, verantwortliche Stelle, anwendbares Recht, Zwecke mit Rechtsgrundlagen und berechtigten Interessen, Empfänger und Hosting mit Hinweis auf den Angemessenheitsbeschluss für die Schweiz, Pflichtangaben im Formular, Speicherdauer mit Kriterien, Rechte (Auskunft, Berichtigung, Löschung, Einschränkung, Herausgabe, Widerspruch), ein vom übrigen Text abgehobenes Widerspruchsrecht (Art. 21 Abs. 4 DSGVO), das Beschwerderecht beim EDÖB und bei den EU-Aufsichtsbehörden (Art. 77 DSGVO) sowie keine automatisierten Entscheidungen. Fakten zum Betrieb (Adresse, Hosting bei ChatGPT Sites) sind unverändert übernommen.
+
+**Was KMU Web Studio selbst einhalten muss,** weil es in der Erklärung steht: Anfragen ohne Auftrag löschen, sobald sie erledigt sind; Buchungsbelege zehn Jahre aufbewahren (Art. 958f OR); Auskunftsgesuche kostenlos und in der Regel innerhalb von 30 Tagen beantworten; die Website nur über HTTPS ausliefern.
+
+**Wenn ein Formular-Dienst eingetragen wird** (zum Beispiel Web3Forms), gehen die Angaben an diesen Dienst. Dann in `datenschutz.html`, Abschnitt 5, den Absatz «Das Formular verschickt nichts selbst …» ersetzen, etwa durch:
+
+> Sendest Du das Formular ab, übermittelt es Deine Angaben verschlüsselt an [Name des Dienstes, Sitz], der sie uns als E-Mail zustellt. Der Dienst bearbeitet die Angaben in unserem Auftrag. [Falls der Dienst ausserhalb der Schweiz und der EU sitzt: Für die Übermittlung gelten Standardvertragsklauseln.]
+
+Vorher prüfen, wo der Dienst seinen Sitz hat und wo er die Daten bearbeitet, und mit ihm einen Vertrag zur Auftragsverarbeitung abschliessen (Art. 28 DSGVO, Art. 9 DSG).
+
+**Wenn das Hosting wechselt:** Abschnitt 4 (Hosting und Empfänger) an den neuen Anbieter anpassen.
+
+**Weitere Punkte zum Prüfen:**
+
+- **Impressum:** Ist KMU Web Studio im Handelsregister eingetragen oder mehrwertsteuerpflichtig, gehören die UID beziehungsweise die MWST-Nummer ins Impressum.
+- **EU-Vertreter (Art. 27 DSGVO):** Richtet sich das Angebot gezielt an Kundschaft in der EU, ist ein Vertreter in der EU nötig, ausser die Bearbeitung erfolgt nur gelegentlich und ohne nennenswertes Risiko. Bei einzelnen Anfragen aus der EU ist das in der Regel nicht der Fall.
+- **Verzeichnis der Bearbeitungstätigkeiten:** Nach DSG sind Unternehmen mit weniger als 250 Mitarbeitenden befreit, wenn ihre Datenbearbeitung nur ein geringes Risiko mit sich bringt (Art. 12 Abs. 5 DSG, Einzelheiten in der Datenschutzverordnung). Nach DSGVO (Art. 30 Abs. 5) gilt die Ausnahme nur bei gelegentlicher Bearbeitung; regelmässige Kundenanfragen fallen nicht darunter. Ein kurzes Verzeichnis (Anfragen, Kundendaten, Buchhaltung) schadet nicht.
+
 ## Bedienung und Zugänglichkeit
 
+- Geprüft mit axe-core 4.10 nach WCAG 2.2 Stufe A und AA sowie Best Practices, auf allen sieben Seiten am Computer und am Handy: keine Verstösse. Dazu ein Tastaturtest: Jeder Tabulator-Stopp hat einen sichtbaren Fokusrahmen und ist im Bild.
+- «Zum Inhalt springen» setzt den Fokus auf den Hauptinhalt (`<main id="inhalt" tabindex="-1">`).
+- Bewegung, die länger als fünf Sekunden läuft, lässt sich anhalten (WCAG 2.2.2): Hero-Video mit Pause-Knopf, Erklärbilder im Angebot mit «Animationen anhalten». Lichtrand der Preiskarte und Text-Ring laufen nur bei Maus oder Fokus.
+- Kontraste: Auf blauem Grund ist das betonte Wort weiss mit einem Cyan-Strich darunter statt cyanfarben (Cyan auf Blau erreicht nur 2,9 : 1). Einleitungstexte auf hellgrauem Grund sind etwas dunkler, Überzeilen auf Blau weiss. Die Farbwerte selbst sind unverändert.
+- Der Preis «CHF 500.–» wird von Screenreadern vorgelesen; Links, die einen neuen Tab öffnen, sagen das an.
+- Der Pause-Knopf des Videos nennt im Namen, was ein Klick tut («pausieren» oder «abspielen»).
 - Buttons reagieren beim Drücken (Skalierung 0.97); Hover-Effekte nur auf Geräten mit Maus.
 - Tippflächen sind mindestens 44 px hoch, Eingabefelder haben 16 px Schrift (kein Zoom auf dem iPhone).
 - Anfragefenster: Fokus springt ins erste Feld, Escape und Klick neben das Fenster schliessen es, danach liegt der Fokus wieder auf dem auslösenden Button.
@@ -172,6 +209,6 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 ## Offene Punkte
 
 - **Versand:** Ohne eingetragenen Formular-Dienst geht keine Anfrage direkt per E-Mail ein (siehe oben).
-- **Datenschutz:** Abschnitt 4 nennt den Formular-Dienst noch nicht beim Namen; sobald er feststeht, dort eintragen. Abschnitt 3 nennt ChatGPT Sites als Hosting und muss bei einem Wechsel des Hosts angepasst werden.
+- **Datenschutz:** Wird ein Formular-Dienst eingetragen oder wechselt das Hosting, die Datenschutzerklärung anpassen (siehe «Datenschutz (DSGVO und Schweizer DSG)»). UID oder MWST-Nummer ins Impressum, falls vorhanden.
 - **Live-Seite:** Dieser Ordner ist ein eigenständiger Nachbau. Er ersetzt die Live-Seite erst, wenn er veröffentlicht wird.
 - **Referenzbilder:** Momentaufnahmen (Swiss Carpoint, Logistikexperte, Sadri Selimi vom 16. November 2026; ardit.ch, HKBa Coach, HKBd Coach, QV-Assistent vom 26. November 2026). Ändert sich eine Referenzseite, die Bilder in `assets/refs/` ersetzen.

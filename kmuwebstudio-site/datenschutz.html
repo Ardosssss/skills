@@ -10,7 +10,7 @@
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/oswald-semibold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-semibold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=8c943a6d47">
+<link rel="stylesheet" href="assets/site.css?v=6072bc2c04">
 <script>document.documentElement.classList.add("js")</script>
 </head>
 <body class="sub legal">
@@ -69,67 +69,136 @@
   </div>
 </header>
 
-<main id="inhalt">
+<main id="inhalt" tabindex="-1">
 
   <article class="shell legal-content">
     <p class="eyebrow">Transparenz über Deine Daten</p>
     <h1 class="display">Datenschutz</h1>
-    <p class="legal-content__intro">Diese Erklärung informiert darüber, welche Personendaten beim Besuch dieser Website und bei einer Kontaktaufnahme bearbeitet werden.</p>
+    <p class="legal-content__intro">Diese Erklärung zeigt, welche Personendaten beim Besuch dieser Website und bei einer Kontaktaufnahme bearbeitet werden, wozu wir sie brauchen und welche Rechte Du hast.</p>
 
-    <section>
+    <div class="legal-summary">
+      <h2 id="kurz">Das Wichtigste in Kürze</h2>
+      <ul>
+        <li><svg class="icon"><use href="#i-check"/></svg><span><strong>Keine Cookies, kein Tracking, keine Analyse.</strong> Darum gibt es auf dieser Website auch kein Cookie-Banner.</span></li>
+        <li><svg class="icon"><use href="#i-check"/></svg><span><strong>Keine Inhalte von Drittanbietern.</strong> Schriften, Bilder und Video kommen vom selben Server wie die Website.</span></li>
+        <li><svg class="icon"><use href="#i-check"/></svg><span><strong>Deine Anfrage bleibt bei uns.</strong> Wir verwenden Deine Angaben, um Dir zu antworten und ein mögliches Projekt vorzubereiten.</span></li>
+        <li><svg class="icon"><use href="#i-check"/></svg><span><strong>Du behältst die Kontrolle.</strong> Auskunft, Berichtigung oder Löschung: Eine E-Mail an <a href="mailto:hallo@kmuwebstudio.ch">hallo@kmuwebstudio.ch</a> genügt.</span></li>
+      </ul>
+    </div>
+
+    <nav class="legal-toc" aria-labelledby="inhaltsverzeichnis">
+      <h2 id="inhaltsverzeichnis">Inhalt</h2>
+      <ol>
+        <li><a href="#verantwortlich">Verantwortliche Stelle</a></li>
+        <li><a href="#recht">Welches Recht gilt</a></li>
+        <li><a href="#besuch">Beim Besuch der Website</a></li>
+        <li><a href="#hosting">Hosting und Empfänger</a></li>
+        <li><a href="#kontakt">Kontakt per E-Mail und Anfrageformular</a></li>
+        <li><a href="#cookies">Cookies, Tracking und Inhalte von Dritten</a></li>
+        <li><a href="#links">Links auf andere Websites</a></li>
+        <li><a href="#speicherdauer">Speicherdauer</a></li>
+        <li><a href="#sicherheit">Datensicherheit</a></li>
+        <li><a href="#rechte">Deine Rechte</a></li>
+        <li><a href="#beschwerde">Beschwerde bei einer Aufsichtsbehörde</a></li>
+        <li><a href="#entscheidungen">Keine automatisierten Entscheidungen</a></li>
+        <li><a href="#aenderungen">Änderungen</a></li>
+      </ol>
+    </nav>
+
+    <section id="verantwortlich">
       <h2>1. Verantwortliche Stelle</h2>
       <address><strong>KMU Web Studio</strong><br>Inhaber Ardit Selimi<br>Chappelhof 2<br>6215 Beromünster<br>Schweiz</address>
       <p><a href="mailto:hallo@kmuwebstudio.ch">hallo@kmuwebstudio.ch</a></p>
+      <p>Für alle Fragen zum Datenschutz erreichst Du uns direkt unter dieser Adresse.</p>
     </section>
 
-    <section>
-      <h2>2. Bearbeitung beim Websitebesuch</h2>
-      <p>Beim Aufruf der Website werden technisch notwendige Zugriffsdaten verarbeitet. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite oder Datei, Browser- und Betriebssystemangaben, Geräteinformationen sowie die zuvor besuchte Seite gehören.</p>
+    <section id="recht">
+      <h2>2. Welches Recht gilt</h2>
+      <p>KMU Web Studio hat seinen Sitz in der Schweiz. Wir bearbeiten Personendaten nach dem Schweizer Datenschutzgesetz (DSG). Soweit die EU-Datenschutz-Grundverordnung (DSGVO) anwendbar ist, etwa wenn wir Personen in der EU unsere Dienstleistungen anbieten, gilt sie zusätzlich. Die Rechtsgrundlagen, die die DSGVO verlangt, nennen wir bei den einzelnen Bearbeitungen.</p>
+    </section>
+
+    <section id="besuch">
+      <h2>3. Beim Besuch der Website</h2>
+      <p>Beim Aufruf der Website werden technisch notwendige Zugriffsdaten bearbeitet. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite oder Datei, Browser- und Betriebssystemangaben, Geräteinformationen sowie die zuvor besuchte Seite gehören.</p>
       <p>Diese Daten werden benötigt, um die Website bereitzustellen, ihre Stabilität und Sicherheit zu gewährleisten sowie technische Fehler und Missbrauch zu erkennen. Wir erstellen daraus keine eigenen Nutzungsprofile und verwenden diese Daten nicht für eigene Werbung.</p>
+      <p class="legal-basis"><strong>Rechtsgrundlage nach DSGVO:</strong> Art. 6 Abs. 1 lit. f, unser berechtigtes Interesse an einer sicheren und stabilen Website.</p>
     </section>
 
-    <section>
-      <h2>3. Hosting und Empfänger</h2>
+    <section id="hosting">
+      <h2>4. Hosting und Empfänger</h2>
       <p>Diese Website wird mit ChatGPT Sites bereitgestellt. Dabei bearbeitet OpenAI Ireland Limited, 1st Floor, The Liffey Trust Centre, 117–126 Sheriff Street Upper, Dublin 1, D01 YC43, Irland, technische Daten im Zusammenhang mit dem Hosting als Dienstleister. OpenAI kann hierfür weitere technische Unterauftragnehmer einsetzen.</p>
       <p>Eine Bearbeitung kann auch ausserhalb der Schweiz erfolgen, insbesondere in Staaten, deren Datenschutzrecht nicht dem schweizerischen Niveau entspricht. OpenAI beschreibt für Schweizer Daten vertragliche Schutzmassnahmen, insbesondere Standardvertragsklauseln, und veröffentlicht Informationen zu eingesetzten Unterauftragnehmern.</p>
-      <p class="legal-links"><a href="https://openai.com/policies/chatgpt-sites-data-processing-addendum/" target="_blank" rel="noopener">ChatGPT Sites – Datenverarbeitung ↗</a><a href="https://platform.openai.com/subprocessors" target="_blank" rel="noopener">Unterauftragnehmer von OpenAI ↗</a></p>
+      <p class="legal-basis"><strong>Für Besucherinnen und Besucher aus der EU:</strong> Für die Schweiz besteht ein Angemessenheitsbeschluss der EU-Kommission (Art. 45 DSGVO); Daten dürfen deshalb ohne zusätzliche Garantien an uns übermittelt werden. Für Bearbeitungen in weiteren Staaten verweist OpenAI auf vertragliche Schutzmassnahmen wie Standardvertragsklauseln (Art. 46 DSGVO).</p>
+      <p class="legal-links"><a href="https://openai.com/policies/chatgpt-sites-data-processing-addendum/" target="_blank" rel="noopener">ChatGPT Sites – Datenverarbeitung ↗<span class="sr-only"> (öffnet in neuem Tab)</span></a><a href="https://platform.openai.com/subprocessors" target="_blank" rel="noopener">Unterauftragnehmer von OpenAI ↗<span class="sr-only"> (öffnet in neuem Tab)</span></a></p>
     </section>
 
-    <section>
-      <h2>4. Kontakt per E-Mail und Anfrageformular</h2>
+    <section id="kontakt">
+      <h2>5. Kontakt per E-Mail und Anfrageformular</h2>
       <p>Wenn Du uns per E-Mail kontaktierst, bearbeiten wir Deine E-Mail-Adresse, Deinen Namen, den Inhalt Deiner Nachricht und die dabei anfallenden technischen Metadaten. Wir verwenden diese Angaben, um Deine Anfrage zu beantworten, ein mögliches Projekt vorzubereiten und die weitere Kommunikation abzuwickeln.</p>
-      <p>Wenn Du das Anfrageformular auf dieser Website nutzt, bearbeiten wir die Angaben, die Du dort einträgst: Deinen Namen, Deine E-Mail-Adresse, falls angegeben Deine Telefonnummer sowie Deine Nachricht. Wir verwenden sie für dieselben Zwecke wie eine Anfrage per E-Mail. Das Formular übermittelt Deine Angaben über einen technischen Dienstleister, der sie uns als E-Mail zustellt.</p>
+      <p>Im Anfrageformular fragen wir nur, was wir für eine Antwort brauchen: Name, E-Mail-Adresse und Nachricht. Die Telefonnummer ist freiwillig. Du bist nicht verpflichtet, uns Daten zu geben; ohne Name, E-Mail-Adresse und Nachricht können wir Deine Anfrage aber nicht beantworten.</p>
+      <p>Das Formular verschickt nichts selbst: Beim Absenden öffnet sich Dein E-Mail-Programm mit der fertigen Nachricht, die Du anschliessend selbst an uns sendest. Danach gilt dasselbe wie für eine E-Mail.</p>
       <p>E-Mails werden über die beteiligten Mail-Dienstleister übermittelt. Bitte sende keine besonders schützenswerten Personendaten per unverschlüsselter E-Mail.</p>
+      <p class="legal-basis"><strong>Rechtsgrundlage nach DSGVO:</strong> Art. 6 Abs. 1 lit. b, wenn Deine Anfrage ein mögliches Projekt betrifft (vorvertragliche Massnahmen); sonst Art. 6 Abs. 1 lit. f, unser berechtigtes Interesse, Anfragen zu beantworten.</p>
     </section>
 
-    <section>
-      <h2>5. Cookies und Tracking</h2>
-      <p>KMU Web Studio setzt auf dieser Website derzeit keine eigenen Analyse-, Marketing- oder Profiling-Dienste ein. Es sind insbesondere kein Google Analytics und kein Meta Pixel eingebunden. Wir verwenden keine eigenen nicht notwendigen Cookies. Technisch notwendige Mechanismen der Hosting-Infrastruktur bleiben vorbehalten, soweit sie für Betrieb, Sicherheit oder Auslieferung erforderlich sind.</p>
+    <section id="cookies">
+      <h2>6. Cookies, Tracking und Inhalte von Dritten</h2>
+      <p>KMU Web Studio setzt auf dieser Website derzeit keine eigenen Analyse-, Marketing- oder Profiling-Dienste ein. Es sind insbesondere kein Google Analytics und kein Meta Pixel eingebunden. Wir verwenden keine eigenen nicht notwendigen Cookies, und die Website selbst speichert nichts auf Deinem Gerät. Technisch notwendige Mechanismen der Hosting-Infrastruktur bleiben vorbehalten, soweit sie für Betrieb, Sicherheit oder Auslieferung erforderlich sind.</p>
+      <p>Schriften, Bilder und das Video im Kopfbereich werden vom selben Server geladen wie die Website. Wir binden keine Inhalte von Drittanbietern ein, etwa Google Fonts, YouTube-Videos oder Karten. Beim Besuch werden Deine Daten deshalb nicht an solche Anbieter übermittelt.</p>
     </section>
 
-    <section>
-      <h2>6. Speicherdauer</h2>
-      <p>Wir bewahren Personendaten nur so lange auf, wie dies für den jeweiligen Zweck erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen. Danach werden die Daten gelöscht oder anonymisiert. Für technische Protokolldaten gelten die Aufbewahrungsregeln des Hosting-Dienstleisters.</p>
+    <section id="links">
+      <h2>7. Links auf andere Websites</h2>
+      <p>Unter Referenzen verlinken wir Websites, die wir umgesetzt haben. Sie öffnen sich erst, wenn Du einen Link anklickst. Für die Datenbearbeitung auf diesen Websites sind deren Betreiber verantwortlich.</p>
     </section>
 
-    <section>
-      <h2>7. Datensicherheit</h2>
-      <p>Wir treffen angemessene technische und organisatorische Massnahmen, um Personendaten vor Verlust, Missbrauch sowie unberechtigtem Zugriff zu schützen. Eine Datenübertragung über das Internet oder per E-Mail kann dennoch nicht vollständig risikofrei garantiert werden.</p>
+    <section id="speicherdauer">
+      <h2>8. Speicherdauer</h2>
+      <p>Wir bewahren Personendaten nur so lange auf, wie dies für den jeweiligen Zweck erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen. Danach werden die Daten gelöscht oder anonymisiert.</p>
+      <p>Anfragen, aus denen kein Auftrag entsteht, löschen wir, sobald sie erledigt sind und keine Rückfragen mehr zu erwarten sind. Unterlagen zu einem Auftrag, etwa Offerten und Rechnungen, bewahren wir so lange auf, wie es das Gesetz verlangt; für Geschäftsbücher und Buchungsbelege sind das in der Schweiz zehn Jahre (Art. 958f OR). Für technische Protokolldaten gelten die Aufbewahrungsregeln des Hosting-Dienstleisters.</p>
     </section>
 
-    <section>
-      <h2>8. Deine Rechte</h2>
-      <p>Du kannst im Rahmen des anwendbaren Datenschutzrechts insbesondere Auskunft über Deine bearbeiteten Personendaten verlangen sowie unrichtige Daten berichtigen oder Daten löschen lassen. Weitere Rechte können je nach Situation bestehen. Gesetzliche Ausnahmen und Einschränkungen bleiben vorbehalten.</p>
-      <p>Für die Ausübung Deiner Rechte oder Fragen zum Datenschutz genügt eine E-Mail an <a href="mailto:hallo@kmuwebstudio.ch">hallo@kmuwebstudio.ch</a>. Damit wir Deine Anfrage einer Person zuordnen können, dürfen wir einen geeigneten Identitätsnachweis verlangen.</p>
-      <p><a href="https://www.edoeb.admin.ch/de/auskunftsrecht" target="_blank" rel="noopener">Informationen des EDÖB zum Auskunftsrecht ↗</a></p>
+    <section id="sicherheit">
+      <h2>9. Datensicherheit</h2>
+      <p>Die Website ist über eine verschlüsselte Verbindung (HTTPS) erreichbar. Wir treffen angemessene technische und organisatorische Massnahmen, um Personendaten vor Verlust, Missbrauch sowie unberechtigtem Zugriff zu schützen. Eine Datenübertragung über das Internet oder per E-Mail kann dennoch nicht vollständig risikofrei garantiert werden.</p>
     </section>
 
-    <section>
-      <h2>9. Änderungen</h2>
+    <section id="rechte">
+      <h2>10. Deine Rechte</h2>
+      <p>Du hast im Rahmen des anwendbaren Datenschutzrechts insbesondere das Recht auf:</p>
+      <ul class="legal-list">
+        <li><strong>Auskunft</strong> darüber, ob und welche Personendaten wir über Dich bearbeiten (Art. 25 DSG, Art. 15 DSGVO)</li>
+        <li><strong>Berichtigung</strong> unrichtiger Daten (Art. 32 DSG, Art. 16 DSGVO)</li>
+        <li><strong>Löschung</strong> Deiner Daten, soweit wir sie nicht mehr brauchen oder aufbewahren müssen (Art. 17 DSGVO)</li>
+        <li><strong>Einschränkung</strong> der Bearbeitung (Art. 18 DSGVO)</li>
+        <li><strong>Herausgabe</strong> Deiner Daten in einem gängigen elektronischen Format (Art. 28 DSG, Art. 20 DSGVO)</li>
+        <li><strong>Widerspruch</strong> gegen die Bearbeitung (Art. 21 DSGVO, siehe unten)</li>
+      </ul>
+      <p>Gesetzliche Ausnahmen und Einschränkungen bleiben vorbehalten. Für die Ausübung Deiner Rechte genügt eine E-Mail an <a href="mailto:hallo@kmuwebstudio.ch">hallo@kmuwebstudio.ch</a>. Wir antworten kostenlos und in der Regel innerhalb von 30 Tagen. Damit wir Deine Anfrage einer Person zuordnen können, dürfen wir einen geeigneten Identitätsnachweis verlangen.</p>
+      <div class="legal-note" id="widerspruch">
+        <h3>Widerspruchsrecht</h3>
+        <p>Bearbeiten wir Daten gestützt auf unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO), kannst Du dem jederzeit aus Gründen widersprechen, die sich aus Deiner besonderen Situation ergeben (Art. 21 DSGVO). Eine formlose E-Mail an <a href="mailto:hallo@kmuwebstudio.ch">hallo@kmuwebstudio.ch</a> genügt. Wir bearbeiten die Daten dann nicht mehr, es sei denn, es liegen zwingende schutzwürdige Gründe vor oder die Bearbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.</p>
+      </div>
+      <p><a href="https://www.edoeb.admin.ch/de/auskunftsrecht" target="_blank" rel="noopener">Informationen des EDÖB zum Auskunftsrecht ↗<span class="sr-only"> (öffnet in neuem Tab)</span></a></p>
+    </section>
+
+    <section id="beschwerde">
+      <h2>11. Beschwerde bei einer Aufsichtsbehörde</h2>
+      <p>Bist Du der Ansicht, dass wir Deine Daten nicht richtig bearbeiten, schreib uns am besten zuerst direkt; meist lässt sich die Sache so am schnellsten klären. Du kannst Dich aber jederzeit an eine Datenschutz-Aufsichtsbehörde wenden: In der Schweiz ist das der Eidgenössische Datenschutz- und Öffentlichkeitsbeauftragte (EDÖB). Lebst oder arbeitest Du in der EU, kannst Du Dich auch an die Aufsichtsbehörde in Deinem Land wenden (Art. 77 DSGVO).</p>
+      <p class="legal-links"><a href="https://www.edoeb.admin.ch/de" target="_blank" rel="noopener">EDÖB ↗<span class="sr-only"> (öffnet in neuem Tab)</span></a><a href="https://www.edpb.europa.eu/about-edpb/our-members_de" target="_blank" rel="noopener">Aufsichtsbehörden in der EU ↗<span class="sr-only"> (öffnet in neuem Tab)</span></a></p>
+    </section>
+
+    <section id="entscheidungen">
+      <h2>12. Keine automatisierten Entscheidungen</h2>
+      <p>Wir treffen keine Entscheidungen, die ausschliesslich auf einer automatisierten Bearbeitung beruhen, und erstellen keine Profile (Art. 21 DSG, Art. 22 DSGVO).</p>
+    </section>
+
+    <section id="aenderungen">
+      <h2>13. Änderungen</h2>
       <p>Wir können diese Datenschutzerklärung anpassen, wenn sich die Website, die eingesetzten Dienste oder die rechtlichen Anforderungen ändern. Es gilt die jeweils auf dieser Website veröffentlichte Fassung.</p>
     </section>
 
-    <p class="legal-content__updated">Stand: 11. August 2026</p>
+    <p class="legal-content__updated">Stand: 27. November 2026</p>
   </article>
 
 </main>
@@ -152,6 +221,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=dd3ad7f5b0" defer></script>
+<script src="assets/site.js?v=7ebf13afb5" defer></script>
 </body>
 </html>

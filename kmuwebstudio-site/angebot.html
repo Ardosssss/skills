@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/oswald-semibold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-semibold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=8c943a6d47">
+<link rel="stylesheet" href="assets/site.css?v=6072bc2c04">
 <script>document.documentElement.classList.add("js")</script>
 </head>
 <body class="sub">
@@ -68,7 +68,7 @@
   </div>
 </header>
 
-<main id="inhalt">
+<main id="inhalt" tabindex="-1">
 
   <!-- Angebot -->
   <section class="section offer on-dark">
@@ -83,7 +83,7 @@
 
       <article class="price-card" data-intro style="--i:2" aria-labelledby="paket-titel">
         <p class="price-card__label"><span id="paket-titel">Website-Paket</span><span class="price-card__badge">Fixpreis</span></p>
-        <p class="price-card__price" aria-label="CHF 500.–"><span aria-hidden="true">CHF</span><strong aria-hidden="true">500</strong><small aria-hidden="true">.–</small></p>
+        <p class="price-card__price"><span class="sr-only">CHF 500.–</span><span aria-hidden="true">CHF</span><strong aria-hidden="true">500</strong><small aria-hidden="true">.–</small></p>
         <p class="price-card__caption">Transparenter Fixpreis für eine kompakte Website bis 4 Seiten.</p>
         <ul class="checklist">
           <li><svg class="icon"><use href="#i-check"/></svg>Individuelles Design</li>
@@ -105,7 +105,13 @@
       <div class="section-head" data-reveal>
         <p class="eyebrow">Im Paket</p>
         <h2 class="display">Das steckt im <em>Fixpreis.</em></h2>
-        <p class="lead">Jede KWS-Website bringt diese vier Dinge mit.</p>
+        <div class="section-head__side">
+          <p class="lead">Jede KWS-Website bringt diese vier Dinge mit.</p>
+          <button class="motion-toggle" type="button" data-motion-toggle hidden>
+            <svg class="icon icon--pause"><use href="#i-pause"/></svg><svg class="icon icon--play"><use href="#i-play"/></svg>
+            <span data-motion-label>Animationen anhalten</span>
+          </button>
+        </div>
       </div>
 
       <div class="pack__grid">
@@ -228,7 +234,7 @@
           </div>
         </div>
 
-        <div class="config__preview" aria-label="Vorschau Deiner Auswahl">
+        <div class="config__preview" role="group" aria-label="Vorschau Deiner Auswahl">
           <p class="config__live"><i></i>Live-Vorschau</p>
           <div class="mock" aria-hidden="true">
             <div class="mock__window">
@@ -273,6 +279,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=dd3ad7f5b0" defer></script>
+<script src="assets/site.js?v=7ebf13afb5" defer></script>
 </body>
 </html>

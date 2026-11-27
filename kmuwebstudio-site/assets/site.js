@@ -70,8 +70,9 @@
   var saveData = navigator.connection && navigator.connection.saveData;
 
   if (video && videoToggle) {
+    /* Der Name sagt, was ein Klick tut; ein zusätzliches aria-pressed würde dem widersprechen. */
     var setVideoState = function (paused) {
-      videoToggle.setAttribute("aria-pressed", String(paused));
+      videoToggle.setAttribute("data-paused", String(paused));
       videoToggle.setAttribute("aria-label", paused ? "Hintergrundvideo abspielen" : "Hintergrundvideo pausieren");
     };
     var loadVideo = function () {
@@ -670,6 +671,22 @@
     });
   }
 
+  /* ---------- Erklärbilder anhalten ----------
+     Sie laufen länger als fünf Sekunden; ein Knopf hält sie an (WCAG 2.2.2). */
+
+  $$("[data-motion-toggle]").forEach(function (button) {
+    var scope = button.closest("section");
+    var label = $("[data-motion-label]", button);
+    if (!scope || !label || reduceMotion.matches) return;
+    button.hidden = false;
+    button.addEventListener("click", function () {
+      var paused = !scope.classList.contains("is-paused");
+      scope.classList.toggle("is-paused", paused);
+      button.setAttribute("data-paused", String(paused));
+      label.textContent = paused ? "Animationen abspielen" : "Animationen anhalten";
+    });
+  });
+
   /* ---------- Erklärbilder laufen nur, solange sie zu sehen sind ---------- */
 
   if ("IntersectionObserver" in window) {
@@ -766,7 +783,7 @@
           '<span data-submit-label>' + (direct ? "Anfrage senden" : "Anfrage per E-Mail senden") + '</span>' + icon("go", "icon--go") +
           '<span class="spinner" aria-hidden="true"></span>' +
         '</button>' +
-        '<p class="form__note">Mit dem Absenden bearbeiten wir Deine Angaben gemäss unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>' +
+        '<p class="form__note">Wir verwenden Deine Angaben, um Deine Anfrage zu beantworten. Mehr dazu in der <a href="datenschutz.html#kontakt">Datenschutzerklärung</a>.</p>' +
       '</form>' +
       '<div class="form__done" tabindex="-1" hidden>' +
         '<span class="form__done-icon">' + icon("check") + '</span>' +
