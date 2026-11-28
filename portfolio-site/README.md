@@ -7,7 +7,7 @@ Eine einzelne Seite, die kurz zeigt, was ich mache, und meine Webseiten vorstell
 | Datei | Inhalt |
 | --- | --- |
 | `index.html` | Die ganze Seite in einer Datei (CSS und JavaScript inline): Hero, «Was ich mache», Projekte, Kontakt |
-| `assets/` | Pro Projekt WebP-Bilder: Desktop-Aufnahme in 1280 und 1920 px Breite (in doppelter Pixeldichte aufgenommen), Handy-Aufnahme (780 px) und Ausschnitte für die schwebenden Karten im Hero (1080 px, Handys 420 px). Dazu `portrait.webp` |
+| `assets/` | Pro Projekt WebP-Bilder: Desktop-Aufnahme in 1280, 1920 und 2560 px Breite, Handy-Aufnahme in 780 und 1170 px (beide in doppelter bzw. dreifacher Pixeldichte aufgenommen), Ausschnitte für die schwebenden Karten im Hero (1440 px, Handys 630 px). Dazu `portrait-1440.webp`, `hat-2x.webp`, `hat-mask-2x.webp` und `head-600.webp`. Über `srcset` lädt der Browser jeweils die Grösse, die zum Bildschirm passt |
 
 Online liegt die Seite unter ardit.ch (Infomaniak Starter-Hosting). Dort liegen die Bilder im selben Ordner wie `index.html`: Für den Upload werden in `index.html` alle Pfade `assets/…` durch den blossen Dateinamen ersetzt (`src`, `srcset`, `href`, `url()`).
 
@@ -21,11 +21,11 @@ Die Aufnahme von HKBd Coach setzt Startseite und Seite «Leistungsziele» untere
 
 ## Porträt tauschen
 
-Bild im Hochformat 3:4 (am besten 1080 × 1440 px) als `assets/portrait.webp` ablegen. Das aktuelle Porträt ist ein Ausschnitt von 540 × 720 px, mit Real-ESRGAN auf das Doppelte hochgerechnet.
+Bild im Hochformat 3:4 (am besten 1440 × 1920 px) als `assets/portrait-1440.webp` ablegen. Das aktuelle Porträt ist ein Ausschnitt von 540 × 720 px, mit Real-ESRGAN auf das Vierfache hochgerechnet, mit der zweifachen Rechnung gemischt (natürlichere Haut) und auf 1440 px verkleinert. Hut und Kopf sind aus derselben Rechnung freigestellt.
 
 ## 3D-Neigung im Hero
 
-Der Block neigt sich zur Maus: Die Ecke gegenüber dem Mauszeiger kommt nach vorn, in der Bildmitte liegt er flach. Die Karten liegen dafür in verschiedenen Tiefen (`translate` mit Z-Wert pro Klasse `f-a` bis `f-f` und beim Porträt). Die Neigung folgt der Maus weich nach, klingt beim Wegscrollen aus und ist ohne Maus sowie bei reduzierter Bewegung aus. Eine Leiste oben gibt es nicht mehr.
+Der Block neigt sich zur Maus: Die Ecke gegenüber dem Mauszeiger kommt nach vorn, in der Bildmitte liegt er flach. Die Karten liegen dafür in verschiedenen Tiefen (`translate` mit Z-Wert pro Klasse `f-a` bis `f-f` und beim Porträt). Die Neigung folgt der Maus weich nach, klingt beim Wegscrollen aus und ist ohne Maus sowie bei reduzierter Bewegung aus. Räumlich gezeichnet wird nur während der Neigung (Klassen `is-3d` und `is-deep` an `.scene`): Browser rastern 3D-Ebenen weicher, deshalb liegt der Block in Ruhe flach und ist gestochen scharf. Ruht die Maus 2 Sekunden, legt er sich wieder flach. Die `z-index`-Reihenfolge der Karten entspricht ihrer Tiefe, damit flach und räumlich dasselbe vorne liegt. Eine Leiste oben gibt es nicht mehr.
 
 ## Weitere Bewegung
 
@@ -66,11 +66,11 @@ Bei reduzierter Bewegung ist das alles aus; der Mail-Knopf funktioniert normal.
 
 ## Schwebender Hut
 
-`assets/hat.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Sein Farbschimmer passt sich dem Abschnitt an, über dem er schwebt (Farben in `TINTS` im Skript). Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.
+`assets/hat-2x.webp` ist der Hut aus dem Porträt, freigestellt. Ganz oben liegt er deckungsgleich auf dem Kopf im Foto. Beim Scrollen löst er sich, wird etwas grösser und schwebt auf einer Bahn, die der Scroll-Position folgt, durch die ganze Seite. Er liegt über den Farbflächen der Abschnitte und unter Texten und Fenstern. Die Lage des Huts im Porträt gibt `.hat-anchor` im CSS vor (Anteile von Breite und Höhe) und muss angepasst werden, wenn das Porträt getauscht wird. Das Foto selbst zeigt den Hut weiterhin. Sein Farbschimmer passt sich dem Abschnitt an, über dem er schwebt (Farben in `TINTS` im Skript). Ein Klick auf den Hut führt nach oben: Darüber liegt eine unsichtbare Klickfläche, die Klicks an darunterliegende Links weitergibt.
 
 ## Mail-Knopf
 
-Der Knopf im Kontakt folgt einem Entwurf von Uiverse.io (barisdogansutcu), in den Farben der Seite: in Ruhe der Kopf neben «E-Mail senden», beim Hover fährt der Kopf gross nach rechts und «Jetzt!» erscheint. Ein Klick oder Tippen zeigt dieselbe Bewegung, öffnet das Mailprogramm und kopiert die Adresse in die Zwischenablage. `assets/head.webp` ist der freigestellte Kopf aus dem Porträt. Die Adresse steht zusätzlich als Text darunter.
+Der Knopf im Kontakt folgt einem Entwurf von Uiverse.io (barisdogansutcu), in den Farben der Seite: in Ruhe der Kopf neben «E-Mail senden», beim Hover fährt der Kopf gross nach rechts und «Jetzt!» erscheint. Ein Klick oder Tippen zeigt dieselbe Bewegung, öffnet das Mailprogramm und kopiert die Adresse in die Zwischenablage. `assets/head-600.webp` ist der freigestellte Kopf aus dem Porträt. Die Adresse steht zusätzlich als Text darunter.
 
 ## Schwebende Karten im Hero
 
@@ -78,7 +78,7 @@ Jede Karte ist ein `<div class="float">` in der `.scene`. Position und Grösse s
 
 ## Projekt hinzufügen
 
-1. Ganzseitige Aufnahmen der Seite machen: Desktop mit 1280 px Breite in doppelter Pixeldichte, Handy mit 390 px Breite in doppelter Pixeldichte. Als WebP in `assets/` ablegen (`name-desktop-1280.webp`, `name-desktop-1920.webp`, `name-mobile-780.webp`, `name-hero-1080.webp`, `name-phone-420.webp`).
+1. Ganzseitige Aufnahmen der Seite machen: Desktop mit 1280 px Breite in doppelter Pixeldichte, Handy mit 390 px Breite in dreifacher Pixeldichte. Als WebP in `assets/` ablegen (`name-desktop-1280/1920/2560.webp`, `name-mobile-780/1170.webp`, `name-hero-1440.webp`, `name-phone-630.webp`), leicht nachgeschärft.
 2. In `index.html` einen `<article class="project">` kopieren und Titel, Tags, Text, Link und Bilder anpassen. `width` und `height` der Bilder müssen zur Datei passen.
 3. Für die Farbbühne eine Zeile `.project[data-p="name"]{…}` mit den `--p-*`-Farben ergänzen.
 4. `--travel` (Desktop) und `--travel-m` (Handy) legen fest, wie lange man durch das Projekt scrollt. Lange Seiten brauchen einen grösseren Wert.
