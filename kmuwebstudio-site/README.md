@@ -16,7 +16,7 @@ Statische, überarbeitete Fassung von [kmuwebstudio.ch](https://kmuwebstudio.ch/
 | `assets/site.js` | Menü, Video, Referenzen, Konfigurator, FAQ, Anfrageformular, Bewegungen |
 | `assets/brand/`, `assets/fonts/`, `assets/media/`, `assets/refs/` | Logo, Schriften, Hero-Bild und -Video, Bildschirmfotos der Referenzen |
 
-Keine Build-Tools nötig: Ordner auf einen beliebigen Static-Host legen. Lokal ansehen:
+Keine Build-Tools nötig: Ordner auf einen beliebigen Static-Host legen (siehe «Hochladen per FTP»). Lokal ansehen:
 
 ```bash
 python3 -m http.server 8000
@@ -181,7 +181,7 @@ Geprüft am 27. November 2026 anhand der DSGVO auf [dsgvo-gesetz.de](https://dsg
 - Links zu den Referenzen öffnen fremde Websites erst beim Klick.
 - Das Formular fragt nur, was für eine Antwort nötig ist (Telefon freiwillig), hat nichts vorausgewählt (Art. 25 DSGVO) und fängt Spam mit einem unsichtbaren Feld statt mit reCAPTCHA ab. Solange kein Formular-Dienst eingetragen ist, öffnet es das E-Mail-Programm; es geht also nichts an Dritte.
 
-**Datenschutzerklärung (`datenschutz.html`):** Sie enthält jetzt alle Angaben nach Art. 13 DSGVO und Art. 19 DSG, in einfacher Sprache (Art. 12 DSGVO): Kurzfassung, Inhaltsverzeichnis, verantwortliche Stelle, anwendbares Recht, Zwecke mit Rechtsgrundlagen und berechtigten Interessen, Empfänger und Hosting mit Hinweis auf den Angemessenheitsbeschluss für die Schweiz, Pflichtangaben im Formular, Speicherdauer mit Kriterien, Rechte (Auskunft, Berichtigung, Löschung, Einschränkung, Herausgabe, Widerspruch), ein vom übrigen Text abgehobenes Widerspruchsrecht (Art. 21 Abs. 4 DSGVO), das Beschwerderecht beim EDÖB und bei den EU-Aufsichtsbehörden (Art. 77 DSGVO) sowie keine automatisierten Entscheidungen. Fakten zum Betrieb (Adresse, Hosting bei ChatGPT Sites) sind unverändert übernommen.
+**Datenschutzerklärung (`datenschutz.html`):** Sie enthält jetzt alle Angaben nach Art. 13 DSGVO und Art. 19 DSG, in einfacher Sprache (Art. 12 DSGVO): Kurzfassung, Inhaltsverzeichnis, verantwortliche Stelle, anwendbares Recht, Zwecke mit Rechtsgrundlagen und berechtigten Interessen, Empfänger und Hosting mit Hinweis auf den Angemessenheitsbeschluss für die Schweiz, Pflichtangaben im Formular, Speicherdauer mit Kriterien, Rechte (Auskunft, Berichtigung, Löschung, Einschränkung, Herausgabe, Widerspruch), ein vom übrigen Text abgehobenes Widerspruchsrecht (Art. 21 Abs. 4 DSGVO), das Beschwerderecht beim EDÖB und bei den EU-Aufsichtsbehörden (Art. 77 DSGVO) sowie keine automatisierten Entscheidungen. Die Adresse ist unverändert übernommen. Abschnitt 4 nennt den Hosting-Anbieter allgemein als Auftragsbearbeiter, weil die Website per FTP zu einem neuen Anbieter umzieht.
 
 **Was KMU Web Studio selbst einhalten muss,** weil es in der Erklärung steht: Anfragen ohne Auftrag löschen, sobald sie erledigt sind; Buchungsbelege zehn Jahre aufbewahren (Art. 958f OR); Auskunftsgesuche kostenlos und in der Regel innerhalb von 30 Tagen beantworten; die Website nur über HTTPS ausliefern.
 
@@ -191,7 +191,7 @@ Geprüft am 27. November 2026 anhand der DSGVO auf [dsgvo-gesetz.de](https://dsg
 
 Vorher prüfen, wo der Dienst seinen Sitz hat und wo er die Daten bearbeitet, und mit ihm einen Vertrag zur Auftragsverarbeitung abschliessen (Art. 28 DSGVO, Art. 9 DSG).
 
-**Wenn das Hosting wechselt:** Abschnitt 4 (Hosting und Empfänger) an den neuen Anbieter anpassen.
+**Hosting:** In Abschnitt 4 (Hosting und Empfänger) Name und Sitz des Hosting-Anbieters ergänzen. Liegen dessen Server ausserhalb der Schweiz und der EU, gehört ein Hinweis auf die Garantien dazu (zum Beispiel Standardvertragsklauseln).
 
 **Weitere Punkte zum Prüfen:**
 
@@ -219,4 +219,18 @@ Vorher prüfen, wo der Dienst seinen Sitz hat und wo er die Daten bearbeitet, un
 - **Versand:** Ohne eingetragenen Formular-Dienst geht keine Anfrage direkt per E-Mail ein (siehe oben).
 - **Datenschutz:** Wird ein Formular-Dienst eingetragen oder wechselt das Hosting, die Datenschutzerklärung anpassen (siehe «Datenschutz (DSGVO und Schweizer DSG)»). UID oder MWST-Nummer ins Impressum, falls vorhanden.
 - **Live-Seite:** Dieser Ordner ist ein eigenständiger Nachbau. Er ersetzt die Live-Seite erst, wenn er veröffentlicht wird.
+
+## Hochladen per FTP
+
+Alles in diesem Ordner gehört auf den Server, ausser `README.md`:
+
+- die sieben Seiten (`index.html`, `angebot.html`, `ablauf.html`, `referenzen.html`, `kontakt.html`, `impressum.html`, `datenschutz.html`),
+- der Ordner `assets/` mit Stil, Skript, Schriften, Logo, Bildern und Video,
+- `.htaccess`, `robots.txt` und `sitemap.xml`.
+
+Die Dateien kommen direkt in das Hauptverzeichnis der Domain (je nach Anbieter `public_html`, `httpdocs`, `www` oder `web`), so dass `index.html` dort ganz oben liegt. `.htaccess` beginnt mit einem Punkt und ist deshalb in vielen Programmen versteckt; im FTP-Programm versteckte Dateien einblenden und sie mit hochladen.
+
+`.htaccess` (nur auf Apache-Servern wirksam, andere ignorieren sie) leitet auf HTTPS um, leitet die alten Adressen `/impressum` und `/datenschutz` auf die neuen Seiten weiter, setzt die Dateitypen für Schriften, Bilder und Video und lässt Browser Bilder, Schriften, Stil und Skript zwischenspeichern. Nach dem Hochladen prüfen: `http://kmuwebstudio.ch` muss auf `https://` wechseln, und ein SSL-Zertifikat muss beim Anbieter aktiv sein.
+
+`sitemap.xml` listet die sieben Seiten für Suchmaschinen; sie lässt sich in der Google Search Console einreichen. Jede Seite nennt ihre eigene Adresse als Canonical (`https://kmuwebstudio.ch/angebot.html` usw.).
 - **Referenzbilder:** Momentaufnahmen (Swiss Carpoint, Logistikexperte, Sadri Selimi vom 16. November 2026; ardit.ch, HKBa Coach, HKBd Coach, QV-Assistent vom 26. November 2026). Ändert sich eine Referenzseite, die Bilder in `assets/refs/` ersetzen.

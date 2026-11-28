@@ -1,0 +1,43 @@
+# KMU Web Studio – Einstellungen für Apache-Server (die meisten Webhoster).
+# Auf anderen Servern wird diese Datei einfach ignoriert.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Immer über die verschlüsselte Verbindung (HTTPS)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Adressen der bisherigen Website auf die neuen Seiten weiterleiten
+  RewriteRule ^impressum/?$ /impressum.html [L,R=301]
+  RewriteRule ^datenschutz/?$ /datenschutz.html [L,R=301]
+</IfModule>
+
+# Dateitypen, damit Schriften, Bilder und Video richtig ausgeliefert werden
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+  AddType video/mp4 .mp4
+</IfModule>
+
+# Zwischenspeichern im Browser: Stil und Skript tragen eine Versionsnummer,
+# darum dürfen sie lange bleiben. Seiten selbst werden immer frisch geladen.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType video/mp4 "access plus 1 month"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
