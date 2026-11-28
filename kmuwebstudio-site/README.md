@@ -77,7 +77,7 @@ Auf der Startseite stehen die Kategorie und der Name; die Seite `referenzen.html
 
 ## Bewegung
 
-Angeregt von [uiverse.io](https://uiverse.io/elements) (Buttons, Karten, Eingaben), [prompt-motion.com](https://prompt-motion.com/) (bewegte Typografie) und den Produktseiten von Apple (Geräte, Zoom, Überschriften, die Wort für Wort aufsteigen). Eigener Code, ohne Bibliotheken; animiert werden nur `transform`, `opacity` und Strichlängen. [refs.gallery](https://refs.gallery/category/motion) liess sich nicht laden: Die Seite blockiert automatische Browser mit einer Prüfung.
+Angeregt von [uiverse.io](https://uiverse.io/elements) (Buttons, Tooltips, Karten, Eingaben), vom letzten Button auf [ardit.ch](https://ardit.ch/) (KWS-Button), [prompt-motion.com](https://prompt-motion.com/) (bewegte Typografie) und den Produktseiten von Apple (Geräte, Zoom, Überschriften, die Wort für Wort aufsteigen). Eigener Code, ohne Bibliotheken; animiert werden nur `transform`, `opacity` und Strichlängen. [refs.gallery](https://refs.gallery/category/motion) liess sich nicht laden: Die Seite blockiert automatische Browser mit einer Prüfung.
 
 | Stelle | Bewegung |
 | --- | --- |
@@ -94,6 +94,13 @@ Angeregt von [uiverse.io](https://uiverse.io/elements) (Buttons, Karten, Eingabe
 | Häkchen in Listen, Konfigurator | Zeichnen sich nacheinander, wenn die Liste erscheint oder etwas gewählt wird |
 | Schritte im Ablauf | Jede Nummer sendet einen Ring aus, sobald die Linie sie erreicht |
 | «Kopieren», Formular | Symbol blendet zum Häkchen über; drehender Ring beim Senden, Fehlerhinweise gleiten ein, Häkchen beim Erfolg |
+| «Projekt starten» (Kopfzeile, Startseite, Referenzen) | Nach dem letzten Button auf ardit.ch: Der Text gleitet hinaus, das KWS-Zeichen fährt herein, dazu «Los geht’s!» (in der Kopfzeile nur das Zeichen) |
+| «Frage stellen» (Ablauf) | Aus dem Pfeil wird eine Chat-Blase mit drei tippenden Punkten |
+| Anfrage-Buttons («Unverbindlich anfragen», «Idee an KWS senden», Formular) | Ein Papierflieger hebt ab und kommt wieder |
+| Tooltips | «Angebot ansehen»: «CHF 500.– Fixpreis»; «So arbeiten wir»: «In 4 Schritten online»; Referenz-Links: «Öffnet in neuem Tab»; «Kopieren»: «In die Zwischenablage» |
+| Navigation in der Kopfzeile | Eine Kapsel gleitet zum Link unter der Maus und zurück zur aktuellen Seite |
+| «Das ist dabei» (Startseite) | Ein Lichtrand läuft um den Glas-Button |
+| Häufige Fragen, Konfigurator, Fusszeile | Das Plus dreht sich; das Branchen-Symbol hüpft; unter Fusszeilen-Links wächst ein Strich |
 
 Bei «Bewegung reduzieren» entfallen diese Bewegungen: Überschriften, Bilder und Karten stehen sofort da, der Ring steht still. Effekte mit der Maus gibt es nur auf Geräten mit Maus. Ohne JavaScript ist alles sichtbar.
 
@@ -144,6 +151,7 @@ Diese Sätze gab es auf der bisherigen Seite nicht:
 - Datenschutz: Kurzfassung «Das Wichtigste in Kürze», Inhaltsverzeichnis, die Abschnitte 2 (Welches Recht gilt), 7 (Links), 11 (Beschwerde) und 12 (Keine automatisierten Entscheidungen), die Rechtsgrundlagen nach DSGVO, das Widerspruchsrecht sowie Ergänzungen in den Abschnitten 5, 6, 8, 9 und 10.
 - Hinweis unter dem Formular: «Wir verwenden Deine Angaben, um Deine Anfrage zu beantworten. Mehr dazu in der Datenschutzerklärung.»
 - Angebot: «Animationen anhalten» / «Animationen abspielen». Externe Links: «(öffnet in neuem Tab)» für Screenreader.
+- Buttons und Tooltips: «Los geht’s!», «CHF 500.– Fixpreis», «In 4 Schritten online», «Öffnet in neuem Tab», «In die Zwischenablage».
 - Links zwischen den Seiten: «Angebot ansehen», «Anfrage senden».
 
 ## Was sich gegenüber der Live-Seite geändert hat

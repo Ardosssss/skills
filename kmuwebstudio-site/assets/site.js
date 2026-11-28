@@ -671,6 +671,47 @@
     });
   }
 
+  /* ---------- Navigation: Eine Kapsel gleitet zum Link unter der Maus ---------- */
+
+  var navBar = $(".nav");
+  if (navBar && finePointer.matches && !reduceMotion.matches) {
+    var pill = document.createElement("span");
+    var currentLink = $('a[aria-current="page"]', navBar);
+    pill.className = "nav__pill";
+    pill.setAttribute("aria-hidden", "true");
+    navBar.insertBefore(pill, navBar.firstChild);
+    navBar.classList.add("has-pill");
+    var pillTo = function (link, instant) {
+      if (!link) {
+        pill.style.opacity = "0";
+        return;
+      }
+      /* Ist die Kapsel unsichtbar, erscheint sie gleich am Link, statt vom Rand herzugleiten. */
+      var jump = instant || pill.style.opacity !== "1";
+      if (jump) pill.style.transition = instant ? "none" : "opacity 200ms ease";
+      pill.style.width = link.offsetWidth + "px";
+      pill.style.height = link.offsetHeight + "px";
+      pill.style.transform = "translate(" + link.offsetLeft + "px," + link.offsetTop + "px)";
+      if (jump) void pill.offsetWidth;
+      pill.style.opacity = "1";
+      if (jump) {
+        void pill.offsetWidth;
+        pill.style.transition = "";
+      }
+    };
+    pillTo(currentLink, true);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { pillTo(currentLink, true); });
+    $$("a", navBar).forEach(function (link) {
+      link.addEventListener("pointerenter", function () { pillTo(link); });
+      link.addEventListener("focus", function () { pillTo(link); });
+    });
+    navBar.addEventListener("pointerleave", function () { pillTo(currentLink); });
+    navBar.addEventListener("focusout", function (event) {
+      if (!navBar.contains(event.relatedTarget)) pillTo(currentLink);
+    });
+    window.addEventListener("resize", function () { pillTo(currentLink, true); });
+  }
+
   /* ---------- Erklärbilder anhalten ----------
      Sie laufen länger als fünf Sekunden; ein Knopf hält sie an (WCAG 2.2.2). */
 
@@ -779,8 +820,8 @@
           '<label>Bitte leer lassen<input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>' +
         '</div>' +
         '<p class="form__status" role="status" aria-live="polite"></p>' +
-        '<button class="button button--primary button--wide" type="submit">' +
-          '<span data-submit-label>' + (direct ? "Anfrage senden" : "Anfrage per E-Mail senden") + '</span>' + icon("go", "icon--go") +
+        '<button class="button button--primary button--wide button--send" type="submit">' +
+          '<span data-submit-label>' + (direct ? "Anfrage senden" : "Anfrage per E-Mail senden") + '</span>' + icon("send", "icon--send") +
           '<span class="spinner" aria-hidden="true"></span>' +
         '</button>' +
         '<p class="form__note">Wir verwenden Deine Angaben, um Deine Anfrage zu beantworten. Mehr dazu in der <a href="datenschutz.html#kontakt">Datenschutzerklärung</a>.</p>' +

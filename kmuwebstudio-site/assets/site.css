@@ -434,6 +434,7 @@ h2.display {
 }
 
 .nav {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -5323,5 +5324,437 @@ html:has(.anfrage[open]) {
 
   [data-tilt]::after {
     display: none;
+  }
+}
+
+/* ==========================================================
+   Feinheiten nach uiverse.io, Teil 2
+   KWS-Button (nach dem letzten Button auf ardit.ch), Chat-Blase,
+   Tooltips, Papierflieger, Kapsel in der Navigation, Lichtrand am
+   Glas-Button und kleine Effekte an FAQ, Branchenwahl und Fusszeile.
+   Effekte mit der Maus nur auf Geräten mit Maus; bei «Bewegung
+   reduzieren» ohne Bewegung.
+   ========================================================== */
+
+/* ---------- KWS-Button: Bei «Projekt starten» fährt das KWS-Zeichen herein ---------- */
+
+.button--kws {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.kws-btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition:
+    transform 560ms var(--ease-out),
+    opacity 220ms ease;
+}
+
+.kws-btn__reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #fff;
+  transform: translateX(-112%);
+  transition: transform 560ms var(--ease-out);
+  pointer-events: none;
+}
+
+.button--light .kws-btn__reveal {
+  color: var(--navy);
+}
+
+.kws-mark {
+  flex: none;
+  width: auto;
+  height: 20px;
+  aspect-ratio: 446 / 176;
+  overflow: visible;
+  transform: scale(0.5) rotate(-12deg);
+  transition: transform 640ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.button--sm .kws-mark {
+  height: 18px;
+}
+
+.button--sm .kws-btn__reveal > span {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .button--kws:hover .kws-btn__label {
+    opacity: 0;
+    transform: translateX(118%);
+  }
+
+  .button--kws:hover .kws-btn__reveal {
+    transform: none;
+    transition-delay: 60ms;
+  }
+
+  .button--kws:hover .kws-mark {
+    transform: none;
+    transition-delay: 140ms;
+  }
+
+  .button--kws:hover .icon--go {
+    animation: none;
+  }
+}
+
+/* ---------- «Frage stellen»: Aus dem Pfeil wird eine Chat-Blase, die tippt ---------- */
+
+.chat-slot {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+}
+
+.chat-bubble {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 30px;
+  height: 22px;
+  margin: -11px 0 0 -15px;
+  border-radius: 11px 11px 11px 3px;
+  background: var(--blue);
+  box-shadow: 0 6px 16px #2563eb59;
+  transform: scale(0);
+  transform-origin: 15% 100%;
+  transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+
+.chat-bubble i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+@keyframes typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.button--chat .icon--go {
+  transition:
+    opacity 160ms ease,
+    transform 220ms var(--ease-out);
+}
+
+.button--chat:focus-visible .icon--go {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+.button--chat:focus-visible .chat-bubble {
+  transform: scale(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button--chat:hover .icon--go {
+    opacity: 0;
+    transform: scale(0.4);
+    animation: none;
+  }
+
+  .button--chat:hover .chat-bubble {
+    transform: scale(1);
+  }
+
+  .button--chat:hover .chat-bubble i {
+    animation: typing 1s ease-in-out infinite;
+  }
+
+  .button--chat:hover .chat-bubble i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .button--chat:hover .chat-bubble i:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+/* ---------- Tooltips: kurzer Hinweis über Links und Knöpfen ---------- */
+
+.has-tip {
+  position: relative;
+}
+
+.tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  z-index: 4;
+  padding: 7px 11px;
+  border-radius: 8px;
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px #0b122033;
+  opacity: 0;
+  transform: translate(-50%, 6px) scale(0.92);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 180ms ease,
+    transform 280ms var(--ease-out);
+  pointer-events: none;
+}
+
+.tip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top-color: var(--navy);
+}
+
+.on-dark .tip,
+.on-blue .tip {
+  background: #fff;
+  color: var(--navy);
+  box-shadow: 0 12px 28px #0000004d;
+}
+
+.on-dark .tip::after,
+.on-blue .tip::after {
+  border-top-color: #fff;
+}
+
+.has-tip:focus-visible .tip {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .has-tip:hover .tip {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+    transition-delay: 90ms;
+  }
+}
+
+.copy.is-done .tip {
+  opacity: 0 !important;
+}
+
+/* ---------- Anfrage-Buttons: Der Papierflieger hebt ab ---------- */
+
+@keyframes plane-go {
+  0% {
+    opacity: 1;
+    transform: none;
+  }
+
+  38% {
+    opacity: 0;
+    transform: translate(16px, -16px) rotate(10deg) scale(0.6);
+  }
+
+  39% {
+    opacity: 0;
+    transform: translate(-14px, 14px) scale(0.6);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button--send:focus-visible .icon--send {
+    animation: plane-go 760ms var(--ease-out);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .button--send:hover .icon--send {
+    animation: plane-go 760ms var(--ease-out);
+  }
+}
+
+/* ---------- Navigation: Die Kapsel gleitet zum Link unter der Maus ---------- */
+
+.nav__pill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  border-radius: 999px;
+  background: #ffffff14;
+  opacity: 0;
+  transition:
+    transform 420ms var(--ease-out),
+    width 420ms var(--ease-out),
+    opacity 200ms ease;
+  pointer-events: none;
+}
+
+.nav.has-pill a {
+  z-index: 1;
+}
+
+.nav.has-pill a[aria-current="page"] {
+  background: transparent;
+}
+
+/* ---------- Glas-Button: Ein Lichtrand läuft um den Button ---------- */
+
+.button--glass {
+  position: relative;
+}
+
+.button--glass::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--beam), #22d3ee00 0deg, #22d3ee00 250deg, #22d3ee 322deg, #fff 345deg, #22d3ee00 360deg);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 240ms ease;
+  animation: beam 2.4s linear infinite;
+  animation-play-state: paused;
+  pointer-events: none;
+}
+
+.button--glass:focus-visible::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button--glass:hover::before {
+    opacity: 1;
+    animation-play-state: running;
+  }
+}
+
+/* ---------- Häufige Fragen: Das Plus dreht sich zum Öffnen ---------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .faq__q:not([aria-expanded="true"]):hover i {
+    transform: rotate(90deg);
+    border-color: var(--blue);
+    background: #2563eb12;
+  }
+}
+
+/* ---------- Konfigurator: Symbol hüpft, Plus dreht sich ---------- */
+
+@keyframes choice-pop {
+  0% {
+    transform: none;
+  }
+
+  35% {
+    transform: scale(1.14) rotate(-8deg);
+  }
+
+  65% {
+    transform: scale(0.96) rotate(4deg);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .choice:hover .choice__icon {
+    animation: choice-pop 560ms var(--ease-out);
+  }
+
+  .choice:hover > .icon--plus {
+    transform: rotate(90deg);
+  }
+}
+
+/* ---------- Fusszeile: Der Strich wächst unter dem Link ---------- */
+
+.footer__nav a,
+.footer__legal a {
+  position: relative;
+}
+
+.footer__nav a::after,
+.footer__legal a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transition: transform 320ms var(--ease-out);
+}
+
+.footer__nav a:focus-visible::after,
+.footer__legal a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer__nav a:hover::after,
+  .footer__legal a:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Bewegung reduzieren ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .kws-btn__label,
+  .kws-btn__reveal,
+  .kws-mark,
+  .chat-bubble,
+  .tip,
+  .nav__pill,
+  .footer__nav a::after,
+  .footer__legal a::after {
+    transition: none;
+  }
+
+  .chat-bubble i,
+  .button--glass::before {
+    animation: none !important;
   }
 }
