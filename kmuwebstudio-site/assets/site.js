@@ -70,8 +70,9 @@
   var saveData = navigator.connection && navigator.connection.saveData;
 
   if (video && videoToggle) {
+    /* Der Name sagt, was ein Klick tut; ein zusätzliches aria-pressed würde dem widersprechen. */
     var setVideoState = function (paused) {
-      videoToggle.setAttribute("aria-pressed", String(paused));
+      videoToggle.setAttribute("data-paused", String(paused));
       videoToggle.setAttribute("aria-label", paused ? "Hintergrundvideo abspielen" : "Hintergrundvideo pausieren");
     };
     var loadVideo = function () {
@@ -123,182 +124,293 @@
     revealItems.forEach(function (item) { item.classList.add("is-in"); });
   }
 
-  /* ---------- Referenzen ---------- */
+  /* ---------- Referenzen (Startseite und Seite Referenzen) ----------
+     MacBook und iPhone je Referenz.
+     – Mit Maus: Maus auf eine Referenz, sie wird gross; dann scrollen,
+       und ihre Seite läuft von oben nach unten durch MacBook und iPhone.
+       Die Seite selbst bleibt stehen; am Ende scrollt sie weiter.
+       Gewählt wird nur durch echte Mausbewegung: Schiebt das Scrollen
+       eine Referenz unter den stehenden Zeiger, scrollt die Seite weiter.
+     – Ohne Maus (Handy, Tablet): Jede Seite läuft beim Vorbeiscrollen
+       durch. Bei «Bewegung reduzieren» bleibt sie stehen. */
 
-  var references = {
-    swisscarpoint: { domain: "swisscarpoint.ch", url: "https://swisscarpoint.ch" },
-    logistikexperte: { domain: "logistikexperte.ch", url: "https://logistikexperte.ch" },
-    selimi: { domain: "selimi.ch", url: "https://selimi.ch" }
-  };
+  var mouseQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var siteHeader = $(".site-header");
 
-  var tablist = $(".ref-tabs");
-  if (tablist) {
-    var tabs = $$("[role='tab']", tablist);
-
-    var selectTab = function (tab, focus) {
-      var ref = references[tab.getAttribute("data-ref")];
-      tabs.forEach(function (other) {
-        var selected = other === tab;
-        other.setAttribute("aria-selected", String(selected));
-        other.tabIndex = selected ? 0 : -1;
-        var panel = document.getElementById(other.getAttribute("aria-controls"));
-        if (panel) panel.classList.toggle("is-active", selected);
-      });
-      if (ref) {
-        $("[data-ref-domain]").textContent = ref.domain;
-        $("[data-ref-link]").href = ref.url;
-      }
-      if (focus) tab.focus();
-    };
-
-    tabs.forEach(function (tab, index) {
-      tab.addEventListener("click", function () { selectTab(tab, false); });
-      tab.addEventListener("keydown", function (event) {
-        var next = null;
-        if (event.key === "ArrowRight" || event.key === "ArrowDown") next = tabs[(index + 1) % tabs.length];
-        if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = tabs[(index - 1 + tabs.length) % tabs.length];
-        if (event.key === "Home") next = tabs[0];
-        if (event.key === "End") next = tabs[tabs.length - 1];
-        if (next) { event.preventDefault(); selectTab(next, true); }
-      });
-    });
-  }
-
-  /* ---------- Referenzen als Scroll-Szene (Startseite) ----------
-     Die Bühne bleibt stehen, während man scrollt. Jede Referenz hat
-     einen eigenen Scroll-Abschnitt; in ihm läuft die Seite einmal von
-     oben nach unten durch Browser- und Handyrahmen. */
-
-  var showcase = $("[data-showcase]");
-  if (showcase) {
-    var scItems = $$(".showcase__item", showcase);
-    var scDevices = $$(".device", showcase);
-    var scStage = $("[data-showcase-stage]", showcase);
-    var scCue = $(".showcase__cue", showcase);
-    var scLink = $("[data-showcase-link]", showcase);
-    var scDomain = $("[data-showcase-domain]", showcase);
-    var scCaption = $("[data-showcase-caption]", showcase);
-    var scBars = scItems.map(function (item) { return $(".showcase__bar b", item); });
-    var scShots = scDevices.map(function (device) {
-      return $$(".view", device).map(function (view) {
-        return { view: view, img: $("img", view), max: 0, current: 0, target: 0 };
-      });
-    });
-    var scCount = scDevices.length;
-    var scMode = window.matchMedia("(prefers-reduced-motion: no-preference) and (min-height: 600px)");
-    var scOn = false;
-    var scActive = 0;
-    var scFrame = 0;
+  $$("[data-showcase]").forEach(function (showcase) {
+    var board = $("[data-showcase-stage]", showcase);
+    var devices = $$(".device", board);
     var clamp01 = function (value) { return Math.max(0, Math.min(1, value)); };
+    var shot = function (view) { return { view: view, img: $("img", view), max: 0 }; };
+    var cards = devices.map(function (device) {
+      var views = $$(".view", device);
+      return {
+        el: device,
+        desk: shot(views[0]),
+        phone: shot(views[1]),
+        thumb: $(".device__thumb b", device),
+        current: 0,
+        target: 0,
+        max: 0
+      };
+    });
+    var mode = "";
+    var live = null;
+    var liveByKey = false;
+    var frame = 0;
+    var followFrame = 0;
+    var lastX = -1;
+    var lastY = -1;
 
-    var scSetActive = function (index) {
-      if (index === scActive) return;
-      scActive = index;
-      scDevices.forEach(function (device, i) { device.classList.toggle("is-active", i === index); });
-      scItems.forEach(function (item, i) {
-        if (i === index) item.setAttribute("aria-current", "true"); else item.removeAttribute("aria-current");
+    var measure = function () {
+      cards.forEach(function (card) {
+        card.desk.max = Math.max(0, card.desk.img.offsetHeight - card.desk.view.clientHeight);
+        card.phone.max = Math.max(0, card.phone.img.offsetHeight - card.phone.view.clientHeight);
+        card.max = card.desk.max;
+        card.target = Math.min(card.target, card.max);
       });
-      var item = scItems[index];
-      scLink.href = "https://" + item.getAttribute("data-domain");
-      scDomain.textContent = item.getAttribute("data-domain");
-      scCaption.textContent = item.getAttribute("data-caption");
     };
 
-    var scMeasure = function () {
-      scShots.forEach(function (shots) {
-        shots.forEach(function (shot) {
-          shot.max = Math.max(0, shot.img.offsetHeight - shot.view.clientHeight);
-        });
-      });
+    var apply = function (card) {
+      var progress = card.max ? card.current / card.max : 0;
+      card.desk.img.style.transform = "translate3d(0," + (-card.current).toFixed(1) + "px,0)";
+      card.phone.img.style.transform = "translate3d(0," + (-progress * card.phone.max).toFixed(1) + "px,0)";
+      /* Der Balken ist 24 % so hoch wie seine Spur: Weg = 76/24 seiner Höhe. */
+      if (card.thumb) card.thumb.style.transform = "translateY(" + (progress * 316.67).toFixed(1) + "%)";
     };
 
-    var scPaint = function () {
+    var paint = function () {
       var moving = false;
-      scShots.forEach(function (shots, i) {
-        shots.forEach(function (shot) {
-          /* Nur die sichtbare Referenz gleitet nach; die anderen springen. */
-          var delta = shot.target - shot.current;
-          if (i !== scActive || Math.abs(delta) < 0.5) shot.current = shot.target;
-          else { shot.current += delta * 0.2; moving = true; }
-          shot.img.style.transform = "translate3d(0," + (-shot.current).toFixed(1) + "px,0)";
-        });
+      cards.forEach(function (card) {
+        var delta = card.target - card.current;
+        if (reduceMotion.matches || Math.abs(delta) < 0.5) card.current = card.target;
+        else { card.current += delta * 0.22; moving = true; }
+        apply(card);
       });
-      scFrame = moving ? window.requestAnimationFrame(scPaint) : 0;
+      frame = moving ? window.requestAnimationFrame(paint) : 0;
     };
 
-    var scUpdate = function () {
-      if (!scOn) return;
-      var rect = showcase.getBoundingClientRect();
-      var viewport = window.innerHeight;
-      var scrollable = Math.max(1, rect.height - viewport);
-      var progress = clamp01(-rect.top / scrollable);
-
-      /* Anflug: Die Bühne richtet sich auf, während der Abschnitt ins Bild kommt. */
-      var approach = 1 - clamp01((viewport - rect.top) / viewport);
-      var tilt = approach * approach;
-      scStage.style.transform = tilt > 0.001
-        ? "perspective(1600px) rotateX(" + (9 * tilt).toFixed(2) + "deg) rotateY(" + (-14 * tilt).toFixed(2) + "deg) scale(" + (1 - 0.1 * tilt).toFixed(3) + ")"
-        : "";
-
-      var position = progress * scCount;
-      var index = Math.min(scCount - 1, Math.floor(position));
-      var local = clamp01(position - index);
-      scSetActive(index);
-      if (scCue) scCue.classList.toggle("is-hidden", progress > 0.03);
-
-      scBars.forEach(function (bar, i) {
-        var fill = i < index ? 1 : i === index ? local : 0;
-        bar.style.transform = "scaleX(" + fill.toFixed(3) + ")";
-      });
-
-      /* Kurz stehen bleiben am Anfang und am Ende jeder Referenz. */
-      var travel = clamp01((local - 0.07) / 0.83);
-      scShots.forEach(function (shots, i) {
-        var amount = i < index ? 1 : i === index ? travel : 0;
-        shots.forEach(function (shot) { shot.target = shot.max * amount; });
-      });
-      if (!scFrame) scFrame = window.requestAnimationFrame(scPaint);
+    var kick = function () {
+      if (!frame) frame = window.requestAnimationFrame(paint);
     };
 
-    var scEnable = function (on) {
-      scOn = on;
-      showcase.classList.toggle("is-scrolly", on);
-      if (on) {
-        scMeasure();
-        scUpdate();
-      } else {
-        window.cancelAnimationFrame(scFrame);
-        scFrame = 0;
-        scStage.style.transform = "";
-        scShots.forEach(function (shots) {
-          shots.forEach(function (shot) { shot.current = shot.target = 0; shot.img.style.transform = ""; });
-        });
-        scBars.forEach(function (bar) { bar.style.transform = ""; });
+    /* ---- Gross zeigen: Zoom um einen Punkt in der Karte ----
+       Liegt der Ursprung in der Karte, deckt die grosse Karte den Zeiger
+       weiter ab. Der Punkt wird so gewählt, dass die grosse Karte in der
+       Fläche und im sichtbaren Bereich bleibt, möglichst beim Zeiger. */
+    /* Lage ohne transform, damit eine laufende Animation nicht mitzählt */
+    var layoutBox = function (el) {
+      var x = 0;
+      var y = 0;
+      for (var node = el; node; node = node.offsetParent) {
+        x += node.offsetLeft;
+        y += node.offsetTop;
       }
+      return { left: x - window.scrollX, top: y - window.scrollY, width: el.offsetWidth, height: el.offsetHeight };
     };
 
-    scItems.forEach(function (item, i) {
-      item.addEventListener("click", function () {
-        if (!scOn) {
-          scDevices[i].scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "center" });
-          return;
-        }
+    var zoom = function (card, px, py) {
+      var rect = layoutBox(card.el);
+      var area = board.getBoundingClientRect();
+      var section = showcase.getBoundingClientRect();
+      var top = Math.max((siteHeader ? siteHeader.getBoundingClientRect().bottom : 0) + 20, section.top + 20);
+      var bottom = Math.min(window.innerHeight - 20, section.bottom - 20);
+      var want = Math.max(rect.width * 1.14, Math.min(area.width * 0.62, 860));
+      /* nie breiter als die Fläche und nie höher als der sichtbare Bereich */
+      var scale = Math.max(1.04, Math.min(1.8, want / rect.width, area.width / rect.width, (bottom - top) / rect.height));
+      var axis = function (start, size, low, high, pointer) {
+        var room = scale - 1;
+        var from = (start + scale * size - high) / room;
+        var to = (start - low) / room;
+        /* Passt es nicht ganz, ragt die Karte auf beiden Seiten gleich weit hinaus. */
+        var origin = from <= to ? Math.max(from, Math.min(to, pointer - start)) : (from + to) / 2;
+        return Math.max(0, Math.min(size, origin));
+      };
+      var ox = axis(rect.left, rect.width, area.left, area.right, px == null ? rect.left + rect.width / 2 : px);
+      var oy = axis(rect.top, rect.height, top, bottom, py == null ? rect.top + rect.height / 2 : py);
+      card.zoom = scale;
+      card.el.style.transformOrigin = ox.toFixed(1) + "px " + oy.toFixed(1) + "px";
+      card.el.style.setProperty("--zoom", scale.toFixed(3));
+    };
+
+    var setLive = function (card, byKey) {
+      liveByKey = Boolean(card && byKey);
+      if (card === live) return;
+      if (live) {
+        live.el.classList.remove("is-live", "is-moved");
+        live.target = 0; /* gleitet zurück an den Anfang */
+      }
+      live = card;
+      board.classList.toggle("has-live", Boolean(card));
+      if (card) {
+        measure();
+        if (byKey) zoom(card); else zoom(card, lastX, lastY);
+        card.el.classList.add("is-live");
+      }
+      kick();
+    };
+
+    var cardAt = function (node) {
+      var el = node && node.closest ? node.closest(".device") : null;
+      var index = el ? devices.indexOf(el) : -1;
+      return index === -1 ? null : cards[index];
+    };
+
+    var scrollCard = function (card, amount) {
+      var next = Math.max(0, Math.min(card.max, card.target + amount));
+      if (next === card.target) return false;
+      card.target = next;
+      card.el.classList.add("is-moved");
+      kick();
+      return true;
+    };
+
+    board.addEventListener("pointermove", function (event) {
+      if (mode !== "mouse" || event.pointerType === "touch") return;
+      if (event.clientX === lastX && event.clientY === lastY) return;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      setLive(cardAt(event.target), false);
+    });
+
+    board.addEventListener("pointerleave", function (event) {
+      if (mode === "mouse" && !liveByKey && event.pointerType !== "touch") setLive(null);
+    });
+
+    board.addEventListener("wheel", function (event) {
+      if (mode !== "mouse" || !live || event.ctrlKey || !live.el.contains(event.target)) return;
+      var dy = event.deltaY;
+      if (event.deltaMode === 1) dy *= 32;
+      else if (event.deltaMode === 2) dy *= window.innerHeight;
+      if (!dy) return;
+      /* Am Anfang oder am Ende der Referenz scrollt die Seite weiter.
+         Die Referenz ist vergrössert: geteilt durch den Zoom läuft sie so schnell wie die Seite. */
+      if (scrollCard(live, dy / (live.zoom || 1))) event.preventDefault();
+    }, { passive: false });
+
+    /* Lichtfleck folgt der Maus */
+    var lightFrame = 0;
+    showcase.addEventListener("pointermove", function (event) {
+      if (mode !== "mouse" || reduceMotion.matches) return;
+      var x = event.clientX;
+      var y = event.clientY;
+      if (lightFrame) return;
+      lightFrame = window.requestAnimationFrame(function () {
+        lightFrame = 0;
         var rect = showcase.getBoundingClientRect();
-        var scrollable = rect.height - window.innerHeight;
-        window.scrollTo({ top: window.scrollY + rect.top + scrollable * ((i + 0.03) / scCount), behavior: "smooth" });
+        showcase.style.setProperty("--sx", (x - rect.left).toFixed(0) + "px");
+        showcase.style.setProperty("--sy", (y - rect.top).toFixed(0) + "px");
+        showcase.classList.add("is-lit");
+      });
+    });
+    showcase.addEventListener("pointerleave", function () { showcase.classList.remove("is-lit"); });
+
+    /* Tastatur: Referenz mit Tab wählen, mit Pfeilen, Bild auf/ab, Pos1 und Ende scrollen. */
+    cards.forEach(function (card) {
+      card.el.addEventListener("focus", function () {
+        if (mode === "mouse" && card.el.matches(":focus-visible")) setLive(card, true);
+      });
+      card.el.addEventListener("blur", function () {
+        if (mode === "mouse" && liveByKey && live === card) setLive(null);
+      });
+      card.el.addEventListener("keydown", function (event) {
+        if (mode !== "mouse" || event.target !== card.el) return;
+        var page = card.desk.view.clientHeight * 0.9;
+        var steps = { ArrowDown: 80, ArrowUp: -80, PageDown: page, PageUp: -page, Home: -Infinity, End: Infinity };
+        if (!Object.prototype.hasOwnProperty.call(steps, event.key)) return;
+        event.preventDefault();
+        if (live !== card) setLive(card, true);
+        scrollCard(card, steps[event.key]);
       });
     });
 
-    window.addEventListener("scroll", scUpdate, { passive: true });
-    window.addEventListener("resize", function () { if (scOn) { scMeasure(); scUpdate(); } });
-    scShots.forEach(function (shots) {
-      shots.forEach(function (shot) {
-        shot.img.addEventListener("load", function () { if (scOn) { scMeasure(); scUpdate(); } });
+    /* ---- Ohne Maus: Die Seite in der Referenz folgt dem Scrollen ---- */
+
+    var follow = function () {
+      followFrame = 0;
+      if (mode !== "touch") return;
+      var height = window.innerHeight;
+      cards.forEach(function (card) {
+        var rect = card.el.getBoundingClientRect();
+        if (rect.bottom < -80 || rect.top > height + 80) return;
+        /* 0, wenn die Referenz unten ganz hereingekommen ist; 1, wenn sie oben ankommt. */
+        var range = Math.max(1, height - rect.height);
+        card.target = card.current = clamp01((height - rect.height - rect.top) / range) * card.max;
+        apply(card);
       });
+    };
+
+    var requestFollow = function () {
+      if (!followFrame) followFrame = window.requestAnimationFrame(follow);
+    };
+
+    window.addEventListener("scroll", function () {
+      if (mode === "touch") { requestFollow(); return; }
+      if (mode !== "mouse" || !live || liveByKey) return;
+      /* Fährt die Seite die gewählte Referenz unter dem Zeiger weg, ist sie nicht mehr gewählt. */
+      var rect = live.el.getBoundingClientRect();
+      if (lastX < rect.left || lastX > rect.right || lastY < rect.top || lastY > rect.bottom) setLive(null);
+    }, { passive: true });
+
+    /* ---- Einflug: Geräte steigen gestaffelt auf, wenn sie ins Bild kommen ---- */
+    if ("IntersectionObserver" in window) {
+      var arrive = new IntersectionObserver(function (entries) {
+        var wave = 0;
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          el.style.setProperty("--d", String(wave));
+          wave += 1;
+          el.classList.add("is-in");
+          arrive.unobserve(el);
+          window.setTimeout(function () { el.classList.add("is-settled"); }, 900 + wave * 90);
+        });
+      }, { rootMargin: "0px 0px -6% 0px", threshold: 0.12 });
+      devices.forEach(function (device) { arrive.observe(device); });
+    } else {
+      devices.forEach(function (device) { device.classList.add("is-in", "is-settled"); });
+    }
+
+    /* ---- Darstellung wählen ---- */
+
+    var applyMode = function () {
+      var next = mouseQuery.matches ? "mouse" : reduceMotion.matches ? "still" : "touch";
+      if (next === mode) return;
+      setLive(null);
+      mode = next;
+      showcase.classList.toggle("is-mouse", mode === "mouse");
+      showcase.classList.toggle("is-touch", mode === "touch");
+      devices.forEach(function (device) {
+        if (mode === "mouse") {
+          device.tabIndex = 0;
+          device.setAttribute("aria-describedby", showcase.getAttribute("data-hint") || "");
+        } else {
+          device.removeAttribute("tabindex");
+          device.removeAttribute("aria-describedby");
+        }
+      });
+      cards.forEach(function (card) {
+        card.current = card.target = 0;
+        apply(card);
+      });
+      measure();
+      if (mode === "touch") requestFollow();
+    };
+
+    var remeasure = function () {
+      measure();
+      if (mode === "touch") requestFollow();
+    };
+
+    window.addEventListener("resize", remeasure);
+    cards.forEach(function (card) {
+      card.desk.img.addEventListener("load", remeasure);
+      card.phone.img.addEventListener("load", remeasure);
     });
-    scMode.addEventListener("change", function () { scEnable(scMode.matches); });
-    scEnable(scMode.matches);
-  }
+    mouseQuery.addEventListener("change", applyMode);
+    reduceMotion.addEventListener("change", applyMode);
+    applyMode();
+  });
 
   /* ---------- Konfigurator ---------- */
 
@@ -412,10 +524,182 @@
     });
   });
 
+  /* ==========================================================
+     Motion: Überschriften, Fortschritt, Magnet-Buttons, Hero,
+     Neigung, Erklärbilder. Alles aus bei «Bewegung reduzieren»,
+     Maus-Effekte nur mit Maus.
+     ========================================================== */
+
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  /* ---------- Überschriften Wort für Wort ---------- */
+
+  var splitWords = function (heading) {
+    var count = 0;
+    var walk = function (node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var fragment = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { fragment.appendChild(document.createTextNode(part)); return; }
+            var outer = document.createElement("span");
+            var inner = document.createElement("span");
+            outer.className = "word";
+            inner.textContent = part;
+            inner.style.setProperty("--w", String(count));
+            count += 1;
+            outer.appendChild(inner);
+            fragment.appendChild(outer);
+          });
+          node.replaceChild(fragment, child);
+        } else if (child.nodeType === 1 && child.tagName !== "BR") {
+          walk(child);
+        }
+      });
+    };
+    walk(heading);
+    heading.classList.add("is-split");
+  };
+
+  var headings = $$(".display").filter(function (heading) {
+    /* Wörter mit weichem Trennstrich (Web­auftritt) nicht zerlegen */
+    return heading.textContent.indexOf("­") === -1;
+  });
+  headings.forEach(splitWords);
+
+  var showHeading = function (heading) { heading.classList.add("is-shown"); };
+  if ("IntersectionObserver" in window) {
+    var headingWatch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        showHeading(entry.target);
+        headingWatch.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
+    headings.forEach(function (heading) {
+      if (heading.hasAttribute("data-intro")) {
+        heading.style.setProperty("--wd", "120ms");
+        window.requestAnimationFrame(function () { showHeading(heading); });
+      } else {
+        headingWatch.observe(heading);
+      }
+    });
+  } else {
+    headings.forEach(showHeading);
+  }
+
+  /* ---------- Scroll-Fortschritt, Hero-Tiefe ---------- */
+
+  var bar = null;
+  if (header) {
+    var progressEl = document.createElement("div");
+    progressEl.className = "progress";
+    progressEl.setAttribute("aria-hidden", "true");
+    progressEl.innerHTML = "<i></i>";
+    header.appendChild(progressEl);
+    bar = progressEl.firstChild;
+  }
+
+  var hero = $(".hero");
+  var heroMedia = hero ? $(".hero__media", hero) : null;
+  var heroCopy = hero ? $(".hero__copy", hero) : null;
+  var heroTag = hero ? $(".price-tag", hero) : null;
+  var scrollFrame = 0;
+
+  var onScroll = function () {
+    scrollFrame = 0;
+    var y = window.scrollY;
+    if (bar) {
+      var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      bar.style.transform = "scaleX(" + Math.min(1, y / max).toFixed(4) + ")";
+    }
+    if (hero && !reduceMotion.matches) {
+      var height = hero.offsetHeight;
+      var p = Math.max(0, Math.min(1, y / height));
+      if (heroMedia) heroMedia.style.transform = "translate3d(0," + (p * height * 0.28).toFixed(1) + "px,0) scale(" + (1 + p * 0.08).toFixed(4) + ")";
+      if (heroCopy) {
+        heroCopy.style.transform = "translate3d(0," + (-p * 70).toFixed(1) + "px,0)";
+        heroCopy.style.opacity = String(Math.max(0, 1 - p * 1.25).toFixed(3));
+      }
+      if (heroTag) heroTag.style.translate = "0 " + (-p * 120).toFixed(1) + "px";
+    }
+  };
+
+  window.addEventListener("scroll", function () {
+    if (!scrollFrame) scrollFrame = window.requestAnimationFrame(onScroll);
+  }, { passive: true });
+  window.addEventListener("resize", function () {
+    if (!scrollFrame) scrollFrame = window.requestAnimationFrame(onScroll);
+  });
+  onScroll();
+
+  /* ---------- Buttons ziehen leicht zur Maus ---------- */
+
+  if (finePointer.matches && !reduceMotion.matches) {
+    $$(".button--primary, .button--glass, .button--light, [data-magnet]").forEach(function (el) {
+      var pull = el.hasAttribute("data-magnet") ? 0.3 : 0.16;
+      el.addEventListener("pointermove", function (event) {
+        var rect = el.getBoundingClientRect();
+        var x = (event.clientX - rect.left - rect.width / 2) * pull;
+        var y = (event.clientY - rect.top - rect.height / 2) * pull;
+        el.style.translate = x.toFixed(1) + "px " + y.toFixed(1) + "px";
+      });
+      el.addEventListener("pointerleave", function () { el.style.translate = ""; });
+    });
+
+    /* ---------- Karten neigen sich zur Maus, mit Glanz ---------- */
+    $$("[data-tilt]").forEach(function (card) {
+      var settle = 0;
+      card.addEventListener("pointermove", function (event) {
+        var rect = card.getBoundingClientRect();
+        var x = (event.clientX - rect.left) / rect.width - 0.5;
+        var y = (event.clientY - rect.top) / rect.height - 0.5;
+        window.clearTimeout(settle);
+        card.style.transition = "transform 160ms cubic-bezier(0.23, 1, 0.32, 1)";
+        card.style.transform = "perspective(900px) rotateX(" + (-y * 8).toFixed(2) + "deg) rotateY(" + (x * 10).toFixed(2) + "deg) translateY(-6px)";
+        card.style.setProperty("--gx", ((x + 0.5) * 100).toFixed(1) + "%");
+        card.style.setProperty("--gy", ((y + 0.5) * 100).toFixed(1) + "%");
+        card.classList.add("is-tilt");
+      });
+      card.addEventListener("pointerleave", function () {
+        card.style.transition = "transform 700ms cubic-bezier(0.23, 1, 0.32, 1)";
+        card.style.transform = "";
+        card.classList.remove("is-tilt");
+        settle = window.setTimeout(function () { card.style.transition = ""; }, 720);
+      });
+    });
+  }
+
+  /* ---------- Erklärbilder anhalten ----------
+     Sie laufen länger als fünf Sekunden; ein Knopf hält sie an (WCAG 2.2.2). */
+
+  $$("[data-motion-toggle]").forEach(function (button) {
+    var scope = button.closest("section");
+    var label = $("[data-motion-label]", button);
+    if (!scope || !label || reduceMotion.matches) return;
+    button.hidden = false;
+    button.addEventListener("click", function () {
+      var paused = !scope.classList.contains("is-paused");
+      scope.classList.toggle("is-paused", paused);
+      button.setAttribute("data-paused", String(paused));
+      label.textContent = paused ? "Animationen abspielen" : "Animationen anhalten";
+    });
+  });
+
+  /* ---------- Erklärbilder laufen nur, solange sie zu sehen sind ---------- */
+
+  if ("IntersectionObserver" in window) {
+    var players = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { entry.target.classList.toggle("is-playing", entry.isIntersecting); });
+    }, { threshold: 0.25 });
+    $$("[data-play]").forEach(function (el) { players.observe(el); });
+  }
+
   /* ---------- Lichtpunkt unter dem Mauszeiger ---------- */
 
   if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion.matches) {
-    $$(".price-card, .contact__box").forEach(function (card) {
+    $$(".price-card").forEach(function (card) {
       card.addEventListener("pointermove", function (event) {
         var rect = card.getBoundingClientRect();
         card.style.setProperty("--mx", (event.clientX - rect.left).toFixed(0) + "px");
@@ -499,7 +783,7 @@
           '<span data-submit-label>' + (direct ? "Anfrage senden" : "Anfrage per E-Mail senden") + '</span>' + icon("go", "icon--go") +
           '<span class="spinner" aria-hidden="true"></span>' +
         '</button>' +
-        '<p class="form__note">Mit dem Absenden bearbeiten wir Deine Angaben gemäss unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>' +
+        '<p class="form__note">Wir verwenden Deine Angaben, um Deine Anfrage zu beantworten. Mehr dazu in der <a href="datenschutz.html#kontakt">Datenschutzerklärung</a>.</p>' +
       '</form>' +
       '<div class="form__done" tabindex="-1" hidden>' +
         '<span class="form__done-icon">' + icon("check") + '</span>' +
